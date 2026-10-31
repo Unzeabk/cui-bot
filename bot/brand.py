@@ -2,7 +2,7 @@
 
 Набор из брендбука:
   тёмный #0B0D10 (основной) · слоновая кость #EDE9E2 · графит #6B6F72 · глубоководный синий #123E5C (акцент) · холодный серый #C9CFD6
-  Literata — словесный знак «Cui Bono?» (как в логотипе), Commissioner — заголовки и акценты (вместо Commissioner и бордо — решение владельца 31 октября), Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
+  Fraunces — словесный знак «Cui Bono?» (латиница, кириллица ему не нужна), Commissioner — заголовки и акценты (вместо Commissioner и бордо — решение владельца 31 октября), Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
 Графические элементы: сетка и фокус (перекрестие), география и контекст (карта), связи, маркеры (точечная сетка).
 
 Шрифты лежат в assets/fonts (OFL), контуры стран — в assets/geo (Natural Earth, общественное достояние),
@@ -36,7 +36,7 @@ COLD = "#C9CFD6"
 LINE = "#2A2F35"  # тонкие линии на тёмном
 
 FONT_CSS = f"""
-@font-face{{font-family:'Logo';src:url('{(FONTS_DIR / "Literata.ttf").as_uri()}') format('truetype');font-weight:200 900}}
+@font-face{{font-family:'Logo';src:url('{(FONTS_DIR / "Fraunces.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Head';src:url('{(FONTS_DIR / "Commissioner.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Onest';src:url('{(FONTS_DIR / "Onest.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Plex';src:url('{(FONTS_DIR / "IBMPlexMono-Regular.ttf").as_uri()}') format('truetype');font-weight:400}}
@@ -53,7 +53,7 @@ BASE_CSS = FONT_CSS + f"""
 .layer{{position:absolute;inset:0;z-index:0}}
 .root>*:not(.layer){{position:relative;z-index:1}}
 .top{{display:flex;justify-content:space-between;align-items:baseline}}
-.logo{{font-family:'Logo',serif;font-weight:500;font-size:34px;letter-spacing:-.005em;font-variation-settings:'opsz' 48}}
+.logo{{font-family:'Logo',serif;font-weight:600;font-size:38px;letter-spacing:-.005em;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0}}
 .tag{{font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.16em;color:{COLD};text-transform:uppercase}}
 .tag b{{display:inline-block;width:12px;height:12px;background:{GRAD};box-shadow:{GLOW};margin-right:14px;vertical-align:1px}}
 .rule{{height:1.5px;background:{LINE};margin-top:16px}}

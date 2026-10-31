@@ -1,6 +1,6 @@
 """Рубрики-форматы, которые раньше были ручными: Показатели, Позиция, Разбор, Неделя.
 
-Расписание (по Москве): пн 10:07 — Показатели, ср 13:07 — Позиция, пт 13:07 — Разбор, сб 12:07 — Неделя.
+Расписание (по Москве): пн 10:52 Показатели, вт и чт 13:52 Позиция, ср и пт 11:22 Разбор, сб 12:52 Неделя.
 Запуск: FORMAT=indicators|position|analysis|week (или auto — по дню недели) python -m bot.formats
 """
 
@@ -19,10 +19,10 @@ from .main import CUSTOM_EMOJI, OUT, SITE, TZ, _similar, fresh_items, load_state
 from .prompts import WRITER_SYSTEM, _recent_txt
 
 FORMATS = {
-    "indicators": {"label": "ПОКАЗАТЕЛИ", "weekday": 0, "hours": 168},
-    "position": {"label": "ПОЗИЦИЯ", "weekday": 2, "hours": 72},
-    "analysis": {"label": "РАЗБОР", "weekday": 4, "hours": 168},
-    "week": {"label": "НЕДЕЛЯ", "weekday": 5, "hours": 168},
+    "indicators": {"label": "ПОКАЗАТЕЛИ", "days": [0], "hours": 168},
+    "position": {"label": "ПОЗИЦИЯ", "days": [1, 3], "hours": 72},
+    "analysis": {"label": "РАЗБОР", "days": [2, 4], "hours": 168},
+    "week": {"label": "НЕДЕЛЯ", "days": [5], "hours": 168},
 }
 
 # Общие правила голоса и фактов берём из промпта заметок, формат описываем отдельно
@@ -115,8 +115,8 @@ def gather(fmt: str, recent: list[dict]) -> list[dict]:
     from .prompts import topic_user_message
 
     items = collect(hours=FORMATS[fmt]["hours"], limit=320)
-    if fmt == "position":
-        items = fresh_items(items, recent)  # позиция — не про то, о чём уже писали заметкой
+    if fmt in ("position", "analysis"):
+        items = fresh_items(items, recent)  # не про то, о чём уже писали (рубрик теперь по две в неделю)
     if not items:
         return []
     text, model = ask(LIGHT_CHAIN, PICK_SYSTEM.format(task=PICK[fmt]), topic_user_message(items, recent), temperature=0.3)
@@ -605,7 +605,7 @@ def main() -> int:
     fmt = (os.environ.get("FORMAT") or "auto").strip()
     if fmt == "auto":
         wd = datetime.now(TZ).weekday()
-        fmt = next((k for k, v in FORMATS.items() if v["weekday"] == wd), "")
+        fmt = next((k for k, v in FORMATS.items() if wd in v["days"]), "")
         if not fmt:
             log("сегодня по расписанию рубрик нет")
             return 0
@@ -631,10 +631,10 @@ def main() -> int:
         log("готово (в журнал ленты тестовый пост не записан)")
         return 0
     if not dry and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
-        # у разбора два запуска в пятницу (сразу после сброса квот и запасной) — второй не повторяет первый
-        since = datetime.now(TZ) - timedelta(days=3)
+        # у разбора два запуска в день (сразу после сброса квот и запасной) — второй не повторяет первый
+        since = datetime.now(TZ) - timedelta(hours=12)
         if any(e.get("rubric") == fmt and datetime.fromisoformat(e["time_iso"]) > since for e in state if e.get("time_iso")):
-            log(f"«{FORMATS[fmt]['label'].capitalize()}» на этой неделе уже вышла — пропускаю")
+            log(f"«{FORMATS[fmt]['label'].capitalize()}» сегодня уже вышла — пропускаю")
             return 0
     if fmt == "indicators":
         return run_indicators(state, dry)
