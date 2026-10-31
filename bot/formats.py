@@ -509,7 +509,7 @@ WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><styl
 ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .shade{background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.9) 45%,rgba(11,13,16,.15) 80%)}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:800px;padding:20px 0}
-.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#0B0D10;background:#D4B97A;padding:9px 18px}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:#123E5C;padding:9px 18px}
 </style></head><body><div class="root">__MAP__<div class="layer shade"></div>
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
 <div class="rule"></div>
@@ -569,11 +569,11 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
     return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
 
 
-def run_indicators(state: list[dict], dry: bool) -> int:
+def run_indicators(state: list[dict], dry: bool, d: dict | None = None, journal: bool = True) -> int:
     from . import indicators as I
     from .telegram import send_photo
 
-    d = I.build(state)
+    d = d or I.build(state)
     if not d:
         log("табло не собралось — в этот раз не публикуем")
         return 1
@@ -589,6 +589,9 @@ def run_indicators(state: list[dict], dry: bool) -> int:
         log("DRY_RUN: в канал не отправляю")
         return 0
     res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap)
+    if not journal:
+        log("готово (в журнал ленты тестовый пост не записан)")
+        return 0
     now = datetime.now(TZ)
     state.append({"time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"), "rubric": "indicators", "form": "показатели",
                   "optics": [], "topic_key": f"pokazateli-{now:%Y-%W}", "headline": "Цифра недели — " + d["week_figure"]["label"],
@@ -622,6 +625,8 @@ def main() -> int:
             return 1
         d = json.loads(path.read_text(encoding="utf-8"))
         log(f"тестовые данные: {path.name} → {'пробный запуск' if dry else ('личка ' + test_chat if test_chat else 'канал')}")
+        if fmt == "indicators":
+            return run_indicators(state, dry, d=d, journal=False)
         publish(fmt, d, dry)
         log("готово (в журнал ленты тестовый пост не записан)")
         return 0

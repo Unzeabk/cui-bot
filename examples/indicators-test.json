@@ -1,0 +1,56 @@
+{
+  "rows": [
+    {
+      "label": "Доллар ЦБ",
+      "value": "80,56 ₽",
+      "change": "=",
+      "dir": 0,
+      "source": "ЦБ",
+      "url": "https://t.me/cuibono_press"
+    },
+    {
+      "label": "Юань ЦБ",
+      "value": "11,08 ₽",
+      "change": "+0,2%",
+      "dir": 1,
+      "source": "ЦБ",
+      "url": "https://t.me/cuibono_press"
+    },
+    {
+      "label": "Евро ЦБ",
+      "value": "89,66 ₽",
+      "change": "−0,6%",
+      "dir": -1,
+      "source": "ЦБ",
+      "url": "https://t.me/cuibono_press"
+    },
+    {
+      "label": "Ставка ЦБ",
+      "value": "16,5%",
+      "change": "=",
+      "dir": 0,
+      "source": "ЦБ",
+      "url": "https://t.me/cuibono_press"
+    },
+    {
+      "label": "Индекс IMOEX",
+      "value": "2 509",
+      "change": "+1,6%",
+      "dir": 1,
+      "source": "Мосбиржа",
+      "url": "https://t.me/cuibono_press"
+    },
+    {
+      "label": "Золото, грамм",
+      "value": "10 428 ₽",
+      "change": "−0,5%",
+      "dir": -1,
+      "source": "ЦБ",
+      "url": "https://t.me/cuibono_press"
+    }
+  ],
+  "week_figure": {
+    "label": "Индекс IMOEX",
+    "text": "Тестовые цифры: так выглядит «цифра недели» — показатель и одна-две фразы о нём со [ссылкой](https://t.me/cuibono_press)."
+  }
+}

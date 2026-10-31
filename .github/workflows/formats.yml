@@ -21,7 +21,7 @@ on:
         type: boolean
         default: true
       test_data:
-        description: "Тестовый текст вместо настоящего (только Разбор): посмотреть вёрстку, не тратя квоту"
+        description: "Тестовый текст вместо настоящего (любая рубрика): посмотреть вёрстку, не тратя квоту"
         type: boolean
         default: false
       chat_id:
