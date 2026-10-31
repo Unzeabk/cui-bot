@@ -73,5 +73,27 @@
    "https://www.kommersant.ru/doc/9078319"
   ],
   "message_id": 12
+ },
+ {
+  "time_iso": "2026-10-31T23:47:12.256725+03:00",
+  "time": "31.10 23:47",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-43",
+  "headline": "Цифра недели — Индекс IMOEX",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/10/31/v-serbii-otozvali-litsenziyu-u-blizkogo-k-vuchichu-banka-gde-otkrivali-scheta-rossiyanam-2-a210210",
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.cbr.ru/hd_base/KeyRate/",
+   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
+   "https://www.moex.com/ru/index/IMOEX",
+   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi",
+   "https://www.vedomosti.ru/politics/news/2026/10/31/1241764-galicia-nachal-zakrivat"
+  ],
+  "message_id": 13
  }
 ]
