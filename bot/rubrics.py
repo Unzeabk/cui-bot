@@ -99,7 +99,7 @@ OPTICS = [
 
 # Знаки рубрик-форматов (не для заметок)
 SVG.update({
-    "position": '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="10" fill="#0B1730"/></svg>',
+    "position": '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="10" fill="#D4B97A"/></svg>',
     "analysis": f'<svg viewBox="0 0 48 48" {_S}><circle cx="24" cy="24" r="16"/><line x1="24" y1="8" x2="24" y2="40"/><line x1="8" y1="24" x2="40" y2="24"/></svg>',
     "week": f'<svg viewBox="0 0 48 48" {_S}>' + "".join(f'<line x1="{x}" y1="14" x2="{x}" y2="34"/>' for x in range(9, 40, 5)) + "</svg>",
     "indicators": f'<svg viewBox="0 0 48 48" {_S}><line x1="6" y1="40" x2="42" y2="40"/><rect x="10" y="26" width="7" height="14"/><rect x="21" y="16" width="7" height="24"/><rect x="32" y="22" width="7" height="18"/></svg>',
