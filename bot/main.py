@@ -20,7 +20,8 @@ for _line in (os.environ.get("CUI_CONFIG") or "").splitlines():
     if "=" in _line:
         _k, _v = _line.split("=", 1)
         if _k.strip() and _v.strip():
-            os.environ.setdefault(_k.strip(), _v.strip())
+            if not os.environ.get(_k.strip()):
+                os.environ[_k.strip()] = _v.strip()
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / "state" / "posted.json"
