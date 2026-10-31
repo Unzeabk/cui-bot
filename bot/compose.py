@@ -98,6 +98,30 @@ def visible_length(caption_html: str) -> int:
     return len(html.unescape(text))
 
 
+def fix_links(obj, allowed):
+    """Чинит адреса, в которых модель ошиблась на символ (например, кириллическая «с» вместо латинской s):
+    если ссылки нет среди материалов, но есть очень похожая, подставляет настоящую. Работает по всему JSON."""
+    import difflib
+
+    allowed = list(allowed)
+    norm = {_norm(u): u for u in allowed}
+
+    def one(m):
+        text, url = m.group(1), m.group(2)
+        if _norm(url) in norm:
+            return m.group(0)
+        best = difflib.get_close_matches(_norm(url), list(norm), n=1, cutoff=.88)
+        return f"[{text}]({norm[best[0]]})" if best else m.group(0)
+
+    if isinstance(obj, str):
+        return LINK_RE.sub(one, obj)
+    if isinstance(obj, list):
+        return [fix_links(x, allowed) for x in obj]
+    if isinstance(obj, dict):
+        return {k: fix_links(v, allowed) for k, v in obj.items()}
+    return obj
+
+
 def dedupe_links(note: dict) -> dict:
     seen: set[str] = set()
 

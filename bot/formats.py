@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from .compose import BANNED, banned_hits, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
+from .compose import BANNED, banned_hits, fix_links, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
 from .main import CUSTOM_EMOJI, OUT, SITE, TZ, fresh_items, load_state, log, save_state  # noqa: F401
 from .prompts import WRITER_SYSTEM, _recent_txt
 
@@ -32,7 +32,7 @@ _LANG = WRITER_SYSTEM[WRITER_SYSTEM.index("ЯЗЫК:"): WRITER_SYSTEM.index("О�
 PICK = {
     "indicators": "Выбери до 8 новостей недели с цифрами, которые смотрит наш читатель, в таком порядке приоритета: ключевая ставка ЦБ и ожидания по ней; инфляция в России; нефть (Brent, Urals, скидка); индекс Мосбиржи или крупные движения акций; бюджет и налоги; долги и неплатежи компаний; переводы и расчёты за рубежом; зарплаты и рынок труда. Экзотику без связи с Россией и деньгами нашего читателя (бюджет Нигерии, налог в Италии) не бери. Разные цифры, без повторов.",
     "position": "Выбери одно конкретное решение власти, регулятора или крупного игрока за последние три дня, о котором редакции стоит высказать мнение: экономическое решение с понятными последствиями для денег, активов и планов нашего читателя. Плюс до трёх новостей про то же решение.",
-    "analysis": "Выбери главную тему недели для большого разбора: тренд, сдвиг в деньгах или власти, о котором вышло несколько материалов с цифрами. Главная новость и до пяти дополнительных про тот же сюжет с разных сторон.",
+    "analysis": "Выбери главную тему недели для большого разбора: тренд, сдвиг в деньгах или власти, о котором вышло несколько материалов с цифрами. Тема — экономика, деньги, собственность, рынки, бюджет, регулирование; не боевые действия, эвакуации и фронт (военная тема годится только как экономика: заказы, бюджеты, зарплаты). Главная новость и до пяти дополнительных про тот же сюжет с разных сторон.",
     "week": "Выбери 6 главных событий недели для нашего читателя из разных областей: Россия, деньги, регионы, мир, бизнес, релоканты. По одной новости на событие, без повторов.",
 }
 
@@ -185,7 +185,7 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
             probs.append(f"ссылка не из материалов: {u}")
     if fmt == "analysis":
         n = sum(len(plain(p).split()) for p in d.get("paragraphs", []))
-        if n < 750:  # модели стабильно пишут 800–900 слов: это 4–5 минут чтения, для разбора достаточно
+        if n < 800:  # пишется по частям: 5 × 230–320 слов
             probs.append(f"в разборе {n} слов, нужно не меньше 900")
     if not probs:
         cap = visible_length(caption(fmt, d, "https://telegra.ph/x"))
@@ -334,6 +334,56 @@ def repair_banned(fmt: str, d: dict) -> dict:
     return d
 
 
+ANALYSIS_PLAN = """ФОРМАТ: «Разбор» — большой материал недели. Сейчас нужен только ПЛАН статьи, сам текст пишется по частям.
+- Флай, заголовок 6–9 слов, подзаголовок не отвечает на заголовок.
+- "lead" — анонс для канала: 2–3 предложения, открывают загадку и не отвечают на неё, до 400 знаков. Без «в этом материале», «мы расскажем», «читайте».
+- "beats" — ровно 5 частей драматургии, у каждой "goal" (что делает часть) и "facts" (какие факты и цифры из каких материалов в неё идут, с URL):
+  1) вход через предмет, человека или документ и мысль статьи;
+  2) очевидное объяснение и цифра, о которую оно ломается;
+  3) механизм: как это устроено на самом деле, кто и сколько на этом теряет или получает;
+  4) второй слой — вторая оптика из другого семейства и параллель, которую узнает русский читатель;
+  5) что из этого следует для денег и планов читателя и короткий финал, возвращающийся к началу.
+- Оптики выбери, как в заметке; в тексте их не называют.
+ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "lead": "...", "beats": [{"goal": "...", "facts": "..."}], "optics": ["...", "..."], "place": {"name": "...", "lat": 0.0, "lon": 0.0, "scale": "country"} | null, "topic_key": "..."}"""
+
+ANALYSIS_PART = """ФОРМАТ: ты пишешь одну часть «Разбора» — большого материала Cui Bono?. План и уже написанный текст даны ниже.
+- Напиши ТОЛЬКО часть {n} из 5: 3–4 абзаца, всего 230–320 слов. Продолжай с того места, где остановился текст, без повторов и без пересказа сказанного.
+- Каждый абзац — 3–5 предложений с конкретикой из материалов: цифры, имена, даты, суммы, как устроен механизм. Без подзаголовков.
+- Ссылки [текст](url) на цифрах, URL — ровно как у материала, не меняя ни одного символа. Эти адреса уже стоят в тексте, второй раз их не ставь: {used}.
+ОТВЕТ — только JSON: {{"paragraphs": ["...", "..."]}}"""
+
+
+def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> tuple[dict, str]:
+    """Разбор пишется по частям: план, потом пять частей по 230–320 слов.
+    Одним запросом даже лучшая бесплатная модель даёт 800 слов, облегчённая — 300–400."""
+    from .gemini import WRITER_CHAIN, ask
+
+    base = _VOICE + "{fmt}\n\n" + _PLACE + _LANG + """
+ФАКТЫ: пиши только по материалам, которые дал пользователь. Каждый факт и цифра — из них. Не уверен — убери."""
+    allowed = [m["link"] for m in mats]
+    mat_txt = user_message("analysis", recent, mats)
+    text, model = ask(WRITER_CHAIN, base.replace("{fmt}", ANALYSIS_PLAN), mat_txt + (f"\n\nПрошлая версия не прошла проверку:\n{feedback}" if feedback else ""), temperature=0.7)
+    plan = fix_links(extract_json(text), allowed)
+    log(f"план разбора написала {model}")
+    paragraphs: list[str] = []
+    for n in range(1, 6):
+        used = sorted({u for p in paragraphs for _, u in LINK_RE.findall(p)})
+        user = (f"{mat_txt}\n\nПЛАН:\n{json.dumps({k: plan.get(k) for k in ('headline', 'subhead', 'beats')}, ensure_ascii=False)}"
+                f"\n\nУЖЕ НАПИСАНО:\n" + ("\n\n".join(paragraphs) or "(ничего, это начало статьи)"))
+        sysmsg = base.replace("{fmt}", ANALYSIS_PART.format(n=n, used=", ".join(used) or "пока нет"))
+        try:
+            t, m = ask(WRITER_CHAIN, sysmsg, user, temperature=0.7)
+            part = fix_links(extract_json(t), allowed).get("paragraphs") or []
+        except Exception as e:  # noqa: BLE001
+            log(f"часть {n} не написалась: {e}")
+            continue
+        paragraphs += [p for p in part if isinstance(p, str) and p.strip()]
+        log(f"часть {n}: {sum(len(plain(p).split()) for p in part)} слов ({m})")
+    plan["paragraphs"] = paragraphs
+    plan.pop("beats", None)
+    return plan, model
+
+
 def produce(fmt: str, recent: list[dict]) -> dict | None:
     from .gemini import WRITER_CHAIN, ask
 
@@ -343,11 +393,15 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         return None
     allowed = {m["link"] for m in mats}
     feedback = ""
-    for attempt in (1, 2, 3):
+    for attempt in ((1, 2) if fmt == "analysis" else (1, 2, 3)):
         user = user_message(fmt, recent, mats) + (f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}" if feedback else "")
         try:
-            text, model = ask(WRITER_CHAIN, system_for(fmt), user, temperature=0.8)
-            d = _dedupe(fmt, extract_json(text))
+            if fmt == "analysis":
+                d, model = write_analysis(recent, mats, feedback)
+                d = _dedupe(fmt, d)
+            else:
+                text, model = ask(WRITER_CHAIN, system_for(fmt), user, temperature=0.8)
+                d = _dedupe(fmt, fix_links(extract_json(text), allowed))
         except Exception as e:  # noqa: BLE001
             feedback = f"Ответ не разобрался: {e}"
             log(feedback)
@@ -360,12 +414,6 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         if probs:
             feedback = "\n".join(f"- {p}" for p in probs)
             log("валидация не прошла:\n" + feedback)
-            if fmt == "analysis" and any(p.startswith("в разборе") for p in probs):
-                # облегчённые модели пишут коротко: просим не переписать, а развернуть готовый текст
-                feedback += ("\n\nВот прошлая версия. Сохрани её ход, факты и ссылки, исправь перечисленное и разверни "
-                             "до 1300–1600 слов: в каждом абзаце больше конкретики из материалов — цифры, имена, даты, "
-                             "как устроен механизм; добавь абзацы со вторым слоем и параллелью.\n"
-                             + json.dumps({k: d.get(k) for k in ("fly", "headline", "subhead", "lead", "paragraphs")}, ensure_ascii=False))
             continue
         try:
             v = check(fmt, d, mats)

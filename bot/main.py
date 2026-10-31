@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from .compose import build_caption, dedupe_links, extract_json, validate, visible_length
+from .compose import fix_links, build_caption, dedupe_links, extract_json, validate, visible_length
 
 # Один секрет CUI_CONFIG вместо трёх: строки вида ИМЯ=значение
 for _line in (os.environ.get("CUI_CONFIG") or "").splitlines():
@@ -101,7 +101,7 @@ def write_note(recent: list[dict], materials: list[dict], feedback: str = "", ru
         user += f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}"
     text, model = ask(WRITER_CHAIN, WRITER_SYSTEM, user, temperature=0.8)
     log(f"текст написала {model}")
-    return dedupe_links(extract_json(text))
+    return dedupe_links(fix_links(extract_json(text), [m["link"] for m in materials]))
 
 
 def check_note(note: dict, materials: list[dict]) -> dict:
