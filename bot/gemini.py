@@ -30,7 +30,13 @@ def _call(model: str, system: str, user: str, temperature: float) -> str:
     }
     headers = {"x-goog-api-key": os.environ["GEMINI_API_KEY"], "content-type": "application/json"}
     for attempt in range(3):
-        r = requests.post(API.format(model=model.strip()), json=body, headers=headers, timeout=180)
+        try:
+            r = requests.post(API.format(model=model.strip()), json=body, headers=headers, timeout=180)
+        except requests.RequestException as e:
+            if attempt < 2:
+                time.sleep(15)
+                continue
+            raise QuotaExhausted(f"{model}: нет связи ({e})")
         if r.status_code == 429:
             # Минутный лимит — подождать; дневной — отдать следующей модели.
             msg = r.text.lower()
@@ -38,9 +44,11 @@ def _call(model: str, system: str, user: str, temperature: float) -> str:
                 raise QuotaExhausted(f"{model}: квота исчерпана")
             time.sleep(35)
             continue
-        if r.status_code in (500, 503) and attempt < 2:
-            time.sleep(10)
-            continue
+        if r.status_code in (500, 502, 503, 504):
+            if attempt < 2:
+                time.sleep(15 * (attempt + 1))
+                continue
+            raise QuotaExhausted(f"{model}: сервер перегружен ({r.status_code})")
         if r.status_code == 404:
             raise QuotaExhausted(f"{model}: модель недоступна")
         r.raise_for_status()
@@ -59,7 +67,7 @@ def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> t
     for model in chain:
         try:
             return _call(model, system, user, temperature), model.strip()
-        except QuotaExhausted as e:
+        except (QuotaExhausted, RuntimeError) as e:
             print("[cui]", e, "— пробую следующую модель", flush=True)
             last = e
     raise RuntimeError(f"Все модели исчерпали квоту: {last}")

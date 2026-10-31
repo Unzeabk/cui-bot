@@ -83,6 +83,26 @@ def visible_length(caption_html: str) -> int:
     return len(html.unescape(text))
 
 
+def dedupe_links(note: dict) -> dict:
+    seen: set[str] = set()
+
+    def fix(s: str) -> str:
+        def repl(m):
+            url = _norm(m.group(2))
+            if url in seen:
+                return m.group(1)
+            seen.add(url)
+            return m.group(0)
+        return LINK_RE.sub(repl, s or "")
+
+    for k in ("headline", "subhead"):
+        note[k] = LINK_RE.sub(r"\1", note.get(k) or "")  # в заголовке ссылок не бывает
+    note["paragraphs"] = [fix(p) for p in note.get("paragraphs", [])]
+    if note.get("final"):
+        note["final"] = fix(note["final"])
+    return note
+
+
 def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     """Возвращает список проблем. Пустой список — заметка проходит."""
     problems = []
@@ -111,9 +131,6 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     links = links_in(note)
     if not links:
         problems.append("в тексте нет ни одной ссылки на источник")
-    dup = {u for u in links if links.count(u) > 1}
-    if dup:
-        problems.append("один и тот же источник стоит больше одного раза: " + ", ".join(dup))
     if seen_urls is not None:
         seen = {_norm(u) for u in seen_urls}
         for u in links:

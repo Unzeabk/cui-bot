@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from .compose import build_caption, extract_json, validate, visible_length
+from .compose import build_caption, dedupe_links, extract_json, validate, visible_length
 
 # Один секрет CUI_CONFIG вместо трёх: строки вида ИМЯ=значение
 for _line in (os.environ.get("CUI_CONFIG") or "").splitlines():
@@ -101,7 +101,7 @@ def write_note(recent: list[dict], materials: list[dict], feedback: str = "", ru
         user += f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}"
     text, model = ask(WRITER_CHAIN, WRITER_SYSTEM, user, temperature=0.8)
     log(f"текст написала {model}")
-    return extract_json(text)
+    return dedupe_links(extract_json(text))
 
 
 def check_note(note: dict, materials: list[dict]) -> dict:
@@ -159,12 +159,16 @@ def produce(recent: list[dict]) -> dict | None:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)
                 continue
-            v = check_note(note, materials)
+            try:
+                v = check_note(note, materials)
+            except Exception as e:  # noqa: BLE001
+                log(f"фактчек недоступен ({e}) — без проверки не публикуем, следующая тема")
+                break
             log("вердикт:", v.get("verdict"), "|", "; ".join(v.get("problems") or []))
             if v.get("verdict") == "ok":
                 return _mark(note, materials)
             if v.get("verdict") == "fix" and v.get("fixed_note"):
-                fixed = v["fixed_note"]
+                fixed = dedupe_links(v["fixed_note"])
                 if not validate(fixed, allowed):
                     return _mark(fixed, materials)
             if v.get("verdict") == "reject":
@@ -207,7 +211,11 @@ def main() -> int:
             import time
             time.sleep(90)  # пауза между постами при стартовом наполнении ленты
         log(f"заметка {i + 1} из {count}")
-        failed += run_once(dry)
+        try:
+            failed += run_once(dry)
+        except Exception as e:  # noqa: BLE001
+            log(f"заметка {i + 1} упала: {e}")
+            failed += 1
     return 1 if failed == count else 0
 
 
