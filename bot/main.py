@@ -105,10 +105,10 @@ def write_note(recent: list[dict], materials: list[dict], feedback: str = "") ->
 
 
 def check_note(note: dict, materials: list[dict]) -> dict:
-    from .gemini import LIGHT_CHAIN, ask
+    from .gemini import CHECK_CHAIN, ask
     from .prompts import CHECKER_SYSTEM, checker_user_message
 
-    text, model = ask(LIGHT_CHAIN, CHECKER_SYSTEM,
+    text, model = ask(CHECK_CHAIN, CHECKER_SYSTEM,
                       checker_user_message(json.dumps(note, ensure_ascii=False, indent=1), materials), temperature=0.1)
     log(f"фактчек: {model}")
     return extract_json(text)
