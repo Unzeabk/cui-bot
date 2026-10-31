@@ -1,0 +1,75 @@
+name: Cui Bono — заметки
+
+on:
+  schedule:
+    # 10 заметок в день, 08:37–22:07 по Москве (cron в UTC; минуты не круглые — GitHub меньше задерживает)
+    - cron: "37 5 * * *"
+    - cron: "7 7 * * *"
+    - cron: "37 8 * * *"
+    - cron: "7 10 * * *"
+    - cron: "37 11 * * *"
+    - cron: "7 13 * * *"
+    - cron: "37 14 * * *"
+    - cron: "7 16 * * *"
+    - cron: "37 17 * * *"
+    - cron: "7 19 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Пробный запуск: собрать пост, но не отправлять в канал"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cui-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Зависимости
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Заметка
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
+          WRITER_MODELS: ${{ vars.WRITER_MODELS }}
+          LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
+          NEWS_FEEDS: ${{ vars.NEWS_FEEDS }}
+          SITE_LABEL: ${{ vars.SITE_LABEL }}
+          CUSTOM_EMOJI_JSON: ${{ vars.CUSTOM_EMOJI_JSON }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: python -m bot.main
+
+      - name: Сохранить пост как артефакт
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-${{ github.run_id }}
+          path: out/
+          if-no-files-found: ignore
+
+      - name: Записать в журнал ленты
+        if: success() && !inputs.dry_run
+        run: |
+          git config user.name "cui-bot"
+          git config user.email "cui-bot@users.noreply.github.com"
+          git add state/posted.json
+          git diff --cached --quiet || git commit -m "Заметка $(date -u +'%Y-%m-%d %H:%M')"
+          git push
