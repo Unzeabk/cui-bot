@@ -41,6 +41,10 @@ DEFAULT_FEEDS = [
     "https://kun.uz/ru/news/rss",
     "https://24.kg/rss/",
     "https://eurasianet.org/rss",
+    "https://civil.ge/feed",
+    "https://oc-media.org/feed/",
+    # Аналитика по российской экономике, в том числе оборонной
+    "https://re-russia.net/feed/",
     # Мир: экономика и рынки
     "https://www.themoscowtimes.com/rss/news",
     "https://feeds.bbci.co.uk/news/business/rss.xml",

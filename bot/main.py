@@ -91,12 +91,12 @@ def materials_for(topic: dict, items: list[dict]) -> list[dict]:
     return mats
 
 
-def write_note(recent: list[dict], materials: list[dict], feedback: str = "") -> dict:
+def write_note(recent: list[dict], materials: list[dict], feedback: str = "", rubric: str = "") -> dict:
     from .gemini import WRITER_CHAIN, ask
     from .prompts import WRITER_SYSTEM, writer_user_message
 
     now = datetime.now(TZ)
-    user = writer_user_message(now.strftime("%d.%m.%Y, %H:%M"), recent, materials)
+    user = writer_user_message(now.strftime("%d.%m.%Y, %H:%M"), recent, materials, rubric)
     if feedback:
         user += f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}"
     text, model = ask(WRITER_CHAIN, WRITER_SYSTEM, user, temperature=0.8)
@@ -112,6 +112,20 @@ def check_note(note: dict, materials: list[dict]) -> dict:
                       checker_user_message(json.dumps(note, ensure_ascii=False, indent=1), materials), temperature=0.1)
     log(f"фактчек: {model}")
     return extract_json(text)
+
+
+def rubric_problems(note: dict, recent: list[dict]) -> list[str]:
+    """Разнообразие ленты: не та же рубрика, что в двух последних, и не больше двух за сутки."""
+    rub = note.get("rubric")
+    last2 = [r.get("rubric") for r in recent[-2:]]
+    cutoff = datetime.now(TZ) - timedelta(hours=24)
+    day = sum(1 for r in recent if r.get("rubric") == rub and datetime.fromisoformat(r["time_iso"]) >= cutoff)
+    out = []
+    if rub in last2:
+        out.append(f"рубрика {rub} была в одной из двух последних заметок — нужна другая")
+    if day >= 2:
+        out.append(f"рубрики {rub} за сутки уже {day} — нужна другая")
+    return out
 
 
 def _mark(note: dict, materials: list[dict]) -> dict:
@@ -135,12 +149,12 @@ def produce(recent: list[dict]) -> dict | None:
         feedback = ""
         for attempt in (1, 2):
             try:
-                note = write_note(recent, materials, feedback)
+                note = write_note(recent, materials, feedback, topic.get("rubric", ""))
             except Exception as e:  # noqa: BLE001
                 feedback = f"Ответ не разобрался как JSON: {e}"
                 log(feedback)
                 continue
-            problems = validate(note, allowed)
+            problems = validate(note, allowed) + rubric_problems(note, recent)
             if problems:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)
