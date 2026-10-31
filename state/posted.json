@@ -137,5 +137,27 @@
    "https://www.rbc.ru/politics/30/10/2026/6ae49b6518a3b9290e38445a"
   ],
   "message_id": 15
+ },
+ {
+  "time_iso": "2026-11-01T00:57:02.739344+03:00",
+  "time": "01.11 00:57",
+  "rubric": "finance",
+  "form": "сухой тренд",
+  "optics": [
+   "пузырь веры",
+   "обменник"
+  ],
+  "topic_key": "binance-hack-6-billion-2026",
+  "headline": "Крупнейшая криптобиржа покрыла 90% потерь после рекордной атаки",
+  "fly": "Чужие деньги не пахнут",
+  "final": "",
+  "main_title": "ФБР обвинило Северную Корею в хищении более $6 млрд с криптобиржи Binance",
+  "sources": [
+   "https://www.rbc.ru/technology_and_media/01/11/2026/6ae660ea05248f5986c38e73",
+   "https://www.dw.com/ru/binance-сообщила-о-возмещении-90-убытков-после-атаки-хакеров/a-79819123?maca=rus-rss-ru-all-1126-rdf",
+   "https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html",
+   "https://www.coindesk.com/business/2026/10/31/binance-says-it-has-replaced-90-of-stolen-crypto-after-massive-usd6-3-billion-breach"
+  ],
+  "message_id": 25
  }
 ]
