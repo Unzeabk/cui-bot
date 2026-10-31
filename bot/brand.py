@@ -1,8 +1,8 @@
 """Фирменный стиль Cui Bono? для обложек: цвета, шрифты, карта места события и съёмка страницы.
 
 Набор из брендбука:
-  тёмный #0B0D10 (основной) · слоновая кость #EDE9E2 · графит #6B6F72 · зелёный #3ECF8E (акцент, проба) · холодный серый #C9CFD6
-  Fraunces — словесный знак «Cui Bono?» (латиница, кириллица ему не нужна), Commissioner — заголовки и акценты (вместо Commissioner и бордо — решение владельца 31 октября), Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
+  тёмный #0B0D10 (основной) · слоновая кость #EDE9E2 · графит #6B6F72 · зелёный #3ECF8E (акцент, с градиентом к #8BEFC2 внутри, без внешнего свечения) · холодный серый #C9CFD6
+  Newsreader — словесный знак «Cui Bono?» (латиница, кириллица ему не нужна), Commissioner — заголовки и акценты (вместо Commissioner и бордо — решение владельца 31 октября), Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
 Графические элементы: сетка и фокус (перекрестие), география и контекст (карта), связи, маркеры (точечная сетка).
 
 Шрифты лежат в assets/fonts (OFL), контуры стран — в assets/geo (Natural Earth, общественное достояние),
@@ -26,17 +26,17 @@ GEO_DIR = ROOT / "assets" / "geo"
 DARK = "#0B0D10"
 IVORY = "#EDE9E2"
 GRAPHITE = "#6B6F72"
-ACCENT = "#3ECF8E"  # зелёный акцент (проба 31 октября; прежний — глубоководный синий #123E5C со светом #3A8BD0); заменил бордо, которое резало глаз (решение владельца 31 октября)
+ACCENT = "#3ECF8E"  # зелёный акцент (утверждён 31 октября; до него — глубоководный синий #123E5C); заменил бордо, которое резало глаз (решение владельца 31 октября)
 ACCENT_HI = "#8BEFC2"  # светлый край свечения: градиент от глубины к свету, как у кнопок Telegram
 GRAD = f"linear-gradient(90deg,{ACCENT} 0%,{ACCENT_HI} 100%)"
 GRAD_V = f"linear-gradient(180deg,{ACCENT_HI} 0%,{ACCENT} 100%)"
-GLOW = "0 0 18px rgba(62,207,142,.55),0 0 4px rgba(62,207,142,.7)"
+GLOW = "none"  # внешнее свечение убрано по решению владельца; было: "0 0 18px rgba(62,207,142,.55),0 0 4px rgba(62,207,142,.7)"
 BORDO = ACCENT  # старое имя, чтобы не ломать вызовы
 COLD = "#C9CFD6"
 LINE = "#2A2F35"  # тонкие линии на тёмном
 
 FONT_CSS = f"""
-@font-face{{font-family:'Logo';src:url('{(FONTS_DIR / "Fraunces.ttf").as_uri()}') format('truetype');font-weight:100 900}}
+@font-face{{font-family:'Logo';src:url('{(FONTS_DIR / "Newsreader.ttf").as_uri()}') format('truetype');font-weight:200 800}}
 @font-face{{font-family:'Head';src:url('{(FONTS_DIR / "Commissioner.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Onest';src:url('{(FONTS_DIR / "Onest.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Plex';src:url('{(FONTS_DIR / "IBMPlexMono-Regular.ttf").as_uri()}') format('truetype');font-weight:400}}
@@ -53,7 +53,7 @@ BASE_CSS = FONT_CSS + f"""
 .layer{{position:absolute;inset:0;z-index:0}}
 .root>*:not(.layer){{position:relative;z-index:1}}
 .top{{display:flex;justify-content:space-between;align-items:baseline}}
-.logo{{font-family:'Logo',serif;font-weight:600;font-size:38px;letter-spacing:-.005em;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0}}
+.logo{{font-family:'Logo',serif;font-weight:650;font-size:38px;letter-spacing:-.005em;font-variation-settings:'opsz' 72}}
 .tag{{font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.16em;color:{COLD};text-transform:uppercase}}
 .tag b{{display:inline-block;width:12px;height:12px;background:{GRAD};margin-right:14px;vertical-align:1px}}
 .rule{{height:1.5px;background:{LINE};margin-top:16px}}
@@ -152,11 +152,11 @@ def dot_grid(w: int, h: int, step: int = 28, color: str = GRAPHITE, opacity: flo
             f'<rect width="{w}" height="{h}" fill="url(#dots)"/>')
 
 
-def glow_dot(x: float, y: float, r: float = 7) -> str:
+def accent_dot(x: float, y: float, r: float = 7) -> str:
     """Точка: градиент от светлого центра к основному цвету, светлое кольцо. Без внешнего ореола."""
     return (f'<defs><radialGradient id="gd" cx=".35" cy=".35" r=".75"><stop offset="0" stop-color="{ACCENT_HI}"/>'
             f'<stop offset="1" stop-color="{ACCENT}"/></radialGradient>'
-            f'<filter id="gb" x="-2" y="-2" width="5" height="5"><feGaussianBlur stdDeviation="{r * .9:.1f}"/></filter></defs>'
+            f'</defs>'
             f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}" fill="url(#gd)" stroke="{IVORY}" stroke-width="2"/>')
 
 
@@ -166,7 +166,7 @@ def crosshair(x: float, y: float, arm: int = 64) -> str:
             f'<line x1="{x - arm}" y1="{y}" x2="{x - 12}" y2="{y}"/><line x1="{x + 12}" y1="{y}" x2="{x + arm}" y2="{y}"/>'
             f'<line x1="{x}" y1="{y - arm}" x2="{x}" y2="{y - 12}"/><line x1="{x}" y1="{y + 12}" x2="{x}" y2="{y + arm}"/>'
             f'<circle cx="{x}" cy="{y}" r="22" stroke-opacity=".6"/></g>'
-            + glow_dot(x, y))
+            + accent_dot(x, y))
 
 
 GIBS = "https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi"
@@ -256,7 +256,7 @@ def world_layer(points: list[dict], w: int = 1280, h: int = 720, area: tuple = (
             groups.append([x, y, [k]])
     for x, y, ks in groups:
         label = "·".join(f"{k + 1:02d}" for k in ks)
-        out.append(glow_dot(x, y) +
+        out.append(accent_dot(x, y) +
                    f'<text x="{x + 14:.0f}" y="{y - 12:.0f}" font-family="Plex" font-weight="500" font-size="21" fill="{IVORY}">{label}</text>')
     out.append("</svg>")
     return "".join(out)
