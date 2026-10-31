@@ -55,7 +55,7 @@ BASE_CSS = FONT_CSS + f"""
 .top{{display:flex;justify-content:space-between;align-items:baseline}}
 .logo{{font-family:'Logo',serif;font-weight:600;font-size:38px;letter-spacing:-.005em;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 0}}
 .tag{{font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.16em;color:{COLD};text-transform:uppercase}}
-.tag b{{display:inline-block;width:12px;height:12px;background:{GRAD};box-shadow:{GLOW};margin-right:14px;vertical-align:1px}}
+.tag b{{display:inline-block;width:12px;height:12px;background:{GRAD};margin-right:14px;vertical-align:1px}}
 .rule{{height:1.5px;background:{LINE};margin-top:16px}}
 .fly{{font-family:'Head',sans-serif;font-weight:400;font-size:35px;line-height:1.2;color:{COLD};font-variation-settings:'slnt' -10}}
 .hl{{font-family:'Head',sans-serif;font-weight:620;line-height:1.1;letter-spacing:-.02em;font-variation-settings:'FLAR' 100,'VOLM' 100;text-wrap:balance}}
@@ -153,11 +153,10 @@ def dot_grid(w: int, h: int, step: int = 28, color: str = GRAPHITE, opacity: flo
 
 
 def glow_dot(x: float, y: float, r: float = 7) -> str:
-    """Светящаяся точка: ореол, градиент от светлого центра к глубине, светлое кольцо."""
+    """Точка: градиент от светлого центра к основному цвету, светлое кольцо. Без внешнего ореола."""
     return (f'<defs><radialGradient id="gd" cx=".35" cy=".35" r=".75"><stop offset="0" stop-color="{ACCENT_HI}"/>'
             f'<stop offset="1" stop-color="{ACCENT}"/></radialGradient>'
             f'<filter id="gb" x="-2" y="-2" width="5" height="5"><feGaussianBlur stdDeviation="{r * .9:.1f}"/></filter></defs>'
-            f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r * 2.2:.1f}" fill="{ACCENT_HI}" opacity=".55" filter="url(#gb)"/>'
             f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}" fill="url(#gd)" stroke="{IVORY}" stroke-width="2"/>')
 
 

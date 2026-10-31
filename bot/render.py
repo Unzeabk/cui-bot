@@ -26,7 +26,7 @@ NOTE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CS
 DATA = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);column-gap:56px;align-items:center;padding:16px 0}
 .num{font-family:'Head',sans-serif;font-weight:600;line-height:.92;letter-spacing:-.03em;white-space:nowrap;font-variation-settings:'FLAR' 100,'VOLM' 100}
-.bar{width:120px;height:8px;background:linear-gradient(90deg,#3ECF8E 0%,#8BEFC2 100%);box-shadow:0 0 18px rgba(62,207,142,.55),0 0 4px rgba(62,207,142,.7);margin:26px 0 22px}
+.bar{width:120px;height:8px;background:linear-gradient(90deg,#3ECF8E 0%,#8BEFC2 100%);margin:26px 0 22px}
 .cap{font-family:'Onest',sans-serif;font-weight:400;font-size:28px;line-height:1.3;color:#C9CFD6;max-width:520px;text-wrap:balance}
 .txt{display:flex;flex-direction:column;gap:18px}
 .fly{font-size:34px}
@@ -44,10 +44,9 @@ POSITION = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>
 .logo{color:#0B0D10} .tag{color:#6B6F72} .rule{background:#0B0D10;height:2px}
 .foot{border-top:2px solid #0B0D10;color:#0B0D10}
 .mid{flex:1;display:grid;grid-template-columns:10px 1fr;column-gap:44px;padding:40px 0 34px}
-.vbar{background:linear-gradient(180deg,#8BEFC2 0%,#3ECF8E 100%);box-shadow:0 0 16px rgba(62,207,142,.45)}
+.vbar{background:linear-gradient(180deg,#8BEFC2 0%,#3ECF8E 100%);}
 .txt{display:flex;flex-direction:column;justify-content:center;gap:24px}
 .stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.2em;color:#EDE9E2;background:#0B0D10;padding:8px 16px}
-.foot svg circle{filter:drop-shadow(0 0 6px rgba(62,207,142,.8))}
 .fly{color:#6B6F72}
 </style></head><body><div class="root">
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
