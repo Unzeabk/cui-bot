@@ -21,6 +21,7 @@ BANNED = [
     (re.compile(r"\bследстви[ея]\b", re.I), "детективная лексика: следствие"),
     (re.compile(r"\bдетектив", re.I), "детективная лексика: детектив"),
     (re.compile(r"\bбайбэк", re.I), "англицизм «байбэк»"),
+    (re.compile(r"кастодиальн|\bp2p\b|\bпериметр|\bдрайвер|\bкейс", re.I), "профжаргон или англицизм"),
     # качели «не X, а Y»
     (re.compile(r"(?:^|[\s,.—–-])не\s+[^.!?;:]{1,60}?,\s+а\s+", re.I), "качели «не X, а Y»"),
 ]
@@ -107,6 +108,9 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     links = links_in(note)
     if not links:
         problems.append("в тексте нет ни одной ссылки на источник")
+    dup = {u for u in links if links.count(u) > 1}
+    if dup:
+        problems.append("один и тот же источник стоит больше одного раза: " + ", ".join(dup))
     if seen_urls is not None:
         seen = {_norm(u) for u in seen_urls}
         for u in links:
