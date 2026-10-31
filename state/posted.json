@@ -55,5 +55,23 @@
    "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi"
   ],
   "message_id": 11
+ },
+ {
+  "time_iso": "2026-10-31T23:27:40.897357+03:00",
+  "time": "31.10 23:27",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "migration_tax_accounts",
+  "headline": "Оставляйте активы там, где живете",
+  "fly": "Счета закроют, налоги возьмут",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://www.vedomosti.ru/economics/news/2026/10/31/1241784-v-italii-predlozhili-nalog",
+   "https://www.kommersant.ru/doc/9078344",
+   "https://www.kommersant.ru/doc/9078319"
+  ],
+  "message_id": 12
  }
 ]
