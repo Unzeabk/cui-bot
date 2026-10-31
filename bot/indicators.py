@@ -326,7 +326,7 @@ BOARD = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__C
 .l{font-family:'Onest',sans-serif;font-weight:400;font-size:31px;color:#C9CFD6}
 .v{font-family:'Head',sans-serif;font-weight:600;font-size:52px;text-align:right;line-height:1;font-variation-settings:'FLAR' 100,'VOLM' 100}
 .c{font-family:'Plex',monospace;font-weight:500;font-size:28px;text-align:right;color:#C9CFD6}
-.star .k{background:#123E5C} .star .l{color:#EDE9E2;font-weight:500}
+.star .k{background:linear-gradient(90deg,#123E5C 0%,#3A8BD0 100%);box-shadow:0 0 18px rgba(58,139,208,.55),0 0 4px rgba(58,139,208,.7)} .star .l{color:#EDE9E2;font-weight:500}
 </style></head><body><div class="root">__GRID__
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag"><b></b>ПОКАЗАТЕЛИ · __WEEK__</span></div>
 <div class="rule"></div>

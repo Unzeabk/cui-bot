@@ -27,6 +27,10 @@ DARK = "#0B0D10"
 IVORY = "#EDE9E2"
 GRAPHITE = "#6B6F72"
 ACCENT = "#123E5C"  # глубоководный синий, акцент; заменил бордо, которое резало глаз (решение владельца 31 октября)
+ACCENT_HI = "#3A8BD0"  # светлый край свечения: градиент от глубины к свету, как у кнопок Telegram
+GRAD = f"linear-gradient(90deg,{ACCENT} 0%,{ACCENT_HI} 100%)"
+GRAD_V = f"linear-gradient(180deg,{ACCENT_HI} 0%,{ACCENT} 100%)"
+GLOW = "0 0 18px rgba(58,139,208,.55),0 0 4px rgba(58,139,208,.7)"
 BORDO = ACCENT  # старое имя, чтобы не ломать вызовы
 COLD = "#C9CFD6"
 LINE = "#2A2F35"  # тонкие линии на тёмном
@@ -51,7 +55,7 @@ BASE_CSS = FONT_CSS + f"""
 .top{{display:flex;justify-content:space-between;align-items:baseline}}
 .logo{{font-family:'Logo',serif;font-weight:500;font-size:34px;letter-spacing:-.005em;font-variation-settings:'opsz' 48}}
 .tag{{font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.16em;color:{COLD};text-transform:uppercase}}
-.tag b{{display:inline-block;width:12px;height:12px;background:{BORDO};margin-right:14px;vertical-align:1px}}
+.tag b{{display:inline-block;width:12px;height:12px;background:{GRAD};box-shadow:{GLOW};margin-right:14px;vertical-align:1px}}
 .rule{{height:1.5px;background:{LINE};margin-top:16px}}
 .fly{{font-family:'Head',sans-serif;font-weight:400;font-size:35px;line-height:1.2;color:{COLD};font-variation-settings:'slnt' -10}}
 .hl{{font-family:'Head',sans-serif;font-weight:620;line-height:1.1;letter-spacing:-.02em;font-variation-settings:'FLAR' 100,'VOLM' 100;text-wrap:balance}}
@@ -148,13 +152,22 @@ def dot_grid(w: int, h: int, step: int = 28, color: str = GRAPHITE, opacity: flo
             f'<rect width="{w}" height="{h}" fill="url(#dots)"/>')
 
 
+def glow_dot(x: float, y: float, r: float = 7) -> str:
+    """Светящаяся точка: ореол, градиент от светлого центра к глубине, светлое кольцо."""
+    return (f'<defs><radialGradient id="gd" cx=".35" cy=".35" r=".75"><stop offset="0" stop-color="{ACCENT_HI}"/>'
+            f'<stop offset="1" stop-color="{ACCENT}"/></radialGradient>'
+            f'<filter id="gb" x="-2" y="-2" width="5" height="5"><feGaussianBlur stdDeviation="{r * .9:.1f}"/></filter></defs>'
+            f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r * 2.2:.1f}" fill="{ACCENT_HI}" opacity=".55" filter="url(#gb)"/>'
+            f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}" fill="url(#gd)" stroke="{IVORY}" stroke-width="2"/>')
+
+
 def crosshair(x: float, y: float, arm: int = 64) -> str:
     """«Сетка и фокус»: перекрестие на месте события, в центре бордовая точка."""
     return (f'<g stroke="{IVORY}" stroke-width="1.5" fill="none">'
             f'<line x1="{x - arm}" y1="{y}" x2="{x - 12}" y2="{y}"/><line x1="{x + 12}" y1="{y}" x2="{x + arm}" y2="{y}"/>'
             f'<line x1="{x}" y1="{y - arm}" x2="{x}" y2="{y - 12}"/><line x1="{x}" y1="{y + 12}" x2="{x}" y2="{y + arm}"/>'
             f'<circle cx="{x}" cy="{y}" r="22" stroke-opacity=".6"/></g>'
-            f'<circle cx="{x}" cy="{y}" r="7" fill="{BORDO}" stroke="{IVORY}" stroke-width="2"/>')
+            + glow_dot(x, y))
 
 
 GIBS = "https://gibs.earthdata.nasa.gov/wms/epsg3857/best/wms.cgi"
@@ -244,7 +257,7 @@ def world_layer(points: list[dict], w: int = 1280, h: int = 720, area: tuple = (
             groups.append([x, y, [k]])
     for x, y, ks in groups:
         label = "·".join(f"{k + 1:02d}" for k in ks)
-        out.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="7" fill="{BORDO}" stroke="{IVORY}" stroke-width="2"/>'
+        out.append(glow_dot(x, y) +
                    f'<text x="{x + 14:.0f}" y="{y - 12:.0f}" font-family="Plex" font-weight="500" font-size="21" fill="{IVORY}">{label}</text>')
     out.append("</svg>")
     return "".join(out)
