@@ -159,6 +159,18 @@ def main() -> int:
         return 0
 
     dry = bool(os.environ.get("DRY_RUN"))
+    count = max(1, min(8, int(os.environ.get("POST_COUNT") or 1)))
+    failed = 0
+    for i in range(count):
+        if i:
+            import time
+            time.sleep(90)  # пауза между постами при стартовом наполнении ленты
+        log(f"заметка {i + 1} из {count}")
+        failed += run_once(dry)
+    return 1 if failed == count else 0
+
+
+def run_once(dry: bool) -> int:
     state = load_state()
     note = produce(state)
     if not note:

@@ -19,6 +19,10 @@ on:
         description: "Пробный запуск: собрать пост, но не отправлять в канал"
         type: boolean
         default: true
+      count:
+        description: "Сколько заметок выпустить подряд (1–8), для стартового наполнения ленты"
+        type: string
+        default: "1"
 
 permissions:
   contents: write
@@ -30,7 +34,7 @@ concurrency:
 jobs:
   post:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -56,6 +60,7 @@ jobs:
           SITE_LABEL: ${{ vars.SITE_LABEL }}
           CUSTOM_EMOJI_JSON: ${{ vars.CUSTOM_EMOJI_JSON }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+          POST_COUNT: ${{ inputs.count || '1' }}
         run: python -m bot.main
 
       - name: Сохранить пост как артефакт
