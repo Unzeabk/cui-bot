@@ -155,6 +155,10 @@ def produce(recent: list[dict]) -> dict | None:
                 log(feedback)
                 continue
             problems = validate(note, allowed) + rubric_problems(note, recent)
+            if any(p.startswith("запрещённый оборот") for p in problems):
+                from .formats import repair_banned  # точечная правка вместо полного переписывания
+                note = repair_banned("note", note)
+                problems = validate(note, allowed) + rubric_problems(note, recent)
             if problems:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)

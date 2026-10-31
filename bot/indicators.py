@@ -313,7 +313,7 @@ def caption(d: dict) -> str:
     return (
         f"<code>ПОКАЗАТЕЛИ</code> · <i>{week_range()}</i>\n\n"
         f"<b>Цифра недели.</b> {_inline(wf['text'])}\n\n"
-        f"<i>За неделю:</i>\n{lines}\n\n"
+        f"{lines}\n\n"
         f"Источники: {src}"
     )
 

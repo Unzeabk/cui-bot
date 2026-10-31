@@ -185,8 +185,8 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
             probs.append(f"ссылка не из материалов: {u}")
     if fmt == "analysis":
         n = sum(len(plain(p).split()) for p in d.get("paragraphs", []))
-        if n < 900:
-            probs.append(f"в разборе {n} слов, нужно 1200–1800")
+        if n < 750:  # модели стабильно пишут 800–900 слов: это 4–5 минут чтения, для разбора достаточно
+            probs.append(f"в разборе {n} слов, нужно не меньше 900")
     if not probs:
         cap = visible_length(caption(fmt, d, "https://telegra.ph/x"))
         if cap > 1000:
@@ -298,6 +298,42 @@ def telegraph(d: dict) -> str:
     return r["result"]["url"]
 
 
+REPAIR = """Ты — редактор Cui Bono?. Перепиши абзац так, чтобы в нём не было оборота: {what}.
+Смысл, факты, цифры и ссылки в формате [текст](url) сохрани без изменений. Не добавляй ничего нового.
+Ответ — только исправленный абзац, без пояснений."""
+
+
+def repair_banned(fmt: str, d: dict) -> dict:
+    """Точечно чинит запрещённые обороты в абзацах, вместо того чтобы переписывать весь текст.
+    Иначе длинный разбор из-за одной «качели» уходит на новый круг и сжигает квоту."""
+    from .gemini import LIGHT_CHAIN, WRITER_CHAIN, ask
+
+    fields = [("paragraphs", i) for i in range(len(d.get("paragraphs") or []))] + [("lead", None), ("subhead", None)]
+    for key, i in fields:
+        text = d.get(key) if i is None else d[key][i]
+        if not text:
+            continue
+        hits = banned_hits(plain(text))
+        if not hits:
+            continue
+        what = "; ".join(h.split(": ", 1)[1] for h in hits)
+        for chain in (WRITER_CHAIN, LIGHT_CHAIN):
+            try:
+                new, model = ask(chain, REPAIR.format(what=what), text, temperature=0.4)
+            except Exception as e:  # noqa: BLE001
+                log(f"правка оборота не удалась: {e}")
+                continue
+            new = new.strip().strip('"')
+            if new and not banned_hits(plain(new)) and links_in({"paragraphs": [new]}) == links_in({"paragraphs": [text]}):
+                log(f"исправлен оборот ({what}) — {model}")
+                if i is None:
+                    d[key] = new
+                else:
+                    d[key][i] = new
+                break
+    return d
+
+
 def produce(fmt: str, recent: list[dict]) -> dict | None:
     from .gemini import WRITER_CHAIN, ask
 
@@ -318,6 +354,9 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
             continue
         log(f"текст написала {model}")
         probs = validate_format(fmt, d, allowed)
+        if any(p.startswith("запрещённый оборот") for p in probs):
+            d = repair_banned(fmt, d)
+            probs = validate_format(fmt, d, allowed)
         if probs:
             feedback = "\n".join(f"- {p}" for p in probs)
             log("валидация не прошла:\n" + feedback)
