@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from .compose import BANNED, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
+from .compose import BANNED, banned_hits, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
 from .main import CUSTOM_EMOJI, OUT, SITE, TZ, fresh_items, load_state, log, save_state  # noqa: F401
 from .prompts import WRITER_SYSTEM, _recent_txt
 
@@ -175,9 +175,7 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
     if fmt == "position" and len(d.get("paragraphs") or []) != 3:
         probs.append("в позиции ровно три абзаца")
     body = " ".join(plain(t) for t in _texts(fmt, d))
-    for rx, label in BANNED:
-        if rx.search(body):
-            probs.append(f"запрещённый оборот: {label}")
+    probs += banned_hits(body)
     allowed_n = {_norm(u) for u in allowed}
     links = [u for t in _texts(fmt, d) for _, u in LINK_RE.findall(t or "")]
     if not links:
@@ -193,7 +191,7 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
         cap = visible_length(caption(fmt, d, "https://telegra.ph/x"))
         if cap > 1000:
             probs.append(f"пост длиной {cap} знаков, лимит 1000: сократи")
-    return probs
+    return list(dict.fromkeys(probs))
 
 
 def _dedupe(fmt: str, d: dict) -> dict:
@@ -323,6 +321,12 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         if probs:
             feedback = "\n".join(f"- {p}" for p in probs)
             log("валидация не прошла:\n" + feedback)
+            if fmt == "analysis" and any(p.startswith("в разборе") for p in probs):
+                # облегчённые модели пишут коротко: просим не переписать, а развернуть готовый текст
+                feedback += ("\n\nВот прошлая версия. Сохрани её ход, факты и ссылки, исправь перечисленное и разверни "
+                             "до 1300–1600 слов: в каждом абзаце больше конкретики из материалов — цифры, имена, даты, "
+                             "как устроен механизм; добавь абзацы со вторым слоем и параллелью.\n"
+                             + json.dumps({k: d.get(k) for k in ("fly", "headline", "subhead", "lead", "paragraphs")}, ensure_ascii=False))
             continue
         try:
             v = check(fmt, d, mats)

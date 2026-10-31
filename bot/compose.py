@@ -3,6 +3,7 @@
 import html
 import json
 import re
+from urllib.parse import unquote
 
 from .rubrics import RUBRICS, FORMS
 
@@ -36,7 +37,20 @@ def extract_json(text: str) -> dict:
 
 
 def _norm(url: str) -> str:
-    return url.strip().rstrip("/").split("#")[0].lower()
+    """Адрес для сравнения: без схемы, www, параметров и якоря, кириллица раскодирована.
+    Модель часто пишет адрес с кириллицей, а лента отдаёт его закодированным (%D0%...) или с метками ?maca=."""
+    u = unquote(url.strip()).split("#")[0].split("?")[0].rstrip("/").lower()
+    return re.sub(r"^https?://(www\.)?", "", u)
+
+
+def banned_hits(text: str) -> list[str]:
+    """Запрещённые обороты с найденным словом, чтобы модель знала, что именно убрать."""
+    out = []
+    for rx, label in BANNED:
+        m = rx.search(text)
+        if m:
+            out.append(f"запрещённый оборот: {label} — «{m.group(0)}»")
+    return out
 
 
 def links_in(note: dict) -> list[str]:
@@ -111,7 +125,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         if k not in note or note[k] in (None, "", []):
             problems.append(f"нет поля {k}")
     if problems:
-        return problems
+        return list(dict.fromkeys(problems))
 
     if note["rubric"] not in RUBRICS:
         problems.append(f"неизвестная рубрика {note['rubric']}")
@@ -125,9 +139,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append(f"в заголовке {words} слов, нужно 6–9")
 
     text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])
-    for rx, label in BANNED:
-        if rx.search(plain(text_all)):
-            problems.append(f"запрещённый оборот: {label}")
+    problems += banned_hits(plain(text_all))
 
     links = links_in(note)
     if not links:
@@ -148,4 +160,4 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         n = visible_length(build_caption(note))
         if n > CAPTION_TARGET:
             problems.append(f"пост длиной {n} знаков, лимит {CAPTION_TARGET}: сократи")
-    return problems
+    return list(dict.fromkeys(problems))

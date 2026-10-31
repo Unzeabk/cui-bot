@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from .compose import BANNED, LINK_RE, _inline, _norm, extract_json, plain, visible_length
+from .compose import BANNED, banned_hits, LINK_RE, _inline, _norm, extract_json, plain, visible_length
 from .main import TZ, log
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; CuiBonoBot/1.0)"}
@@ -219,9 +219,7 @@ def _validate(d: dict, official: list[dict], allowed: set[str]) -> list[str]:
         probs.append("в тексте цифры недели нет ссылки на источник")
     if len(plain(t)) > 260:
         probs.append("текст цифры недели длиннее 240 знаков")
-    for rx, label in BANNED:
-        if rx.search(plain(t)):
-            probs.append(f"запрещённый оборот: {label}")
+    probs += banned_hits(plain(t))
     for _, u in LINK_RE.findall(t):
         if _norm(u) not in {_norm(x) for x in allowed}:
             probs.append(f"ссылка не из материалов: {u}")
