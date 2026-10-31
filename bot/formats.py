@@ -355,10 +355,10 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
 # бордовая плашка и время чтения; Позиция — единственная светлая обложка (bot/render.py).
 
 WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
-.shade{background:linear-gradient(90deg,rgba(11,13,16,0) 55%,rgba(11,13,16,.94) 64%),linear-gradient(0deg,rgba(11,13,16,.95) 0%,rgba(11,13,16,0) 36%)}
+.shade{background:linear-gradient(90deg,rgba(11,13,16,0) 55%,rgba(11,13,16,.94) 64%),linear-gradient(0deg,rgba(11,13,16,.95) 0%,rgba(11,13,16,0) 36%),linear-gradient(180deg,rgba(11,13,16,.97) 0%,rgba(11,13,16,0) 19%)}
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 440px;column-gap:56px;align-items:end;padding-bottom:24px}
-.big{font-family:'Literata',serif;font-weight:600;font-size:120px;line-height:.92;letter-spacing:-.02em;font-variation-settings:'opsz' 72}
-.dates{font-family:'Literata',serif;font-style:italic;font-size:38px;color:#C9CFD6;margin-top:16px}
+.big{font-family:'Head',sans-serif;font-weight:600;font-size:120px;line-height:.92;letter-spacing:-.02em;font-variation-settings:'FLAR' 100,'VOLM' 100}
+.dates{font-family:'Head',sans-serif;font-variation-settings:'slnt' -10;font-size:38px;color:#C9CFD6;margin-top:16px}
 .list{display:flex;flex-direction:column}
 .it{display:grid;grid-template-columns:58px 1fr;align-items:baseline;padding:11px 0;border-bottom:1.5px solid #2A2F35;font-family:'Onest',sans-serif;font-weight:500;font-size:32px}
 .it:last-child{border-bottom:none}
@@ -373,7 +373,7 @@ WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><styl
 ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .shade{background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.9) 45%,rgba(11,13,16,.15) 80%)}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:800px;padding:20px 0}
-.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:#6B2F3A;padding:9px 18px}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:#16294A;padding:9px 18px}
 </style></head><body><div class="root">__MAP__<div class="layer shade"></div>
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
 <div class="rule"></div>

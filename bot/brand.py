@@ -1,8 +1,8 @@
 """Фирменный стиль Cui Bono? для обложек: цвета, шрифты, карта места события и съёмка страницы.
 
 Набор из брендбука:
-  тёмный #0B0D10 (основной) · слоновая кость #EDE9E2 · графит #6B6F72 · бордо #6B2F3A (акцент) · холодный серый #C9CFD6
-  Literata — заголовки и акценты, Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
+  тёмный #0B0D10 (основной) · слоновая кость #EDE9E2 · графит #6B6F72 · глубокий ночной синий #16294A (акцент) · холодный серый #C9CFD6
+  Commissioner — логотип, заголовки и акценты (вместо Commissioner и бордо — решение владельца 31 октября), Onest — служебные надписи, IBM Plex Mono — данные, координаты, маркировка.
 Графические элементы: сетка и фокус (перекрестие), география и контекст (карта), связи, маркеры (точечная сетка).
 
 Шрифты лежат в assets/fonts (OFL), контуры стран — в assets/geo (Natural Earth, общественное достояние),
@@ -26,13 +26,13 @@ GEO_DIR = ROOT / "assets" / "geo"
 DARK = "#0B0D10"
 IVORY = "#EDE9E2"
 GRAPHITE = "#6B6F72"
-BORDO = "#6B2F3A"
+ACCENT = "#16294A"  # глубокий ночной синий; заменил бордо, которое резало глаз
+BORDO = ACCENT  # старое имя, чтобы не ломать вызовы
 COLD = "#C9CFD6"
 LINE = "#2A2F35"  # тонкие линии на тёмном
 
 FONT_CSS = f"""
-@font-face{{font-family:'Literata';src:url('{(FONTS_DIR / "Literata.ttf").as_uri()}') format('truetype');font-weight:200 900;font-style:normal}}
-@font-face{{font-family:'Literata';src:url('{(FONTS_DIR / "Literata-Italic.ttf").as_uri()}') format('truetype');font-weight:200 900;font-style:italic}}
+@font-face{{font-family:'Head';src:url('{(FONTS_DIR / "Commissioner.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Onest';src:url('{(FONTS_DIR / "Onest.ttf").as_uri()}') format('truetype');font-weight:100 900}}
 @font-face{{font-family:'Plex';src:url('{(FONTS_DIR / "IBMPlexMono-Regular.ttf").as_uri()}') format('truetype');font-weight:400}}
 @font-face{{font-family:'Plex';src:url('{(FONTS_DIR / "IBMPlexMono-Medium.ttf").as_uri()}') format('truetype');font-weight:500}}
@@ -48,12 +48,12 @@ BASE_CSS = FONT_CSS + f"""
 .layer{{position:absolute;inset:0;z-index:0}}
 .root>*:not(.layer){{position:relative;z-index:1}}
 .top{{display:flex;justify-content:space-between;align-items:baseline}}
-.logo{{font-family:'Literata',serif;font-weight:500;font-size:34px;letter-spacing:-.01em;font-variation-settings:'opsz' 48}}
+.logo{{font-family:'Head',sans-serif;font-weight:650;font-size:32px;letter-spacing:-.015em;font-variation-settings:'FLAR' 100,'VOLM' 100}}
 .tag{{font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.16em;color:{COLD};text-transform:uppercase}}
 .tag b{{display:inline-block;width:12px;height:12px;background:{BORDO};margin-right:14px;vertical-align:1px}}
 .rule{{height:1.5px;background:{LINE};margin-top:16px}}
-.fly{{font-family:'Literata',serif;font-style:italic;font-weight:400;font-size:38px;line-height:1.15;color:{COLD};font-variation-settings:'opsz' 36}}
-.hl{{font-family:'Literata',serif;font-weight:600;line-height:1.06;letter-spacing:-.012em;font-variation-settings:'opsz' 72;text-wrap:balance}}
+.fly{{font-family:'Head',sans-serif;font-weight:400;font-size:35px;line-height:1.2;color:{COLD};font-variation-settings:'slnt' -10}}
+.hl{{font-family:'Head',sans-serif;font-weight:620;line-height:1.1;letter-spacing:-.02em;font-variation-settings:'FLAR' 100,'VOLM' 100;text-wrap:balance}}
 .foot{{display:flex;justify-content:space-between;align-items:center;border-top:1.5px solid {LINE};padding-top:14px;
   font-family:'Plex',monospace;font-weight:500;font-size:21px;letter-spacing:.12em;color:{COLD};text-transform:uppercase}}
 .foot svg{{width:46px;height:46px}}

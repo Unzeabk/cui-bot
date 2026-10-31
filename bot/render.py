@@ -25,8 +25,8 @@ NOTE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CS
 
 DATA = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);column-gap:56px;align-items:center;padding:16px 0}
-.num{font-family:'Literata',serif;font-weight:600;line-height:.92;letter-spacing:-.03em;white-space:nowrap;font-variation-settings:'opsz' 72}
-.bar{width:120px;height:8px;background:#6B2F3A;margin:26px 0 22px}
+.num{font-family:'Head',sans-serif;font-weight:600;line-height:.92;letter-spacing:-.03em;white-space:nowrap;font-variation-settings:'FLAR' 100,'VOLM' 100}
+.bar{width:120px;height:8px;background:#16294A;margin:26px 0 22px}
 .cap{font-family:'Onest',sans-serif;font-weight:400;font-size:28px;line-height:1.3;color:#C9CFD6;max-width:520px;text-wrap:balance}
 .txt{display:flex;flex-direction:column;gap:18px}
 .fly{font-size:34px}
@@ -44,7 +44,7 @@ POSITION = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>
 .logo{color:#0B0D10} .tag{color:#6B6F72} .rule{background:#0B0D10;height:2px}
 .foot{border-top:2px solid #0B0D10;color:#0B0D10}
 .mid{flex:1;display:grid;grid-template-columns:10px 1fr;column-gap:44px;padding:40px 0 34px}
-.vbar{background:#6B2F3A}
+.vbar{background:#16294A}
 .txt{display:flex;flex-direction:column;justify-content:center;gap:24px}
 .stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.2em;color:#EDE9E2;background:#0B0D10;padding:8px 16px}
 .fly{color:#6B6F72}
@@ -78,7 +78,7 @@ def place_line(place: dict | None, fallback: str = "") -> str:
     return html.escape(f"{head}  ·  {place['name']}" if place.get("name") else head)
 
 
-def hl_size(hl: str, big: tuple = (92, 84, 74, 66)) -> int:
+def hl_size(hl: str, big: tuple = (88, 80, 72, 64)) -> int:
     n = len(hl)
     return big[0] if n <= 38 else (big[1] if n <= 52 else (big[2] if n <= 68 else big[3]))
 
@@ -94,7 +94,7 @@ def render_cover(note: dict, out_path: Path, site: str = "") -> Path:
                   hl=html.escape(hl, quote=False))
 
     if cover.get("type") == "position":
-        page = _fill(POSITION, **common, size=hl_size(hl, (96, 88, 78, 70)), mark=B.mark(svg, "#0B0D10"))
+        page = _fill(POSITION, **common, size=hl_size(hl, (90, 82, 74, 66)), mark=B.mark(svg, "#0B0D10"))
     elif cover.get("type") == "data" and cover.get("number"):
         num = str(cover["number"])
         cap = plain(cover.get("number_caption") or "")
