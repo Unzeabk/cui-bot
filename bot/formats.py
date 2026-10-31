@@ -339,6 +339,35 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
     return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap)
 
 
+def run_indicators(state: list[dict], dry: bool) -> int:
+    from . import indicators as I
+    from .telegram import send_photo
+
+    d = I.build(state)
+    if not d:
+        log("табло не собралось — в этот раз не публикуем")
+        return 1
+    stamp = datetime.now(TZ).strftime("%Y%m%d-%H%M")
+    OUT.mkdir(exist_ok=True)
+    cover = OUT / f"cover-indicators-{stamp}.png"
+    I.render_board(d, cover)
+    cap = I.caption(d)
+    (OUT / f"indicators-{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / f"caption-indicators-{stamp}.html").write_text(cap, encoding="utf-8")
+    log(f"ПОКАЗАТЕЛИ: подпись {visible_length(cap)} знаков")
+    if dry:
+        log("DRY_RUN: в канал не отправляю")
+        return 0
+    res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap)
+    now = datetime.now(TZ)
+    state.append({"time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"), "rubric": "indicators", "form": "показатели",
+                  "optics": [], "topic_key": f"pokazateli-{now:%Y-%W}", "headline": "Цифра недели — " + d["week_figure"]["label"],
+                  "fly": "", "final": "", "main_title": "", "sources": d.get("_sources", []), "message_id": res.get("message_id")})
+    save_state(state)
+    log("готово")
+    return 0
+
+
 def main() -> int:
     fmt = (os.environ.get("FORMAT") or "auto").strip()
     if fmt == "auto":
@@ -352,6 +381,8 @@ def main() -> int:
         return 1
     dry = bool(os.environ.get("DRY_RUN"))
     state = load_state()
+    if fmt == "indicators":
+        return run_indicators(state, dry)
     d = produce(fmt, state)
     if not d:
         log("рубрика не прошла проверку — в этот раз не публикуем")
