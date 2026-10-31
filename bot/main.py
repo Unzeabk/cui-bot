@@ -169,6 +169,8 @@ def produce(recent: list[dict]) -> dict | None:
                 return _mark(note, materials)
             if v.get("verdict") == "fix" and v.get("fixed_note"):
                 fixed = dedupe_links(v["fixed_note"])
+                for k in ("place", "cover"):  # фактчек правит текст, оформление сохраняем
+                    fixed.setdefault(k, note.get(k))
                 if not validate(fixed, allowed):
                     return _mark(fixed, materials)
             if v.get("verdict") == "reject":

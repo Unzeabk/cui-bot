@@ -9,6 +9,7 @@
 """
 
 import html
+import re
 import json
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
@@ -71,21 +72,36 @@ def cbr_currencies() -> list[dict]:
     return rows
 
 
+def _key_rate_points(now: datetime) -> list[tuple[str, float]]:
+    """Ключевая ставка за 60 дней: сначала веб-сервис ЦБ, если он молчит — таблица на сайте ЦБ."""
+    pts = []
+    try:
+        r = requests.get(
+            "https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx/KeyRateXML",
+            params={"fromDate": (now - timedelta(days=60)).strftime("%Y-%m-%d"), "ToDate": now.strftime("%Y-%m-%d")},
+            headers=UA, timeout=20,
+        )
+        for kr in ET.fromstring(r.content).iter():
+            if kr.tag.endswith("KR"):
+                dt = next((c.text for c in kr if c.tag.endswith("DT")), None)
+                rate = next((c.text for c in kr if c.tag.endswith("Rate")), None)
+                if dt and rate:
+                    pts.append((dt[:10], float(rate)))
+    except Exception as e:  # noqa: BLE001
+        log(f"веб-сервис ставки ЦБ не ответил: {e}")
+    if pts:
+        return pts
+    r = requests.get("https://www.cbr.ru/hd_base/KeyRate/", headers=UA, timeout=20, params={
+        "UniDbQuery.Posted": "True", "UniDbQuery.From": (now - timedelta(days=60)).strftime("%d.%m.%Y"),
+        "UniDbQuery.To": now.strftime("%d.%m.%Y")})
+    for d, v in re.findall(r"<td>\s*(\d{2}\.\d{2}\.\d{4})\s*</td>\s*<td>\s*([\d,]+)\s*</td>", r.text):
+        pts.append((datetime.strptime(d, "%d.%m.%Y").strftime("%Y-%m-%d"), float(v.replace(",", "."))))
+    return pts
+
+
 def cbr_key_rate() -> list[dict]:
     now = datetime.now(TZ)
-    r = requests.get(
-        "https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx/KeyRateXML",
-        params={"fromDate": (now - timedelta(days=60)).strftime("%Y-%m-%d"), "ToDate": now.strftime("%Y-%m-%d")},
-        headers=UA, timeout=20,
-    )
-    root = ET.fromstring(r.content)
-    pts = []
-    for kr in root.iter():
-        if kr.tag.endswith("KR"):
-            dt = next((c.text for c in kr if c.tag.endswith("DT")), None)
-            rate = next((c.text for c in kr if c.tag.endswith("Rate")), None)
-            if dt and rate:
-                pts.append((dt[:10], float(rate)))
+    pts = _key_rate_points(now)
     if not pts:
         return []
     pts.sort()
@@ -161,7 +177,7 @@ SYSTEM = """Ты — редакция Cui Bono?, аналитического и
 
 Сделай две вещи:
 А. "rows" — от 0 до 3 дополнительных строк из материалов, только если цифра есть в материале прямо: инфляция (годовая или за неделю), нефть Brent или Urals, нефтегазовые доходы. Поля: "label" — до 14 знаков, с заглавной («Инфляция, год», «Brent», «Urals»); "value" — до 9 знаков («7,1%», «$63,40»); "change" — до 8 знаков, изменение к прошлой неделе («+0,2 пп», «−1,4%», «=»), если его нет в материале — пустая строка; "url" — адрес материала, где эта цифра; "source" — короткое имя источника («Росстат», «Интерфакс»).
-Б. "week_figure" — «цифра недели»: одна строка табло (официальная или твоя), которая сильнее всего бьёт по деньгам и планам читателя. "label" — точно как в табло. "text" — 1–2 фразы, до 240 знаков, начинается с названия показателя («Годовая инфляция ускорилась…»): что изменилось и что это значит, сухо, без оценок и прогнозов, одна ссылка [текст](url) на источник цифры. Пустые движения («+0,02%») цифрой недели не делай.
+Б. "week_figure" — «цифра недели»: одна строка табло (официальная или твоя), которая сильнее всего бьёт по деньгам и планам читателя. "label" — точно как в табло. "text" — 1–2 фразы, до 240 знаков, начинается с названия показателя («Годовая инфляция ускорилась…»): что изменилось и почему это касается денег читателя — вторая фраза только с новым фактом или цифрой, без пустых оценок («рынок перешёл к умеренному восстановлению», «ситуация стабилизировалась») и без прогнозов, одна ссылка [текст](url) на источник цифры. Пустые движения («+0,02%») цифрой недели не делай.
 
 ЯЗЫК: по-русски, как умный живой человек. Без канцелярита, англицизмов, «важно понимать», качелей «не X, а Y».
 ОТВЕТ — только JSON: {"rows": [{"label": "...", "value": "...", "change": "...", "url": "...", "source": "..."}], "week_figure": {"label": "...", "text": "..."}}"""
@@ -277,45 +293,52 @@ def _lower_first(t: str) -> str:
     return t
 
 
+CAPTION_LABEL = {"Золото, грамм": "Золото за грамм", "Инфляция, год": "Инфляция за год", "Инфляция, неделя": "Инфляция за неделю"}
+
+
+def _change_text(ch: str) -> str:
+    ch = (ch or "").strip()
+    return "без изменений" if ch in ("", "=", "0", "0%") else ch
+
+
 def caption(d: dict) -> str:
+    """Подпись обычным текстом: блок кода <pre> на телефоне ломает строки и показывает плашку «copy»."""
     wf = d["week_figure"]
     sources = {}
     for r in d["rows"]:
         sources.setdefault(r.get("source") or "Источник", r["url"])
     src = ", ".join(f'<a href="{html.escape(u, quote=True)}">{html.escape(n)}</a>' for n, u in sources.items())
+    lines = "\n".join(
+        f"{html.escape(CAPTION_LABEL.get(r['label'], r['label']))} — <b>{html.escape(r['value'])}</b>, {html.escape(_change_text(r.get('change')))}"
+        for r in _sorted_rows(d["rows"])
+    )
     return (
         f"<code>ПОКАЗАТЕЛИ</code> · <i>{week_range()}</i>\n\n"
         f"<b>Цифра недели.</b> {_inline(wf['text'])}\n\n"
-        f"<pre>{html.escape(table(d['rows']))}</pre>\n\n"
+        f"<i>За неделю:</i>\n{lines}\n\n"
         f"Источники: {src}"
     )
 
 
-BOARD = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box} body{margin:0}
-.root{width:1280px;height:720px;background:#F2EDE3;color:#141414;padding:44px 72px 40px;display:flex;flex-direction:column;font-family:'IBM Plex Mono',monospace}
-.top{display:flex;justify-content:space-between;font-weight:600;font-size:24px;letter-spacing:.12em}
-.rule{height:2px;background:#141414;margin-top:16px}
+BOARD = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .rows{flex:1;display:flex;flex-direction:column;justify-content:center}
-.row{display:grid;grid-template-columns:1fr 330px 170px;align-items:baseline;padding:9px 0;border-bottom:1px solid #CFC8BA}
+.row{display:grid;grid-template-columns:22px 1fr 340px 190px;align-items:baseline;padding:10px 0;border-bottom:1.5px solid #2A2F35}
 .row:last-child{border-bottom:none}
-.l{font-size:32px;font-weight:500}
-.v{font-family:'Playfair Display',serif;font-weight:700;font-size:54px;text-align:right;line-height:1}
-.c{font-size:32px;font-weight:600;text-align:right}
-.star .l,.star .v,.star .c{color:#7A1F2B}
-.foot{display:flex;justify-content:space-between;border-top:2px solid #141414;padding-top:12px;font-weight:600;font-size:22px;letter-spacing:.1em}
-</style></head><body><div class="root">
-<div class="top"><span>CUI BONO?</span><span>ПОКАЗАТЕЛИ · __WEEK__</span></div>
+.k{width:12px;height:12px;align-self:center}
+.l{font-family:'Onest',sans-serif;font-weight:400;font-size:31px;color:#C9CFD6}
+.v{font-family:'Literata',serif;font-weight:600;font-size:52px;text-align:right;line-height:1;font-variation-settings:'opsz' 72}
+.c{font-family:'Plex',monospace;font-weight:500;font-size:28px;text-align:right;color:#C9CFD6}
+.star .k{background:#6B2F3A} .star .l{color:#EDE9E2;font-weight:500}
+</style></head><body><div class="root">__GRID__
+<div class="top"><span class="logo">Cui Bono?</span><span class="tag"><b></b>ПОКАЗАТЕЛИ · __WEEK__</span></div>
 <div class="rule"></div>
 <div class="rows">__ROWS__</div>
-<div class="foot"><span>ЦИФРЫ НЕДЕЛИ</span><span>__SOURCES__</span></div>
+<div class="foot"><span>Цифры недели</span><span>__SOURCES__</span></div>
 </div></body></html>"""
 
 
 def render_board(d: dict, path) -> None:
-    from playwright.sync_api import sync_playwright
+    from . import brand as B
 
     rows = _sorted_rows(d["rows"])[:6]
     star = d["week_figure"]["label"]
@@ -323,20 +346,14 @@ def render_board(d: dict, path) -> None:
         rows = rows[:5] + [r for r in d["rows"] if r["label"] == star]
     arrow = {1: "▲ ", -1: "▼ ", 0: ""}
     h = "".join(
-        f'<div class="row{" star" if r["label"] == star else ""}"><span class="l">{html.escape(r["label"])}</span>'
+        f'<div class="row{" star" if r["label"] == star else ""}"><span class="k"></span><span class="l">{html.escape(r["label"])}</span>'
         f'<span class="v">{html.escape(r["value"])}</span><span class="c">{arrow.get(r.get("dir", 0), "")}{html.escape(r.get("change", "").lstrip("+−"))}</span></div>'
         for r in rows
     )
-    srcs = " · ".join(dict.fromkeys(r.get("source", "") for r in rows if r.get("source"))).upper()
-    page = BOARD.replace("__WEEK__", html.escape(week_range().upper())).replace("__ROWS__", h).replace("__SOURCES__", html.escape(srcs))
-    with sync_playwright() as p:
-        b = p.chromium.launch()
-        pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=1.5)
-        pg.set_content(page, wait_until="networkidle")
-        pg.evaluate("document.fonts.ready")
-        pg.wait_for_timeout(300)
-        pg.screenshot(path=str(path), clip={"x": 0, "y": 0, "width": 1280, "height": 720})
-        b.close()
+    srcs = " · ".join(dict.fromkeys(r.get("source", "") for r in rows if r.get("source")))
+    page = (BOARD.replace("__CSS__", B.BASE_CSS).replace("__GRID__", B.map_layer(None))
+            .replace("__WEEK__", html.escape(week_range())).replace("__ROWS__", h).replace("__SOURCES__", html.escape(srcs)))
+    B.shoot(page, path)
 
 
 def check_length(d: dict) -> int:

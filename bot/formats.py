@@ -26,6 +26,7 @@ FORMATS = {
 
 # Общие правила голоса и фактов берём из промпта заметок, формат описываем отдельно
 _VOICE = WRITER_SYSTEM[: WRITER_SYSTEM.index("ФОРМАТ ЗАМЕТКИ")]
+_PLACE = WRITER_SYSTEM[WRITER_SYSTEM.index("МЕСТО (для карты"): WRITER_SYSTEM.index("ОТВЕТ: только JSON-объект")].replace("{{", "{").replace("}}", "}")
 _LANG = WRITER_SYSTEM[WRITER_SYSTEM.index("ЯЗЫК:"): WRITER_SYSTEM.index("ОБЛОЖКА:")]
 
 PICK = {
@@ -55,25 +56,27 @@ WRITE = {
 - Подзаголовок — довод, на котором держится вердикт, а не пересказ заголовка.
 - Тело ровно 3 абзаца: 1) что решили и почему это выглядит разумно; 2) цифра, о которую это ломается; 3) что было бы разумнее — конкретно, одной-двумя фразами. Без шаблонных концовок.
 - Весь пост до 950 знаков.
-ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "paragraphs": ["...", "...", "..."], "topic_key": "..."}""",
+ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "paragraphs": ["...", "...", "..."], "place": {"name": "...", "lat": 0.0, "lon": 0.0, "scale": "country"} | null, "topic_key": "..."}""",
     "analysis": """ФОРМАТ: «Разбор» — большой материал недели, 1200–1800 слов. Публикуется отдельной статьёй, в канал идёт анонс с кнопкой.
 - Драматургия без скелета: вход через предмет, человека или документ; мысль не позже второго-третьего абзаца; очевидное объяснение ломается об одну цифру; второй слой даёт вторая оптика; параллель, которую узнает русский читатель; короткий финал, возвращающийся к началу. Подзаголовков внутри нет, ход держится на фразах-связках.
 - Оптики выбери, как в заметке: главную и вторую из другого семейства. В тексте не называй.
 - Флай, заголовок 6–9 слов, подзаголовок не отвечает на заголовок.
 - "lead" — анонс для канала: 2–3 предложения, которые открывают загадку и не отвечают на неё, до 400 знаков. Без «в этом материале», «мы расскажем», «читайте».
 - "paragraphs" — сама статья, 12–25 абзацев, ссылки [текст](url) на цифрах.
-ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "lead": "...", "paragraphs": ["..."], "optics": ["...", "..."], "topic_key": "..."}""",
+ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "lead": "...", "paragraphs": ["..."], "optics": ["...", "..."], "place": {"name": "...", "lat": 0.0, "lon": 0.0, "scale": "country"} | null, "topic_key": "..."}""",
     "week": """ФОРМАТ: «Неделя» — главное за неделю, как «The world this week» у The Economist. Без флая и без заголовка.
 - "items": 6 событий из разных областей (Россия, деньги, регионы, мир, бизнес, релоканты), самое важное первым.
 - У каждого события "subject" — кто или где, 1–3 слова: страна, город, ведомство или компания («Сербия», «ЦБ», «Мосбиржа», «Кубань»). Не повторяй subject.
 - "text" — 1–2 фразы: что произошло и одна цифра, со ссылкой [текст](url) на источник. Сухо, по-русски, без оценок, без «на этой неделе», без вводных. Начинай сразу с действия («Отозвал лицензию у…», «Сохранил ставку…»), потому что subject уже стоит перед текстом.
+- "place" у каждого события — точка на карте мира: {"name": "...", "lat": 44.79, "lon": 20.45}, где это произошло; для мер по всей России — Москва.
 - Весь пост до 950 знаков.
-ОТВЕТ — только JSON: {"items": [{"subject": "...", "text": "..."}], "topic_key": "nedelya-YYYY-WW"}""",
+ОТВЕТ — только JSON: {"items": [{"subject": "...", "text": "...", "place": {"name": "...", "lat": 0.0, "lon": 0.0}}], "topic_key": "nedelya-YYYY-WW"}""",
 }
 
 
 def system_for(fmt: str) -> str:
-    return _VOICE + WRITE[fmt] + "\n\n" + _LANG + """
+    place = _PLACE if fmt in ("position", "analysis") else ""
+    return _VOICE + WRITE[fmt] + "\n\n" + place + _LANG + """
 ФАКТЫ: пиши только по материалам, которые дал пользователь. Каждый факт и цифра — из них. Ссылку ставь на цифру в формате [текст](url), URL — ровно тот, что указан у материала, каждый URL один раз. Не уверен — убери."""
 
 
@@ -332,6 +335,10 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
             return d
         if v.get("verdict") == "fix" and v.get("fixed"):
             f = _dedupe(fmt, v["fixed"])
+            f.setdefault("place", d.get("place"))  # фактчек правит текст, место для карты сохраняем
+            if fmt == "week":
+                for a, b in zip(f.get("items", []), d.get("items", [])):
+                    a.setdefault("place", b.get("place"))
             if not validate_format(fmt, f, allowed):
                 f["_sources"] = list(allowed)
                 return f
@@ -339,73 +346,53 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
     return None
 
 
-WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box} body{margin:0}
-.root{width:1280px;height:720px;background:#F2EDE3;color:#141414;padding:44px 72px 40px;display:flex;flex-direction:column;font-family:'IBM Plex Mono',monospace}
-.top{display:flex;justify-content:space-between;font-weight:600;font-size:24px;letter-spacing:.12em}
-.rule{height:2px;background:#141414;margin-top:16px}
-.mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:56px;align-items:center}
-.big{font-family:'Playfair Display',serif;font-weight:700;font-size:150px;line-height:.9;letter-spacing:-.02em}
-.dates{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:40px;color:#7A1F2B;margin-top:18px}
+# Обложки рубрик — в фирменном стиле (bot/brand.py), у каждой своё лицо:
+# Неделя — карта мира с пронумерованными событиями и оглавлением; Разбор — карта места крупным планом,
+# бордовая плашка и время чтения; Позиция — единственная светлая обложка (bot/render.py).
+
+WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
+.shade{background:linear-gradient(90deg,rgba(11,13,16,0) 55%,rgba(11,13,16,.94) 64%),linear-gradient(0deg,rgba(11,13,16,.95) 0%,rgba(11,13,16,0) 36%)}
+.mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 440px;column-gap:56px;align-items:end;padding-bottom:24px}
+.big{font-family:'Literata',serif;font-weight:600;font-size:120px;line-height:.92;letter-spacing:-.02em;font-variation-settings:'opsz' 72}
+.dates{font-family:'Literata',serif;font-style:italic;font-size:38px;color:#C9CFD6;margin-top:16px}
 .list{display:flex;flex-direction:column}
-.it{display:grid;grid-template-columns:64px 1fr;align-items:baseline;padding:10px 0;border-bottom:1px solid #CFC8BA;font-size:34px;font-weight:600}
+.it{display:grid;grid-template-columns:58px 1fr;align-items:baseline;padding:11px 0;border-bottom:1.5px solid #2A2F35;font-family:'Onest',sans-serif;font-weight:500;font-size:32px}
 .it:last-child{border-bottom:none}
-.n{color:#8A857B;font-size:26px}
-.foot{display:flex;justify-content:space-between;border-top:2px solid #141414;padding-top:12px;font-weight:600;font-size:22px;letter-spacing:.1em}
-</style></head><body><div class="root">
-<div class="top"><span>CUI BONO?</span><span>НЕДЕЛЯ</span></div>
+.n{font-family:'Plex',monospace;font-size:21px;color:#6B6F72}
+</style></head><body><div class="root">__MAP__<div class="layer shade"></div>
+<div class="top"><span class="logo">Cui Bono?</span><span class="tag"><b></b>НЕДЕЛЯ</span></div>
 <div class="rule"></div>
 <div class="mid"><div><div class="big">Неделя</div><div class="dates">__DATES__</div></div><div class="list">__LIST__</div></div>
-<div class="foot"><span>ГЛАВНОЕ ЗА СЕМЬ ДНЕЙ</span><span>__N__ СОБЫТИЙ</span></div>
+<div class="foot"><span>Главное за семь дней</span><span>__N__</span></div>
 </div></body></html>"""
 
-
-ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Serif:ital,wght@1,700&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box} body{margin:0}
-.root{width:1280px;height:720px;background:#F2EDE3;color:#141414;padding:44px 72px 40px;display:flex;flex-direction:column;font-family:'IBM Plex Mono',monospace}
-.top{display:flex;justify-content:space-between;font-weight:600;font-size:24px;letter-spacing:.12em}
-.rule{height:2px;background:#141414;margin-top:16px}
-.mid{flex:1;display:grid;grid-template-columns:14px 1fr;column-gap:40px;align-items:stretch;padding:34px 0}
-.bar{background:#141414}
-.txt{display:flex;flex-direction:column;justify-content:center;gap:20px}
-.stamp{align-self:flex-start;background:#141414;color:#F2EDE3;font-weight:600;font-size:26px;letter-spacing:.2em;padding:8px 16px}
-.fly{font-family:'PT Serif',serif;font-style:italic;font-weight:700;font-size:38px;color:#7A1F2B}
-.hl{font-family:'Playfair Display',serif;font-weight:700;line-height:1.04}
-.foot{display:flex;justify-content:space-between;border-top:2px solid #141414;padding-top:12px;font-weight:600;font-size:22px;letter-spacing:.1em}
-</style></head><body><div class="root">
-<div class="top"><span>CUI BONO?</span><span>__DATE__</span></div>
+ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
+.shade{background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.9) 45%,rgba(11,13,16,.15) 80%)}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:800px;padding:20px 0}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:#6B2F3A;padding:9px 18px}
+</style></head><body><div class="root">__MAP__<div class="layer shade"></div>
+<div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
 <div class="rule"></div>
-<div class="mid"><div class="bar"></div><div class="txt"><div class="stamp">РАЗБОР</div><div class="fly">__FLY__</div><div class="hl" style="font-size:__SIZE__px">__HL__</div></div></div>
-<div class="foot"><span>БОЛЬШОЙ МАТЕРИАЛ НЕДЕЛИ</span><span>__MIN__</span></div>
+<div class="mid"><div class="stamp">РАЗБОР</div>__FLY__<div class="hl" style="font-size:__SIZE__px">__HL__</div></div>
+<div class="foot"><span>__MIN__</span><span>__PLACE__</span></div>
 </div></body></html>"""
 
 
-def _shot(page: str, path) -> None:
-    from playwright.sync_api import sync_playwright
-
-    with sync_playwright() as p:
-        b = p.chromium.launch()
-        pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=1.5)
-        pg.set_content(page, wait_until="networkidle")
-        pg.evaluate("document.fonts.ready")
-        pg.wait_for_timeout(300)
-        pg.screenshot(path=str(path), clip={"x": 0, "y": 0, "width": 1280, "height": 720})
-        b.close()
+def _events_word(n: int) -> str:
+    return "событие" if n % 10 == 1 and n % 100 != 11 else ("события" if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14) else "событий")
 
 
 def render_format_cover(fmt: str, d: dict, path) -> None:
+    from . import brand as B
     from .indicators import week_range
-    from .render import render_cover
+    from .render import _fill, _fly, hl_size, place_line, render_cover
 
     if fmt == "week":
         items = d.get("items", [])[:6]
-        lst = "".join(f'<div class="it"><span class="n">{k + 1:02d}</span><span>{html.escape(i["subject"])}</span></div>' for k, i in enumerate(items))
-        page = WEEK_COVER.replace("__DATES__", html.escape(week_range())).replace("__LIST__", lst).replace("__N__", str(len(items)))
-        _shot(page, path)
+        lst = "".join(f'<div class="it"><span class="n">{k + 1:02d}</span><span>{html.escape(plain(i["subject"]))}</span></div>' for k, i in enumerate(items))
+        page = _fill(WEEK_COVER, css=B.BASE_CSS, map=B.world_layer([B.place_ok(i.get("place")) for i in items]),
+                     dates=html.escape(week_range()), list=lst, n=f"{len(items)} {_events_word(len(items))}")
+        B.shoot(page, path)
         return
     if fmt == "position":
         note = {"rubric": "world", "fly": d["fly"], "headline": plain(d["headline"]), "_label": "ПОЗИЦИЯ",
@@ -414,11 +401,11 @@ def render_format_cover(fmt: str, d: dict, path) -> None:
         return
     n = reading_minutes(d)
     hl = plain(d["headline"])
-    size = 96 if len(hl) <= 45 else (84 if len(hl) <= 65 else 72)
-    page = (ANALYSIS_COVER.replace("__DATE__", datetime.now(TZ).strftime("%d.%m.%Y"))
-            .replace("__FLY__", html.escape(_cap(plain(d["fly"])))).replace("__HL__", html.escape(hl))
-            .replace("__SIZE__", str(size)).replace("__MIN__", f"{n} {_minutes_word(n).upper()} ЧТЕНИЯ"))
-    _shot(page, path)
+    place = B.place_ok(d.get("place"))
+    page = _fill(ANALYSIS_COVER, css=B.BASE_CSS, map=B.map_layer(place, fx=.8, fy=.45),
+                 date=datetime.now(TZ).strftime("%d.%m.%Y"), fly=_fly(d.get("fly")), hl=html.escape(hl),
+                 size=hl_size(hl, (88, 80, 70, 64)), min=f"{n} {_minutes_word(n)} чтения", place=place_line(place))
+    B.shoot(page, path)
 
 
 def publish(fmt: str, d: dict, dry: bool) -> dict:
