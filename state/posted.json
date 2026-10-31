@@ -35,5 +35,25 @@
    "https://thebell.io/natsbank-serbii-cherez-pyat-dney-posle-porazheniya-vuchicha-na-vyborakh-otozval-litsenziyu-u-alta-banka-gde-otkryvali-scheta-rossiyane"
   ],
   "message_id": 10
+ },
+ {
+  "time_iso": "2026-10-31T23:21:20.818498+03:00",
+  "time": "31.10 23:21",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-43",
+  "headline": "Цифра недели — Индекс IMOEX",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://tass.ru/ekonomika/28275255",
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
+   "https://www.moex.com/ru/index/IMOEX",
+   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi"
+  ],
+  "message_id": 11
  }
 ]
