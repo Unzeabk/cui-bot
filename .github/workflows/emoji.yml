@@ -1,0 +1,24 @@
+name: Набор эмодзи Cui Bono?
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_id:
+        description: "Ваш числовой ID в Telegram (узнать у @userinfobot)"
+        required: true
+        type: string
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Создать набор
+        env:
+          CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
+          TG_USER_ID: ${{ inputs.user_id }}
+        run: python -c "import bot.emoji_pack as e; e.main()"
