@@ -1,3 +1,38 @@
 [
- {"time_iso": "2026-10-31T22:20:00+03:00", "time": "31.10 22:20", "rubric": "finance", "form": "сухой тренд", "optics": ["теневой двойник", "лестница власти"], "topic_key": "kriptovalyuta-mosbirzha", "headline": "Московская биржа откроет торги криптовалютой с 1 декабря", "fly": "Без права переписки", "final": "Ключи от сейфа останутся у охраны.", "main_title": "Мосбиржа запустит торги биткоином, эфиром и USDT с 1 декабря", "sources": []}
+ {
+  "time_iso": "2026-10-31T22:20:00+03:00",
+  "time": "31.10 22:20",
+  "rubric": "finance",
+  "form": "сухой тренд",
+  "optics": [
+   "теневой двойник",
+   "лестница власти"
+  ],
+  "topic_key": "kriptovalyuta-mosbirzha",
+  "headline": "Московская биржа откроет торги криптовалютой с 1 декабря",
+  "fly": "Без права переписки",
+  "final": "Ключи от сейфа останутся у охраны.",
+  "main_title": "Мосбиржа запустит торги биткоином, эфиром и USDT с 1 декабря",
+  "sources": []
+ },
+ {
+  "time_iso": "2026-10-31T23:10:10.698590+03:00",
+  "time": "31.10 23:10",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-44",
+  "headline": "Бюджеты меняют маршруты от Рима до Абуджи",
+  "fly": "деньги под новым углом",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi",
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.vedomosti.ru/economics/news/2026/10/31/1241784-v-italii-predlozhili-nalog",
+   "https://www.kommersant.ru/doc/9078322",
+   "https://www.vedomosti.ru/finance/news/2026/10/31/1241780-v-afrike-zapustili"
+  ],
+  "message_id": 9
+ }
 ]
