@@ -41,7 +41,7 @@ DATA = Template("""<!doctype html><html lang="ru"><head><meta charset="utf-8">$f
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:48px;align-items:center;padding:16px 0}
 .num{font-family:'Playfair Display',serif;font-weight:700;line-height:.9;letter-spacing:-.03em;color:#7A1F2B;white-space:nowrap}
 .numbox{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
-.cap{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:31px;letter-spacing:0;color:#141414;line-height:1.3;max-width:540px;padding-top:16px;border-top:2px solid #7A1F2B;text-wrap:balance}
+.cap{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:29px;letter-spacing:0;color:#55524A;line-height:1.3;max-width:540px;padding-top:16px;border-top:2px solid #7A1F2B;text-wrap:balance}
 .txt{display:flex;flex-direction:column;gap:16px}
 .fly{font-size:34px}
 </style></head><body><div class="root">
