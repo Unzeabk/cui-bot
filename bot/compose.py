@@ -98,27 +98,40 @@ def visible_length(caption_html: str) -> int:
     return len(html.unescape(text))
 
 
-def fix_links(obj, allowed):
-    """Чинит адреса, в которых модель ошиблась на символ (например, кириллическая «с» вместо латинской s):
-    если ссылки нет среди материалов, но есть очень похожая, подставляет настоящую. Работает по всему JSON."""
+def fix_links(obj, allowed, drop_unknown: bool = True):
+    """Чинит адреса, которые модель переписала с ошибкой, по всему JSON:
+    1) почти совпадающий адрес (кириллическая «с» вместо s) — подставляется настоящий;
+    2) тот же сайт и тот же номер статьи (у DW, РБК, Интерфакса он в адресе) — подставляется настоящий;
+    3) адрес, которого нет среди материалов, становится обычным текстом (drop_unknown): факт всё равно
+       проверит фактчек по материалам, а выдуманная ссылка в канал не уйдёт."""
     import difflib
 
-    allowed = list(allowed)
     norm = {_norm(u): u for u in allowed}
+
+    def ids(u: str) -> set[str]:
+        return set(re.findall(r"\d{5,}", u))
+
+    def host(u: str) -> str:
+        return u.split("/", 1)[0]
 
     def one(m):
         text, url = m.group(1), m.group(2)
-        if _norm(url) in norm:
+        n = _norm(url)
+        if n in norm:
             return m.group(0)
-        best = difflib.get_close_matches(_norm(url), list(norm), n=1, cutoff=.88)
-        return f"[{text}]({norm[best[0]]})" if best else m.group(0)
+        best = difflib.get_close_matches(n, list(norm), n=1, cutoff=.88)
+        if not best:
+            best = [a for a in norm if host(a) == host(n) and ids(a) & ids(n)][:1]
+        if best:
+            return f"[{text}]({norm[best[0]]})"
+        return text if drop_unknown else m.group(0)
 
     if isinstance(obj, str):
         return LINK_RE.sub(one, obj)
     if isinstance(obj, list):
-        return [fix_links(x, allowed) for x in obj]
+        return [fix_links(x, allowed, drop_unknown) for x in obj]
     if isinstance(obj, dict):
-        return {k: fix_links(v, allowed) for k, v in obj.items()}
+        return {k: fix_links(v, allowed, drop_unknown) for k, v in obj.items()}
     return obj
 
 

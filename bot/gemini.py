@@ -22,6 +22,11 @@ class QuotaExhausted(RuntimeError):
     pass
 
 
+# Модели, у которых в этом запуске кончилась дневная квота: до конца запуска их не дёргаем,
+# иначе каждый запрос сначала тратит время на заведомый отказ.
+EXHAUSTED: set[str] = set()
+
+
 def _call(model: str, system: str, user: str, temperature: float) -> str:
     body = {
         "systemInstruction": {"parts": [{"text": system}]},
@@ -41,6 +46,7 @@ def _call(model: str, system: str, user: str, temperature: float) -> str:
             # Минутный лимит — подождать; дневной — отдать следующей модели.
             msg = r.text.lower()
             if "per day" in msg or "perday" in msg or "daily" in msg or attempt == 2:
+                EXHAUSTED.add(model.strip())
                 raise QuotaExhausted(f"{model}: квота исчерпана")
             time.sleep(35)
             continue
@@ -64,7 +70,8 @@ def _call(model: str, system: str, user: str, temperature: float) -> str:
 def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> tuple[str, str]:
     """Возвращает (текст ответа, модель, которая ответила)."""
     last = None
-    for model in chain:
+    live = [m for m in chain if m.strip() not in EXHAUSTED] or chain
+    for model in live:
         try:
             return _call(model, system, user, temperature), model.strip()
         except (QuotaExhausted, RuntimeError) as e:

@@ -371,17 +371,47 @@ def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> 
         user = (f"{mat_txt}\n\nПЛАН:\n{json.dumps({k: plan.get(k) for k in ('headline', 'subhead', 'beats')}, ensure_ascii=False)}"
                 f"\n\nУЖЕ НАПИСАНО:\n" + ("\n\n".join(paragraphs) or "(ничего, это начало статьи)"))
         sysmsg = base.replace("{fmt}", ANALYSIS_PART.format(n=n, used=", ".join(used) or "пока нет"))
-        try:
-            t, m = ask(WRITER_CHAIN, sysmsg, user, temperature=0.7)
-            part = fix_links(extract_json(t), allowed).get("paragraphs") or []
-        except Exception as e:  # noqa: BLE001
-            log(f"часть {n} не написалась: {e}")
-            continue
+        part, m = [], ""
+        for _ in range(2):  # короткую часть (меньше 150 слов) просим ещё раз
+            try:
+                t, m = ask(WRITER_CHAIN, sysmsg, user, temperature=0.7)
+                got = fix_links(extract_json(t), allowed).get("paragraphs") or []
+            except Exception as e:  # noqa: BLE001
+                log(f"часть {n} не написалась: {e}")
+                continue
+            if sum(len(plain(p).split()) for p in got) > sum(len(plain(p).split()) for p in part):
+                part = got
+            if sum(len(plain(p).split()) for p in part) >= 150:
+                break
         paragraphs += [p for p in part if isinstance(p, str) and p.strip()]
         log(f"часть {n}: {sum(len(plain(p).split()) for p in part)} слов ({m})")
     plan["paragraphs"] = paragraphs
     plan.pop("beats", None)
     return plan, model
+
+
+SHORTEN = """Ты — редактор Cui Bono?. Сократи заголовок до 6–9 слов, сохранив смысл, факт и интонацию.
+Не добавляй ничего, чего не было. Без ссылок и кавычек вокруг. Ответ — только JSON: {"headline": "..."}"""
+
+
+def fix_headline(d: dict) -> dict:
+    """Длинный заголовок сокращается отдельным коротким запросом, а не переписыванием всего текста."""
+    from .gemini import LIGHT_CHAIN, WRITER_CHAIN, ask
+
+    hl = plain(d.get("headline", ""))
+    if not hl or len(hl.split()) <= 9:
+        return d
+    for chain in (WRITER_CHAIN, LIGHT_CHAIN):
+        try:
+            new = plain(extract_json(ask(chain, SHORTEN, hl, temperature=0.3)[0]).get("headline", "")).strip()
+        except Exception as e:  # noqa: BLE001
+            log(f"сократить заголовок не вышло: {e}")
+            continue
+        if 5 <= len(new.split()) <= 9:
+            log(f"заголовок сокращён: «{hl}» → «{new}»")
+            d["headline"] = new
+            break
+    return d
 
 
 def produce(fmt: str, recent: list[dict]) -> dict | None:
@@ -408,8 +438,8 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
             continue
         log(f"текст написала {model}")
         probs = validate_format(fmt, d, allowed)
-        if any(p.startswith("запрещённый оборот") for p in probs):
-            d = repair_banned(fmt, d)
+        if any(p.startswith("запрещённый оборот") or p.startswith("в заголовке") for p in probs):
+            d = fix_headline(repair_banned(fmt, d))
             probs = validate_format(fmt, d, allowed)
         if probs:
             feedback = "\n".join(f"- {p}" for p in probs)
