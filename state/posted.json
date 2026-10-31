@@ -116,5 +116,26 @@
    "https://meduza.io/feature/2026/10/31/ssha-predupredili-rossiyu-o-vozmozhnom-terakte-v-tsaritsyno"
   ],
   "message_id": 14
+ },
+ {
+  "time_iso": "2026-11-01T00:01:37.771668+03:00",
+  "time": "01.11 00:01",
+  "rubric": "week",
+  "form": "неделя",
+  "optics": [],
+  "topic_key": "nedelya-2026-44",
+  "headline": "Неделя: Мосбиржа, Сербия, Аргентина, Олешки, Всеволожск, США",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/10/31/v-serbii-otozvali-litsenziyu-u-blizkogo-k-vuchichu-banka-gde-otkrivali-scheta-rossiyanam-2-a210210",
+   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi",
+   "https://www.kommersant.ru/doc/9078349",
+   "https://www.kommersant.ru/doc/9078319",
+   "https://novayagazeta.eu/articles/2026/10/31/zelenskii-soobshchil-ob-uspeshnoi-evakuatsii-zhitelei-okkupirovannykh-oleshek-news",
+   "https://www.rbc.ru/politics/30/10/2026/6ae49b6518a3b9290e38445a"
+  ],
+  "message_id": 15
  }
 ]
