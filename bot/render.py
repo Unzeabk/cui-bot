@@ -26,7 +26,7 @@ NOTE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CS
 DATA = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);column-gap:56px;align-items:center;padding:16px 0}
 .num{font-family:'Head',sans-serif;font-weight:600;line-height:.92;letter-spacing:-.03em;white-space:nowrap;font-variation-settings:'FLAR' 100,'VOLM' 100}
-.bar{width:120px;height:8px;background:#7FA8E0;margin:26px 0 22px}
+.bar{width:120px;height:8px;background:#0B1730;margin:26px 0 22px}
 .cap{font-family:'Onest',sans-serif;font-weight:400;font-size:28px;line-height:1.3;color:#C9CFD6;max-width:520px;text-wrap:balance}
 .txt{display:flex;flex-direction:column;gap:18px}
 .fly{font-size:34px}
@@ -44,7 +44,7 @@ POSITION = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>
 .logo{color:#0B0D10} .tag{color:#6B6F72} .rule{background:#0B0D10;height:2px}
 .foot{border-top:2px solid #0B0D10;color:#0B0D10}
 .mid{flex:1;display:grid;grid-template-columns:10px 1fr;column-gap:44px;padding:40px 0 34px}
-.vbar{background:#7FA8E0}
+.vbar{background:#0B1730}
 .txt{display:flex;flex-direction:column;justify-content:center;gap:24px}
 .stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.2em;color:#EDE9E2;background:#0B0D10;padding:8px 16px}
 .fly{color:#6B6F72}
