@@ -49,6 +49,27 @@ def save_state(items: list[dict]) -> None:
     STATE.write_text(json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+import re as _re
+
+
+def _words(t: str) -> set[str]:
+    return {w[:6] for w in _re.findall(r"[а-яёa-z0-9]{4,}", (t or "").lower())}
+
+
+def _similar(a: str, b: str) -> bool:
+    wa, wb = _words(a), _words(b)
+    return bool(wa and wb) and len(wa & wb) / min(len(wa), len(wb)) >= 0.4
+
+
+def fresh_items(items: list[dict], recent: list[dict]) -> list[dict]:
+    """Убирает новости, уже использованные или похожие на темы недавних заметок."""
+    used = {u for r in recent for u in r.get("sources", [])}
+    past = [r.get("main_title") or r.get("headline", "") for r in recent] + [r.get("headline", "") for r in recent]
+    out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)]
+    log(f"после отсева повторов: {len(out)} из {len(items)}")
+    return out
+
+
 def pick_topics(items: list[dict], recent: list[dict]) -> list[dict]:
     from .gemini import LIGHT_CHAIN, ask
     from .prompts import TOPIC_SYSTEM, topic_user_message
@@ -93,10 +114,16 @@ def check_note(note: dict, materials: list[dict]) -> dict:
     return extract_json(text)
 
 
+def _mark(note: dict, materials: list[dict]) -> dict:
+    note["_main_title"] = materials[0]["title"]
+    note["_sources"] = [m["link"] for m in materials]
+    return note
+
+
 def produce(recent: list[dict]) -> dict | None:
     from .news import collect
 
-    items = collect()
+    items = fresh_items(collect(), recent)
     if not items:
         log("ни одна лента не ответила")
         return None
@@ -121,11 +148,11 @@ def produce(recent: list[dict]) -> dict | None:
             v = check_note(note, materials)
             log("вердикт:", v.get("verdict"), "|", "; ".join(v.get("problems") or []))
             if v.get("verdict") == "ok":
-                return note
+                return _mark(note, materials)
             if v.get("verdict") == "fix" and v.get("fixed_note"):
                 fixed = v["fixed_note"]
                 if not validate(fixed, allowed):
-                    return fixed
+                    return _mark(fixed, materials)
             if v.get("verdict") == "reject":
                 break  # тема держится на ошибке — следующая тема
             feedback = "Фактчек нашёл ошибки:\n" + "\n".join(f"- {p}" for p in (v.get("problems") or []))
@@ -183,6 +210,8 @@ def run_once(dry: bool) -> int:
             "time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"),
             "rubric": note["rubric"], "form": note["form"], "optics": note.get("optics", []),
             "topic_key": note.get("topic_key", ""), "headline": note["headline"],
+            "fly": note.get("fly", ""), "final": note.get("final", ""),
+            "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
             "message_id": result.get("message_id"),
         })
         save_state(state)
