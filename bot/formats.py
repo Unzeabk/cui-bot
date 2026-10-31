@@ -47,25 +47,28 @@ WRITE = {
 - "value" — сама цифра коротко («14%», «80,56 ₽», «$63,4»); "label" — что это, со строчной буквы, до 5 слов («курс доллара ЦБ»); "comment" — одна сухая фраза с заглавной: насколько изменилось за неделю и что это значит для денег читателя, со ссылкой [текст](url). Не пиши «вырос на две копейки», если это ничего не значит: тогда лучше другая цифра.
 - Без оценок и прогнозов. Весь пост до 950 знаков.
 ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "items": [{"value": "...", "label": "...", "comment": "..."}], "topic_key": "pokazateli-YYYY-WW"}""",
-    "position": """ФОРМАТ: «Позиция» — мнение редакции о конкретном решении или игроке. Это единственная рубрика, где у редакции есть позиция.
+    "position": """ФОРМАТ: «Позиция» — мнение редакции о конкретном решении или игроке, как передовица The Economist. Это единственная рубрика, где у редакции есть позиция.
 - Позиция про экономику и деньги: что решение даст и кому, чего стоит, что следовало бы сделать иначе. Аргументы — только факты из материалов. Без политических лозунгов, без оценок войны, без призывов к действиям, без оскорблений и обвинений людей.
-- Голос тот же: холодно, точно, без восклицаний.
-- Флай: знакомое выражение, погнутое под тему. Заголовок 6–9 слов в форме вердикта: что стоит сделать или чего не стоит («Изъятое нужно продавать, пока оно ещё что-то стоит»). Подзаголовок — второй слой, не повтор.
-- Тело: 3 коротких абзаца: что решили и почему это кажется разумным; цифра, о которую это ломается; что было бы разумнее. Последняя фраза — только если хорошая, без шаблонных афоризмов.
+- Голос тот же: холодно, точно, без восклицаний. Это рассуждение, а не возмущение.
+- Флай: знакомое русское выражение, погнутое под тему, 2–5 слов (пойдёт на обложку).
+- Заголовок 6–9 слов — вердикт: что стоит сделать или чего не стоит («Изъятое нужно продавать, пока оно ещё что-то стоит»).
+- Подзаголовок — довод, на котором держится вердикт, а не пересказ заголовка.
+- Тело ровно 3 абзаца: 1) что решили и почему это выглядит разумно; 2) цифра, о которую это ломается; 3) что было бы разумнее — конкретно, одной-двумя фразами. Без шаблонных концовок.
 - Весь пост до 950 знаков.
-ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "paragraphs": ["..."], "topic_key": "..."}""",
-    "analysis": """ФОРМАТ: «Разбор» — большой материал недели, 1200–1800 слов. Публикуется отдельной статьёй, в канал идёт анонс.
+ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "paragraphs": ["...", "...", "..."], "topic_key": "..."}""",
+    "analysis": """ФОРМАТ: «Разбор» — большой материал недели, 1200–1800 слов. Публикуется отдельной статьёй, в канал идёт анонс с кнопкой.
 - Драматургия без скелета: вход через предмет, человека или документ; мысль не позже второго-третьего абзаца; очевидное объяснение ломается об одну цифру; второй слой даёт вторая оптика; параллель, которую узнает русский читатель; короткий финал, возвращающийся к началу. Подзаголовков внутри нет, ход держится на фразах-связках.
 - Оптики выбери, как в заметке: главную и вторую из другого семейства. В тексте не называй.
 - Флай, заголовок 6–9 слов, подзаголовок не отвечает на заголовок.
-- "lead" — анонс для канала: 2–3 предложения, которые открывают загадку и не отвечают на неё, до 450 знаков.
+- "lead" — анонс для канала: 2–3 предложения, которые открывают загадку и не отвечают на неё, до 400 знаков. Без «в этом материале», «мы расскажем», «читайте».
 - "paragraphs" — сама статья, 12–25 абзацев, ссылки [текст](url) на цифрах.
 ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "lead": "...", "paragraphs": ["..."], "optics": ["...", "..."], "topic_key": "..."}""",
-    "week": """ФОРМАТ: «Неделя» — главное за неделю сжатыми абзацами, без оценок.
-- Флай: знакомое выражение, погнутое под неделю. Заголовок 6–9 слов — что связывает события недели (без оценок). Подзаголовок — второй слой.
-- "items": 5–6 событий, каждое — 1–2 фразы: что произошло и одна цифра, со ссылкой [текст](url). Сухо, по-русски, без оценок и без «на этой неделе».
+    "week": """ФОРМАТ: «Неделя» — главное за неделю, как «The world this week» у The Economist. Без флая и без заголовка.
+- "items": 6 событий из разных областей (Россия, деньги, регионы, мир, бизнес, релоканты), самое важное первым.
+- У каждого события "subject" — кто или где, 1–3 слова: страна, город, ведомство или компания («Сербия», «ЦБ», «Мосбиржа», «Кубань»). Не повторяй subject.
+- "text" — 1–2 фразы: что произошло и одна цифра, со ссылкой [текст](url) на источник. Сухо, по-русски, без оценок, без «на этой неделе», без вводных. Начинай сразу с действия («Отозвал лицензию у…», «Сохранил ставку…»), потому что subject уже стоит перед текстом.
 - Весь пост до 950 знаков.
-ОТВЕТ — только JSON: {"fly": "...", "headline": "...", "subhead": "...", "items": ["..."], "topic_key": "nedelya-YYYY-WW"}""",
+ОТВЕТ — только JSON: {"items": [{"subject": "...", "text": "..."}], "topic_key": "nedelya-YYYY-WW"}""",
 }
 
 
@@ -142,7 +145,7 @@ def _texts(fmt: str, d: dict) -> list[str]:
     if fmt == "indicators":
         parts += [f"{i.get('value', '')} {i.get('label', '')} {i.get('comment', '')}" for i in d.get("items", [])]
     elif fmt == "week":
-        parts += list(d.get("items", []))
+        parts += [f"{i.get('subject', '')} {i.get('text', '')}" for i in d.get("items", [])]
     else:
         parts += list(d.get("paragraphs", []))
     return parts
@@ -150,12 +153,24 @@ def _texts(fmt: str, d: dict) -> list[str]:
 
 def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
     probs = []
-    for k in ("fly", "headline", "subhead"):
-        if not d.get(k):
-            probs.append(f"нет поля {k}")
-    words = len(plain(d.get("headline", "")).split())
-    if not 5 <= words <= 9:
-        probs.append(f"в заголовке {words} слов, нужно 6–9")
+    if fmt == "week":
+        items = d.get("items") or []
+        if not 5 <= len(items) <= 7:
+            probs.append(f"событий {len(items)}, нужно 6")
+        subs = [plain(i.get("subject", "")) for i in items]
+        if any(not s or len(s) > 24 for s in subs):
+            probs.append("у каждого события нужен короткий subject, 1–3 слова")
+        if len(set(subs)) != len(subs):
+            probs.append("subject повторяется")
+    else:
+        for k in ("fly", "headline", "subhead"):
+            if not d.get(k):
+                probs.append(f"нет поля {k}")
+        words = len(plain(d.get("headline", "")).split())
+        if not 5 <= words <= 9:
+            probs.append(f"в заголовке {words} слов, нужно 6–9")
+    if fmt == "position" and len(d.get("paragraphs") or []) != 3:
+        probs.append("в позиции ровно три абзаца")
     body = " ".join(plain(t) for t in _texts(fmt, d))
     for rx, label in BANNED:
         if rx.search(body):
@@ -186,8 +201,10 @@ def _dedupe(fmt: str, d: dict) -> dict:
         for i, c in zip(d.get("items", []), tmp["paragraphs"]):
             i["comment"] = c
     elif fmt == "week":
-        tmp = dedupe_links({"headline": d.get("headline"), "subhead": d.get("subhead"), "paragraphs": d.get("items", [])})
-        d["items"] = tmp["paragraphs"]
+        tmp = dedupe_links({"headline": "", "subhead": "", "paragraphs": [i.get("text", "") for i in d.get("items", [])]})
+        for i, t in zip(d.get("items", []), tmp["paragraphs"]):
+            i["text"] = t
+            i["subject"] = plain(i.get("subject", "")).strip().rstrip(".")
     elif fmt == "position":
         d.update({k: v for k, v in dedupe_links(dict(d)).items() if k in ("headline", "subhead", "paragraphs")})
     else:  # в длинном разборе ссылку на один источник можно ставить в разных местах
@@ -226,21 +243,30 @@ def _low(t: str) -> str:
     return t[:1].lower() + t[1:] if t[1:2].islower() or len(t) < 2 else t
 
 
+def reading_minutes(d: dict) -> int:
+    words = sum(len(plain(p).split()) for p in d.get("paragraphs", []))
+    return max(3, round(words / 180))
+
+
+def _minutes_word(n: int) -> str:
+    return "минута" if n % 10 == 1 and n % 100 != 11 else ("минуты" if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14) else "минут")
+
+
 def caption(fmt: str, d: dict, url: str = "") -> str:
-    label = FORMATS[fmt]["label"]
-    head = f"<code>{label}</code> · <i>{_inline(_cap(d['fly']))}</i>\n\n<b>{_inline(plain(d['headline']))}</b>\n\n<i>{_inline(plain(d['subhead']))}</i>\n\n"
-    if fmt == "indicators":
-        body = "\n\n".join(
-            f"<b>{html.escape(i.get('value', ''))}</b> · {html.escape(_low(i.get('label', '')))}\n{_inline(_cap(i.get('comment', '')))}"
-            for i in d.get("items", [])
-        )
-    elif fmt == "week":
-        body = "\n\n".join(_inline(_cap(t)) for t in d.get("items", []))
-    elif fmt == "analysis":
-        body = f"{_inline(d.get('lead', ''))}\n\n<a href=\"{html.escape(url, quote=True)}\">Читать разбор</a>"
-    else:
+    from .indicators import week_range
+
+    if fmt == "week":
+        body = "\n\n".join(f"<b>{html.escape(i['subject'])}.</b> {_inline(_cap(i['text']))}" for i in d.get("items", []))
+        return f"<code>НЕДЕЛЯ</code> · <i>{week_range()}</i>\n\n{body}"
+    title = f"<b>{_inline(plain(d['headline']))}</b>\n\n<i>{_inline(plain(d['subhead']))}</i>\n\n"
+    if fmt == "position":
         body = "\n\n".join(_inline(p) for p in d.get("paragraphs", []))
-    return head + body
+        return f"<code>ПОЗИЦИЯ</code> · <i>Мнение редакции</i>\n\n{title}{body}"
+    if fmt == "analysis":
+        n = reading_minutes(d)
+        return f"<code>РАЗБОР</code> · <i>{n} {_minutes_word(n)} чтения</i>\n\n{title}{_inline(d.get('lead', ''))}"
+    label = FORMATS[fmt]["label"]
+    return f"<code>{label}</code> · <i>{_inline(_cap(d['fly']))}</i>\n\n{title}" + "\n\n".join(_inline(p) for p in d.get("paragraphs", []))
 
 
 def telegraph(d: dict) -> str:
@@ -313,22 +339,98 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
     return None
 
 
-def publish(fmt: str, d: dict, dry: bool) -> dict:
+WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box} body{margin:0}
+.root{width:1280px;height:720px;background:#F2EDE3;color:#141414;padding:44px 72px 40px;display:flex;flex-direction:column;font-family:'IBM Plex Mono',monospace}
+.top{display:flex;justify-content:space-between;font-weight:600;font-size:24px;letter-spacing:.12em}
+.rule{height:2px;background:#141414;margin-top:16px}
+.mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:56px;align-items:center}
+.big{font-family:'Playfair Display',serif;font-weight:700;font-size:150px;line-height:.9;letter-spacing:-.02em}
+.dates{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:40px;color:#7A1F2B;margin-top:18px}
+.list{display:flex;flex-direction:column}
+.it{display:grid;grid-template-columns:64px 1fr;align-items:baseline;padding:10px 0;border-bottom:1px solid #CFC8BA;font-size:34px;font-weight:600}
+.it:last-child{border-bottom:none}
+.n{color:#8A857B;font-size:26px}
+.foot{display:flex;justify-content:space-between;border-top:2px solid #141414;padding-top:12px;font-weight:600;font-size:22px;letter-spacing:.1em}
+</style></head><body><div class="root">
+<div class="top"><span>CUI BONO?</span><span>НЕДЕЛЯ</span></div>
+<div class="rule"></div>
+<div class="mid"><div><div class="big">Неделя</div><div class="dates">__DATES__</div></div><div class="list">__LIST__</div></div>
+<div class="foot"><span>ГЛАВНОЕ ЗА СЕМЬ ДНЕЙ</span><span>__N__ СОБЫТИЙ</span></div>
+</div></body></html>"""
+
+
+ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Serif:ital,wght@1,700&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box} body{margin:0}
+.root{width:1280px;height:720px;background:#F2EDE3;color:#141414;padding:44px 72px 40px;display:flex;flex-direction:column;font-family:'IBM Plex Mono',monospace}
+.top{display:flex;justify-content:space-between;font-weight:600;font-size:24px;letter-spacing:.12em}
+.rule{height:2px;background:#141414;margin-top:16px}
+.mid{flex:1;display:grid;grid-template-columns:14px 1fr;column-gap:40px;align-items:stretch;padding:34px 0}
+.bar{background:#141414}
+.txt{display:flex;flex-direction:column;justify-content:center;gap:20px}
+.stamp{align-self:flex-start;background:#141414;color:#F2EDE3;font-weight:600;font-size:26px;letter-spacing:.2em;padding:8px 16px}
+.fly{font-family:'PT Serif',serif;font-style:italic;font-weight:700;font-size:38px;color:#7A1F2B}
+.hl{font-family:'Playfair Display',serif;font-weight:700;line-height:1.04}
+.foot{display:flex;justify-content:space-between;border-top:2px solid #141414;padding-top:12px;font-weight:600;font-size:22px;letter-spacing:.1em}
+</style></head><body><div class="root">
+<div class="top"><span>CUI BONO?</span><span>__DATE__</span></div>
+<div class="rule"></div>
+<div class="mid"><div class="bar"></div><div class="txt"><div class="stamp">РАЗБОР</div><div class="fly">__FLY__</div><div class="hl" style="font-size:__SIZE__px">__HL__</div></div></div>
+<div class="foot"><span>БОЛЬШОЙ МАТЕРИАЛ НЕДЕЛИ</span><span>__MIN__</span></div>
+</div></body></html>"""
+
+
+def _shot(page: str, path) -> None:
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=1.5)
+        pg.set_content(page, wait_until="networkidle")
+        pg.evaluate("document.fonts.ready")
+        pg.wait_for_timeout(300)
+        pg.screenshot(path=str(path), clip={"x": 0, "y": 0, "width": 1280, "height": 720})
+        b.close()
+
+
+def render_format_cover(fmt: str, d: dict, path) -> None:
+    from .indicators import week_range
     from .render import render_cover
+
+    if fmt == "week":
+        items = d.get("items", [])[:6]
+        lst = "".join(f'<div class="it"><span class="n">{k + 1:02d}</span><span>{html.escape(i["subject"])}</span></div>' for k, i in enumerate(items))
+        page = WEEK_COVER.replace("__DATES__", html.escape(week_range())).replace("__LIST__", lst).replace("__N__", str(len(items)))
+        _shot(page, path)
+        return
+    if fmt == "position":
+        note = {"rubric": "world", "fly": d["fly"], "headline": plain(d["headline"]), "_label": "ПОЗИЦИЯ",
+                "_mark": "position", "cover": {"type": "position"}}
+        render_cover(note, path, site=SITE)
+        return
+    n = reading_minutes(d)
+    hl = plain(d["headline"])
+    size = 96 if len(hl) <= 45 else (84 if len(hl) <= 65 else 72)
+    page = (ANALYSIS_COVER.replace("__DATE__", datetime.now(TZ).strftime("%d.%m.%Y"))
+            .replace("__FLY__", html.escape(_cap(plain(d["fly"])))).replace("__HL__", html.escape(hl))
+            .replace("__SIZE__", str(size)).replace("__MIN__", f"{n} {_minutes_word(n).upper()} ЧТЕНИЯ"))
+    _shot(page, path)
+
+
+def publish(fmt: str, d: dict, dry: bool) -> dict:
     from .telegram import send_photo
 
     url = ""
     if fmt == "analysis":
         url = "https://telegra.ph/(пробный-запуск)" if dry else telegraph(d)
-    cover_note = {
-        "rubric": "world", "fly": d["fly"], "headline": plain(d["headline"]),
-        "_label": FORMATS[fmt]["label"], "_mark": fmt if fmt != "position" else "position",
-        "_foot": FORMATS[fmt]["label"] if fmt != "position" else "",
-        "cover": {"type": "position" if fmt == "position" else "ivory"},
-    }
     stamp = datetime.now(TZ).strftime("%Y%m%d-%H%M")
     OUT.mkdir(exist_ok=True)
-    cover = render_cover(cover_note, OUT / f"cover-{fmt}-{stamp}.png", site=SITE)
+    cover = OUT / f"cover-{fmt}-{stamp}.png"
+    render_format_cover(fmt, d, cover)
     cap = caption(fmt, d, url)
     (OUT / f"{fmt}-{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"caption-{fmt}-{stamp}.html").write_text(cap, encoding="utf-8")
@@ -336,7 +438,8 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
     if dry:
         log("DRY_RUN: в канал не отправляю")
         return {}
-    return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap)
+    button = ("Читать разбор", url) if fmt == "analysis" else None
+    return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
 
 
 def run_indicators(state: list[dict], dry: bool) -> int:
@@ -392,7 +495,8 @@ def main() -> int:
         now = datetime.now(TZ)
         state.append({
             "time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"), "rubric": fmt, "form": FORMATS[fmt]["label"].lower(),
-            "optics": d.get("optics", []), "topic_key": d.get("topic_key", ""), "headline": plain(d["headline"]),
+            "optics": d.get("optics", []), "topic_key": d.get("topic_key", ""),
+            "headline": plain(d.get("headline") or ("Неделя: " + ", ".join(i["subject"] for i in d.get("items", [])))),
             "fly": d.get("fly", ""), "final": "", "main_title": "", "sources": d.get("_sources", []),
             "message_id": res.get("message_id"),
         })
