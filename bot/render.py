@@ -53,32 +53,49 @@ DATA = Template("""<!doctype html><html lang="ru"><head><meta charset="utf-8">$f
 </div></body></html>""")
 
 
+POSITION = Template("""<!doctype html><html lang="ru"><head><meta charset="utf-8">$fonts<style>$css
+.root{background:#232323;color:#F2EDE3}
+.top{color:#F2EDE3} .rule{background:#F2EDE3} .foot{border-top-color:#8A857B;color:#D8D2C6}
+.fly{color:#D9A0A8}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:22px 0}
+.foot svg circle{fill:#D9A0A8}
+</style></head><body><div class="root">
+<div class="top"><span>CUI BONO?</span><span>$rubric · $date</span></div>
+<div class="rule"></div>
+<div class="mid"><div class="fly">$fly</div><div class="hl" style="font-size:${size}px">$headline</div></div>
+<div class="foot"><span>МНЕНИЕ РЕДАКЦИИ</span>$svg</div>
+</div></body></html>""")
+
+
 def _e(s: str) -> str:
     return html.escape(plain(s or ""), quote=False)
 
 
 def render_cover(note: dict, out_path: Path, site: str = "") -> Path:
-    rubric_name = RUBRICS[note["rubric"]][0]
+    rubric_name = note.get("_label") or RUBRICS[note["rubric"]][0]
+    mark = SVG.get(note.get("_mark") or note["rubric"], SVG["world"])
     date = datetime.now().strftime("%d.%m.%Y")
     hl = plain(note["headline"])
     cover = note.get("cover") or {}
     common = dict(
         fonts=FONTS, css=BASE_CSS, rubric=html.escape(rubric_name), date=date,
-        fly=_e(note["fly"]), headline=html.escape(hl, quote=False), site=html.escape(site or ""),
+        fly=_e(note["fly"]), headline=html.escape(hl, quote=False),
+        site=html.escape(note.get("_foot") or site or ""),
     )
     if cover.get("type") == "data" and cover.get("number"):
         num = str(cover["number"])
         page = DATA.substitute(
             **common,
             size=64 if len(hl) <= 45 else (56 if len(hl) <= 65 else 48),
-            svg=SVG.get(note["rubric"], SVG["world"]),
+            svg=mark,
             number=html.escape(num, quote=False),
             numsize=250 if len(num) <= 3 else (200 if len(num) <= 4 else (150 if len(num) <= 6 else 115)),
             caption=_e((lambda c: c[:1].upper() + c[1:])(cover.get("number_caption") or "")),
         )
     else:
         size = 112 if len(hl) <= 40 else (100 if len(hl) <= 55 else (88 if len(hl) <= 70 else 76))
-        page = IVORY.substitute(**common, size=size, svg=SVG.get(note["rubric"], SVG["world"]))
+        tpl = POSITION if cover.get("type") == "position" else IVORY
+        page = tpl.substitute(**common, size=size, svg=mark)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:

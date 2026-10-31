@@ -1,0 +1,80 @@
+name: Cui Bono — рубрики
+
+on:
+  schedule:
+    # По Москве: пн 10:52 Показатели, ср 13:52 Позиция, пт 13:52 Разбор, сб 12:52 Неделя (cron в UTC)
+    - cron: "52 7 * * 1"
+    - cron: "52 10 * * 3"
+    - cron: "52 10 * * 5"
+    - cron: "52 9 * * 6"
+  workflow_dispatch:
+    inputs:
+      format:
+        description: "Рубрика"
+        type: choice
+        options: [indicators, position, analysis, week]
+        default: week
+      dry_run:
+        description: "Пробный запуск: собрать, но не отправлять в канал"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cui-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Зависимости
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Рубрика
+        env:
+          CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
+          WRITER_MODELS: ${{ vars.WRITER_MODELS }}
+          LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
+          NEWS_FEEDS: ${{ vars.NEWS_FEEDS }}
+          SITE_LABEL: ${{ vars.SITE_LABEL }}
+          FORMAT: ${{ inputs.format || 'auto' }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: python -m bot.formats
+
+      - name: Сохранить пост как артефакт
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rubric-${{ github.run_id }}
+          path: out/
+          if-no-files-found: ignore
+
+      - name: Записать в журнал ленты
+        if: success() && !inputs.dry_run
+        run: |
+          git config user.name "cui-bot"
+          git config user.email "cui-bot@users.noreply.github.com"
+          git add state/posted.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Рубрика $(date -u +'%Y-%m-%d %H:%M')"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -X theirs origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1
