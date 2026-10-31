@@ -219,5 +219,25 @@
    "https://www.kommersant.ru/doc/9078324"
   ],
   "message_id": 30
+ },
+ {
+  "time_iso": "2026-11-01T01:28:57.474476+03:00",
+  "time": "01.11 01:28",
+  "rubric": "world",
+  "form": "странная мелочь",
+  "optics": [
+   "спектакль",
+   "обменник"
+  ],
+  "topic_key": "ormuz-tanker-mines",
+  "headline": "Письма Вашингтона приходят под взрывы в Ормузском проливе",
+  "fly": "Тихая вода у берегов",
+  "final": "",
+  "main_title": "Нефтяной танкер подорвался на минах в Ормузском проливе",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078354",
+   "https://www.kommersant.ru/doc/9078346"
+  ],
+  "message_id": 34
  }
 ]
