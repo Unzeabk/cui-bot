@@ -63,8 +63,8 @@ def _inline(s: str) -> str:
 def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     name, mark = RUBRICS[note["rubric"]]
     emoji_id = (custom_emoji or {}).get(note["rubric"])
-    mark_html = f'<tg-emoji emoji-id="{emoji_id}">{mark}</tg-emoji>' if emoji_id else mark
-    head = f"{mark_html} <code>{html.escape(name)}</code> · <i>{_inline(note['fly'])}</i>"
+    prefix = f'<tg-emoji emoji-id="{emoji_id}">{mark}</tg-emoji> ' if emoji_id else ""
+    head = f"{prefix}<code>{html.escape(name)}</code> · <i>{_inline(note['fly'])}</i>"
     body = "\n\n".join(_inline(p) for p in note["paragraphs"])
     return (
         f"{head}\n\n"
@@ -97,7 +97,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append("абзацев должно быть 1–4")
 
     words = len(plain(note["headline"]).split())
-    if not 5 <= words <= 11:
+    if not 5 <= words <= 9:
         problems.append(f"в заголовке {words} слов, нужно 6–9")
 
     text_all = " ".join([note["fly"], note["headline"], note["subhead"], note["final"], *note["paragraphs"]])

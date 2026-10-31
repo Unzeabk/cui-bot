@@ -21,7 +21,7 @@ RUBRICS = {
     "tech": ("НАУКА И ТЕХНОЛОГИИ", "⌬"),
 }
 
-_S = 'fill="none" stroke="#141414" stroke-width="0.9"'
+_S = 'fill="none" stroke="#141414" stroke-width="2.6"'
 
 # Знаки для обложки (viewBox 0 0 48 48). Те же фигуры, что в наборе на холсте.
 SVG = {
