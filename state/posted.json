@@ -95,5 +95,26 @@
    "https://www.vedomosti.ru/politics/news/2026/10/31/1241764-galicia-nachal-zakrivat"
   ],
   "message_id": 13
+ },
+ {
+  "time_iso": "2026-10-31T23:55:43.768631+03:00",
+  "time": "31.10 23:55",
+  "rubric": "week",
+  "form": "неделя",
+  "optics": [],
+  "topic_key": "nedelya-2026-44",
+  "headline": "Неделя: Москва, Сербия, Аргентина, США, Чехия, Тегеран",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078319",
+   "https://www.ft.com/content/77370477-62df-4499-9ab6-4063d3e361bd?syn-25a6b1a6=1",
+   "https://ru.themoscowtimes.com/2026/10/31/v-serbii-otozvali-litsenziyu-u-blizkogo-k-vuchichu-banka-gde-otkrivali-scheta-rossiyanam-2-a210210",
+   "https://www.rbc.ru/politics/05/12/2025/69325d069a794785bf5ccd4b",
+   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi",
+   "https://meduza.io/feature/2026/10/31/ssha-predupredili-rossiyu-o-vozmozhnom-terakte-v-tsaritsyno"
+  ],
+  "message_id": 14
  }
 ]
