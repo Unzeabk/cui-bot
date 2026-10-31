@@ -239,5 +239,64 @@
    "https://www.kommersant.ru/doc/9078346"
   ],
   "message_id": 34
+ },
+ {
+  "time_iso": "2026-11-01T02:50:05.704542+03:00",
+  "time": "01.11 02:50",
+  "rubric": "property",
+  "form": "итог срока",
+  "optics": [
+   "теневой двойник",
+   "лестница власти"
+  ],
+  "topic_key": "krasnodar-sudya-chernov-zoloto-gohran",
+  "headline": "Четверть века кубанского правосудия уложились в тысячу слитков",
+  "fly": "Именем Российской Федерации",
+  "final": "",
+  "main_title": "У судьи, 25 лет возглавлявшего суд Краснодарского края, изъяли и передали в Гохран больше тысячи слитков золота",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/10/31/u-sudi-25-let-vozglavlyavshego-sud-krasnodarskogo-kraya-izyali-i-peredali-v-gohran-bolshe-tisyachi-slitkov-zolota-a210207"
+  ],
+  "message_id": 42
+ },
+ {
+  "time_iso": "2026-11-01T02:52:09.921761+03:00",
+  "time": "01.11 02:52",
+  "rubric": "economy",
+  "form": "сухой тренд",
+  "optics": [
+   "пузырь веры",
+   "предел физики"
+  ],
+  "topic_key": "openai-fundraising-2026",
+  "headline": "Крупнейший разработчик нейросетей собрал втрое меньше ожиданий",
+  "fly": "Меньше денег, тише едут",
+  "final": "",
+  "main_title": "OpenAI pares fundraising goal, now seeking up to $20 billion in latest round",
+  "sources": [
+   "https://www.cnbc.com/2026/10/31/openai-fundraising-20-billion-valuation.html",
+   "https://tass.ru/ekonomika/28275457",
+   "https://www.cnbc.com/investingclub/2026/10/31/stocks-started-the-week-with-promise-but-ended-in-despair.html"
+  ],
+  "message_id": 43
+ },
+ {
+  "time_iso": "2026-11-01T02:53:53.767855+03:00",
+  "time": "01.11 02:53",
+  "rubric": "postsoviet",
+  "form": "сухой тренд",
+  "optics": [
+   "сдвиг горизонта",
+   "разумные по одному"
+  ],
+  "topic_key": "kazahstan-elektronnye-razresheniya-viezd",
+  "headline": "Казахстан открыл электронные ворота для граждан с безвизом",
+  "fly": "Вход воспрещён",
+  "final": "",
+  "main_title": "Казахстан начал внедрять разрешения на въезд россиян и других иностранцев",
+  "sources": [
+   "https://lenta.ru/news/2026/11/01/kazahstan-nachal-vnedryat-razresheniya-na-v-ezd-rossiyan-i-drugih-inostrantsev/"
+  ],
+  "message_id": 44
  }
 ]
