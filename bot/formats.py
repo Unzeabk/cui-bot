@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import time
+from pathlib import Path
 from datetime import datetime, timedelta
 
 import requests
@@ -508,7 +509,7 @@ WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><styl
 ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .shade{background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.9) 45%,rgba(11,13,16,.15) 80%)}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:800px;padding:20px 0}
-.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:#16294A;padding:9px 18px}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#0B0D10;background:#7FA8E0;padding:9px 18px}
 </style></head><body><div class="root">__MAP__<div class="layer shade"></div>
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
 <div class="rule"></div>
@@ -610,6 +611,20 @@ def main() -> int:
         return 1
     dry = bool(os.environ.get("DRY_RUN"))
     state = load_state()
+    test_chat = (os.environ.get("TEST_CHAT") or "").strip()
+    if test_chat:  # тестовый пост уходит в личку владельцу, а не подписчикам
+        os.environ["TELEGRAM_CHANNEL"] = test_chat
+    if os.environ.get("TEST_DATA"):
+        # готовый текст из examples/<рубрика>-test.json: посмотреть вёрстку, не тратя квоту и не дожидаясь расписания
+        path = Path(__file__).resolve().parent.parent / "examples" / f"{fmt}-test.json"
+        if not path.exists():
+            log(f"тестовых данных для «{fmt}» нет: {path.name}")
+            return 1
+        d = json.loads(path.read_text(encoding="utf-8"))
+        log(f"тестовые данные: {path.name} → {'пробный запуск' if dry else ('личка ' + test_chat if test_chat else 'канал')}")
+        publish(fmt, d, dry)
+        log("готово (в журнал ленты тестовый пост не записан)")
+        return 0
     if not dry and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
         # у разбора два запуска в пятницу (сразу после сброса квот и запасной) — второй не повторяет первый
         since = datetime.now(TZ) - timedelta(days=3)

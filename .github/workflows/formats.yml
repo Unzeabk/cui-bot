@@ -20,6 +20,14 @@ on:
         description: "Пробный запуск: собрать, но не отправлять в канал"
         type: boolean
         default: true
+      test_data:
+        description: "Тестовый текст вместо настоящего (только Разбор): посмотреть вёрстку, не тратя квоту"
+        type: boolean
+        default: false
+      chat_id:
+        description: "Куда отправить вместо канала: ваш Telegram ID (от @userinfobot; сначала /start боту). Пусто — в канал"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -57,6 +65,8 @@ jobs:
           SITE_LABEL: ${{ vars.SITE_LABEL }}
           FORMAT: ${{ inputs.format || 'auto' }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+          TEST_DATA: ${{ inputs.test_data && '1' || '' }}
+          TEST_CHAT: ${{ inputs.chat_id }}
         run: python -m bot.formats
 
       - name: Сохранить пост как артефакт
@@ -68,7 +78,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Записать в журнал ленты
-        if: success() && !inputs.dry_run
+        if: success() && !inputs.dry_run && !inputs.test_data && inputs.chat_id == ''
         run: |
           git config user.name "cui-bot"
           git config user.email "cui-bot@users.noreply.github.com"
