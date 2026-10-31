@@ -40,13 +40,14 @@ IVORY = Template("""<!doctype html><html lang="ru"><head><meta charset="utf-8">$
 DATA = Template("""<!doctype html><html lang="ru"><head><meta charset="utf-8">$fonts<style>$css
 .mid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:48px;align-items:center;padding:16px 0}
 .num{font-family:'Playfair Display',serif;font-weight:700;line-height:.9;letter-spacing:-.03em;color:#7A1F2B;white-space:nowrap}
-.cap{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;letter-spacing:.05em;color:#141414;text-transform:uppercase;margin-top:14px;line-height:1.3}
+.numbox{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.cap{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:21px;letter-spacing:.02em;color:#3A3833;line-height:1.4;max-width:470px;padding-top:16px;border-top:2px solid #7A1F2B;text-wrap:balance}
 .txt{display:flex;flex-direction:column;gap:16px}
 .fly{font-size:34px}
 </style></head><body><div class="root">
 <div class="top"><span>CUI BONO?</span><span>$rubric · $date</span></div>
 <div class="rule"></div>
-<div class="mid"><div><div class="num" style="font-size:${numsize}px">$number</div><div class="cap">$caption</div></div>
+<div class="mid"><div class="numbox"><div class="num" style="font-size:${numsize}px">$number</div><div class="cap">$caption</div></div>
 <div class="txt"><div class="fly">$fly</div><div class="hl" style="font-size:${size}px">$headline</div></div></div>
 <div class="foot"><span>$site</span>$svg</div>
 </div></body></html>""")
