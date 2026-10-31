@@ -46,7 +46,7 @@ POSITION = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>
 .mid{flex:1;display:grid;grid-template-columns:10px 1fr;column-gap:44px;padding:40px 0 34px}
 .vbar{background:linear-gradient(180deg,#3A8BD0 0%,#123E5C 100%);box-shadow:0 0 16px rgba(58,139,208,.45)}
 .txt{display:flex;flex-direction:column;justify-content:center;gap:24px}
-.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.2em;color:#EDE9E2;background:linear-gradient(90deg,#123E5C 0%,#3A8BD0 100%);box-shadow:0 0 16px rgba(58,139,208,.45);padding:8px 16px}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.2em;color:#EDE9E2;background:#0B0D10;padding:8px 16px}
 .foot svg circle{filter:drop-shadow(0 0 6px rgba(58,139,208,.8))}
 .fly{color:#6B6F72}
 </style></head><body><div class="root">
