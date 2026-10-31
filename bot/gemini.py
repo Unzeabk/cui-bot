@@ -15,6 +15,8 @@ API = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateC
 WRITER_CHAIN = (os.environ.get("WRITER_MODELS") or "gemini-3.8-flash,gemini-3.5-flash-lite").split(",")
 # Фактчек — вторая сильная модель со своей отдельной квотой, потом лёгкие
 CHECK_CHAIN = (os.environ.get("CHECK_MODELS") or "gemini-3.6-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite").split(",")
+# Для «Разбора»: только сильные модели. Облегчённая пишет по 50–150 слов на часть — такой разбор не выпускаем.
+STRONG_CHAIN = (os.environ.get("STRONG_MODELS") or "gemini-3.8-flash,gemini-3.6-flash").split(",")
 LIGHT_CHAIN = (os.environ.get("LIGHT_MODELS") or "gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.6-flash").split(",")
 
 

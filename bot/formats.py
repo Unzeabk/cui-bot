@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 import requests
 
 from .compose import BANNED, banned_hits, fix_links, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
-from .main import CUSTOM_EMOJI, OUT, SITE, TZ, fresh_items, load_state, log, save_state  # noqa: F401
+from .main import CUSTOM_EMOJI, OUT, SITE, TZ, _similar, fresh_items, load_state, log, save_state  # noqa: F401
 from .prompts import WRITER_SYSTEM, _recent_txt
 
 FORMATS = {
@@ -32,7 +32,7 @@ _LANG = WRITER_SYSTEM[WRITER_SYSTEM.index("ЯЗЫК:"): WRITER_SYSTEM.index("О�
 PICK = {
     "indicators": "Выбери до 8 новостей недели с цифрами, которые смотрит наш читатель, в таком порядке приоритета: ключевая ставка ЦБ и ожидания по ней; инфляция в России; нефть (Brent, Urals, скидка); индекс Мосбиржи или крупные движения акций; бюджет и налоги; долги и неплатежи компаний; переводы и расчёты за рубежом; зарплаты и рынок труда. Экзотику без связи с Россией и деньгами нашего читателя (бюджет Нигерии, налог в Италии) не бери. Разные цифры, без повторов.",
     "position": "Выбери одно конкретное решение власти, регулятора или крупного игрока за последние три дня, о котором редакции стоит высказать мнение: экономическое решение с понятными последствиями для денег, активов и планов нашего читателя. Плюс до трёх новостей про то же решение.",
-    "analysis": "Выбери главную тему недели для большого разбора: тренд, сдвиг в деньгах или власти, о котором вышло несколько материалов с цифрами. Тема — экономика, деньги, собственность, рынки, бюджет, регулирование; не боевые действия, эвакуации и фронт (военная тема годится только как экономика: заказы, бюджеты, зарплаты). Главная новость и до пяти дополнительных про тот же сюжет с разных сторон.",
+    "analysis": "Выбери главную тему недели для большого разбора: тренд, сдвиг в деньгах или власти, о котором вышло несколько материалов с цифрами. Для разбора нужно много фактуры: главная новость и до 9 дополнительных про тот же сюжет из РАЗНЫХ источников и с разных сторон — предыстория, цифры, участники, похожие случаи в других странах; перепечатки одной и той же новости не бери. Тема — экономика, деньги, собственность, рынки, бюджет, регулирование; не боевые действия, эвакуации и фронт (военная тема годится только как экономика: заказы, бюджеты, зарплаты). Главная новость и до пяти дополнительных про тот же сюжет с разных сторон.",
     "week": "Выбери 6 главных событий недели для нашего читателя из разных областей: Россия, деньги, регионы, мир, бизнес, релоканты. По одной новости на событие, без повторов.",
 }
 
@@ -122,9 +122,15 @@ def gather(fmt: str, recent: list[dict]) -> list[dict]:
     pick = extract_json(text)
     idx = [pick.get("main")] + list(pick.get("extra") or [])
     idx = [i for i in dict.fromkeys(idx) if isinstance(i, int) and 0 <= i < len(items)]
-    cap = {"indicators": 8, "position": 4, "analysis": 6, "week": 6}[fmt]
+    cap = {"indicators": 8, "position": 4, "analysis": 10, "week": 6}[fmt]
     per = 3500 if fmt in ("indicators", "week") else 7000
-    mats = [{**items[i], "text": fetch_text(items[i]["link"], fallback=items[i]["summary"], max_chars=per)} for i in idx[:cap]]
+    uniq = []
+    for i in idx:  # перепечатки одной новости разными сайтами — одна
+        if not any(_similar(items[i]["title"], items[j]["title"]) for j in uniq):
+            uniq.append(i)
+    if fmt == "analysis":
+        per = 5000
+    mats = [{**items[i], "text": fetch_text(items[i]["link"], fallback=items[i]["summary"], max_chars=per)} for i in uniq[:cap]]
     if fmt == "indicators":
         r = cbr_rates()
         if r:
@@ -334,6 +340,10 @@ def repair_banned(fmt: str, d: dict) -> dict:
     return d
 
 
+class Postpone(Exception):
+    """Рубрику не пишем сейчас (нет сильной модели) — это не ошибка, повтор будет по расписанию."""
+
+
 ANALYSIS_PLAN = """ФОРМАТ: «Разбор» — большой материал недели. Сейчас нужен только ПЛАН статьи, сам текст пишется по частям.
 - Флай, заголовок 6–9 слов, подзаголовок не отвечает на заголовок.
 - "lead" — анонс для канала: 2–3 предложения, открывают загадку и не отвечают на неё, до 400 знаков. Без «в этом материале», «мы расскажем», «читайте».
@@ -356,13 +366,16 @@ ANALYSIS_PART = """ФОРМАТ: ты пишешь одну часть «Раз�
 def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> tuple[dict, str]:
     """Разбор пишется по частям: план, потом пять частей по 230–320 слов.
     Одним запросом даже лучшая бесплатная модель даёт 800 слов, облегчённая — 300–400."""
-    from .gemini import WRITER_CHAIN, ask
+    from .gemini import STRONG_CHAIN as WRITER_CHAIN, ask
 
     base = _VOICE + "{fmt}\n\n" + _PLACE + _LANG + """
 ФАКТЫ: пиши только по материалам, которые дал пользователь. Каждый факт и цифра — из них. Не уверен — убери."""
     allowed = [m["link"] for m in mats]
     mat_txt = user_message("analysis", recent, mats)
-    text, model = ask(WRITER_CHAIN, base.replace("{fmt}", ANALYSIS_PLAN), mat_txt + (f"\n\nПрошлая версия не прошла проверку:\n{feedback}" if feedback else ""), temperature=0.7)
+    try:
+        text, model = ask(WRITER_CHAIN, base.replace("{fmt}", ANALYSIS_PLAN), mat_txt + (f"\n\nПрошлая версия не прошла проверку:\n{feedback}" if feedback else ""), temperature=0.7)
+    except RuntimeError as e:
+        raise Postpone(f"сильные модели недоступны ({e})") from e
     plan = fix_links(extract_json(text), allowed)
     log(f"план разбора написала {model}")
     paragraphs: list[str] = []
@@ -427,11 +440,16 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         user = user_message(fmt, recent, mats) + (f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}" if feedback else "")
         try:
             if fmt == "analysis":
-                d, model = write_analysis(recent, mats, feedback)
+                try:
+                    d, model = write_analysis(recent, mats, feedback)
+                except Postpone:
+                    raise
                 d = _dedupe(fmt, d)
             else:
                 text, model = ask(WRITER_CHAIN, system_for(fmt), user, temperature=0.8)
                 d = _dedupe(fmt, fix_links(extract_json(text), allowed))
+        except Postpone:
+            raise
         except Exception as e:  # noqa: BLE001
             feedback = f"Ответ не разобрался: {e}"
             log(feedback)
@@ -592,9 +610,19 @@ def main() -> int:
         return 1
     dry = bool(os.environ.get("DRY_RUN"))
     state = load_state()
+    if not dry and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+        # у разбора два запуска в пятницу (сразу после сброса квот и запасной) — второй не повторяет первый
+        since = datetime.now(TZ) - timedelta(days=3)
+        if any(e.get("rubric") == fmt and datetime.fromisoformat(e["time_iso"]) > since for e in state if e.get("time_iso")):
+            log(f"«{FORMATS[fmt]['label'].capitalize()}» на этой неделе уже вышла — пропускаю")
+            return 0
     if fmt == "indicators":
         return run_indicators(state, dry)
-    d = produce(fmt, state)
+    try:
+        d = produce(fmt, state)
+    except Postpone as e:
+        log(f"Рубрика «{FORMATS[fmt]["label"].capitalize()}» отложена: {e}. Повтор — следующим запуском по расписанию или вручную после 11:00 МСК, когда сбрасываются квоты")
+        return 0
     if not d:
         log("рубрика не прошла проверку — в этот раз не публикуем")
         return 1
