@@ -16,23 +16,24 @@
   "sources": []
  },
  {
-  "time_iso": "2026-10-31T23:10:10.698590+03:00",
-  "time": "31.10 23:10",
-  "rubric": "indicators",
-  "form": "показатели",
-  "optics": [],
-  "topic_key": "pokazateli-2026-44",
-  "headline": "Бюджеты меняют маршруты от Рима до Абуджи",
-  "fly": "деньги под новым углом",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://www.vedomosti.ru/investments/news/2026/10/31/1241773-mosbirzha-zapustit-torgi",
-   "https://www.cbr.ru/currency_base/daily/",
-   "https://www.vedomosti.ru/economics/news/2026/10/31/1241784-v-italii-predlozhili-nalog",
-   "https://www.kommersant.ru/doc/9078322",
-   "https://www.vedomosti.ru/finance/news/2026/10/31/1241780-v-afrike-zapustili"
+  "time_iso": "2026-10-31T23:14:53.684452+03:00",
+  "time": "31.10 23:14",
+  "rubric": "abroad",
+  "form": "конец явления",
+  "optics": [
+   "обратный эффект",
+   "жертвенная бухгалтерия"
   ],
-  "message_id": 9
+  "topic_key": "alta-bank-serbiya-litsenziya",
+  "headline": "Сербская гавань для российских денег закрылась за ночь",
+  "fly": "Белград слезам не верит",
+  "final": "",
+  "main_title": "В Сербии отозвали лицензию у близкого к Вучичу банка, где открывали счета россиянам",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/10/31/v-serbii-otozvali-litsenziyu-u-blizkogo-k-vuchichu-banka-gde-otkrivali-scheta-rossiyanam-2-a210210",
+   "https://www.dw.com/ru/в-сербии-отозвали-лицензию-у-популярного-среди-россиян-банка-alta-ранее-он-оказался-в-центре-политического-скандала/a-79817664?maca=rus-rss-ru-all-1126-rdf",
+   "https://thebell.io/natsbank-serbii-cherez-pyat-dney-posle-porazheniya-vuchicha-na-vyborakh-otozval-litsenziyu-u-alta-banka-gde-otkryvali-scheta-rossiyane"
+  ],
+  "message_id": 10
  }
 ]
