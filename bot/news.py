@@ -56,9 +56,23 @@ def _read_feed(url: str) -> list[dict]:
 
 
 def collect(hours: int = 48, limit: int = 160) -> list[dict]:
+    feeds = _feeds()
     with ThreadPoolExecutor(8) as ex:
-        batches = list(ex.map(_read_feed, _feeds()))
+        batches = list(ex.map(_read_feed, feeds))
     cutoff = time.time() - hours * 3600
+    # отчёт по лентам: сколько свежих новостей дала каждая и когда была последняя
+    report = []
+    for url, b in zip(feeds, batches):
+        fresh = [i for i in b if i["ts"] >= cutoff]
+        last = time.strftime("%d.%m %H:%M", time.gmtime(max((i["ts"] for i in b), default=0))) if b else "—"
+        report.append(f"{'OK ' if fresh else 'НЕТ'} {len(fresh):>3} за {hours} ч, последняя {last} UTC  {url}")
+    print("[cui] ленты:\n" + "\n".join(report), flush=True)
+    try:
+        from pathlib import Path
+        Path("out").mkdir(exist_ok=True)
+        Path("out/feeds.txt").write_text("\n".join(report), encoding="utf-8")
+    except OSError:
+        pass
     seen, items = set(), []
     for b in batches:
         for it in b:
