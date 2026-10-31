@@ -46,6 +46,7 @@ jobs:
 
       - name: Заметка
         env:
+          CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}

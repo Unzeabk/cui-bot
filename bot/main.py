@@ -15,6 +15,13 @@ from zoneinfo import ZoneInfo
 
 from .compose import build_caption, extract_json, validate, visible_length
 
+# Один секрет CUI_CONFIG вместо трёх: строки вида ИМЯ=значение
+for _line in (os.environ.get("CUI_CONFIG") or "").splitlines():
+    if "=" in _line:
+        _k, _v = _line.split("=", 1)
+        if _k.strip() and _v.strip():
+            os.environ.setdefault(_k.strip(), _v.strip())
+
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / "state" / "posted.json"
 OUT = ROOT / "out"
