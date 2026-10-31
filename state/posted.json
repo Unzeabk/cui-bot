@@ -159,5 +159,65 @@
    "https://www.coindesk.com/business/2026/10/31/binance-says-it-has-replaced-90-of-stolen-crypto-after-massive-usd6-3-billion-breach"
   ],
   "message_id": 25
+ },
+ {
+  "time_iso": "2026-11-01T01:10:22.943582+03:00",
+  "time": "01.11 01:10",
+  "rubric": "abroad",
+  "form": "портрет",
+  "optics": [
+   "сдвиг горизонта",
+   "спектакль"
+  ],
+  "topic_key": "chernogoriya-viza-rossiyane",
+  "headline": "Черногория закрыла безвизовый въезд для граждан России",
+  "fly": "Окно на Адриатику закрылось",
+  "final": "",
+  "main_title": "Черногория ввела визы для россиян",
+  "sources": [
+   "https://www.rbc.ru/rbcfreenews/6ad9a4f0046637335410b0a6",
+   "https://ria.ru/20261101/chernogorija-2128384909.html"
+  ],
+  "message_id": 28
+ },
+ {
+  "time_iso": "2026-11-01T01:12:15.804599+03:00",
+  "time": "01.11 01:12",
+  "rubric": "newmarkets",
+  "form": "сухой тренд",
+  "optics": [
+   "предел физики",
+   "пузырь веры"
+  ],
+  "topic_key": "afrikanskiy-energeticheskiy-bank-5-mlrd",
+  "headline": "Новый банк в Абудже привлек пять миллиардов на нефть",
+  "fly": "Нефть, касса, два ствола",
+  "final": "",
+  "main_title": "В Африке запустили энергетический банк с капиталом $5 млрд",
+  "sources": [
+   "https://www.vedomosti.ru/finance/news/2026/10/31/1241780-v-afrike-zapustili"
+  ],
+  "message_id": 29
+ },
+ {
+  "time_iso": "2026-11-01T01:14:02.315831+03:00",
+  "time": "01.11 01:14",
+  "rubric": "defense",
+  "form": "сухой тренд",
+  "optics": [
+   "предел физики",
+   "лестница власти"
+  ],
+  "topic_key": "ssha-drony-rossiya-kitay",
+  "headline": "Пентагон начинает производство массовых дронов почти с нуля",
+  "fly": "Тихоокеанский рубеж",
+  "final": "",
+  "main_title": "Bloomberg сообщил о попытках США догнать Россию и Китай в сфере дронов",
+  "sources": [
+   "https://www.rbc.ru/rbcfreenews/6ae1864bfe8cbef4c519342a",
+   "https://asia.nikkei.com/editor-s-picks/interview/japan-s-marubeni-looks-to-profit-from-bottlenecks-arising-from-ai-boom",
+   "https://www.kommersant.ru/doc/9078324"
+  ],
+  "message_id": 30
  }
 ]
