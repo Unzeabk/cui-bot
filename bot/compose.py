@@ -72,7 +72,7 @@ def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     body = "\n\n".join(paras)
     return (
         f"{head}\n\n"
-        f"<b>{_inline(note['headline'])}</b>\n"
+        f"<b>{_inline(note['headline'])}</b>\n\n"
         f"<i>{_inline(note['subhead'])}</i>\n\n"
         f"{body}"
     )

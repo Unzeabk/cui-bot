@@ -217,7 +217,7 @@ def check(fmt: str, d: dict, mats: list[dict]) -> dict:
 
 def caption(fmt: str, d: dict, url: str = "") -> str:
     label = FORMATS[fmt]["label"]
-    head = f"<code>{label}</code> · <i>{_inline(d['fly'])}</i>\n\n<b>{_inline(plain(d['headline']))}</b>\n<i>{_inline(plain(d['subhead']))}</i>\n\n"
+    head = f"<code>{label}</code> · <i>{_inline(d['fly'])}</i>\n\n<b>{_inline(plain(d['headline']))}</b>\n\n<i>{_inline(plain(d['subhead']))}</i>\n\n"
     if fmt == "indicators":
         body = "\n".join(f"<b>{html.escape(i.get('value', ''))}</b> — {html.escape(i.get('label', ''))}. {_inline(i.get('comment', ''))}" for i in d.get("items", []))
     elif fmt == "week":
