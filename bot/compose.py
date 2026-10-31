@@ -26,7 +26,7 @@ BANNED = [
     (re.compile(r"(?:^|[\s,.—–-])не\s+[^.!?;:]{1,60}?,\s+а\s+", re.I), "качели «не X, а Y»"),
 ]
 
-REQUIRED = ["rubric", "fly", "headline", "subhead", "paragraphs", "final", "form", "optics", "topic_key", "cover"]
+REQUIRED = ["rubric", "fly", "headline", "subhead", "paragraphs", "form", "optics", "topic_key", "cover"]
 
 
 def extract_json(text: str) -> dict:
@@ -40,7 +40,7 @@ def _norm(url: str) -> str:
 
 
 def links_in(note: dict) -> list[str]:
-    parts = [note.get("headline", ""), note.get("subhead", ""), note.get("final", "")] + list(note.get("paragraphs", []))
+    parts = [note.get("headline", ""), note.get("subhead", ""), note.get("final") or ""] + list(note.get("paragraphs", []))
     return [u for p in parts for _, u in LINK_RE.findall(p)]
 
 
@@ -65,13 +65,16 @@ def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     emoji_id = (custom_emoji or {}).get(note["rubric"])
     prefix = f'<tg-emoji emoji-id="{emoji_id}">{mark}</tg-emoji> ' if emoji_id else ""
     head = f"{prefix}<code>{html.escape(name)}</code> · <i>{_inline(note['fly'])}</i>"
-    body = "\n\n".join(_inline(p) for p in note["paragraphs"])
+    paras = [_inline(p) for p in note["paragraphs"]]
+    final = (note.get("final") or "").strip()
+    if final:  # последняя фраза — продолжение последнего абзаца, без цитаты и без отдельной «подписи»
+        paras[-1] = f"{paras[-1]} {_inline(final)}"
+    body = "\n\n".join(paras)
     return (
         f"{head}\n\n"
         f"<b>{_inline(note['headline'])}</b>\n"
         f"<i>{_inline(note['subhead'])}</i>\n\n"
-        f"{body}\n\n"
-        f"<blockquote>{_inline(note['final'])}</blockquote>"
+        f"{body}"
     )
 
 
@@ -100,7 +103,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     if not 5 <= words <= 9:
         problems.append(f"в заголовке {words} слов, нужно 6–9")
 
-    text_all = " ".join([note["fly"], note["headline"], note["subhead"], note["final"], *note["paragraphs"]])
+    text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])
     for rx, label in BANNED:
         if rx.search(plain(text_all)):
             problems.append(f"запрещённый оборот: {label}")
