@@ -64,7 +64,8 @@ def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     name, mark = RUBRICS[note["rubric"]]
     emoji_id = (custom_emoji or {}).get(note["rubric"])
     prefix = f'<tg-emoji emoji-id="{emoji_id}">{mark}</tg-emoji> ' if emoji_id else ""
-    head = f"{prefix}<code>{html.escape(name)}</code> · <i>{_inline(note['fly'])}</i>"
+    fly = (note["fly"] or "").strip()
+    head = f"{prefix}<code>{html.escape(name)}</code> · <i>{_inline(fly[:1].upper() + fly[1:])}</i>"
     paras = [_inline(p) for p in note["paragraphs"]]
     final = (note.get("final") or "").strip()
     if final:  # последняя фраза — продолжение последнего абзаца, без цитаты и без отдельной «подписи»
