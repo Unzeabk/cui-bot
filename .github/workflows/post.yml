@@ -90,28 +90,27 @@ jobs:
           exit 1
 
       - name: Сайт
-        # Публичный репозиторий сайта (vars.SITE_REPO, например Unzeabk/cuibono) и токен с правом записи в него (secrets.SITE_TOKEN).
-        # Пока переменная не задана, шаг пропускается.
-        if: success() && !inputs.dry_run && vars.SITE_REPO != ''
+        # Сайт собирается из приватного репозитория и выкладывается на Cloudflare Pages: публичного репозитория нет.
+        # Нужны secrets.CLOUDFLARE_API_TOKEN, secrets.CLOUDFLARE_ACCOUNT_ID и vars.SITE_URL. Пока их нет, шаг пропускается.
+        if: success() && !inputs.dry_run && vars.SITE_URL != ''
         continue-on-error: true
         env:
-          SITE_REPO: ${{ vars.SITE_REPO }}
-          SITE_TOKEN: ${{ secrets.SITE_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           YANDEX_VERIFICATION: ${{ vars.YANDEX_VERIFICATION }}
           GOOGLE_VERIFICATION: ${{ vars.GOOGLE_VERIFICATION }}
         run: |
-          git clone --depth 1 "https://x-access-token:${SITE_TOKEN}@github.com/${SITE_REPO}.git" site
+          git pull --rebase -X theirs origin main || true
           python -m bot.site site
-          cd site
           git config user.name "cui-bot"
           git config user.email "cui-bot@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet && exit 0
-          git commit -m "Публикация $(date -u +'%Y-%m-%d %H:%M')"
-          ok=""
-          for i in 1 2 3; do git pull --rebase origin HEAD && git push && ok=1 && break; sleep 5; done
-          [ -n "$ok" ] || exit 1
-          cd ..
-          sleep 75  # GitHub Pages выкладывает сайт около минуты
+          git add site state/site-posts.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Сайт $(date -u +'%Y-%m-%d %H:%M')"
+            for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
+          fi
+          npx --yes wrangler@3 pages project create cuibono --production-branch=main 2>/dev/null || true
+          npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true
+          sleep 45  # новые адреса уже открываются — сообщаем поисковикам
           python -m bot.site --ping site

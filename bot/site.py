@@ -2,11 +2,10 @@
 
 Как работает:
 1. После публикации в канал бот кладёт в out/ файл site-entry-*.json (write_entry).
-2. Шаг workflow «Сайт» клонирует публичный репозиторий сайта и запускает
-   `python -m bot.site <папка сайта>`: новые записи добавляются в data/posts.json,
-   обложки копируются в img/, все страницы пересобираются.
-3. GitHub Pages раздаёт репозиторий сайта бесплатно; новые адреса сразу уходят
-   в Яндекс и Bing по протоколу IndexNow.
+2. Шаг workflow «Сайт» запускает `python -m bot.site site`: новые записи добавляются
+   в state/site-posts.json, обложки (JPEG) — в site/img/, все страницы пересобираются.
+3. Папка site/ выкладывается на Cloudflare Pages (бесплатно). Публичного репозитория нет,
+   имя владельца на GitHub нигде не видно. Новые адреса сразу уходят в Яндекс и Bing (IndexNow).
 
 Что сделано для поисковиков:
 - у каждой страницы свой title, description, canonical, Open Graph, разметка NewsArticle и хлебные крошки;
@@ -125,7 +124,7 @@ def _kicker(e: dict) -> str:
 def _kicker_html(e: dict, up: str) -> str:
     sec = _section(e)
     if sec in SECTION_TITLE:
-        return f'<a class="kicker" href="{up}r/{sec}.html">{_esc(_kicker(e))}</a>'
+        return f'<a class="kicker" href="/r/{sec}">{_esc(_kicker(e))}</a>'
     return f'<div class="kicker">{_esc(_kicker(e))}</div>'
 
 
@@ -143,8 +142,14 @@ def _post_url(e: dict) -> str:
     return f"{CHANNEL_URL}/{e['message_id']}" if e.get("message_id") else CHANNEL_URL
 
 
+def _clean(path: str) -> str:
+    """Чистый адрес: Cloudflare Pages отдаёт /p/slug без .html, а /index.html — как /."""
+    path = path[:-5] if path.endswith(".html") else path
+    return "" if path == "index" else path
+
+
 def _abs(path: str) -> str:
-    return f"{SITE_URL}/{path}" if SITE_URL else path
+    return f"{SITE_URL}/{_clean(path)}" if SITE_URL else "/" + _clean(path)
 
 
 CSS = """
@@ -212,13 +217,13 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <meta property="og:title" content="{_esc(title)}"><meta property="og:description" content="{_esc(desc)}">
 <meta property="og:url" content="{_esc(canonical)}">{img}
 <meta name="twitter:title" content="{_esc(title)}"><meta name="twitter:description" content="{_esc(desc)}">
-<link rel="alternate" type="application/rss+xml" title="{TITLE}" href="{_abs('feed.xml') if SITE_URL else up + 'feed.xml'}">
-{verify}{FONTS}<link rel="stylesheet" href="{up}style.css">{extra_head}
+<link rel="alternate" type="application/rss+xml" title="{TITLE}" href="/feed.xml">
+{verify}{FONTS}<link rel="stylesheet" href="/style.css">{extra_head}
 </head><body>
-<header class="top"><div class="wrap"><a class="mark" href="{up}index.html">Cui Bono?</a>
+<header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap">{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="{up}archive.html">Архив</a> · <a href="{up}feed.xml">RSS</a></footer>
+<footer class="wrap">{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/feed.xml">RSS</a></footer>
 </body></html>"""
 
 
@@ -227,12 +232,12 @@ def _ld(obj: dict) -> str:
 
 
 def _nav(sections: list[str], up: str) -> str:
-    return '<nav class="sec">' + "".join(f'<a href="{up}r/{s}.html">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
+    return '<nav class="sec">' + "".join(f'<a href="/r/{s}">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
 
 
 def _list(posts: list[dict], up: str) -> str:
     return '<ul class="list">' + "".join(
-        f'<li>{_kicker_html(p, up)}<h2><a href="{up}p/{p["slug"]}.html">{_esc(p["headline"])}</a></h2>'
+        f'<li>{_kicker_html(p, up)}<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
         f'<p class="sub">{_esc(p.get("subhead", ""))}</p></li>' for p in posts) + "</ul>"
 
 
@@ -255,8 +260,8 @@ def _article(e: dict, related: list[dict]) -> str:
     rel = ""
     if related:
         rel = ('<div class="related"><h3>ЕЩЁ · ' + _esc(SECTION_TITLE.get(sec, "").upper()) + "</h3>"
-               + "".join(f'<a href="{r["slug"]}.html">{_esc(r["headline"])}</a>' for r in related) + "</div>")
-    cover = (f'<img class="cover" src="../img/{_esc(e["cover"])}" alt="{_esc(e["headline"])}" width="1280" height="720">'
+               + "".join(f'<a href="/p/{r["slug"]}">{_esc(r["headline"])}</a>' for r in related) + "</div>")
+    cover = (f'<img class="cover" src="/img/{_esc(e["cover"])}" alt="{_esc(e["headline"])}" width="1280" height="720">'
              if e.get("cover") else "")
     article_ld = {
         "@context": "https://schema.org", "@type": "NewsArticle", "headline": e["headline"][:110],
@@ -296,6 +301,18 @@ def _seed_from_state() -> list[dict]:
     return out
 
 
+def _jpeg(src: Path, dst_dir: Path) -> str:
+    """Обложка в JPEG: в 3–4 раза легче PNG, сайт быстрее, репозиторий не пухнет."""
+    name = src.stem + ".jpg"
+    try:
+        from PIL import Image
+        Image.open(src).convert("RGB").save(dst_dir / name, "JPEG", quality=82, optimize=True, progressive=True)
+    except Exception:
+        name = src.name
+        shutil.copy(src, dst_dir / name)
+    return name
+
+
 def _indexnow(site: Path, urls: list[str]) -> None:
     """Сообщает Яндексу, Bing и другим поисковикам о новых страницах сразу после публикации."""
     if not SITE_URL or not urls:
@@ -314,7 +331,7 @@ def _indexnow(site: Path, urls: list[str]) -> None:
 
 
 def build(site: Path) -> int:
-    data = site / "data" / "posts.json"
+    data = STATE.parent / "site-posts.json"
     posts = json.loads(data.read_text(encoding="utf-8")) if data.exists() else _seed_from_state()
     for d in ("img", "p", "r", "a"):
         (site / d).mkdir(parents=True, exist_ok=True)
@@ -323,7 +340,7 @@ def build(site: Path) -> int:
     for f in sorted(OUT.glob("site-entry-*.json")) if OUT.exists() else []:
         e = json.loads(f.read_text(encoding="utf-8"))
         if e.get("cover") and (OUT / e["cover"]).exists():
-            shutil.copy(OUT / e["cover"], site / "img" / e["cover"])
+            e["cover"] = _jpeg(OUT / e["cover"], site / "img")
         elif e.get("cover"):
             e["cover"] = ""
         posts = [p for p in posts if not (e.get("message_id") and p.get("message_id") == e["message_id"])]
@@ -355,7 +372,7 @@ def build(site: Path) -> int:
     home_ld = _ld({"@context": "https://schema.org", "@type": "WebSite", "name": TITLE, "url": _abs("index.html"),
                    "inLanguage": "ru", "publisher": ORG})
     home = (_nav(sections, "") + _list(posts[:HOME_LIMIT], "")
-            + (f'<a class="all" href="archive.html">Все тексты →</a>' if len(posts) > HOME_LIMIT else ""))
+            + (f'<a class="all" href="/archive">Все тексты →</a>' if len(posts) > HOME_LIMIT else ""))
     (site / "index.html").write_text(
         _page(f"{TITLE} — {DESCRIPTION.lower()}", DESCRIPTION + ": заметки, разборы и позиция редакции каждый день.",
               home, _abs("index.html"), extra_head=home_ld), encoding="utf-8")
@@ -378,7 +395,7 @@ def build(site: Path) -> int:
             _page(f"{name} — архив {TITLE}", f"Все тексты {TITLE} за {name.lower()}.", body, _abs(f"a/{m}.html"), depth=1),
             encoding="utf-8")
     arch = '<h1 class="sec">Архив</h1>' + _nav(sections, "") + '<ul class="list">' + "".join(
-        f'<li><h2><a href="a/{m}.html">{MONTHS_NOM[int(m[5:]) - 1]} {m[:4]}</a></h2>'
+        f'<li><h2><a href="/a/{m}">{MONTHS_NOM[int(m[5:]) - 1]} {m[:4]}</a></h2>'
         f'<p class="sub">{len(by_month[m])} текстов</p></li>' for m in months) + "</ul>"
     (site / "archive.html").write_text(_page(f"Архив — {TITLE}", f"Все тексты {TITLE} по месяцам и рубрикам.", arch,
                                              _abs("archive.html")), encoding="utf-8")
@@ -401,7 +418,7 @@ def build(site: Path) -> int:
             '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "\n".join(f"<url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls) + "\n</urlset>\n",
             encoding="utf-8")
-        (site / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /data/\n\nSitemap: {_abs('sitemap.xml')}\n",
+        (site / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {_abs('sitemap.xml')}\n",
                                          encoding="utf-8")
     rss_items = "".join(
         f"<item><title>{_esc(p['headline'])}</title><link>{_abs('p/' + p['slug'] + '.html')}</link>"

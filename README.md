@@ -96,12 +96,12 @@ python -m bot.main --from-json examples/note-property.json
 
 ## Сайт-зеркало (поисковый трафик в канал)
 
-После каждой заметки, позиции и разбора бот выкладывает страницу на сайт (GitHub Pages, бесплатно). Код — `bot/site.py`, шаг «Сайт» в обоих workflow. Пока `SITE_REPO` не задан, шаг пропускается; ошибка сайта не мешает публикации в канал.
+После каждой заметки, позиции и разбора бот выкладывает страницу на cuibono.press. Код — `bot/site.py`, шаг «Сайт» в обоих workflow. Сайт собирается в папку `site/` этого (приватного) репозитория, данные — `state/site-posts.json`, выкладка — Cloudflare Pages через wrangler. Публичного репозитория нет, имя владельца на GitHub нигде на сайте не видно. Пока `SITE_URL` не задан, шаг пропускается; ошибка сайта не мешает публикации в канал.
 
-Для поисковиков: title, description, canonical, Open Graph, разметка NewsArticle и хлебные крошки; страницы рубрик (`r/`), помесячный архив (`a/`), «Ещё в рубрике» под каждым текстом; sitemap.xml, feed.xml, robots.txt, 404; страницы без текста закрыты от индекса; новые адреса через минуту после выкладки уходят в Яндекс и Bing по IndexNow. Если `SITE_URL` — свой домен, пишется CNAME.
+Для поисковиков: чистые адреса (`/p/…`, `/r/…`, `/a/…`), title, description, canonical, Open Graph, разметка NewsArticle и хлебные крошки; страницы рубрик и помесячный архив, «Ещё в рубрике» под каждым текстом; sitemap.xml, feed.xml, robots.txt, 404; страницы без текста закрыты от индекса; новые адреса уходят в Яндекс и Bing по IndexNow.
 
-Включение (один раз):
-1. Публичный репозиторий сайта, например `Unzeabk/cuibono`, с README. Settings → Pages → Deploy from a branch → `main`, `/ (root)`.
-2. Fine-grained токен только на этот репозиторий (Contents: Read and write) → секрет cui-bot `SITE_TOKEN`.
-3. Переменные cui-bot: `SITE_REPO` = `Unzeabk/cuibono`, `SITE_URL` = `https://unzeabk.github.io/cuibono` или свой домен.
-4. Яндекс Вебмастер и Google Search Console: коды подтверждения → переменные `YANDEX_VERIFICATION`, `GOOGLE_VERIFICATION`; отправить туда `sitemap.xml`.
+Настройка (один раз):
+1. Cloudflare → My Profile → API Tokens → Create Custom Token: Account → Cloudflare Pages → Edit. Токен → секрет `CLOUDFLARE_API_TOKEN`, Account ID (правая колонка на странице домена) → секрет `CLOUDFLARE_ACCOUNT_ID`.
+2. Переменная `SITE_URL` = `https://cuibono.press`.
+3. После первого поста: Workers & Pages → cuibono → Custom domains → `cuibono.press` (старые A-записи на GitHub удалить).
+4. Яндекс Вебмастер и Google Search Console: коды → переменные `YANDEX_VERIFICATION`, `GOOGLE_VERIFICATION`; отправить `https://cuibono.press/sitemap.xml`.
