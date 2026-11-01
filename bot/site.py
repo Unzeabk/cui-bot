@@ -284,7 +284,7 @@ h2{font:600 22px/1.3 Commissioner,sans-serif;margin:6px 0}
 .meta{font:12px "IBM Plex Mono",monospace;color:var(--mute);margin-bottom:22px}
 .cover{width:100%;height:auto;border:1px solid var(--rule);margin:0 0 26px;display:block}
 article p{margin:0 0 18px}
-.more{border-top:1px solid var(--rule);margin-top:36px;padding-top:18px;font-size:15px;color:var(--cold)}
+.more{margin-top:28px;font-size:15px;color:var(--cold)}
 .related{margin-top:30px}
 .related h3{font:12px "IBM Plex Mono",monospace;color:var(--mute);letter-spacing:.08em;font-weight:400;margin:0 0 8px}
 .related a{display:block;margin:8px 0;font-size:16px}
@@ -295,8 +295,8 @@ ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}
 ul.list h2 a{text-decoration:none}ul.list h2 a:hover{text-decoration:underline}
 ul.list .sub{font-size:16px;margin:4px 0 0}
 .all{display:block;margin:26px 0;font:13px "IBM Plex Mono",monospace;color:var(--cold)}
-footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:96px;width:100%}
-footer.wrap>div{border-top:1px solid var(--rule);padding-top:28px}
+footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:8px;padding-top:0;padding-bottom:48px;width:100%}
+footer.wrap>div{border-top:1px solid var(--rule);padding-top:20px}
 footer .topics a{display:inline-block;margin:0 14px 4px 0;text-decoration:none}
 footer p{margin:14px 0 0}
 body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto;width:100%}
@@ -583,6 +583,12 @@ def build(site: Path) -> int:
             if _has_body(p) and "seo_title" not in p and not p.get("_seo_tried"):
                 p.update(_seo(p) or {"_seo_tried": True})
                 n += 1
+    # чистка ленты: адреса или их хвосты из state/site-remove.txt — по одному в строке
+    rm_file = STATE.parent / "site-remove.txt"
+    remove = [l.strip().rstrip("/").split("/")[-1] for l in rm_file.read_text(encoding="utf-8").splitlines()
+              if l.strip() and not l.startswith("#")] if rm_file.exists() else []
+    if os.environ.get("SITE_CLEAR"):
+        posts = []
     posts.sort(key=lambda p: p["time_iso"], reverse=True)
     seen: set[str] = set()
     for p in posts:
@@ -591,6 +597,12 @@ def build(site: Path) -> int:
             s += "-2"
         seen.add(s)
         p["slug"] = s
+
+    if remove:
+        posts = [p for p in posts if p["slug"] not in remove and str(p.get("message_id")) not in remove]
+    for d in ("p", "t", "r", "a"):  # старые страницы удалённых текстов не остаются на сайте
+        shutil.rmtree(site / d, ignore_errors=True)
+        (site / d).mkdir(parents=True, exist_ok=True)
 
     by_sec: dict[str, list[dict]] = defaultdict(list)
     by_month: dict[str, list[dict]] = defaultdict(list)
