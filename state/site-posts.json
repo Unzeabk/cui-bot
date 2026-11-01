@@ -1,5 +1,50 @@
 [
  {
+  "kind": "week",
+  "time_iso": "2026-11-01T23:40:30.095555+03:00",
+  "rubric": "",
+  "fly": "",
+  "headline": "Неделя: 26 октября — 1 ноября",
+  "subhead": "",
+  "paragraphs": [
+   "**Binance.** Лишилась около [$6,3 млрд](https://www.kommersant.ru/doc/9078580) в результате крупнейшего в истории взлома инфраструктуры, обвалившего курс биткойна до $76,1 тыс.",
+   "**Сербия.** Отозвала лицензию у Alta Banka, где россияне держали значительную часть клиентских средств объемом около [€1,3 млрд](https://thebell.io/natsbank-serbii-cherez-pyat-dney-posle-porazheniya-vuchicha-na-vyborakh-otozval-litsenziyu-u-alta-banka-gde-otkryvali-scheta-rossiyane).",
+   "**Нижегородская область.** Ограничила отпуск бензина до [40 литров](https://meduza.io/news/2026/11/01/v-nizhegorodskoy-oblasti-ogranichili-prodazhu-benzina-posle-ukrainskoy-ataki-na-npz) на машину и ввела заправку по четным и нечетным дням из-за повреждения НПЗ «Лукойла» дронами.",
+   "**Российские миллиардеры.** Потеряли [$24,56 млрд](https://www.fontanka.ru/2026/11/01/76738488/) совокупного капитала с начала года по индексу Bloomberg; треть общих потерь пришлась на Владимира Потанина.",
+   "**Узбекистан.** Удвоил дефицит внешней торговли до [$13,8 млрд](https://www.intellinews.com/uzbekistan-s-nine-month-trade-deficit-doubles-to-14bn-480676/) за девять месяцев на фоне падения экспорта золота более чем на 71%.",
+   "**Турция.** Может стать площадкой для мирных переговоров: Владимир Зеленский после визита в Анкару [31 октября](https://www.bbc.co.uk/russian/live/cqz0z0792d84t?at_medium=RSS&at_campaign=rss) заявил о готовности к личной встрече с Владимиром Путиным."
+  ],
+  "final": "",
+  "topic_key": "nedelya-2026-44",
+  "message_id": 106,
+  "cover": "cover-week-20261101-2340.jpg",
+  "telegraph": "",
+  "seo_title": "Главные экономические события недели: Binance, Сербия и НПЗ",
+  "seo_description": "Итоги недели: взлом Binance на $6,3 млрд, отзыв лицензии у Alta Banka в Сербии, ограничения на бензин в Нижегородской области и потери миллиардеров.",
+  "entities": [
+   {
+    "name": "Binance",
+    "type": "org"
+   },
+   {
+    "name": "Сербия",
+    "type": "place"
+   },
+   {
+    "name": "Нижегородская область",
+    "type": "place"
+   },
+   {
+    "name": "Лукойл",
+    "type": "org"
+   },
+   {
+    "name": "Владимир Потанин",
+    "type": "person"
+   }
+  ]
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-01T21:59:09.730638+03:00",
   "rubric": "abroad",
