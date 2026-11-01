@@ -481,5 +481,25 @@
    "https://www.rbc.ru/politics/17/01/2026/696b88669a7947e5fa4270f7"
   ],
   "message_id": 59
+ },
+ {
+  "time_iso": "2026-11-01T12:47:13.674654+03:00",
+  "time": "01.11 12:47",
+  "rubric": "economy",
+  "form": "невозможный факт",
+  "optics": [
+   "обратный эффект",
+   "предел физики"
+  ],
+  "topic_key": "eksport-zerna-arktika-murmansk",
+  "headline": "Российское зерно для Африки начали отправлять через Заполярье",
+  "fly": "За морем полушка",
+  "final": "",
+  "main_title": "Россия вынуждена вывозить зерно через Арктику из-за украинских атак на черноморские порты — FT",
+  "sources": [
+   "https://novayagazeta.eu/articles/2026/11/01/rossiia-vynuzhdena-vyvozit-zerno-cherez-arktiku-iz-za-ukrainskikh-atak-na-chernomorskie-porty-ft-news",
+   "https://www.ft.com/content/50aeab56-c5e3-44c5-9117-8fadc2f980fb?syn-25a6b1a6=1"
+  ],
+  "message_id": 65
  }
 ]
