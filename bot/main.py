@@ -322,6 +322,8 @@ def publish(note: dict, dry: bool) -> dict:
     from .site import write_entry
     res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, caption)
     write_entry("note", note, res, cover)
+    from .dzen import publish as dzen_publish
+    dzen_publish("note", note, cover)
     return res
 
 
