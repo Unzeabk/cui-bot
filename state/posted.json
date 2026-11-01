@@ -93,5 +93,28 @@
    "https://t.me/banksta/104617"
   ],
   "message_id": 109
+ },
+ {
+  "time_iso": "2026-11-02T00:13:46.716094+03:00",
+  "time": "02.11 00:13",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-44",
+  "headline": "Цифра недели — Индекс IMOEX",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "http://government.ru/news/60326/",
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.cbr.ru/hd_base/KeyRate/",
+   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
+   "https://www.kommersant.ru/doc/9064096",
+   "https://www.kommersant.ru/doc/9078518",
+   "https://www.kommersant.ru/doc/9078580",
+   "https://www.moex.com/ru/index/IMOEX"
+  ],
+  "message_id": 110
  }
 ]
