@@ -399,5 +399,25 @@
    "https://eurasianet.org/us-touting-small-nuclear-reactors-for-use-in-caucasus-and-central-asia"
   ],
   "message_id": 49
+ },
+ {
+  "time_iso": "2026-11-01T05:35:01.903387+03:00",
+  "time": "01.11 05:35",
+  "rubric": "china",
+  "form": "абсурд как явление",
+  "optics": [
+   "обменник",
+   "лестница власти"
+  ],
+  "topic_key": "china-skidka-gaz-rossiya",
+  "headline": "Российский газ обходится Китаю дешевле туркменского",
+  "fly": "Торг здесь уместен",
+  "final": "",
+  "main_title": "China driving down price of Russian gas",
+  "sources": [
+   "https://eurasianet.org/china-driving-down-price-of-russian-gas",
+   "https://ria.ru/20261101/kitay-2128398894.html"
+  ],
+  "message_id": 53
  }
 ]
