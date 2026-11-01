@@ -298,5 +298,106 @@
    "https://lenta.ru/news/2026/11/01/kazahstan-nachal-vnedryat-razresheniya-na-v-ezd-rossiyan-i-drugih-inostrantsev/"
   ],
   "message_id": 44
+ },
+ {
+  "time_iso": "2026-11-01T02:57:22.093044+03:00",
+  "time": "01.11 02:57",
+  "rubric": "europe",
+  "form": "сухой тренд",
+  "optics": [
+   "спектакль",
+   "лестница власти"
+  ],
+  "topic_key": "polsha-konstitutsionny-krizis-tusk-navrotskiy",
+  "headline": "Спецназ оцепил Конституционный суд Польши после разворота самолета президента",
+  "fly": "Закон что дышло",
+  "final": "",
+  "main_title": "Премьер Польши Туск выступил с обращением к гражданам в связи с кризисом вокруг Конституционного трибунала",
+  "sources": [
+   "https://www.bbc.com/russian/articles/cm75p9plvew4o?at_medium=RSS&at_campaign=rss",
+   "https://tass.ru/mezhdunarodnaya-panorama/28275465",
+   "https://www.ft.com/content/d49a7943-fc11-45cb-bcf2-f5876c3c381d?syn-25a6b1a6=1",
+   "https://www.kommersant.ru/doc/9078353"
+  ],
+  "message_id": 45
+ },
+ {
+  "time_iso": "2026-11-01T02:59:08.861597+03:00",
+  "time": "01.11 02:59",
+  "rubric": "russia",
+  "form": "сухой тренд",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "предел физики"
+  ],
+  "topic_key": "bogatayshie-biznesmeny-poteri-2026",
+  "headline": "Миллиарды богатейших россиян сократились за год",
+  "fly": "Своя ноша тяженет",
+  "final": "",
+  "main_title": "Богатейшие бизнесмены России с начала года потеряли более чем $28 млрд",
+  "sources": [
+   "https://www.rbc.ru/technology_and_media/05/10/2026/6ac3bc35e00afc13267e4ffe"
+  ],
+  "message_id": 46
+ },
+ {
+  "time_iso": "2026-11-01T03:00:54.932032+03:00",
+  "time": "01.11 03:00",
+  "rubric": "regions",
+  "form": "странная мелочь",
+  "optics": [
+   "предел физики",
+   "разумные по одному"
+  ],
+  "topic_key": "vsevolozhsk-torgovy-tsentr-pozhar",
+  "headline": "Второй этаж торгового центра во Всеволожске охватил пожар",
+  "fly": "Дым над Всеволожском",
+  "final": "",
+  "main_title": "В Ленинградской области загорелся торговый центр. Видео",
+  "sources": [
+   "https://www.rbc.ru/rbcfreenews/6adc27f7e6f53f880224b018",
+   "https://www.interfax.ru/russia/1126343"
+  ],
+  "message_id": 47
+ },
+ {
+  "time_iso": "2026-11-01T03:02:40.716498+03:00",
+  "time": "01.11 03:02",
+  "rubric": "regulation",
+  "form": "сухой тренд",
+  "optics": [
+   "метрика-оборотень",
+   "спектакль"
+  ],
+  "topic_key": "francia-nalog-internet-trafik",
+  "headline": "Париж облагает каждый гигабайт видео и поиска новым сбором",
+  "fly": "Трафик денег",
+  "final": "",
+  "main_title": "Национальное собрание Франции поддержало введение налога на интернет-трафик, поставляемый \"производителями данных\" частным пользователям",
+  "sources": [
+   "https://www.dw.com/ru/национальное-собрание-франции-поддержало-введение-налога-на-интернет-трафик-поставляемый-производителями-данных-частным-пользователям/a-79817633?maca=rus-rss-ru-all-1126-rdf",
+   "https://asia.nikkei.com/economy/bank-of-japan/boj-to-accelerate-etf-sales-more-than-doubling-pace-from-january"
+  ],
+  "message_id": 48
+ },
+ {
+  "time_iso": "2026-11-01T03:04:41.214499+03:00",
+  "time": "01.11 03:04",
+  "rubric": "tech",
+  "form": "сухой тренд",
+  "optics": [
+   "предел физики",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "nvidia-astana-ai-hub-2026",
+  "headline": "Астана превратит киловатты в искусственный интеллект",
+  "fly": "Энергия в чистом виде",
+  "final": "",
+  "main_title": "Nvidia chief taps Astana as AI hub",
+  "sources": [
+   "https://eurasianet.org/nvidia-chief-taps-astana-as-ai-hub",
+   "https://eurasianet.org/us-touting-small-nuclear-reactors-for-use-in-caucasus-and-central-asia"
+  ],
+  "message_id": 49
  }
 ]
