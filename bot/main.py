@@ -67,14 +67,20 @@ def _similar(a: str, b: str) -> bool:
 _CRIME = _re.compile(
     r"похищ|похити|паяльник|рэкет|вымогател|убийств|убил[аи]?\b|застрелил|зарезал|изнасил|ограбил|грабител|разбой"
     r"|kidnap|abduct|murder|torture|ransom", _re.I)
+# Спорт: в «Не берём» свода. Призовые и трансферы тоже не берём.
+_SPORT = _re.compile(
+    r"теннис|\bWTA\b|\bATP\b|футбол|хокке|\bКХЛ\b|\bНХЛ\b|\bНБА\b|\bРПЛ\b|баскетбол|волейбол|олимпи|\bUFC\b|боксёр|боксер"
+    r"|чемпионат|турнир|\bматч(а|е|и|ей|ах)?\b|сборн(ая|ой) (России|по)|Формул[аые] ?1|гран-при|Уимблдон|теннисист|футболист|хоккеист"
+    r"|\btennis\b|football|soccer|Premier League|Champions League|\bNBA\b|\bNFL\b|\bNHL\b|Grand Slam|Olympic|Wimbledon", _re.I)
 
 
 def fresh_items(items: list[dict], recent: list[dict]) -> list[dict]:
-    """Убирает новости, уже использованные, похожие на темы недавних заметок, и уголовную хронику."""
+    """Убирает новости, уже использованные, похожие на темы недавних заметок, и уголовную хронику и спорт."""
     used = {u for r in recent for u in r.get("sources", [])}
     past = [r.get("main_title") or r.get("headline", "") for r in recent] + [r.get("headline", "") for r in recent]
     out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)
-           and not _CRIME.search(it["title"] + " " + it.get("summary", "")[:200])]
+           and not _CRIME.search(it["title"] + " " + it.get("summary", "")[:200])
+           and not _SPORT.search(it["title"] + " " + it.get("summary", "")[:200])]
     log(f"после отсева повторов: {len(out)} из {len(items)}")
     return out
 

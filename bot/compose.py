@@ -155,6 +155,26 @@ def dedupe_links(note: dict) -> dict:
     return note
 
 
+# Примеры из свода и из образца ответа: модель любит переписывать их дословно.
+_EXAMPLE_FLIES = {"не продаётся вдохновенье", "не продается вдохновенье", "добровольно-принудительно", "все ходы записаны"}
+_EXAMPLE_HEADLINES = ("самый быстрорастущий банк россии", "самый богатый собственник россии", "поставщики стали главным банком",
+                      "выручка яндекса теперь зависит", "как компании из ичхона")
+
+
+def copied_examples(note: dict) -> list[str]:
+    out = []
+    fly = plain(note.get("fly") or "").strip(" .«»\"").lower()
+    if fly in _EXAMPLE_FLIES:
+        out.append(f"флай «{note['fly']}» списан с примера из свода — придумай свой под эту тему")
+    sub = plain(note.get("subhead") or "").strip().lower()
+    if sub.startswith("подсказка"):
+        out.append("подзаголовок «Подсказка: …» списан с примера из свода — возьми другую форму подзаголовка")
+    head = plain(note.get("headline") or "").lower()
+    if any(head.startswith(h) for h in _EXAMPLE_HEADLINES):
+        out.append("заголовок списан с примера из свода — нужен свой")
+    return out
+
+
 def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     """Возвращает список проблем. Пустой список — заметка проходит."""
     problems = []
@@ -174,6 +194,8 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     words = len(plain(note["headline"]).split())
     if not 5 <= words <= 9:
         problems.append(f"в заголовке {words} слов, нужно 6–9")
+
+    problems += copied_examples(note)
 
     text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])
     problems += banned_hits(plain(text_all))
