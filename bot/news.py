@@ -26,7 +26,7 @@ DEFAULT_FEEDS = [
     "https://www.ng.ru/rss/",
     "https://lenta.ru/rss/news",
     "https://www.cnews.ru/inc/rss/news.xml",
-    "https://www.fontanka.ru/rss.xml",
+    "https://www.fontanka.ru/rss-feeds/rss.xml",
     # Первоисточники
     "https://www.cbr.ru/rss/RssPress",
     # Независимые и зарубежные на русском
