@@ -187,21 +187,11 @@ def feed_problems(note: dict, recent: list[dict]) -> list[str]:
     return out
 
 
-# Россия в тексте статьи: пометке отбора тем «в России / связь» код не верит на слово
-_RU = _re.compile(r"росси|\bрф\b|москв|рубл|russia|russian|moscow|kremlin|rouble|ruble", _re.I)
-_RU_PEOPLE = _re.compile(r"россиян|релокант|граждан[аеи]? (рф|россии)|из россии|russians|russian (citizens|nationals|expats)", _re.I)
-
-
-def material_geo_problems(topic: dict, materials: list[dict]) -> str:
-    """Российская рубрика без России в статье — отказ. «Россияне за рубежом» — только если в статье есть россияне."""
-    from .rubrics import RU_LINKED, RU_ONLY
-
-    rub = topic.get("rubric")
-    text = " ".join((m.get("title", "") + " " + (m.get("text") or "")[:6000]) for m in materials)
-    if rub == "abroad" and not _RU_PEOPLE.search(text):
-        return "рубрика abroad, а в статьях нет россиян"
-    if (rub in RU_ONLY or rub in RU_LINKED) and not _RU.search(text):
-        return f"рубрика {rub} про Россию, а в статьях Россия не упоминается"
+def material_problems(materials: list[dict]) -> str:
+    """Статьи не скачались (пейволл, капча) — фактчеку нечего проверять, тему не тратим."""
+    total = sum(len((m.get("text") or "").strip()) for m in materials)
+    if total < 500:
+        return f"текст статей не скачался ({total} знаков) — фактчек не сможет проверить"
     return ""
 
 
@@ -253,7 +243,7 @@ def produce(recent: list[dict]) -> dict | None:
             log(f"тема {n} отклонена: " + "; ".join(bad))
             continue
         materials = materials_for(topic, items)
-        bad = material_geo_problems(topic, materials)
+        bad = material_problems(materials)
         if bad:
             log(f"тема {n} отклонена: {bad}")
             continue
