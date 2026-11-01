@@ -329,14 +329,18 @@ def _backfill(posts: list[dict], limit: int = 60) -> int:
         return 0
     done = 0
     for p in posts:
-        if done >= limit or p.get("paragraphs") or not p.get("message_id") or p.get("kind") == "analysis" or p.get("_tried"):
+        if done >= limit or p.get("paragraphs") or not p.get("message_id") or p.get("kind") == "analysis":
             continue
         try:
             r = requests.get(f"https://t.me/{CHANNEL}/{p['message_id']}?embed=1&mode=tme", timeout=15,
                              headers={"User-Agent": "Mozilla/5.0"})
             paras = _paragraphs_from_html(r.text) if r.ok else []
-        except Exception:
+            if not paras and not posts[0].get("_debug"):
+                i = r.text.find("message_text")
+                posts[0]["_debug"] = f"{r.status_code} {r.url} " + r.text[max(0, i - 300):i + 2500]
+        except Exception as e:
             paras = []
+            posts[0].setdefault("_debug", repr(e))
         if paras:
             p["paragraphs"] = paras
             done += 1
