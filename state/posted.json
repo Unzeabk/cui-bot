@@ -263,5 +263,120 @@
    "https://tass.ru/ekonomika/28276309"
   ],
   "message_id": 89
+ },
+ {
+  "time_iso": "2026-11-01T18:10:25.827011+03:00",
+  "time": "01.11 18:10",
+  "rubric": "usa",
+  "form": "абсурд как явление",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "пузырь веры"
+  ],
+  "topic_key": "ai-capex-free-cash-flow-2026",
+  "headline": "Как корпорации из Кремниевой долины сжигают свободный денежный поток",
+  "fly": "Железный занавес",
+  "subhead": "Инвесторы оформляют страховку на технологический бум, а расходы на искусственный интеллект бьют рекорды",
+  "final": "",
+  "actor": "big tech",
+  "main_title": "⚠️🇺🇸#ии #акции #сша #warning",
+  "sources": [
+   "https://t.me/markettwits/391472",
+   "https://www.marketwatch.com/story/this-is-the-biggest-threat-to-the-ai-powered-bull-market-e757ca37?mod=mw_rss_topstories",
+   "https://www.wsj.com/tech/the-tangled-web-of-ai-bets-is-reason-to-fear-tech-stocks-905bde86?mod=rss_markets_main",
+   "https://www.wsj.com/finance/stocks/ai-investors-are-racing-to-get-insurance-on-the-biggest-market-bet-in-history-a60e296f?mod=rss_markets_main"
+  ],
+  "message_id": 90
+ },
+ {
+  "time_iso": "2026-11-01T18:12:36.751603+03:00",
+  "time": "01.11 18:12",
+  "rubric": "property",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "pochta-rossii-glavpochtamt-prodazha",
+  "headline": "Почта России выставляет на торги здание исторического Главпочтамта",
+  "fly": "Адрес прежний",
+  "subhead": "За комплекс на Мясницкой просят минимум 7,7 млрд рублей.",
+  "final": "",
+  "actor": "pochta rossii",
+  "main_title": "«Почта России» продаст комплекс Главпочтамта в центре Москвы",
+  "sources": [
+   "https://www.rbc.ru/rbcfreenews/69dcc6c59a79474ff960d21d"
+  ],
+  "message_id": 91
+ },
+ {
+  "time_iso": "2026-11-01T18:15:21.776946+03:00",
+  "time": "01.11 18:15",
+  "rubric": "defense",
+  "form": "абсурд как явление",
+  "layout": "от развязки",
+  "optics": [
+   "спектакль",
+   "обменник"
+  ],
+  "topic_key": "prodlenie-zapreta-dizelya-yanvar",
+  "headline": "Правительство продлило запрет на вывоз дизеля до конца января",
+  "fly": "Запасной выход",
+  "subhead": "Поставки за рубеж продолжатся через систему исключений для избранных поставщиков",
+  "final": "",
+  "actor": "pravitelstvo",
+  "main_title": "Russia Extends Ban On Most Diesel Exports Through January",
+  "sources": [
+   "https://gcaptain.com/russia-extends-ban-on-most-diesel-exports-through-january/",
+   "https://www.kommersant.ru/doc/9078518"
+  ],
+  "message_id": 92
+ },
+ {
+  "time_iso": "2026-11-01T18:17:15.338746+03:00",
+  "time": "01.11 18:17",
+  "rubric": "budget",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "proekt-byudzheta-2027-2029",
+  "headline": "Проект бюджета на трехлетку заложен с дефицитом",
+  "fly": "Копейка рубль бережёт",
+  "subhead": "Расходы на оборону и социальные обязательства остаются главными",
+  "final": "",
+  "actor": "minfin",
+  "main_title": "Проект бюджета на ближайшую трехлетку в цифрах и графиках",
+  "sources": [
+   "https://www.vedomosti.ru/economics/articles/2026/10/31/1241124-proekt-byudzheta-na-trehletku"
+  ],
+  "message_id": 93
+ },
+ {
+  "time_iso": "2026-11-01T18:19:10.691528+03:00",
+  "time": "01.11 18:19",
+  "rubric": "economy",
+  "form": "абсурд как явление",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "обменник"
+  ],
+  "topic_key": "nizhegorodskaja-obast-limit-benzina-2",
+  "headline": "Чет-нечет и лимиты ввели на заправках Нижнего Новгорода",
+  "fly": "Своя колея",
+  "subhead": "Подсказка: завод в Кстово атаковали уже седьмой раз за год",
+  "final": "",
+  "actor": "lukoil",
+  "main_title": "В Нижнем Новгороде начались перебои с бензином после удара дронов по НПЗ «Лукойла». На АЗС выстроились многочасовые очереди",
+  "sources": [
+   "https://theins.ru/news/299019",
+   "https://www.bfm.ru/news/622589"
+  ],
+  "message_id": 94
  }
 ]
