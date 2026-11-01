@@ -10,7 +10,7 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ["bot/site.py", "bot/data_pages.py", ".github/workflows/site.yml", "state/site-remove.txt", "state/site-posts.json"]
+    paths: ["bot/site.py", "bot/data_pages.py", ".github/workflows/site.yml", "state/site-remove.txt"]
 
 permissions:
   contents: write
