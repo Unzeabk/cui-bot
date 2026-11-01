@@ -345,6 +345,8 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
     verify = ""
     if os.environ.get("YANDEX_VERIFICATION"):
         verify += f'<meta name="yandex-verification" content="{_esc(os.environ["YANDEX_VERIFICATION"])}">'
+    zen = os.environ.get("ZEN_VERIFICATION") or "8u6kyMv5LBaBbm0wI8BxocAyG2SIgh6MkNUI1YayGGhLSnESTV7Og38O7xs6LyHY"
+    verify += f'<meta name="zen-verification" content="{_esc(zen)}">'
     if os.environ.get("GOOGLE_VERIFICATION"):
         verify += f'<meta name="google-site-verification" content="{_esc(os.environ["GOOGLE_VERIFICATION"])}">'
     img = (f'<meta property="og:image" content="{_esc(image)}"><meta property="og:image:width" content="1280">'
