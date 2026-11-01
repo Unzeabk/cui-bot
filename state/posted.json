@@ -524,21 +524,24 @@
   "message_id": 66
  },
  {
-  "time_iso": "2026-11-01T15:02:51.737065+03:00",
-  "time": "01.11 15:02",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "kstovo_refinery_attacks",
-  "headline": "Постоянный ремонт поврежденных НПЗ следует поставить на паузу",
-  "fly": "Семь бед — один ремонт",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://tass.ru/obschestvo/28276109",
-   "https://theins.ru/news/299009",
-   "https://ru.themoscowtimes.com/2026/11/01/ukraina-udarila-poodnomu-izkrupneishih-rossiiskih-npz-vnizhegorodskoi-oblasti-a210214"
+  "time_iso": "2026-11-01T15:06:26.025206+03:00",
+  "time": "01.11 15:06",
+  "rubric": "business",
+  "form": "чему учит",
+  "optics": [
+   "обратный эффект",
+   "пузырь веры"
   ],
-  "message_id": 67
+  "topic_key": "china-stock-slide-buyback-lending",
+  "headline": "Чему учит попытка Пекина выкупать падающие акции",
+  "fly": "Круговая порука",
+  "final": "",
+  "main_title": "China’s banks, regulators to meet on measures to arrest stock slide",
+  "sources": [
+   "https://www.scmp.com/business/china-business/article/3372889/chinas-banks-regulators-meet-measures-arrest-stock-slide",
+   "https://asia.nikkei.com/business/companies/chinese-shipping-coal-stocks-outperform-ai-as-earnings-outlooks-diverge",
+   "https://ria.ru/20261101/kitaj-2128444274.html"
+  ],
+  "message_id": 68
  }
 ]
