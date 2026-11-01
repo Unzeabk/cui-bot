@@ -95,26 +95,21 @@
   "message_id": 109
  },
  {
-  "time_iso": "2026-11-02T00:13:46.716094+03:00",
-  "time": "02.11 00:13",
-  "rubric": "indicators",
-  "form": "показатели",
+  "time_iso": "2026-11-02T00:16:08.563381+03:00",
+  "time": "02.11 00:16",
+  "rubric": "position",
+  "form": "позиция",
   "optics": [],
-  "topic_key": "pokazateli-2026-44",
-  "headline": "Цифра недели — Индекс IMOEX",
-  "fly": "",
+  "topic_key": "budget",
+  "headline": "Региональные лимиты на бензин не заменят экспортные квоты",
+  "fly": "Меньше баков, больше экспорта",
   "final": "",
   "main_title": "",
   "sources": [
-   "http://government.ru/news/60326/",
-   "https://www.cbr.ru/currency_base/daily/",
-   "https://www.cbr.ru/hd_base/KeyRate/",
-   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
-   "https://www.kommersant.ru/doc/9064096",
-   "https://www.kommersant.ru/doc/9078518",
-   "https://www.kommersant.ru/doc/9078580",
-   "https://www.moex.com/ru/index/IMOEX"
+   "https://meduza.io/news/2026/11/01/v-nizhegorodskoy-oblasti-ogranichili-prodazhu-benzina-posle-ukrainskoy-ataki-na-npz",
+   "https://gcaptain.com/russia-extends-ban-on-most-diesel-exports-through-january/",
+   "https://www.ng.ru/news/850116.html"
   ],
-  "message_id": 110
+  "message_id": 111
  }
 ]
