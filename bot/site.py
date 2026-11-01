@@ -321,34 +321,49 @@ def _paragraphs_from_html(raw: str) -> list[str]:
     return out
 
 
-def _backfill(posts: list[dict], limit: int = 60) -> int:
-    """Достаёт тексты первых постов (до появления сайта) из публичной веб-версии канала t.me."""
+def _backfill(posts: list[dict], pages: int = 10) -> int:
+    """Достаёт тексты первых постов (до появления сайта) из публичной веб-ленты канала t.me/s/."""
+    need = {p["message_id"]: p for p in posts
+            if p.get("message_id") and not p.get("paragraphs") and p.get("kind") != "analysis"}
+    if not need:
+        return 0
     try:
         import requests
     except Exception:
         return 0
-    done = 0
-    for p in posts:
-        if done >= limit or p.get("paragraphs") or not p.get("message_id") or p.get("kind") == "analysis":
-            continue
+    found, before = 0, None
+    for _ in range(pages):
+        url = f"https://t.me/s/{CHANNEL}" + (f"?before={before}" if before else "")
         try:
-            r = requests.get(f"https://t.me/{CHANNEL}/{p['message_id']}?embed=1&mode=tme", timeout=15,
-                             headers={"User-Agent": "Mozilla/5.0"})
-            paras = _paragraphs_from_html(r.text) if r.ok else []
-            if not paras and not posts[0].get("_debug"):
-                i = r.text.find("message_text")
-                posts[0]["_debug"] = f"{r.status_code} {r.url} " + r.text[max(0, i - 300):i + 2500]
+            raw = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}).text
         except Exception as e:
-            paras = []
-            posts[0].setdefault("_debug", repr(e))
-        if paras:
-            p["paragraphs"] = paras
-            done += 1
-        else:
-            p["_tried"] = True
-    if done:
-        log(f"сайт: тексты {done} постов взяты из канала")
-    return done
+            posts[0]["_debug"] = repr(e)
+            break
+        chunks = re.split(r'(?=<div class="tgme_widget_message_wrap)', raw)
+        ids = []
+        for c in chunks:
+            m = re.search(rf'data-post="{re.escape(CHANNEL)}/(\d+)"', c)
+            if not m:
+                continue
+            mid = int(m.group(1))
+            ids.append(mid)
+            if mid in need:
+                paras = _paragraphs_from_html(c)
+                if paras:
+                    need.pop(mid)["paragraphs"] = paras
+                    found += 1
+        if not ids:
+            posts[0]["_debug"] = raw[:200] + " … " + raw[raw.find("tgme_channel"):][:1500]
+            break
+        if not need or min(ids) <= min(need):
+            break
+        before = min(ids)
+    for p in posts:
+        p.pop("_tried", None)
+    if found:
+        posts[0].pop("_debug", None)
+        log(f"сайт: тексты {found} постов взяты из канала")
+    return found
 
 
 def _jpeg(src: Path, dst_dir: Path) -> str:

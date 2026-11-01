@@ -15,8 +15,7 @@
   "topic_key": "kstovo-npz-benz_limit-2026",
   "message_id": 100,
   "cover": "",
-  "telegraph": "",
-  "_debug": "200 https://t.me/cuibono_press/99?embed=1&mode=tme <!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\">\n    <title>Telegram Widget</title>\n    <base target=\"_blank\">\n    <script>document.cookie=\"stel_dt=\"+encodeURIComponent((new Date).getTimezoneOffset())+\";path=/;max-age=31536000;samesite=None;secure\"</script><script>\ntry { if (window.localStorage && localStorage[\"stel_tme_token\"]) {\n  var arr = [];\n  for (var i = 0; i < localStorage.length; i++) {\n    var key = localStorage.key(i);\n    arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(localStorage[key]));\n  }\n  var ls = arr.join('; ');\n  var xhr = new XMLHttpRequest();\n  xhr.open('GET', location.href);\n  xhr.setRequestHeader('X-Requested-With', 'relogin');\n  xhr.setRequestHeader('X-Local-Storage', ls);\n  xhr.onreadystatechange = function() {\n    if (xhr.readyState == 4) {\n      if (typeof xhr.responseBody == 'undefined' && xhr.responseText) {\n        document.write(xhr.responseText);\n        document.close();\n      }\n    }\n  };\n  xhr.withCredentials = true;\n  xhr.send();\n  document.close();\n  document.open();\n  console.log('xhr reload');\n} } catch (e) {}\n</script>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n    <meta name=\"format-detection\" content=\"telephone=no\" />\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n    <meta name=\"MobileOptimized\" content=\"176\" />\n    <meta name=\"HandheldFriendly\" content=\"True\" />\n    <meta name=\"robots\" content=\"noindex, nofollow\" />\n    \n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"//telegram.org/img/website_icon.svg?4\">\n<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"//telegram.org/img/apple-touch-icon.png\">\n<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"//telegram.org/img/favicon-32x32.png\">\n<link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"//telegram.org/img/favicon-16x16.png\">\n<link rel=\"alternate icon\" href=\"//telegram.org/img/favicon.ico\" type=\"image/x-icon\" />\n    <link href=\"//telegram.org/css/font-roboto.css?1\" rel=\"stylesheet\" type=\"text/css\">\n    <link href=\"//telegram.org/css/widget-frame.css?75\" rel=\"stylesheet\" media=\"screen\">\n    \n    <style>        .user-color-12 {\n          --user-line-gradient: repeating-linear-gradient(-45deg, #3391d4 0px, #3391d4 5px, #7dd3f0 5px, #7dd3f0 10px);\n          --user-accent-color: #3391d4;\n          --user-background: #3391d41f;\n        }        .user-color-10 {\n          --user-line-gradient: repeating-linear-gradient(-45deg, #27a910 0px,"
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -30,8 +29,7 @@
   "topic_key": "ydex-otzovet-prognozy-datacenters",
   "message_id": 99,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -45,8 +43,7 @@
   "topic_key": "g20-atlanta-family-photo-cancel",
   "message_id": 98,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -60,8 +57,7 @@
   "topic_key": "matvienko-vizit-v-kitay-2026",
   "message_id": 97,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -75,8 +71,7 @@
   "topic_key": "nvidia-astana-ai-hub",
   "message_id": 96,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -90,8 +85,7 @@
   "topic_key": "murmansk-zerno-arktika",
   "message_id": 95,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -105,8 +99,7 @@
   "topic_key": "nizhegorodskaja-obast-limit-benzina-2",
   "message_id": 94,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -120,8 +113,7 @@
   "topic_key": "proekt-byudzheta-2027-2029",
   "message_id": 93,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -135,8 +127,7 @@
   "topic_key": "prodlenie-zapreta-dizelya-yanvar",
   "message_id": 92,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -150,8 +141,7 @@
   "topic_key": "pochta-rossii-glavpochtamt-prodazha",
   "message_id": 91,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -165,8 +155,7 @@
   "topic_key": "ai-capex-free-cash-flow-2026",
   "message_id": 90,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -180,8 +169,7 @@
   "topic_key": "zapret-sputnikovoj-svyazi-fts-fsb",
   "message_id": 89,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -195,8 +183,7 @@
   "topic_key": "kndr-it-agents-uk-companies",
   "message_id": 88,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -210,8 +197,7 @@
   "topic_key": "china-gas-price-discount",
   "message_id": 87,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -225,8 +211,7 @@
   "topic_key": "rostics-vykup-franshizy",
   "message_id": 86,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -240,8 +225,7 @@
   "topic_key": "udobreniya-v-afriku-blokirovka",
   "message_id": 85,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -255,8 +239,7 @@
   "topic_key": "vzlom-rosstata-2026",
   "message_id": 84,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -270,8 +253,7 @@
   "topic_key": "rossiyskiy-dizel-v-evrope-novak",
   "message_id": 83,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -285,8 +267,7 @@
   "topic_key": "nizhegorodskaja-obast-limit-benzina",
   "message_id": 82,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -300,8 +281,7 @@
   "topic_key": "opek-kvoty-dekabr-2026",
   "message_id": 81,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -315,8 +295,7 @@
   "topic_key": "postavki-cherez-kazahstan",
   "message_id": 80,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -330,8 +309,7 @@
   "topic_key": "vzlom-binance-vyplaty",
   "message_id": 79,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  },
  {
   "kind": "note",
@@ -345,7 +323,6 @@
   "topic_key": "blokirovka-schetov-emigrantov",
   "message_id": 78,
   "cover": "",
-  "telegraph": "",
-  "_tried": true
+  "telegraph": ""
  }
 ]
