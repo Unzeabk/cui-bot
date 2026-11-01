@@ -34,4 +34,11 @@ body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto;widt
 .topics-line{font:12px "IBM Plex Mono",monospace;color:var(--mute);margin:-12px 0 22px}
 .topics-line a{color:var(--cold);text-decoration:none;margin-right:12px}
 article b{font-weight:600}
+.lead{font-size:20px;margin:0 0 22px}.lead b{font-weight:600}
+svg.chart{width:100%;height:auto;margin:6px 0 26px;display:block}
+h2.dh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);font-weight:400;text-transform:uppercase;margin:30px 0 10px}
+table.data{width:100%;border-collapse:collapse;font:14px "IBM Plex Mono",monospace}
+table.data td,table.data th{border-bottom:1px solid var(--rule);padding:7px 0;text-align:left;font-weight:400}
+table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:not(:first-child){text-align:right}
+.src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
