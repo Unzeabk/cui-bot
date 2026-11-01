@@ -62,11 +62,19 @@ def _similar(a: str, b: str) -> bool:
     return bool(wa and wb) and len(wa & wb) / min(len(wa), len(wb)) >= 0.4
 
 
+# Уголовная хроника: такие новости до отбора тем не доходят (свод, «Тема» → «Не берём»).
+# Только явные слова насилия: «задержан», «обыск», «изъяли» не трогаем — это бывает темой «Собственности».
+_CRIME = _re.compile(
+    r"похищ|похити|паяльник|рэкет|вымогател|убийств|убил[аи]?\b|застрелил|зарезал|изнасил|ограбил|грабител|разбой"
+    r"|kidnap|abduct|murder|torture|ransom", _re.I)
+
+
 def fresh_items(items: list[dict], recent: list[dict]) -> list[dict]:
-    """Убирает новости, уже использованные или похожие на темы недавних заметок."""
+    """Убирает новости, уже использованные, похожие на темы недавних заметок, и уголовную хронику."""
     used = {u for r in recent for u in r.get("sources", [])}
     past = [r.get("main_title") or r.get("headline", "") for r in recent] + [r.get("headline", "") for r in recent]
-    out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)]
+    out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)
+           and not _CRIME.search(it["title"] + " " + it.get("summary", "")[:200])]
     log(f"после отсева повторов: {len(out)} из {len(items)}")
     return out
 
