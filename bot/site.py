@@ -544,7 +544,8 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             body += f"<p>{_inline(p['final'])}</p>"
         if p.get("subhead"):
             body = f"<p><i>{_esc(p['subhead'])}</i></p>" + body
-        body += f'<p><a href="{CHANNEL_URL}">Cui Bono? в Telegram</a></p>'
+        body += (f'<p><i>Оригинал — <a href="{url}">cuibono.press</a>. '
+                 f'Cui Bono? в <a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
         body = body.replace(' rel="nofollow noopener"', "")
         encl = ""
         if p.get("cover") and (site / "img" / p["cover"]).exists():
