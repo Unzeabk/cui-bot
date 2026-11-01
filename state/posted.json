@@ -378,5 +378,120 @@
    "https://www.bfm.ru/news/622589"
   ],
   "message_id": 94
+ },
+ {
+  "time_iso": "2026-11-01T18:28:28.702152+03:00",
+  "time": "01.11 18:28",
+  "rubric": "sanctions",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обменник",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "murmansk-zerno-arktika",
+  "headline": "Мурманск начинает отправку зерна в обход Черного моря",
+  "fly": "Северный завоз",
+  "subhead": "Первый в истории порта рейс в Северную Африку идет через Арктику",
+  "final": "",
+  "actor": "rosgom",
+  "main_title": "Россия тестирует отправку зерна через Арктику из-за украинских атак в Черном море. Но этот путь не заменит южные маршруты",
+  "sources": [
+   "https://meduza.io/news/2026/11/01/rossiya-testiruet-otpravku-zerna-cherez-arktiku-iz-za-ukrainskih-atak-v-chernom-more-no-etot-put-ne-zamenit-yuzhnye-marshruty",
+   "https://ru.themoscowtimes.com/2026/11/01/spetsnaz-shvetsii-provel-reid-nasuhogruz-kompanii-podozrevaemoi-vrossiiskih-gibridnih-operatsiyah-vevrope-a210220"
+  ],
+  "message_id": 95
+ },
+ {
+  "time_iso": "2026-11-01T18:30:22.194775+03:00",
+  "time": "01.11 18:30",
+  "rubric": "postsoviet",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "обменник"
+  ],
+  "topic_key": "nvidia-astana-ai-hub",
+  "headline": "Как Астана превращает энергоресурсы в чипы для дата-центров Nvidia?",
+  "fly": "Экспорт интеллекта",
+  "subhead": "Американская фирма получила экспортную лицензию на 45 000 графических процессоров.",
+  "final": "",
+  "actor": "astana",
+  "main_title": "Nvidia chief taps Astana as AI hub",
+  "sources": [
+   "https://eurasianet.org/nvidia-chief-taps-astana-as-ai-hub",
+   "https://eurasianet.org/us-touting-small-nuclear-reactors-for-use-in-caucasus-and-central-asia"
+  ],
+  "message_id": 96
+ },
+ {
+  "time_iso": "2026-11-01T18:32:28.765424+03:00",
+  "time": "01.11 18:32",
+  "rubric": "china",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "спектакль"
+  ],
+  "topic_key": "matvienko-vizit-v-kitay-2026",
+  "headline": "Спикер Совфеда повезла сенаторов на переговоры в Сиань",
+  "fly": "Дипломатия полного цикла",
+  "subhead": "Поездка охватит Пекин и провинцию Шэньси",
+  "final": "",
+  "actor": "matvienko",
+  "main_title": "Делегация Совфеда во главе с Матвиенко прибыла с визитом в Китай",
+  "sources": [
+   "https://www.pnp.ru/politics/delegaciya-sovfeda-vo-glave-s-matvienko-pribyla-s-vizitom-v-kitay.html"
+  ],
+  "message_id": 97
+ },
+ {
+  "time_iso": "2026-11-01T18:34:15.443071+03:00",
+  "time": "01.11 18:34",
+  "rubric": "world",
+  "form": "абсурд как явление",
+  "layout": "от развязки",
+  "optics": [
+   "спектакль",
+   "обменник"
+  ],
+  "topic_key": "g20-atlanta-family-photo-cancel",
+  "headline": "Встреча министров G20 в Атланте осталась без общего снимка",
+  "fly": "Снимок на память",
+  "subhead": "Попытка Вашингтона вернуть Москву за стол переговоров разбилась о бойкот союзников",
+  "final": "",
+  "actor": "g20",
+  "main_title": "US cancels G20 ‘family photo’ after Australia, UK and others refuse to appear with Russia",
+  "sources": [
+   "https://www.theguardian.com/world/2026/oct/31/us-cancels-g20-family-photo-after-australia-uk-and-others-refuse-to-appear-with-russia",
+   "https://www.theguardian.com/world/2026/oct/31/ukraine-war-briefing-moscows-lavrov-snubbed-at-g20-in-atlanta"
+  ],
+  "message_id": 98
+ },
+ {
+  "time_iso": "2026-11-01T18:36:18.978285+03:00",
+  "time": "01.11 18:36",
+  "rubric": "russia",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "предел физики",
+   "обменник"
+  ],
+  "topic_key": "ydex-otzovet-prognozy-datacenters",
+  "headline": "Яндекс отложил финансовые ориентиры из-за атак на дата-центры",
+  "fly": "Сгорели на работе",
+  "subhead": "Компания больше не ориентируется на прежние показатели по выручке и EBITDA на 2026 год",
+  "final": "",
+  "actor": "yandex",
+  "main_title": "🇷🇺#YDEX #отчетность \nЯндекс заявил о планах обновить прогнозы показателей в феврале 2027 года\n\n*29 октября компания отозвала ранее…",
+  "sources": [
+   "https://t.me/markettwits/391475",
+   "https://t.me/AK47pfl/21868",
+   "https://www.kommersant.ru/doc/9077827"
+  ],
+  "message_id": 99
  }
 ]
