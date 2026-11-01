@@ -539,6 +539,11 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             continue
         url = _abs(f"p/{p['slug']}.html")
         title = re.sub(r"\.+$", "", plain(p["headline"]).strip())[:200]
+        if p.get("kind") == "week":
+            # «Неделя: 25–31 октября» в ленте Дзена ничего не говорит — нужен заголовок по событиям
+            subj = [re.sub(r"\*\*|\.$", "", x.split(".**")[0]).strip() for x in p.get("paragraphs") or []]
+            title = p.get("seo_title") or ("Главное за неделю: " + ", ".join(t for t in subj[:3] if t))
+            title = re.sub(r"\.+$", "", title)[:200]
         body = "".join(f"<p>{_inline(x)}</p>" for x in p.get("paragraphs") or [])
         if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
             body += f"<p>{_inline(p['final'])}</p>"
