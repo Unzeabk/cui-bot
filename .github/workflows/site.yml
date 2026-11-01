@@ -33,7 +33,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: 4ffcbbed465bb60c05bc6203792fac1a
           YANDEX_VERIFICATION: ${{ vars.YANDEX_VERIFICATION }}
           GOOGLE_VERIFICATION: ${{ vars.GOOGLE_VERIFICATION }}
-          METRIKA_ID: ${{ vars.METRIKA_ID }}
+          METRIKA_ID: ${{ vars.METRIKA_ID || '113988036' }}
           CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}

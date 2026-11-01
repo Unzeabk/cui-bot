@@ -77,7 +77,7 @@ def write_entry(kind: str, d: dict, res: dict | None, cover: Path | None, url: s
             entry["paragraphs"] = [f"**{i.get('subject', '')}.** {i.get('text', '')}" for i in d.get("items", [])]
         if not entry["headline"]:
             return
-        entry.update(_seo(entry))
+        entry.update(d.get("_seo") if d.get("_seo") is not None else _seo(entry))
         OUT.mkdir(exist_ok=True)
         (OUT / f"site-entry-{kind}-{now:%Y%m%d-%H%M%S}.json").write_text(
             json.dumps(entry, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -119,6 +119,37 @@ def _seo(e: dict) -> dict:
     except Exception as ex:
         log(f"сайт: SEO-поля не получены ({ex})")
         return {}
+
+
+def prepare_seo(kind: str, d: dict) -> dict:
+    """SEO-поля до публикации: из них же берутся теги в конце поста. Результат кладётся в d["_seo"]."""
+    e = {"headline": plain(d.get("headline", "") or ""), "subhead": plain(d.get("subhead", "") or ""),
+         "paragraphs": list(d.get("paragraphs") or [])}
+    if kind == "analysis" and d.get("lead"):
+        e["paragraphs"] = [d["lead"]] + e["paragraphs"]
+    d["_seo"] = _seo(e) if e["headline"] else {}
+    return d["_seo"]
+
+
+def hashtags(seo: dict, limit: int = 3) -> str:
+    """Теги для конца поста: те же темы, что на сайте. #ЛукОйл → #Лукойл, «ключевая ставка» → #КлючеваяСтавка."""
+    tags = []
+    for x in (seo or {}).get("entities") or []:
+        words = re.findall(r"[0-9A-Za-zА-Яа-яЁё]+", x["name"])
+        tag = "".join(w if w.isupper() else w[:1].upper() + w[1:] for w in words)
+        if 2 <= len(tag) <= 24 and not tag.isdigit() and tag not in tags:
+            tags.append(tag)
+    return " ".join(f"#{t}" for t in tags[:limit])
+
+
+def with_tags(caption: str, seo: dict, max_len: int = 1024) -> str:
+    """Добавляет строку тегов, только если пост остаётся в лимите подписи Telegram."""
+    from .compose import visible_length
+    for n in (3, 2, 1):
+        tags = hashtags(seo, n)
+        if tags and visible_length(caption) + len(tags) + 2 <= max_len - 10:
+            return f"{caption}\n\n{tags}"
+    return caption
 
 
 _TR = dict(zip("абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
@@ -626,10 +657,8 @@ def build(site: Path) -> int:
                                              _abs("archive.html")), encoding="utf-8")
 
     # об издании
-    about = (f'<h1 class="sec">Об издании</h1><article><p>{TITLE} — {DESCRIPTION.lower()}. Тексты выходят в Telegram-канале '
-             f'<a href="{CHANNEL_URL}">@{CHANNEL}</a> и на этом сайте.</p>'
-             '<p>Каждая цифра в тексте ведёт на источник: официальные данные, отчётность, документы, публикации других изданий. '
-             'Факты сверяются с источниками до публикации. Если в тексте найдена ошибка, её исправляют в самом тексте.</p></article>')
+    about = (f'<h1 class="sec">{TITLE}</h1><article><p>{DESCRIPTION}.</p>'
+             f'<p>Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a></p></article>')
     (site / "about.html").write_text(_page(f"Об издании — {TITLE}", f"{TITLE} — {DESCRIPTION.lower()}.", about, _abs("about")),
                                      encoding="utf-8")
 

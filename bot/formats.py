@@ -561,6 +561,12 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
     cover = OUT / f"cover-{fmt}-{stamp}.png"
     render_format_cover(fmt, d, cover)
     cap = caption(fmt, d, url)
+    if fmt in ("position", "analysis"):
+        try:
+            from .site import prepare_seo, with_tags
+            cap = with_tags(cap, prepare_seo(fmt, d))
+        except Exception as e:
+            log(f"теги не добавлены ({e})")
     (OUT / f"{fmt}-{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"caption-{fmt}-{stamp}.html").write_text(cap, encoding="utf-8")
     log(f"{FORMATS[fmt]['label']}: подпись {visible_length(cap)} знаков" + (f", статья {url}" if url else ""))
