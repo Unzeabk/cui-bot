@@ -79,4 +79,4 @@ def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> t
         except (QuotaExhausted, RuntimeError) as e:
             print("[cui]", e, "— пробую следующую модель", flush=True)
             last = e
-    raise RuntimeError(f"Все модели исчерпали квоту: {last}")
+    raise RuntimeError(f"Ни одна модель не ответила, последняя ошибка: {last}")
