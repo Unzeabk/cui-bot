@@ -74,13 +74,18 @@ _SPORT = _re.compile(
     r"|\btennis\b|football|soccer|Premier League|Champions League|\bNBA\b|\bNFL\b|\bNHL\b|Grand Slam|Olympic|Wimbledon", _re.I)
 
 
+def drop_noise(items: list[dict]) -> list[dict]:
+    """Спорт и уголовная хроника — в «Не берём» свода; отсекаются кодом до отбора тем во всех жанрах."""
+    return [it for it in items if not _CRIME.search(it["title"] + " " + it.get("summary", "")[:200])
+            and not _SPORT.search(it["title"] + " " + it.get("summary", "")[:200])]
+
+
 def fresh_items(items: list[dict], recent: list[dict]) -> list[dict]:
     """Убирает новости, уже использованные, похожие на темы недавних заметок, и уголовную хронику и спорт."""
     used = {u for r in recent for u in r.get("sources", [])}
     past = [r.get("main_title") or r.get("headline", "") for r in recent] + [r.get("headline", "") for r in recent]
-    out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)
-           and not _CRIME.search(it["title"] + " " + it.get("summary", "")[:200])
-           and not _SPORT.search(it["title"] + " " + it.get("summary", "")[:200])]
+    out = [it for it in items if it["link"] not in used and not any(_similar(it["title"], p) for p in past if p)]
+    out = drop_noise(out)
     log(f"после отсева повторов: {len(out)} из {len(items)}")
     return out
 
