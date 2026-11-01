@@ -19,7 +19,6 @@ RUSSIA_FEEDS = [
     "https://www.finmarket.ru/rss/mainnews.asp",
     "https://tass.ru/rss/v2.xml",
     "https://ria.ru/export/rss2/archive/index.xml",
-    "https://ria.ru/export/rss2/economy/index.xml",
     "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
     "https://www.kommersant.ru/RSS/news.xml",
     "https://www.kommersant.ru/RSS/section-economics.xml",
@@ -29,18 +28,14 @@ RUSSIA_FEEDS = [
     "https://www.vedomosti.ru/rss/rubric/finance",
     "https://www.vedomosti.ru/rss/rubric/business",
     "https://iz.ru/xml/rss/all.xml",
-    "https://www.forbes.ru/newrss.xml",
     "https://frankmedia.ru/feed",
-    "https://www.banki.ru/xml/news.rss",
     "https://www.bfm.ru/news.rss",
     "https://www.ng.ru/rss/",
     "https://lenta.ru/rss/news",
     "https://www.cnews.ru/inc/rss/news.xml",
-    "https://www.eg-online.ru/news/news_rss.php",
-    # Первоисточники: ЦБ, правительство, биржа, официальные публикации законов
+    # Первоисточники: ЦБ, правительство, официальные публикации законов
     "https://www.cbr.ru/rss/RssPress",
     "http://government.ru/all/rss/",
-    "https://www.moex.com/export/news.aspx?cat=100",
     "https://rg.ru/xml/index.xml",
     "https://www.pnp.ru/rss/index.xml",
     # Регионы: молчащие, но платящие
@@ -50,7 +45,6 @@ RUSSIA_FEEDS = [
     "https://ngs.ru/rss-feeds/rss.xml",
     "https://chita.ru/rss-feeds/rss.xml",
     "https://feeds.feedburner.com/amic/news",
-    "https://www.vm.ru/rss",
     # Независимые и зарубежные на русском
     "https://meduza.io/rss/all",
     "https://thebell.io/feed",
@@ -68,7 +62,6 @@ RUSSIA_FEEDS = [
     "https://tengrinews.kz/news.rss",
     "https://kursiv.media/feed/",
     "https://news.am/rus/rss/",
-    "https://spektr.press/feed/",
     "https://eurasianet.org/rss",
     "https://civil.ge/feed",
     "https://oc-media.org/feed/",
@@ -106,7 +99,6 @@ WORLD_FEEDS = [
     # Центробанки и аналитические центры
     "https://www.ecb.europa.eu/rss/press.html",
     "https://www.federalreserve.gov/feeds/press_all.xml",
-    "https://www.bruegel.org/rss.xml",
     # Сырьё, судоходство, теневой флот
     "https://oilprice.com/rss/main",
     "https://gcaptain.com/feed/",
@@ -126,7 +118,6 @@ WORLD_FEEDS = [
     "https://www.scmp.com/rss/92/feed",
     "https://asia.nikkei.com/rss/feed/nar",
     "https://thediplomat.com/feed/",
-    "https://en.yna.co.kr/RSS/economy.xml",
     "https://economictimes.indiatimes.com/rssfeedstopstories.cms",
     # Новые рынки: Залив, Турция, Африка, Латинская Америка, Восточная Европа
     "https://www.agbi.com/feed/",
@@ -144,7 +135,6 @@ DEFAULT_TG = [
     "centralbank_russia",   # Банк России
     "minfin",               # Минфин России
     "russianmacro",         # Russian Macro: макростатистика
-    "tverdyecifry",         # Твёрдые цифры
     "AK47pfl",              # АК-47: финансы и рынки
     "thebell_io",           # The Bell
     "agentstvonews",        # «Агентство»: расследования на данных
