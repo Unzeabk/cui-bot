@@ -21,7 +21,7 @@ from .prompts import BASE, WRITER_SYSTEM, _recent_txt
 
 FORMATS = {
     "indicators": {"label": "ПОКАЗАТЕЛИ", "days": [0], "hours": 168},
-    "position": {"label": "ПОЗИЦИЯ", "days": [1, 2, 3, 4], "hours": 72},
+    "position": {"label": "ПОЗИЦИЯ", "days": [0, 1, 2, 3, 4, 5, 6], "hours": 72},
     "analysis": {"label": "РАЗБОР", "days": [0, 1, 2, 3, 4, 5, 6], "hours": 168},
     "week": {"label": "НЕДЕЛЯ", "days": [5], "hours": 168},
 }
@@ -636,10 +636,17 @@ def main() -> int:
         # разбор выходит каждый день в 11:22 (запасной 15:22), остальные рубрики — по дням недели в свои часы
         now = datetime.now(TZ)
         cron = (os.environ.get("CRON") or "").strip()  # расписание, которое запустило задачу: GitHub часто опаздывает
-        if cron.startswith("22 ") or (not cron and now.hour in (11, 15)):
+        by_cron = {"52 7": "indicators", "52 9": "week", "52 10": "position", "52 17": "position",
+                   "22 8": "analysis", "22 12": "analysis"}
+        key = " ".join(cron.split()[:2])
+        if key in by_cron:
+            fmt = by_cron[key]
+        elif now.hour in (11, 15):
             fmt = "analysis"
+        elif now.hour in (13, 20):
+            fmt = "position"
         else:
-            fmt = next((k for k, v in FORMATS.items() if k != "analysis" and now.weekday() in v["days"]), "")
+            fmt = next((k for k, v in FORMATS.items() if k not in ("analysis", "position") and now.weekday() in v["days"]), "")
         if not fmt:
             log("сегодня по расписанию рубрик нет")
             return 0
@@ -664,7 +671,7 @@ def main() -> int:
         publish(fmt, d, dry)
         log("готово (в журнал ленты тестовый пост не записан)")
         return 0
-    if not dry and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+    if not dry and fmt == "analysis" and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
         # у разбора два запуска в день (сразу после сброса квот и запасной) — второй не повторяет первый
         since = datetime.now(TZ) - timedelta(hours=12)
         if any(e.get("rubric") == fmt and datetime.fromisoformat(e["time_iso"]) > since for e in state if e.get("time_iso")):
