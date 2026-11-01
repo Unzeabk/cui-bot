@@ -419,5 +419,67 @@
    "https://ria.ru/20261101/kitay-2128398894.html"
   ],
   "message_id": 53
+ },
+ {
+  "time_iso": "2026-11-01T06:30:47.542301+03:00",
+  "time": "01.11 06:30",
+  "rubric": "labour",
+  "form": "вопрос",
+  "optics": [
+   "обратный эффект",
+   "лестница власти"
+  ],
+  "topic_key": "vydvorenie-migrantov-rekord-2026",
+  "headline": "Кто заменит шестьдесят тысяч высланных из страны иностранцев",
+  "fly": "Чемодан и вокзал",
+  "final": "",
+  "main_title": "Число депортированных из России иностранцев выросло в 1,5 раза за год",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078364",
+   "https://tass.ru/obschestvo/28275579"
+  ],
+  "message_id": 57
+ },
+ {
+  "time_iso": "2026-11-01T06:34:02.206534+03:00",
+  "time": "01.11 06:34",
+  "rubric": "usa",
+  "form": "неожиданная география",
+  "optics": [
+   "спектакль",
+   "лестница власти"
+  ],
+  "topic_key": "tramp-fbr-kndr-binance-vzlom",
+  "headline": "Белый дом усомнился в причастности Пхеньяна ко взлому биржи",
+  "fly": "Дружба народов дороже денег",
+  "final": "",
+  "main_title": "Binance says 90% of losses from $6.3bn hack covered as FBI says North Korea behind attack",
+  "sources": [
+   "https://www.theguardian.com/business/2026/nov/01/binance-losses-covered-hack-fbi-north-korea-cryptocurrency",
+   "https://www.aljazeera.com/news/2026/11/1/fbi-blames-north-korea-for-record-6-3bn-crypto-heist?traffic_source=rss",
+   "https://www.kommersant.ru/doc/9078361",
+   "https://www.kommersant.ru/doc/9078329"
+  ],
+  "message_id": 58
+ },
+ {
+  "time_iso": "2026-11-01T06:35:49.041405+03:00",
+  "time": "01.11 06:35",
+  "rubric": "sanctions",
+  "form": "сухой тренд",
+  "optics": [
+   "сдвиг горизонта",
+   "обменник"
+  ],
+  "topic_key": "kamerun-kongo-porty-korabli",
+  "headline": "Камерун и Конго могут упростить заход для российских кораблей",
+  "fly": "Свободное плавание",
+  "final": "",
+  "main_title": "Правительство поддержало упрощенный заход кораблей РФ в порты Камеруна и Конго",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078330",
+   "https://www.rbc.ru/politics/17/01/2026/696b88669a7947e5fa4270f7"
+  ],
+  "message_id": 59
  }
 ]
