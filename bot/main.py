@@ -236,7 +236,7 @@ def run_once(dry: bool) -> int:
         now = datetime.now(TZ)
         state.append({
             "time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"),
-            "rubric": note["rubric"], "form": note["form"], "optics": note.get("optics", []),
+            "rubric": note["rubric"], "form": note["form"], "layout": note.get("layout", ""), "optics": note.get("optics", []),
             "topic_key": note.get("topic_key", ""), "headline": note["headline"],
             "fly": note.get("fly", ""), "final": note.get("final", ""),
             "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
