@@ -493,5 +493,30 @@
    "https://www.kommersant.ru/doc/9077827"
   ],
   "message_id": 99
+ },
+ {
+  "time_iso": "2026-11-01T19:20:42.730626+03:00",
+  "time": "01.11 19:20",
+  "rubric": "defense",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "kstovo-npz-benz_limit-2026",
+  "headline": "Как удары по НПЗ привели к лимитам на заправках?",
+  "fly": "Топливный сбор",
+  "subhead": "Под удар попало почти 10% российской нефтепереработки",
+  "final": "",
+  "actor": "minoborony",
+  "main_title": "Украина атаковала три НПЗ, обеспечивающие почти 10% российской нефтепеработки и производства дизеля",
+  "sources": [
+   "https://t.me/agentstvonews/17986",
+   "https://www.bbc.co.uk/russian/live/cqz0z0792d84t?at_medium=RSS&at_campaign=rss",
+   "https://www.politico.eu/article/russia-strikes-leave-thousands-without-power-ukraine-volodymyr-zelenskyy/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+   "https://ru.themoscowtimes.com/2026/11/01/zelenskii-zayavil-oporazhenii-sistem-pvo-izavoda-raketnogo-topliva-vrostovskoi-oblasti-a210223"
+  ],
+  "message_id": 100
  }
 ]
