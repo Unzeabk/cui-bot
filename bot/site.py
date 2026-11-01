@@ -301,6 +301,52 @@ def _seed_from_state() -> list[dict]:
     return out
 
 
+_TEXT_RE = re.compile(r'<div class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>', re.S)
+_A_RE = re.compile(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S)
+_BR2_RE = re.compile(r'(?:<br\s*/?>\s*){2,}')
+
+
+def _paragraphs_from_html(raw: str) -> list[str]:
+    """Текст поста из веб-версии канала: шапка (рубрика, заголовок, подзаголовок) отбрасывается, ссылки сохраняются."""
+    m = _TEXT_RE.search(raw)
+    if not m:
+        return []
+    blocks = _BR2_RE.split(m.group(1))[3:]
+    out = []
+    for b in blocks:
+        b = _A_RE.sub(lambda a: f"[{re.sub(r'<[^>]+>', '', a.group(2))}]({html.unescape(a.group(1))})", b)
+        b = html.unescape(re.sub(r"<[^>]+>", "", re.sub(r"<br\s*/?>", " ", b))).strip()
+        if b:
+            out.append(b)
+    return out
+
+
+def _backfill(posts: list[dict], limit: int = 60) -> int:
+    """Достаёт тексты первых постов (до появления сайта) из публичной веб-версии канала t.me."""
+    try:
+        import requests
+    except Exception:
+        return 0
+    done = 0
+    for p in posts:
+        if done >= limit or p.get("paragraphs") or not p.get("message_id") or p.get("kind") == "analysis" or p.get("_tried"):
+            continue
+        try:
+            r = requests.get(f"https://t.me/{CHANNEL}/{p['message_id']}?embed=1&mode=tme", timeout=15,
+                             headers={"User-Agent": "Mozilla/5.0"})
+            paras = _paragraphs_from_html(r.text) if r.ok else []
+        except Exception:
+            paras = []
+        if paras:
+            p["paragraphs"] = paras
+            done += 1
+        else:
+            p["_tried"] = True
+    if done:
+        log(f"сайт: тексты {done} постов взяты из канала")
+    return done
+
+
 def _jpeg(src: Path, dst_dir: Path) -> str:
     """Обложка в JPEG: в 3–4 раза легче PNG, сайт быстрее, репозиторий не пухнет."""
     name = src.stem + ".jpg"
@@ -347,6 +393,7 @@ def build(site: Path) -> int:
         posts.append(e)
         new_ids.append(id(e))
 
+    _backfill(posts)
     posts.sort(key=lambda p: p["time_iso"], reverse=True)
     seen: set[str] = set()
     for p in posts:
