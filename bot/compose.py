@@ -189,17 +189,22 @@ def _low(t: str) -> str:
     return re.sub(r"\s+", " ", plain(t or "")).strip(" .,!?…«»\"").lower().replace("ё", "е")
 
 
-def copied_examples(note: dict) -> list[str]:
+def copied_examples(note: dict, recent: list[dict] | None = None) -> list[str]:
+    """Пример из свода можно взять, но не чаще раза в неделю: иначе модель тянется к нему в каждом посте.
+    recent — посты за 7 дней из state (main.load_state). Любой флай тоже не повторяется 7 дней."""
     out = []
+    recent = recent or []
     fly, head, sub = _low(note.get("fly")), _low(note.get("headline")), _low(note.get("subhead"))
-    if fly and fly in DOC_QUOTES:
-        out.append(f"флай «{note['fly']}» дословно взят из примеров свода — придумай свой под эту тему")
+    past_flies = {_low(r.get("fly")) for r in recent}
+    past_text = " | ".join(_low(r.get(k)) for r in recent for k in ("fly", "headline", "subhead"))
+    if fly and fly in past_flies:
+        out.append(f"флай «{note['fly']}» уже был на этой неделе — нужен другой")
     for name, val in (("заголовок", head), ("подзаголовок", sub)):
-        hit = next((q for q in DOC_QUOTES if len(q.split()) >= 3 and q in val), None)
+        hit = next((q for q in DOC_QUOTES if len(q.split()) >= 3 and q in val and q in past_text), None)
         if hit:
-            out.append(f"{name} повторяет пример из свода «{hit}» — нужен свой")
-    if sub.startswith("подсказка"):
-        out.append("подзаголовок «Подсказка: …» — заезженный приём, возьми другую форму")
+            out.append(f"{name} повторяет пример из свода «{hit}», который уже брали на этой неделе — нужен свой")
+    if sub.startswith("подсказка") and "подсказка" in past_text:
+        out.append("подзаголовок «Подсказка: …» уже был на этой неделе — возьми другую форму")
     return out
 
 
@@ -260,7 +265,6 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append("в заголовке больше одной запятой: нужно одно простое предложение")
     problems += note_rules(note)
 
-    problems += copied_examples(note)
 
     text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])
     problems += banned_hits(plain(text_all))

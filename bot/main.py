@@ -14,7 +14,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .rubrics import RUBRICS
-from .compose import fix_links, build_caption, dedupe_links, extract_json, validate, visible_length
+from .compose import copied_examples, fix_links, build_caption, dedupe_links, extract_json, validate, visible_length
 
 # Один секрет CUI_CONFIG вместо трёх: строки вида ИМЯ=значение
 for _line in (os.environ.get("CUI_CONFIG") or "").splitlines():
@@ -239,11 +239,11 @@ def produce(recent: list[dict]) -> dict | None:
                 continue
             if topic.get("rubric") in RUBRICS:
                 note["rubric"] = topic["rubric"]  # рубрику выбрал отбор тем и проверил код; писатель её не меняет
-            problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent)
+            problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent) + copied_examples(note, recent)
             if any(p.startswith("запрещённый оборот") or p.startswith("в заголовке") for p in problems):
                 from .formats import fix_headline, repair_banned  # точечная правка вместо полного переписывания
                 note = fix_headline(repair_banned("note", note))
-                problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent)
+                problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent) + copied_examples(note, recent)
             if problems:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)
@@ -324,7 +324,7 @@ def run_once(dry: bool) -> int:
             "time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"),
             "rubric": note["rubric"], "form": note["form"], "layout": note.get("layout", ""), "optics": note.get("optics", []),
             "topic_key": note.get("topic_key", ""), "headline": note["headline"],
-            "fly": note.get("fly", ""), "final": note.get("final", ""),
+            "fly": note.get("fly", ""), "subhead": note.get("subhead", ""), "final": note.get("final", ""),
             "actor": note.get("_actor", ""), "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
             "message_id": result.get("message_id"),
         })
