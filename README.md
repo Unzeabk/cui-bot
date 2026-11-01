@@ -96,12 +96,12 @@ python -m bot.main --from-json examples/note-property.json
 
 ## Сайт-зеркало (поисковый трафик в канал)
 
-После каждой заметки, позиции и разбора бот выкладывает страницу на бесплатный сайт (GitHub Pages): заголовок, текст, обложка, sitemap.xml, feed.xml, разметка для поисковиков. Каждая страница ведёт в канал. Код — `bot/site.py`, шаг «Сайт» в обоих workflow.
+После каждой заметки, позиции и разбора бот выкладывает страницу на сайт (GitHub Pages, бесплатно). Код — `bot/site.py`, шаг «Сайт» в обоих workflow. Пока `SITE_REPO` не задан, шаг пропускается; ошибка сайта не мешает публикации в канал.
+
+Для поисковиков: title, description, canonical, Open Graph, разметка NewsArticle и хлебные крошки; страницы рубрик (`r/`), помесячный архив (`a/`), «Ещё в рубрике» под каждым текстом; sitemap.xml, feed.xml, robots.txt, 404; страницы без текста закрыты от индекса; новые адреса через минуту после выкладки уходят в Яндекс и Bing по IndexNow. Если `SITE_URL` — свой домен, пишется CNAME.
 
 Включение (один раз):
-1. Создать **публичный** репозиторий для сайта, например `Unzeabk/cuibono`. Settings → Pages → Deploy from a branch → `main`, папка `/ (root)`.
-2. Создать fine-grained токен с доступом только к этому репозиторию (Contents: Read and write) и положить в секреты cui-bot как `SITE_TOKEN`.
-3. В переменные cui-bot (Settings → Secrets and variables → Actions → Variables): `SITE_REPO` = `Unzeabk/cuibono`, `SITE_URL` = `https://unzeabk.github.io/cuibono`.
-4. По желанию: `YANDEX_VERIFICATION` и `GOOGLE_VERIFICATION` — коды из Яндекс Вебмастера и Google Search Console; туда же отправить `sitemap.xml`.
-
-Пока `SITE_REPO` не задан, шаг пропускается. Ошибка сайта не мешает публикации в канал.
+1. Публичный репозиторий сайта, например `Unzeabk/cuibono`, с README. Settings → Pages → Deploy from a branch → `main`, `/ (root)`.
+2. Fine-grained токен только на этот репозиторий (Contents: Read and write) → секрет cui-bot `SITE_TOKEN`.
+3. Переменные cui-bot: `SITE_REPO` = `Unzeabk/cuibono`, `SITE_URL` = `https://unzeabk.github.io/cuibono` или свой домен.
+4. Яндекс Вебмастер и Google Search Console: коды подтверждения → переменные `YANDEX_VERIFICATION`, `GOOGLE_VERIFICATION`; отправить туда `sitemap.xml`.
