@@ -501,5 +501,26 @@
    "https://www.ft.com/content/50aeab56-c5e3-44c5-9117-8fadc2f980fb?syn-25a6b1a6=1"
   ],
   "message_id": 65
+ },
+ {
+  "time_iso": "2026-11-01T14:49:43.294324+03:00",
+  "time": "01.11 14:49",
+  "rubric": "week",
+  "form": "неделя",
+  "optics": [],
+  "topic_key": "nedelya-2026-44",
+  "headline": "Неделя: Binance, Кстово, ОПЕК+, Черногория, Великобритания, Совет Федерации",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://asia.nikkei.com/spotlight/cryptocurrencies/binance-suspends-withdrawals-and-freezes-funds-after-6.3bn-hack",
+   "https://www.theguardian.com/politics/2026/nov/01/rachel-reeves-uk-future-is-in-eu-andy-burnham-brexit",
+   "https://www.kommersant.ru/doc/9078383",
+   "https://www.kommersant.ru/doc/9078446",
+   "https://www.bbc.co.uk/russian/live/cqz0z0792d84t?at_medium=RSS&at_campaign=rss",
+   "https://www.kommersant.ru/doc/9078442"
+  ],
+  "message_id": 66
  }
 ]
