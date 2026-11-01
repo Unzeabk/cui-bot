@@ -1,1 +1,116 @@
-[]
+[
+ {
+  "time_iso": "2026-11-01T17:13:44.743037+03:00",
+  "time": "01.11 17:13",
+  "rubric": "abroad",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "пузырь веры",
+   "лестница власти"
+  ],
+  "topic_key": "blokirovka-schetov-emigrantov",
+  "headline": "Сербский банк заморозил сбережения тысяч переехавших россиян",
+  "fly": "Сгорел сарай",
+  "final": "",
+  "actor": "alta banka",
+  "main_title": "«У меня есть два дня, пока продукты в холодильнике не закончатся» . В Сербии заморозили счета клиентов банка Alta. Им пользовались тысячи российских эмигрантов, в том числе хранивших там деньги от продажи квартир",
+  "sources": [
+   "https://meduza.io/feature/2026/11/01/u-menya-est-dva-dnya-poka-produkty-v-holodilnike-ne-zakonchatsya",
+   "https://ru.themoscowtimes.com/2026/11/01/odin-izkrupneishih-bankov-argentini-nachal-blokirovat-scheta-rossiyan-a210218"
+  ],
+  "message_id": 78
+ },
+ {
+  "time_iso": "2026-11-01T17:17:22.112225+03:00",
+  "time": "01.11 17:17",
+  "rubric": "finance",
+  "form": "абсурд как явление",
+  "layout": "от цифры",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "теневой двойник"
+  ],
+  "topic_key": "vzlom-binance-vyplaty",
+  "headline": "Крупнейшее ограбление в истории оплатила сама жертва",
+  "fly": "За счёт заведения",
+  "final": "",
+  "actor": "binance",
+  "main_title": "Binance suspends withdrawals and freezes funds after $6.3bn hack",
+  "sources": [
+   "https://asia.nikkei.com/spotlight/cryptocurrencies/binance-suspends-withdrawals-and-freezes-funds-after-6.3bn-hack",
+   "https://www.bbc.co.uk/news/articles/ckpdg3ql4169o?at_medium=RSS&at_campaign=rss",
+   "https://www.kommersant.ru/doc/9078479",
+   "https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html"
+  ],
+  "message_id": 79
+ },
+ {
+  "time_iso": "2026-11-01T17:20:30.801552+03:00",
+  "time": "01.11 17:20",
+  "rubric": "postsoviet",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "postavki-cherez-kazahstan",
+  "headline": "Поставки товаров в Россию через Казахстан резко затормозились",
+  "fly": "Транзитный проезд",
+  "final": "",
+  "actor": "kazakhstan",
+  "main_title": "«Как лотерея». Поставки товаров в Россию через Казахстан резко затормозились из-за массовых проверок",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/01/kak-lotereya-postavki-tovarov-v-rossiyu-cherez-kazahstan-rezko-zatormozilis-iz-za-massovih-proverok-a210221"
+  ],
+  "message_id": 80
+ },
+ {
+  "time_iso": "2026-11-01T17:22:50.322239+03:00",
+  "time": "01.11 17:22",
+  "rubric": "world",
+  "form": "абсурд как явление",
+  "layout": "от цифры",
+  "optics": [
+   "метрика-оборотень",
+   "предел физики"
+  ],
+  "topic_key": "opek-kvoty-dekabr-2026",
+  "headline": "Семь стран ОПЕК+ сохранили прежние квоты на декабрь",
+  "fly": "Закон сохранения нефти",
+  "final": "",
+  "actor": "opek+",
+  "main_title": "Семь стран ОПЕК+ договорились сохранить квоты на добычу нефти на декабрь",
+  "sources": [
+   "https://www.rbc.ru/business/27/10/2026/6ae0f9855751e43247107226",
+   "https://ru.themoscowtimes.com/2026/11/01/strany-opek-soglasovali-sokhranenie-tselevykh-pokazateley-neftedobychi-v-dekabre-na-prezhnem-urovne-a210222",
+   "https://www.interfax.ru/business/1126402"
+  ],
+  "message_id": 81
+ },
+ {
+  "time_iso": "2026-11-01T17:25:10.339623+03:00",
+  "time": "01.11 17:25",
+  "rubric": "regions",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "сдвиг горизонта",
+   "лестница власти"
+  ],
+  "topic_key": "nizhegorodskaja-obast-limit-benzina",
+  "headline": "В Нижегородской области ввели лимит на заправку бензина",
+  "fly": "Полный бак по талонам",
+  "final": "",
+  "actor": "nizhny novgorod region",
+  "main_title": "В Нижегородской области ввели лимит на заправку бензина",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078508",
+   "https://novayagazeta.eu/articles/2026/11/01/v-nizhegorodskoi-oblasti-ogranichili-prodazhu-benzina-i-zapretili-zapravliat-kanistry-news",
+   "https://meduza.io/news/2026/11/01/v-nizhegorodskoy-oblasti-ogranichili-prodazhu-benzina-posle-ukrainskoy-ataki-na-npz",
+   "https://www.interfax.ru/russia/1126405"
+  ],
+  "message_id": 82
+ }
+]
