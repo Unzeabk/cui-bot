@@ -104,6 +104,10 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: 4ffcbbed465bb60c05bc6203792fac1a
           YANDEX_VERIFICATION: ${{ vars.YANDEX_VERIFICATION }}
           GOOGLE_VERIFICATION: ${{ vars.GOOGLE_VERIFICATION }}
+          METRIKA_ID: ${{ vars.METRIKA_ID }}
+          CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
         run: |
           git pull --rebase -X theirs origin main || true
           python -m bot.site site

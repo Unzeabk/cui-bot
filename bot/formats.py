@@ -6,6 +6,7 @@
 
 import html
 import json
+import re
 import os
 import sys
 import time
@@ -291,6 +292,11 @@ def telegraph(d: dict) -> str:
 
     content = [{"tag": "p", "children": [{"tag": "i", "children": [plain(d["subhead"])]}]}]
     content += [{"tag": "p", "children": nodes(p)} for p in d["paragraphs"]]
+    # обратная ссылка на сайт: страница там появится сразу после публикации
+    site_url = (os.environ.get("SITE_URL") or "https://cuibono.press").rstrip("/")
+    slug = re.sub(r"[^a-z0-9-]+", "-", (d.get("topic_key") or "").lower()).strip("-")[:70] or "post"
+    page = f"{site_url}/p/{datetime.now(TZ):%Y-%m-%d}-{slug}"
+    content.append({"tag": "p", "children": [{"tag": "a", "attrs": {"href": page}, "children": [page.split("://", 1)[1]]}]})
     r = requests.post("https://api.telegra.ph/createPage", data={
         "access_token": token, "title": plain(d["headline"])[:256], "author_name": "Cui Bono?",
         "author_url": author_url,
@@ -563,8 +569,11 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
         return {}
     button = ("Читать разбор", url) if fmt == "analysis" else None
     res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
-    if fmt in ("position", "analysis"):
+    if fmt in ("position", "analysis", "week"):
         from .site import write_entry
+        if fmt == "week":
+            from .indicators import week_range
+            d = {**d, "_range": week_range()}
         write_entry(fmt, d, res, cover, url)
     return res
 

@@ -40,14 +40,16 @@ CHANNEL_URL = f"https://t.me/{CHANNEL}"
 SITE_URL = (os.environ.get("SITE_URL") or "").rstrip("/")
 TITLE = "Cui Bono?"
 DESCRIPTION = "Аналитическое издание об экономике и власти"
-KIND_LABEL = {"note": None, "position": "ПОЗИЦИЯ", "analysis": "РАЗБОР"}
+KIND_LABEL = {"note": None, "position": "ПОЗИЦИЯ", "analysis": "РАЗБОР", "week": "НЕДЕЛЯ"}
 SECTION_TITLE = {k: v[0][:1] + v[0][1:].lower() for k, v in RUBRICS.items()}
-SECTION_TITLE.update({"position": "Позиция", "analysis": "Разбор"})
+SECTION_TITLE.update({"position": "Позиция", "analysis": "Разбор", "week": "Неделя"})
 MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля",
           "августа", "сентября", "октября", "ноября", "декабря"]
 MONTHS_NOM = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
               "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 HOME_LIMIT = 60
+TOPIC_MIN = 3  # страница темы попадает в индекс, когда по ней не меньше трёх текстов
+FOOTER_TOPICS = ""
 
 
 # ---------- запись после публикации ----------
@@ -70,13 +72,63 @@ def write_entry(kind: str, d: dict, res: dict | None, cover: Path | None, url: s
             "cover": cover.name if cover else "",
             "telegraph": url,
         }
+        if kind == "week":
+            entry["headline"] = f"Неделя: {d.get('_range') or now.strftime('%d.%m.%Y')}"
+            entry["paragraphs"] = [f"**{i.get('subject', '')}.** {i.get('text', '')}" for i in d.get("items", [])]
         if not entry["headline"]:
             return
+        entry.update(_seo(entry))
         OUT.mkdir(exist_ok=True)
         (OUT / f"site-entry-{kind}-{now:%Y%m%d-%H%M%S}.json").write_text(
             json.dumps(entry, ensure_ascii=False, indent=1), encoding="utf-8")
     except Exception as e:  # сайт вторичен: пост уже в канале
         log(f"сайт: запись не сохранена ({e})")
+
+
+SEO_SYSTEM = """Ты — редактор поисковой выдачи издания об экономике и власти. Тебе дают опубликованный текст.
+Верни JSON без пояснений:
+{"seo_title": "...", "seo_description": "...", "entities": [{"name": "...", "type": "org|place|person|instrument|topic"}]}
+- seo_title: 45–65 знаков. Как человек искал бы это событие: главный участник + что произошло + цифра или год, если она есть в тексте. Без кликбейта, вопросов, кавычек-ёлочек вокруг всего заголовка, без названия издания. Только факты из текста.
+- seo_description: 120–160 знаков, суть и главная цифра из текста, одно-два предложения.
+- entities: 2–5 главных участников и предметов текста (компании, ведомства, страны, города, инструменты вроде «ключевая ставка», устойчивые темы вроде «теневой флот»). Название — в именительном падеже, в самой распространённой форме («Банк России», «Газпром», «Казахстан», «ключевая ставка»). Не выдумывай того, чего нет в тексте."""
+
+
+def _seo(e: dict) -> dict:
+    """SEO-заголовок, описание и сущности — отдельным лёгким запросом. Ошибка не мешает ничему."""
+    try:
+        from .compose import extract_json
+        from .gemini import LIGHT_CHAIN, ask
+        text = "\n".join([e["headline"], e.get("subhead", "")] + [plain(p) for p in e.get("paragraphs", [])])
+        raw, _ = ask(LIGHT_CHAIN, SEO_SYSTEM, text[:6000], temperature=0.2)
+        d = extract_json(raw)
+        out = {}
+        t = (d.get("seo_title") or "").strip().strip("«»\"")
+        if 25 <= len(t) <= 80:
+            out["seo_title"] = t
+        ds = (d.get("seo_description") or "").strip()
+        if 60 <= len(ds) <= 220:
+            out["seo_description"] = ds
+        ents = []
+        for x in d.get("entities") or []:
+            name = (x.get("name") or "").strip()
+            if 2 <= len(name) <= 40 and _translit(name):
+                ents.append({"name": name, "type": x.get("type", "topic")})
+        if ents:
+            out["entities"] = ents[:5]
+        return out
+    except Exception as ex:
+        log(f"сайт: SEO-поля не получены ({ex})")
+        return {}
+
+
+_TR = dict(zip("абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+               ["a", "b", "v", "g", "d", "e", "e", "zh", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
+                "f", "kh", "ts", "ch", "sh", "shch", "", "y", "", "e", "yu", "ya"]))
+
+
+def _translit(name: str) -> str:
+    t = "".join(_TR.get(c, c) for c in name.lower())
+    return re.sub(r"[^a-z0-9]+", "-", t).strip("-")[:60]
 
 
 # ---------- помощники ----------
@@ -99,23 +151,45 @@ def _esc(s: str) -> str:
     return html.escape(s or "", quote=True)
 
 
+_ANY_LINK = re.compile(r"\[([^\]]+)\]\(((?:https?://|/)[^)\s]+)\)")
+
+
 def _inline(s: str) -> str:
     out, pos = [], 0
-    for m in LINK_RE.finditer(s or ""):
+    for m in _ANY_LINK.finditer(s or ""):
         out.append(html.escape(s[pos:m.start()], quote=False))
-        out.append(f'<a href="{_esc(m.group(2))}" rel="nofollow noopener">{html.escape(m.group(1), quote=False)}</a>')
+        rel = "" if m.group(2).startswith("/") else ' rel="nofollow noopener"'
+        out.append(f'<a href="{_esc(m.group(2))}"{rel}>{html.escape(m.group(1), quote=False)}</a>')
         pos = m.end()
     out.append(html.escape((s or "")[pos:], quote=False))
-    return "".join(out)
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", "".join(out))
+
+
+def _link_topics(text: str, topics: dict[str, str], used: set[str]) -> str:
+    """Первое упоминание темы в тексте становится ссылкой на страницу темы (не больше 3 на текст)."""
+    for name, slug in topics.items():
+        if len(used) >= 3 or slug in used:
+            continue
+        m = re.search(rf"(?<![\w\[])({re.escape(name[:max(3, len(name) - 2)])}\w*)", text)
+        if not m or "](" in text[m.start():m.start() + 200].split(" ")[0]:
+            continue
+        before = text[:m.start()]
+        if before.count("[") > before.count("]"):  # внутри ссылки
+            continue
+        text = f"{before}[{m.group(1)}](/t/{slug}){text[m.end():]}"
+        used.add(slug)
+    return text
 
 
 def _section(e: dict) -> str:
-    return e["kind"] if e.get("kind") in ("position", "analysis") else (e.get("rubric") or "world")
+    return e["kind"] if e.get("kind") in ("position", "analysis", "week") else (e.get("rubric") or "world")
 
 
 def _kicker(e: dict) -> str:
     if e.get("kind") == "position":
         return "ПОЗИЦИЯ · Мнение редакции"
+    if e.get("kind") == "week":
+        return "НЕДЕЛЯ"
     label = KIND_LABEL.get(e.get("kind")) or RUBRICS.get(e.get("rubric"), ("", ""))[0]
     fly = e.get("fly") or ""
     return f"{label} · {fly}" if label and fly else (label or fly)
@@ -129,6 +203,8 @@ def _kicker_html(e: dict, up: str) -> str:
 
 
 def _desc(e: dict) -> str:
+    if e.get("seo_description"):
+        return e["seo_description"]
     parts = [e.get("subhead", "")] + [plain(p) for p in (e.get("paragraphs") or [])[:1]]
     text = " ".join(p.strip() for p in parts if p).strip()
     return (text[:157].rsplit(" ", 1)[0] + "…") if len(text) > 160 else text
@@ -136,6 +212,13 @@ def _desc(e: dict) -> str:
 
 def _has_body(e: dict) -> bool:
     return bool(e.get("paragraphs"))
+
+
+def _indexable(e: dict) -> bool:
+    """В индекс — только страницы с настоящим текстом: короткая пустышка тянет вниз весь сайт."""
+    if e.get("telegraph"):
+        return True
+    return len(" ".join(plain(p) for p in e.get("paragraphs") or [])) >= 350
 
 
 def _post_url(e: dict) -> str:
@@ -181,8 +264,14 @@ ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}
 ul.list h2 a{text-decoration:none}ul.list h2 a:hover{text-decoration:underline}
 ul.list .sub{font-size:16px;margin:4px 0 0}
 .all{display:block;margin:26px 0;font:13px "IBM Plex Mono",monospace;color:var(--cold)}
-footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:72px}
-footer.wrap div{border-top:1px solid var(--rule);padding-top:28px}
+footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:96px;width:100%}
+footer.wrap>div{border-top:1px solid var(--rule);padding-top:28px}
+footer .topics a{display:inline-block;margin:0 14px 4px 0;text-decoration:none}
+footer p{margin:14px 0 0}
+body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto;width:100%}
+.topics-line{font:12px "IBM Plex Mono",monospace;color:var(--mute);margin:-12px 0 22px}
+.topics-line a{color:var(--cold);text-decoration:none;margin-right:12px}
+article b{font-weight:600}
 footer a{color:var(--cold)}
 """
 
@@ -192,12 +281,24 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          'family=IBM+Plex+Mono&family=Newsreader:wght@500&display=swap" rel="stylesheet">')
 
 ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTION,
-       "url": SITE_URL or CHANNEL_URL, "sameAs": [CHANNEL_URL]}
+       "url": SITE_URL or CHANNEL_URL, "sameAs": [CHANNEL_URL],
+       "logo": {"@type": "ImageObject", "url": f"{SITE_URL}/icon-512.png", "width": 512, "height": 512},
+       "publishingPrinciples": f"{SITE_URL}/about"}
 
 
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
           extra_head: str = "", og_type: str = "website", noindex: bool = False) -> str:
     up = "../" * depth
+    metrika = ""
+    mid = os.environ.get("METRIKA_ID", "").strip()
+    if mid.isdigit():
+        metrika = (f'<script>(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};'
+                   f'm[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}})'
+                   f'(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");'
+                   f'ym({mid},"init",{{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true}});'
+                   f'document.addEventListener("click",function(e){{var a=e.target.closest("a");'
+                   f'if(a&&a.href.indexOf("t.me/")>-1)ym({mid},"reachGoal","telegram")}});</script>'
+                   f'<noscript><div><img src="https://mc.yandex.ru/watch/{mid}" style="position:absolute;left:-9999px" alt=""></div></noscript>')
     robots = ('<meta name="robots" content="noindex,follow">' if noindex
               else '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">')
     verify = ""
@@ -221,13 +322,21 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <link rel="alternate" type="application/rss+xml" title="{TITLE}" href="/feed.xml">
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="theme-color" content="#0B0D10">
-{verify}{FONTS}<link rel="stylesheet" href="/style.css">{extra_head}
+{verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><div>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/feed.xml">RSS</a></div></footer>
+<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
+
+
+def _texts_word(n: int) -> str:
+    if n % 10 == 1 and n % 100 != 11:
+        return "текст"
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return "текста"
+    return "текстов"
 
 
 def _ld(obj: dict) -> str:
@@ -246,12 +355,17 @@ def _list(posts: list[dict], up: str) -> str:
 
 # ---------- страницы ----------
 
-def _article(e: dict, related: list[dict]) -> str:
+def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None) -> str:
+    topics = topics or {}
     slug = e["slug"]
     canonical = _abs(f"p/{slug}.html")
     image = _abs(f"img/{e['cover']}") if e.get("cover") else ""
     sec = _section(e)
-    paras = "".join(f"<p>{_inline(p)}</p>" for p in e.get("paragraphs") or [])
+    used: set[str] = set()
+    paras = "".join(f"<p>{_inline(_link_topics(p, topics, used))}</p>" for p in e.get("paragraphs") or [])
+    ents = [(x["name"], _translit(x["name"])) for x in e.get("entities") or []]
+    ents = [(n, sl) for n, sl in ents if sl in topics.values()]
+    tline = ('<div class="topics-line">' + "".join(f'<a href="/t/{sl}">{_esc(n)}</a>' for n, sl in ents) + "</div>") if ents else ""
     if e.get("final") and e["final"] not in " ".join(e.get("paragraphs") or []):
         paras += f"<p>{_inline(e['final'])}</p>"
     more = ""
@@ -262,12 +376,13 @@ def _article(e: dict, related: list[dict]) -> str:
     more += f'<p><a href="{_esc(_post_url(e))}">Этот текст в канале</a> · <a href="{CHANNEL_URL}">@{CHANNEL}</a></p>'
     rel = ""
     if related:
-        rel = ('<div class="related"><h3>ЕЩЁ · ' + _esc(SECTION_TITLE.get(sec, "").upper()) + "</h3>"
+        rel = ('<div class="related"><h3>ПО ТЕМЕ</h3>'
                + "".join(f'<a href="/p/{r["slug"]}">{_esc(r["headline"])}</a>' for r in related) + "</div>")
     cover = (f'<img class="cover" src="/img/{_esc(e["cover"])}" alt="{_esc(e["headline"])}" width="1280" height="720">'
              if e.get("cover") else "")
     article_ld = {
-        "@context": "https://schema.org", "@type": "NewsArticle", "headline": e["headline"][:110],
+        "@context": "https://schema.org", "@type": "NewsArticle", "headline": (e.get("seo_title") or e["headline"])[:110],
+        "alternativeHeadline": e["headline"], "about": [{"@type": "Thing", "name": n} for n, _ in ents],
         "description": _desc(e), "datePublished": e["time_iso"], "dateModified": e["time_iso"], "inLanguage": "ru",
         "articleSection": SECTION_TITLE.get(sec, ""), "mainEntityOfPage": canonical,
         "author": ORG, "publisher": ORG, "isAccessibleForFree": True,
@@ -280,13 +395,14 @@ def _article(e: dict, related: list[dict]) -> str:
         {"@type": "ListItem", "position": 3, "name": e["headline"]}]}
     body = (f'<article>{_kicker_html(e, "../")}<h1>{_esc(e["headline"])}</h1>'
             f'<p class="sub">{_esc(e.get("subhead", ""))}</p>'
-            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}</time></div>'
+            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}</time></div>{tline}'
             f'{cover}{paras}<div class="more">{more}</div>{rel}</article>')
-    title = f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}'
+    title = f'{e["seo_title"]} — {TITLE}' if e.get("seo_title") else (
+        f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}')
     extra = (f'<meta property="article:published_time" content="{_esc(e["time_iso"])}">'
              f'<meta property="article:section" content="{_esc(SECTION_TITLE.get(sec, ""))}">' + _ld(article_ld) + _ld(crumbs))
     return _page(title, _desc(e), body, canonical, image, depth=1, extra_head=extra, og_type="article",
-                 noindex=not _has_body(e) and not e.get("telegraph"))
+                 noindex=not _indexable(e))
 
 
 def _seed_from_state() -> list[dict]:
@@ -414,6 +530,14 @@ def build(site: Path) -> int:
         new_ids.append(id(e))
 
     _backfill(posts)
+    if os.environ.get("GEMINI_API_KEY") or os.environ.get("CUI_CONFIG"):
+        n = 0
+        for p in posts:
+            if n >= 30:
+                break
+            if _has_body(p) and "seo_title" not in p and not p.get("_seo_tried"):
+                p.update(_seo(p) or {"_seo_tried": True})
+                n += 1
     posts.sort(key=lambda p: p["time_iso"], reverse=True)
     seen: set[str] = set()
     for p in posts:
@@ -428,12 +552,46 @@ def build(site: Path) -> int:
     for p in posts:
         by_sec[_section(p)].append(p)
         by_month[p["time_iso"][:7]].append(p)
-    sections = [s for s in ("analysis", "position", *RUBRICS.keys()) if by_sec.get(s)]
+    sections = [s for s in ("analysis", "position", "week", *RUBRICS.keys()) if by_sec.get(s)]
 
-    # статьи
+    # темы: сущности, о которых написано не меньше TOPIC_MIN текстов
+    global FOOTER_TOPICS
+    by_topic: dict[str, list[dict]] = defaultdict(list)
+    topic_name: dict[str, str] = {}
     for p in posts:
-        same = [q for q in by_sec[_section(p)] if q is not p and _has_body(q)][:5]
-        (site / "p" / f"{p['slug']}.html").write_text(_article(p, same), encoding="utf-8")
+        for x in p.get("entities") or []:
+            sl = _translit(x["name"])
+            if sl and p not in by_topic[sl]:
+                by_topic[sl].append(p)
+                topic_name.setdefault(sl, x["name"])
+    live = {sl: ps for sl, ps in by_topic.items() if sum(1 for q in ps if _indexable(q)) >= TOPIC_MIN}
+    topics = {topic_name[sl]: sl for sl in sorted(live, key=lambda k: -len(live[k]))}
+    top = sorted(live, key=lambda k: -len(live[k]))[:20]
+    FOOTER_TOPICS = ('<div class="topics">' + "".join(f'<a href="/t/{sl}">{_esc(topic_name[sl])}</a>' for sl in top)
+                     + "</div>") if top else ""
+    (site / "t").mkdir(exist_ok=True)
+    for sl, ps in by_topic.items():
+        name = topic_name[sl]
+        first, last = _date_ru(ps[-1]["time_iso"]), _date_ru(ps[0]["time_iso"])
+        intro = (f'<p class="sub">{len(ps)} {_texts_word(len(ps))} · {first}' + (f' — {last}' if first != last else "") + "</p>")
+        ld = _ld({"@context": "https://schema.org", "@type": "CollectionPage", "name": name, "url": _abs(f"t/{sl}"),
+                  "about": {"@type": "Thing", "name": name}, "publisher": ORG})
+        (site / "t" / f"{sl}.html").write_text(
+            _page(f"{name}: новости и анализ — {TITLE}",
+                  f"{name}: все тексты {TITLE} — что происходит, кто выигрывает и во что это обходится. Последнее — {ps[0]['headline']}"[:200],
+                  f'<h1 class="sec">{_esc(name)}</h1>{intro}' + _list(ps, "../"), _abs(f"t/{sl}"), depth=1,
+                  extra_head=ld, noindex=sl not in live), encoding="utf-8")
+
+    # статьи: «По теме» — сначала общие сущности, потом та же рубрика
+    for p in posts:
+        mine = {_translit(x["name"]) for x in p.get("entities") or []}
+        def score(q):
+            return len(mine & {_translit(x["name"]) for x in q.get("entities") or []})
+        cands = [q for q in posts if q is not p and _indexable(q)]
+        same = sorted([q for q in cands if score(q)], key=lambda q: (-score(q), q["time_iso"]), reverse=False)[:5]
+        if len(same) < 5:
+            same += [q for q in by_sec[_section(p)] if q is not p and _indexable(q) and q not in same][:5 - len(same)]
+        (site / "p" / f"{p['slug']}.html").write_text(_article(p, same, topics), encoding="utf-8")
 
     # главная
     home_ld = _ld({"@context": "https://schema.org", "@type": "WebSite", "name": TITLE, "url": _abs("index.html"),
@@ -467,6 +625,14 @@ def build(site: Path) -> int:
     (site / "archive.html").write_text(_page(f"Архив — {TITLE}", f"Все тексты {TITLE} по месяцам и рубрикам.", arch,
                                              _abs("archive.html")), encoding="utf-8")
 
+    # об издании
+    about = (f'<h1 class="sec">Об издании</h1><article><p>{TITLE} — {DESCRIPTION.lower()}. Тексты выходят в Telegram-канале '
+             f'<a href="{CHANNEL_URL}">@{CHANNEL}</a> и на этом сайте.</p>'
+             '<p>Каждая цифра в тексте ведёт на источник: официальные данные, отчётность, документы, публикации других изданий. '
+             'Факты сверяются с источниками до публикации. Если в тексте найдена ошибка, её исправляют в самом тексте.</p></article>')
+    (site / "about.html").write_text(_page(f"Об издании — {TITLE}", f"{TITLE} — {DESCRIPTION.lower()}.", about, _abs("about")),
+                                     encoding="utf-8")
+
     # служебное
     (site / "404.html").write_text(_page(f"Страница не найдена — {TITLE}", DESCRIPTION,
                                          '<h1 class="sec">Такой страницы нет</h1><p><a href="/">На главную</a></p>',
@@ -483,10 +649,12 @@ def build(site: Path) -> int:
         urls = [(_abs("index.html"), posts[0]["time_iso"][:10] if posts else "")]
         urls += [(_abs(f"r/{s}.html"), by_sec[s][0]["time_iso"][:10]) for s in sections]
         urls += [(_abs(f"a/{m}.html"), by_month[m][0]["time_iso"][:10]) for m in months]
-        urls += [(_abs(f"p/{p['slug']}.html"), p["time_iso"][:10]) for p in posts if _has_body(p) or p.get("telegraph")]
+        urls += [(_abs(f"t/{sl}"), live[sl][0]["time_iso"][:10]) for sl in live]
+        urls += [(_abs(f"p/{p['slug']}.html"), p["time_iso"][:10]) for p in posts if _indexable(p)]
+        urls += [(_abs("about"), "")]
         (site / "sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            + "\n".join(f"<url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls) + "\n</urlset>\n",
+            + "\n".join(f"<url><loc>{u}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>" for u, d in urls) + "\n</urlset>\n",
             encoding="utf-8")
         (site / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {_abs('sitemap.xml')}\n",
                                          encoding="utf-8")
