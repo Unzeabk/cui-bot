@@ -182,5 +182,27 @@
    "https://rg.ru/2026/11/02/kitaj-udaril-ballisticheskoj-raketoj-po-maketu-avianosca-ssha-poiavilos-video.html"
   ],
   "message_id": 114
+ },
+ {
+  "time_iso": "2026-11-02T01:43:34.101045+03:00",
+  "time": "02.11 01:43",
+  "rubric": "regulation",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "обменник"
+  ],
+  "topic_key": "shtrafy-za-dgeneriki-patent",
+  "headline": "Как оборотный штраф изменит рынок дженериков",
+  "fly": "За чей патент платите",
+  "subhead": "Минэкономики нацелилось на двойную выручку за досрочные дженерики",
+  "final": "",
+  "actor": "mineconomiki",
+  "main_title": "Лекарства берут в оборот // Наказание за вывод на рынок дженериков в нарушение патента предложено ужесточить",
+  "sources": [
+   "https://www.kommersant.ru/doc/9078609"
+  ],
+  "message_id": 115
  }
 ]
