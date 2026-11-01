@@ -59,6 +59,7 @@ jobs:
           WRITER_MODELS: ${{ vars.WRITER_MODELS }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
           NEWS_FEEDS: ${{ vars.NEWS_FEEDS }}
+          TG_CHANNELS: ${{ vars.TG_CHANNELS }}
           SITE_LABEL: ${{ vars.SITE_LABEL }}
           CUSTOM_EMOJI_JSON: ${{ vars.CUSTOM_EMOJI_JSON }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '' }}

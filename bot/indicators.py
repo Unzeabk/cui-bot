@@ -190,7 +190,7 @@ def materials(recent: list[dict]) -> list[dict]:
     from .news import collect, fetch_text
     from .prompts import topic_user_message
 
-    items = collect(hours=168, limit=320)
+    items = collect(hours=168)
     if not items:
         return []
     text, _ = ask(LIGHT_CHAIN, PICK_SYSTEM.format(task=PICK), topic_user_message(items, recent), temperature=0.3)

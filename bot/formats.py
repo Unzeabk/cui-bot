@@ -105,7 +105,7 @@ def gather(fmt: str, recent: list[dict]) -> list[dict]:
     from .news import collect, fetch_text
     from .prompts import topic_user_message
 
-    items = collect(hours=FORMATS[fmt]["hours"], limit=320)
+    items = collect(hours=FORMATS[fmt]["hours"])
     if fmt in ("position", "analysis"):
         items = fresh_items(items, recent)  # не про то, о чём уже писали (рубрик теперь по две в неделю)
     if not items:
