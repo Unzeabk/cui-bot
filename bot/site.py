@@ -419,8 +419,8 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
     if related:
         rel = ('<div class="related"><h3>ПО ТЕМЕ</h3>'
                + "".join(f'<a href="/p/{r["slug"]}">{_esc(r["headline"])}</a>' for r in related) + "</div>")
-    cover = (f'<img class="cover" src="/img/{_esc(e["cover"])}" alt="{_esc(e["headline"])}" width="1280" height="720">'
-             if e.get("cover") else "")
+    # обложка повторяет заголовок: на странице её нет, она остаётся в og:image и разметке — для поиска и превью ссылок
+    cover = ""
     article_ld = {
         "@context": "https://schema.org", "@type": "NewsArticle", "headline": (e.get("seo_title") or e["headline"])[:110],
         "alternativeHeadline": e["headline"], "about": [{"@type": "Thing", "name": n} for n, _ in ents],
