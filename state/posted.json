@@ -1,1 +1,26 @@
-[]
+[
+ {
+  "time_iso": "2026-11-01T21:59:10.631801+03:00",
+  "time": "01.11 21:59",
+  "rubric": "abroad",
+  "form": "невозможный факт",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "bankrotstvo-alta-banka-v-serbii",
+  "headline": "Белградский банк для релокантов рухнул после выборов",
+  "fly": "Мёртвые счета",
+  "subhead": "Подсказка: десятки тысяч клиентов остались без карт за один день",
+  "final": "",
+  "actor": "alta banka",
+  "main_title": "В Сербии началось банкротство ALTA banka, популярного у российских эмигрантов",
+  "sources": [
+   "https://www.bfm.ru/news/622599",
+   "https://meduza.io/feature/2026/11/01/u-menya-est-dva-dnya-poka-produkty-v-holodilnike-ne-zakonchatsya",
+   "https://thebell.io/natsbank-serbii-cherez-pyat-dney-posle-porazheniya-vuchicha-na-vyborakh-otozval-litsenziyu-u-alta-banka-gde-otkryvali-scheta-rossiyane"
+  ],
+  "message_id": 105
+ }
+]
