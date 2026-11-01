@@ -181,7 +181,8 @@ ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}
 ul.list h2 a{text-decoration:none}ul.list h2 a:hover{text-decoration:underline}
 ul.list .sub{font-size:16px;margin:4px 0 0}
 .all{display:block;margin:26px 0;font:13px "IBM Plex Mono",monospace;color:var(--cold)}
-footer{color:var(--mute);font:12px "IBM Plex Mono",monospace;padding:40px 0}
+footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:72px}
+footer.wrap div{border-top:1px solid var(--rule);padding-top:28px}
 footer a{color:var(--cold)}
 """
 
@@ -218,12 +219,14 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <meta property="og:url" content="{_esc(canonical)}">{img}
 <meta name="twitter:title" content="{_esc(title)}"><meta name="twitter:description" content="{_esc(desc)}">
 <link rel="alternate" type="application/rss+xml" title="{TITLE}" href="/feed.xml">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="theme-color" content="#0B0D10">
 {verify}{FONTS}<link rel="stylesheet" href="/style.css">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap">{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/feed.xml">RSS</a></footer>
+<footer class="wrap"><div>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/feed.xml">RSS</a></div></footer>
 </body></html>"""
 
 
@@ -469,6 +472,9 @@ def build(site: Path) -> int:
                                          '<h1 class="sec">Такой страницы нет</h1><p><a href="/">На главную</a></p>',
                                          _abs("404.html"), noindex=True), encoding="utf-8")
     (site / "style.css").write_text(CSS.strip(), encoding="utf-8")
+    icons = Path(__file__).resolve().parent.parent / "assets" / "site"
+    for f in icons.glob("*"):
+        shutil.copy(f, site / f.name)
     (site / ".nojekyll").write_text("", encoding="utf-8")
     if SITE_URL:
         host = urlparse(SITE_URL).netloc
