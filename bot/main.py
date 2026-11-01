@@ -312,11 +312,6 @@ def publish(note: dict, dry: bool) -> dict:
     OUT.mkdir(exist_ok=True)
     cover = render_cover(note, OUT / f"cover-{stamp}.png", site=SITE)
     caption = build_caption(note, CUSTOM_EMOJI)
-    try:
-        from .site import prepare_seo, with_tags
-        caption = with_tags(caption, prepare_seo("note", note))
-    except Exception as e:
-        log(f"теги не добавлены ({e})")
     (OUT / f"note-{stamp}.json").write_text(json.dumps(note, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"caption-{stamp}.html").write_text(caption, encoding="utf-8")
     log(f"подпись: {visible_length(caption)} знаков, обложка: {cover.name}")

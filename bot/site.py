@@ -303,6 +303,13 @@ body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto;widt
 .topics-line{font:12px "IBM Plex Mono",monospace;color:var(--mute);margin:-12px 0 22px}
 .topics-line a{color:var(--cold);text-decoration:none;margin-right:12px}
 article b{font-weight:600}
+.lead{font-size:20px;margin:0 0 22px}.lead b{font-weight:600}
+svg.chart{width:100%;height:auto;margin:6px 0 26px;display:block}
+h2.dh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);font-weight:400;text-transform:uppercase;margin:30px 0 10px}
+table.data{width:100%;border-collapse:collapse;font:14px "IBM Plex Mono",monospace}
+table.data td,table.data th{border-bottom:1px solid var(--rule);padding:7px 0;text-align:left;font-weight:400}
+table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:not(:first-child){text-align:right}
+.src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
 """
 
@@ -358,7 +365,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/archive">Архив</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
+<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/archive">Архив</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
 
 
@@ -375,7 +382,7 @@ def _ld(obj: dict) -> str:
 
 
 def _nav(sections: list[str], up: str) -> str:
-    return '<nav class="sec">' + "".join(f'<a href="/r/{s}">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
+    return '<nav class="sec"><a href="/data">Данные</a>' + "".join(f'<a href="/r/{s}">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
 
 
 def _list(posts: list[dict], up: str) -> str:
@@ -671,6 +678,13 @@ def build(site: Path) -> int:
     for f in icons.glob("*"):
         shutil.copy(f, site / f.name)
     (site / ".nojekyll").write_text("", encoding="utf-8")
+    # вечные страницы данных
+    try:
+        from .data_pages import build_data
+        data_urls = build_data(site, _page, _abs, _list, posts, _ld)
+    except Exception as ex:
+        log(f"данные: сборка не удалась ({ex})")
+        data_urls = []
     if SITE_URL:
         host = urlparse(SITE_URL).netloc
         if host and not host.endswith("github.io"):
@@ -680,7 +694,7 @@ def build(site: Path) -> int:
         urls += [(_abs(f"a/{m}.html"), by_month[m][0]["time_iso"][:10]) for m in months]
         urls += [(_abs(f"t/{sl}"), live[sl][0]["time_iso"][:10]) for sl in live]
         urls += [(_abs(f"p/{p['slug']}.html"), p["time_iso"][:10]) for p in posts if _indexable(p)]
-        urls += [(_abs("about"), "")]
+        urls += [(_abs("about"), "")] + data_urls
         (site / "sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "\n".join(f"<url><loc>{u}</loc>" + (f"<lastmod>{d}</lastmod>" if d else "") + "</url>" for u, d in urls) + "\n</urlset>\n",
