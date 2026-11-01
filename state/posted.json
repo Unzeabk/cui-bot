@@ -219,5 +219,49 @@
    "https://eurasianet.org/china-driving-down-price-of-russian-gas"
   ],
   "message_id": 87
+ },
+ {
+  "time_iso": "2026-11-01T17:51:18.993736+03:00",
+  "time": "01.11 17:51",
+  "rubric": "abroad",
+  "form": "невозможный факт",
+  "layout": "от цифры",
+  "optics": [
+   "теневой двойник",
+   "обменник"
+  ],
+  "topic_key": "kndr-it-agents-uk-companies",
+  "headline": "Северокорейцы под чужими именами устроились в тысячи британских компаний",
+  "fly": "Чужие среди нас",
+  "subhead": "Зарплаты инженеров на удаленке уходят на финансирование ядерной программы Пхеньяна",
+  "final": "",
+  "actor": "north korea",
+  "main_title": "Telegraph раскрыла схему агентов КНДР по заработку в британских компаниях",
+  "sources": [
+   "https://www.rbc.ru/rbcfreenews/6ae05b37bae07110b5b3849f"
+  ],
+  "message_id": 88
+ },
+ {
+  "time_iso": "2026-11-01T17:55:23.721392+03:00",
+  "time": "01.11 17:55",
+  "rubric": "regulation",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "спектакль"
+  ],
+  "topic_key": "zapret-sputnikovoj-svyazi-fts-fsb",
+  "headline": "ФТС и ФСБ займутся контролем нового запрета связи",
+  "fly": "Частотный диапазон",
+  "subhead": "Подписано постановление кабмина об иностранных терминалах",
+  "final": "",
+  "actor": "fsb",
+  "main_title": "РФ запретила ввоз средств для приема радиоволн иностранных спутников связи",
+  "sources": [
+   "https://tass.ru/ekonomika/28276309"
+  ],
+  "message_id": 89
  }
 ]
