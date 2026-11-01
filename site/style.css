@@ -22,7 +22,8 @@ article p{margin:0 0 18px}
 nav.sec{font:12px "IBM Plex Mono",monospace;line-height:2.1;margin:-14px 0 30px}
 nav.sec a{color:var(--cold);text-decoration:none;margin-right:14px;white-space:nowrap;display:inline-block}
 ul.list{list-style:none;padding:0;margin:0}
-ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}
+ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}ul.list li:last-child{border-bottom:none}
+footer p:first-child{margin-top:0}
 ul.list h2 a{text-decoration:none}ul.list h2 a:hover{text-decoration:underline}
 ul.list .sub{font-size:16px;margin:4px 0 0}
 .all{display:block;margin:26px 0;font:13px "IBM Plex Mono",monospace;color:var(--cold)}
