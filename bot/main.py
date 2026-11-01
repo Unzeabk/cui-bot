@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .rubrics import RUBRICS
 from .compose import fix_links, build_caption, dedupe_links, extract_json, validate, visible_length
 
 # Один секрет CUI_CONFIG вместо трёх: строки вида ИМЯ=значение
@@ -128,7 +129,35 @@ def rubric_problems(note: dict, recent: list[dict]) -> list[str]:
     return out
 
 
-def _mark(note: dict, materials: list[dict]) -> dict:
+def topic_problems(topic: dict, recent: list[dict]) -> list[str]:
+    """Жёсткие проверки темы до написания: география рубрики и повтор участника за трое суток."""
+    from .rubrics import RU_LINKED, RU_ONLY
+
+    rub, geo = topic.get("rubric"), str(topic.get("russia", "")).strip().lower()
+    out = []
+    if rub in RU_ONLY and geo != "в россии":
+        out.append(f"рубрика {rub} только про Россию, а событие не в России ({geo or 'не указано'})")
+    if rub in RU_LINKED and geo not in ("в россии", "связь"):
+        out.append(f"рубрика {rub} требует участия России, а его нет ({geo or 'не указано'})")
+    out += rubric_problems({"rubric": rub}, recent)
+    actor = str(topic.get("actor", "")).strip().lower()
+    if actor:
+        cutoff = datetime.now(TZ) - timedelta(hours=72)
+        for r in recent:
+            try:
+                fresh = datetime.fromisoformat(r["time_iso"]) >= cutoff
+            except (KeyError, ValueError):
+                continue
+            seen = str(r.get("actor", "")).strip().lower()
+            key = str(r.get("topic_key", "")).lower()
+            if fresh and (seen == actor or (len(actor) >= 4 and actor.replace(" ", "-") in key)):
+                out.append(f"участник «{actor}» уже был за трое суток: «{r.get('headline', '')}»")
+                break
+    return out
+
+
+def _mark(note: dict, materials: list[dict], topic: dict) -> dict:
+    note["_actor"] = str(topic.get("actor", "")).strip().lower()
     note["_main_title"] = materials[0]["title"]
     note["_sources"] = [m["link"] for m in materials]
     return note
@@ -142,7 +171,11 @@ def produce(recent: list[dict]) -> dict | None:
         log("ни одна лента не ответила")
         return None
     topics = pick_topics(items, recent)
-    for n, topic in enumerate(topics[:3], 1):
+    for n, topic in enumerate(topics[:5], 1):
+        bad = topic_problems(topic, recent)
+        if bad:
+            log(f"тема {n} отклонена: " + "; ".join(bad))
+            continue
         materials = materials_for(topic, items)
         allowed = {m["link"] for m in materials}
         log(f"тема {n}: {materials[0]['title']}")
@@ -154,6 +187,8 @@ def produce(recent: list[dict]) -> dict | None:
                 feedback = f"Ответ не разобрался как JSON: {e}"
                 log(feedback)
                 continue
+            if topic.get("rubric") in RUBRICS:
+                note["rubric"] = topic["rubric"]  # рубрику выбрал отбор тем и проверил код; писатель её не меняет
             problems = validate(note, allowed) + rubric_problems(note, recent)
             if any(p.startswith("запрещённый оборот") or p.startswith("в заголовке") for p in problems):
                 from .formats import fix_headline, repair_banned  # точечная правка вместо полного переписывания
@@ -170,13 +205,14 @@ def produce(recent: list[dict]) -> dict | None:
                 break
             log("вердикт:", v.get("verdict"), "|", "; ".join(v.get("problems") or []))
             if v.get("verdict") == "ok":
-                return _mark(note, materials)
+                return _mark(note, materials, topic)
             if v.get("verdict") == "fix" and v.get("fixed_note"):
                 fixed = dedupe_links(v["fixed_note"])
                 for k in ("place", "cover"):  # фактчек правит текст, оформление сохраняем
                     fixed.setdefault(k, note.get(k))
                 if not validate(fixed, allowed):
-                    return _mark(fixed, materials)
+                    fixed["rubric"] = note["rubric"]
+                    return _mark(fixed, materials, topic)
             if v.get("verdict") == "reject":
                 break  # тема держится на ошибке — следующая тема
             feedback = "Фактчек нашёл ошибки:\n" + "\n".join(f"- {p}" for p in (v.get("problems") or []))
@@ -239,7 +275,7 @@ def run_once(dry: bool) -> int:
             "rubric": note["rubric"], "form": note["form"], "layout": note.get("layout", ""), "optics": note.get("optics", []),
             "topic_key": note.get("topic_key", ""), "headline": note["headline"],
             "fly": note.get("fly", ""), "final": note.get("final", ""),
-            "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
+            "actor": note.get("_actor", ""), "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
             "message_id": result.get("message_id"),
         })
         save_state(state)
