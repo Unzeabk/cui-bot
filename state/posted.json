@@ -543,5 +543,116 @@
    "https://ria.ru/20261101/kitaj-2128444274.html"
   ],
   "message_id": 68
+ },
+ {
+  "time_iso": "2026-11-01T16:10:58.056112+03:00",
+  "time": "01.11 16:10",
+  "rubric": "settlements",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "лестница власти"
+  ],
+  "topic_key": "binance-vzlom-vyvod-sredstv-severnaya-koreya",
+  "headline": "Binance гасит рекордную кражу из собственных резервов",
+  "fly": "За счёт заведения",
+  "final": "",
+  "main_title": "Binance restarts withdrawals after $6.3bn heist",
+  "sources": [
+   "https://www.aljazeera.com/news/2026/11/1/binance-restarts-withdrawals-after-6-3bn-heist?traffic_source=rss",
+   "https://www.ft.com/content/1d4dd7b2-9dee-433b-ac2a-e8022af1dd07?syn-25a6b1a6=1",
+   "https://www.rbc.ru/rbcfreenews/6ae6014392b809aef4d94d21",
+   "https://theins.ru/news/299010"
+  ],
+  "message_id": 69
+ },
+ {
+  "time_iso": "2026-11-01T16:13:32.732053+03:00",
+  "time": "01.11 16:13",
+  "rubric": "world",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "спектакль"
+  ],
+  "topic_key": "opek-plus-dekabr-kvoty-2026",
+  "headline": "Семерка ОПЕК+ сохранила декабрьские квоты без изменений",
+  "fly": "Тише едут, целее квоты",
+  "final": "Следующая встреча представителей семи стран пройдёт [29 ноября](https://ria.ru/20261101/opek-2128455505.html).",
+  "main_title": "Страны ОПЕК+ согласовали сохранение целевых показателей нефтедобычи  в декабре на прежнем уровне",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/01/strany-opek-soglasovali-sokhranenie-tselevykh-pokazateley-neftedobychi-v-dekabre-na-prezhnem-urovne-a210222",
+   "https://ria.ru/20261101/opek-2128455505.html",
+   "https://tass.ru/ekonomika/28276203",
+   "https://www.interfax.ru/business/1126392"
+  ],
+  "message_id": 70
+ },
+ {
+  "time_iso": "2026-11-01T16:15:45.070403+03:00",
+  "time": "01.11 16:15",
+  "rubric": "tech",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "метрика-оборотень"
+  ],
+  "topic_key": "rassvet-sputniki-shod-orbit-2026",
+  "headline": "Российский аналог Starlink потерял второй спутник с начала года",
+  "fly": "Космос подождёт",
+  "final": "",
+  "main_title": "Российский аналог Starlink потерял второй спутник за семь месяцев из 32 запущенных аппаратов",
+  "sources": [
+   "https://theins.ru/news/299015",
+   "https://ru.themoscowtimes.com/2026/11/01/hakeri-vzlomali-sait-rosstata-izayavili-opohischenii-dannih-opoteryah-rossii-navoine-a210217",
+   "https://theins.ru/news/299012",
+   "https://meduza.io/news/2026/11/01/belorusskie-hakery-vzlomali-sayt-rosstata-oni-utverzhdayut-chto-poluchili-dostup-k-informatsii-o-poteryah-rossii-v-voyne"
+  ],
+  "message_id": 71
+ },
+ {
+  "time_iso": "2026-11-01T16:17:52.818046+03:00",
+  "time": "01.11 16:17",
+  "rubric": "budget",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "теневой двойник",
+   "спектакль"
+  ],
+  "topic_key": "britaniya-bjudzhet-nalog-avtomaty-bingo",
+  "headline": "Британские залы игровых автоматов сохраняют скидки через лицензии бинго",
+  "fly": "Закон что дышло",
+  "final": "",
+  "main_title": "High street ‘slot farms’ could avoid budget tax rise through bingo hall loophole",
+  "sources": [
+   "https://www.theguardian.com/society/2026/nov/01/high-street-slot-farms-budget-tax-rise-business-rates-bingo-licence-loophole",
+   "https://www.marketwatch.com/story/america-is-doing-better-than-you-think-your-algorithm-is-just-hiding-it-7dbdecff?mod=mw_rss_topstories"
+  ],
+  "message_id": 72
+ },
+ {
+  "time_iso": "2026-11-01T16:20:37.051493+03:00",
+  "time": "01.11 16:20",
+  "rubric": "sanctions",
+  "form": "невозможный факт",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "обменник"
+  ],
+  "topic_key": "argentina-galicia-blokirovka-schetov",
+  "headline": "Аргентинский банк начал массово закрывать счета россиян",
+  "fly": "Колумбова яйца",
+  "final": "Пострадавшие собираются подать коллективный иск.",
+  "main_title": "Один из крупнейших банков Аргентины начал блокировать счета россиян",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/01/odin-izkrupneishih-bankov-argentini-nachal-blokirovat-scheta-rossiyan-a210218",
+   "https://www.vedomosti.ru/politics/news/2026/11/01/1241837-spisok-prizval-banki"
+  ],
+  "message_id": 73
  }
 ]
