@@ -22,7 +22,6 @@ DEFAULT_FEEDS = [
     "https://www.forbes.ru/newrss.xml",
     "https://frankmedia.ru/feed",
     "https://www.banki.ru/xml/news.rss",
-    "https://expert.ru/rss/",
     "https://www.ng.ru/rss/",
     "https://lenta.ru/rss/news",
     "https://www.cnews.ru/inc/rss/news.xml",
