@@ -5,10 +5,10 @@ import json
 import re
 from urllib.parse import unquote
 
-from .rubrics import RUBRICS, FORMS
+from .rubrics import RUBRICS, FORMS, LAYOUTS, OPTIC_FAMILY
 
 CAPTION_LIMIT = 1024  # лимит подписи к фото в Bot API
-CAPTION_TARGET = 1000
+CAPTION_TARGET = 950  # telegram.md: весь пост до 950 знаков
 
 LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
 
@@ -23,6 +23,12 @@ BANNED = [
     (re.compile(r"\bдетектив", re.I), "детективная лексика: детектив"),
     (re.compile(r"\bбайбэк", re.I), "англицизм «байбэк»"),
     (re.compile(r"кастодиальн|\bp2p\b|\bпериметр|\bдрайвер|\bкейс", re.I), "профжаргон или англицизм"),
+    (re.compile(r"стройк[аиуе] ИИ", re.I), "калька «стройка ИИ»"),
+    (re.compile(r"\bшок", re.I), "«шок»"),
+    (re.compile(r"вы не поверите", re.I), "«вы не поверите»"),
+    (re.compile(r"на самом деле", re.I), "«на самом деле»"),
+    (re.compile(r"не только\s+[^.!?;:]{1,60}?,\s+это\s+", re.I), "качели «не только X, это Y»"),
+    (re.compile(r"кто контролирует [^.!?]{1,40}?[—–-]\s*контролирует", re.I), "слоган"),
     # качели «не X, а Y»
     (re.compile(r"(?:^|[\s,.—–-])не\s+[^.!?;:]{1,60}?,\s+а\s+", re.I), "качели «не X, а Y»"),
 ]
@@ -175,6 +181,40 @@ def copied_examples(note: dict) -> list[str]:
     return out
 
 
+_EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\u25A0-\u25FF\u2190-\u21FF]")
+_NUM = re.compile(r"\d[\d\s,.]*\d|\d")
+
+
+def note_rules(note: dict) -> list[str]:
+    """Правила свода и telegram.md, которые проверяются по одной заметке."""
+    out = []
+    fly = plain(note.get("fly") or "")
+    if not 2 <= len(fly.split()) <= 5:
+        out.append(f"во флае {len(fly.split())} слов, нужно 2–5")
+    body = " ".join(plain(p) for p in note.get("paragraphs", [])) + " " + plain(note.get("final") or "")
+    if len(fly) > 6 and fly.lower().strip(" .«»") in body.lower():
+        out.append("флай повторяется в тексте: он стоит только над заголовком")
+    optics = [str(o).strip().lower() for o in note.get("optics") or []]
+    if len(optics) != 2 or any(o not in OPTIC_FAMILY for o in optics):
+        out.append(f"оптик должно быть две из таблицы «Оптики», получено: {optics}")
+    elif OPTIC_FAMILY[optics[0]] == OPTIC_FAMILY[optics[1]]:
+        out.append(f"вторая оптика из того же семейства, что главная ({optics[0]}, {optics[1]}): нужна из другого")
+    text = " ".join(plain(note.get(k) or "") for k in ("fly", "headline", "subhead")) + " " + body
+    for o in OPTIC_FAMILY:
+        if o not in ("спектакль", "обменник") and o in text.lower():
+            out.append(f"название оптики «{o}» в тексте: названия оптик не появляются никогда")
+    if note.get("layout") and note["layout"] not in LAYOUTS:
+        out.append(f"раскладка «{note['layout']}» не из трёх: {', '.join(LAYOUTS)}")
+    if _EMOJI.search(text):
+        out.append("в тексте эмодзи или значок: в посте их нет")
+    for sent in re.split(r"(?<=[.!?])\s+", body):
+        nums = [n for n in _NUM.findall(sent) if not re.fullmatch(r"(19|20)\d\d", n.strip())]
+        if len(nums) >= 3:
+            out.append(f"в одном предложении {len(nums)} цифры: одна цифра на предложение — «{sent[:80]}…»")
+            break
+    return out
+
+
 def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     """Возвращает список проблем. Пустой список — заметка проходит."""
     problems = []
@@ -188,12 +228,15 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append(f"неизвестная рубрика {note['rubric']}")
     if note["form"] not in FORMS:
         problems.append(f"неизвестная форма заголовка {note['form']}")
-    if not isinstance(note["paragraphs"], list) or not (1 <= len(note["paragraphs"]) <= 4):
-        problems.append("абзацев должно быть 1–4")
+    if not isinstance(note["paragraphs"], list) or not (2 <= len(note["paragraphs"]) <= 3):
+        problems.append("абзацев должно быть 2–3")
 
     words = len(plain(note["headline"]).split())
-    if not 5 <= words <= 9:
+    if not 6 <= words <= 9:
         problems.append(f"в заголовке {words} слов, нужно 6–9")
+    if plain(note["headline"]).count(",") > 1:
+        problems.append("в заголовке больше одной запятой: нужно одно простое предложение")
+    problems += note_rules(note)
 
     problems += copied_examples(note)
 

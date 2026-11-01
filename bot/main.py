@@ -143,6 +143,42 @@ def rubric_problems(note: dict, recent: list[dict]) -> list[str]:
     return out
 
 
+def feed_problems(note: dict, recent: list[dict]) -> list[str]:
+    """Правила ленты по форме, раскладке и оптике (свод: «Формы заголовка», «Оптики»; telegram.md: раскладки)."""
+    from .rubrics import FORMS, OPTIC_FAMILY
+
+    notes = [r for r in recent if r.get("form") in FORMS]
+    out = []
+    if notes:
+        last = notes[-1]
+        if note.get("form") == last.get("form"):
+            out.append(f"форма «{note.get('form')}» была в прошлой заметке — нужна другая")
+        if note.get("layout") and note.get("layout") == last.get("layout"):
+            out.append(f"раскладка «{note.get('layout')}» была в прошлой заметке — нужна другая")
+        main_o = (note.get("optics") or [""])[0]
+        if main_o and main_o == (last.get("optics") or [""])[0]:
+            out.append(f"главная оптика «{main_o}» была в прошлой заметке — нужна другая")
+    cutoff = datetime.now(TZ) - timedelta(hours=24)
+
+    def _fresh(r: dict, since: datetime) -> bool:
+        try:
+            return datetime.fromisoformat(r["time_iso"]) >= since
+        except (KeyError, ValueError):
+            return False
+
+    if note.get("form") == "невозможный факт" and any(r.get("form") == "невозможный факт" and _fresh(r, cutoff) for r in notes):
+        out.append("«невозможный факт» уже был за сутки — нужна другая форма")
+    week = [r for r in notes if _fresh(r, datetime.now(TZ) - timedelta(days=7))]
+    fams = {OPTIC_FAMILY.get((r.get("optics") or [""])[0]) for r in week} - {None}
+    fam = OPTIC_FAMILY.get((note.get("optics") or [""])[0])
+    if len(week) >= 6 and len(fams) < 4 and fam in fams:
+        out.append(f"за неделю главные оптики только из семейств {sorted(fams)}: возьми главную оптику из другого семейства")
+    lw = (note.get("headline") or "").lower()
+    if any(lw and lw == (r.get("headline") or "").lower() for r in recent):
+        out.append("такой заголовок уже был")
+    return out
+
+
 def topic_problems(topic: dict, recent: list[dict]) -> list[str]:
     """Жёсткие проверки темы до написания: география рубрики и повтор участника за трое суток."""
     from .rubrics import RU_LINKED, RU_ONLY
@@ -203,11 +239,11 @@ def produce(recent: list[dict]) -> dict | None:
                 continue
             if topic.get("rubric") in RUBRICS:
                 note["rubric"] = topic["rubric"]  # рубрику выбрал отбор тем и проверил код; писатель её не меняет
-            problems = validate(note, allowed) + rubric_problems(note, recent)
+            problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent)
             if any(p.startswith("запрещённый оборот") or p.startswith("в заголовке") for p in problems):
                 from .formats import fix_headline, repair_banned  # точечная правка вместо полного переписывания
                 note = fix_headline(repair_banned("note", note))
-                problems = validate(note, allowed) + rubric_problems(note, recent)
+                problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent)
             if problems:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)

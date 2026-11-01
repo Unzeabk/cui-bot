@@ -168,7 +168,7 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
             if not d.get(k):
                 probs.append(f"нет поля {k}")
         words = len(plain(d.get("headline", "")).split())
-        if not 5 <= words <= 9:
+        if not 6 <= words <= 9:
             probs.append(f"в заголовке {words} слов, нужно 6–9")
     if fmt == "position" and len(d.get("paragraphs") or []) != 3:
         probs.append("в позиции ровно три абзаца")
@@ -187,8 +187,8 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
             probs.append(f"в разборе {n} слов, нужно не меньше 900")
     if not probs:
         cap = visible_length(caption(fmt, d, "https://telegra.ph/x"))
-        if cap > 1000:
-            probs.append(f"пост длиной {cap} знаков, лимит 1000: сократи")
+        if cap > 950:  # telegram.md: до 950 знаков
+            probs.append(f"пост длиной {cap} знаков, лимит 950: сократи")
     return list(dict.fromkeys(probs))
 
 
