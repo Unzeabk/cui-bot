@@ -189,6 +189,15 @@ def _low(t: str) -> str:
     return re.sub(r"\s+", " ", plain(t or "")).strip(" .,!?…«»\"").lower().replace("ё", "е")
 
 
+_CLICHE_SUB = re.compile(r"^\W*(подсказка|намёк|намек|hint)\b", re.I)
+
+
+def subhead_cliche(d: dict) -> list[str]:
+    """«Подсказка: …» — образец из свода, модель тянется к нему в каждом посте. Запрещён всегда, во всех жанрах."""
+    sub = plain(d.get("subhead") or "")
+    return ["подзаголовок «Подсказка: …» — клише из примера свода, возьми другую форму"] if _CLICHE_SUB.search(sub) else []
+
+
 def copied_examples(note: dict, recent: list[dict] | None = None) -> list[str]:
     """Пример из свода можно взять, но не чаще раза в неделю: иначе модель тянется к нему в каждом посте.
     recent — посты за 7 дней из state (main.load_state). Любой флай тоже не повторяется 7 дней."""
@@ -203,8 +212,6 @@ def copied_examples(note: dict, recent: list[dict] | None = None) -> list[str]:
         hit = next((q for q in DOC_QUOTES if len(q.split()) >= 3 and q in val and q in past_text), None)
         if hit:
             out.append(f"{name} повторяет пример из свода «{hit}», который уже брали на этой неделе — нужен свой")
-    if sub.startswith("подсказка") and "подсказка" in past_text:
-        out.append("подзаголовок «Подсказка: …» уже был на этой неделе — возьми другую форму")
     return out
 
 
@@ -264,6 +271,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     if plain(note["headline"]).count(",") > 1:
         problems.append("в заголовке больше одной запятой: нужно одно простое предложение")
     problems += note_rules(note)
+    problems += subhead_cliche(note)
 
 
     text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])

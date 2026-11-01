@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from .compose import BANNED, banned_hits, fix_links, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
+from .compose import BANNED, banned_hits, subhead_cliche, fix_links, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
 from .main import CUSTOM_EMOJI, OUT, SITE, TZ, _similar, fresh_items, load_state, log, save_state  # noqa: F401
 from .prompts import BASE, WRITER_SYSTEM, _recent_txt
 
@@ -175,6 +175,7 @@ def validate_format(fmt: str, d: dict, allowed: set[str]) -> list[str]:
         probs.append("в позиции ровно три абзаца")
     body = " ".join(plain(t) for t in _texts(fmt, d))
     probs += banned_hits(body)
+    probs += subhead_cliche(d)
     allowed_n = {_norm(u) for u in allowed}
     links = [u for t in _texts(fmt, d) for _, u in LINK_RE.findall(t or "")]
     if not links:
