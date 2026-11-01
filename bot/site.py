@@ -559,8 +559,8 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             f"<description>{_esc(_desc(p))}</description>"
             f"<content:encoded><![CDATA[{body}]]></content:encoded></item>")
     (site / "zen.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" '
-        'xmlns:media="http://search.yahoo.com/mrss/">'
+        '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="https://purl.org/rss/1.0/modules/content/" '
+        'xmlns:media="https://search.yahoo.com/mrss/">'
         f"<channel><title>{TITLE}</title><link>{SITE_URL or 'https://cuibono.press'}</link>"
         f"<description>{DESCRIPTION}</description><language>ru</language>{''.join(items)}</channel></rss>\n",
         encoding="utf-8")
