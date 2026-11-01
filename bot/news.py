@@ -134,6 +134,7 @@ DEFAULT_FEEDS = RUSSIA_FEEDS + WORLD_FEEDS
 DEFAULT_TG = [
     "centralbank_russia",   # Банк России: решения раньше сайта
     "minfin",               # Минфин России
+    "bbbreaking",           # «Раньше всех. Ну почти»: срочные новости, обычно первые
     "markettwits",          # MarketTwits: срочное по рынкам, обычно первыми
     "banksta",              # Банкста: банки и финансы, быстро
     "thebell_io",           # The Bell
