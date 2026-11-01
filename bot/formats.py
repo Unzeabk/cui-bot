@@ -21,7 +21,7 @@ from .prompts import BASE, WRITER_SYSTEM, _recent_txt
 
 FORMATS = {
     "indicators": {"label": "ПОКАЗАТЕЛИ", "days": [0], "hours": 168},
-    "position": {"label": "ПОЗИЦИЯ", "days": [1, 3], "hours": 72},
+    "position": {"label": "ПОЗИЦИЯ", "days": [1, 2, 3, 4], "hours": 72},
     "analysis": {"label": "РАЗБОР", "days": [0, 1, 2, 3, 4, 5, 6], "hours": 168},
     "week": {"label": "НЕДЕЛЯ", "days": [5], "hours": 168},
 }
