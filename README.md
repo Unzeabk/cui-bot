@@ -93,3 +93,15 @@ python -m bot.main --from-json examples/note-property.json
 
 ## Устойчивость и журнал
 При перегрузке Gemini (503) или обрыве связи — два повтора, затем следующая модель; одна неудача не роняет пачку. Если фактчек недоступен, без проверки не публикуем. Журнал ленты — `state/posted.json` (запись повторяется при параллельных коммитах). Ручной запуск берёт код на момент старта; поле «Сколько заметок подряд» — до 8, пауза 90 секунд. GitHub Actions: 2000 бесплатных минут в месяц, ~2–3 минуты на заметку.
+
+## Сайт-зеркало (поисковый трафик в канал)
+
+После каждой заметки, позиции и разбора бот выкладывает страницу на бесплатный сайт (GitHub Pages): заголовок, текст, обложка, sitemap.xml, feed.xml, разметка для поисковиков. Каждая страница ведёт в канал. Код — `bot/site.py`, шаг «Сайт» в обоих workflow.
+
+Включение (один раз):
+1. Создать **публичный** репозиторий для сайта, например `Unzeabk/cuibono`. Settings → Pages → Deploy from a branch → `main`, папка `/ (root)`.
+2. Создать fine-grained токен с доступом только к этому репозиторию (Contents: Read and write) и положить в секреты cui-bot как `SITE_TOKEN`.
+3. В переменные cui-bot (Settings → Secrets and variables → Actions → Variables): `SITE_REPO` = `Unzeabk/cuibono`, `SITE_URL` = `https://unzeabk.github.io/cuibono`.
+4. По желанию: `YANDEX_VERIFICATION` и `GOOGLE_VERIFICATION` — коды из Яндекс Вебмастера и Google Search Console; туда же отправить `sitemap.xml`.
+
+Пока `SITE_REPO` не задан, шаг пропускается. Ошибка сайта не мешает публикации в канал.

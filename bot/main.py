@@ -319,7 +319,10 @@ def publish(note: dict, dry: bool) -> dict:
         log("DRY_RUN: в канал не отправляю")
         return {}
     from .telegram import send_photo
-    return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, caption)
+    from .site import write_entry
+    res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, caption)
+    write_entry("note", note, res, cover)
+    return res
 
 
 def main() -> int:

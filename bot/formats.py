@@ -562,7 +562,11 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
         log("DRY_RUN: в канал не отправляю")
         return {}
     button = ("Читать разбор", url) if fmt == "analysis" else None
-    return send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
+    res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
+    if fmt in ("position", "analysis"):
+        from .site import write_entry
+        write_entry(fmt, d, res, cover, url)
+    return res
 
 
 def run_indicators(state: list[dict], dry: bool, d: dict | None = None, journal: bool = True) -> int:

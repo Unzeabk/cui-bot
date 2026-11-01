@@ -92,3 +92,26 @@ jobs:
             sleep 5
           done
           exit 1
+
+      - name: Сайт
+        # Публичный репозиторий сайта (vars.SITE_REPO, например Unzeabk/cuibono) и токен с правом записи в него (secrets.SITE_TOKEN).
+        # Пока переменная не задана, шаг пропускается.
+        if: success() && !inputs.dry_run && vars.SITE_REPO != ''
+        continue-on-error: true
+        env:
+          SITE_REPO: ${{ vars.SITE_REPO }}
+          SITE_TOKEN: ${{ secrets.SITE_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          YANDEX_VERIFICATION: ${{ vars.YANDEX_VERIFICATION }}
+          GOOGLE_VERIFICATION: ${{ vars.GOOGLE_VERIFICATION }}
+        run: |
+          git clone --depth 1 "https://x-access-token:${SITE_TOKEN}@github.com/${SITE_REPO}.git" site
+          python -m bot.site site
+          cd site
+          git config user.name "cui-bot"
+          git config user.email "cui-bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Публикация $(date -u +'%Y-%m-%d %H:%M')"
+          for i in 1 2 3; do git pull --rebase origin HEAD && git push && exit 0; sleep 5; done
+          exit 1
