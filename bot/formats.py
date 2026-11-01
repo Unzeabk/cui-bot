@@ -274,6 +274,9 @@ def telegraph(d: dict) -> str:
     acc = requests.post("https://api.telegra.ph/createAccount",
                         data={"short_name": "CuiBono", "author_name": "Cui Bono?"}, timeout=30).json()
     token = acc["result"]["access_token"]
+    # Имя автора ведёт в канал: читатель, пришедший на статью из поиска или по ссылке, находит издание.
+    channel = os.environ.get("TELEGRAM_CHANNEL", "@cuibono_press").lstrip("@")
+    author_url = f"https://t.me/{channel}" if not channel.startswith("-") else "https://t.me/cuibono_press"
 
     def nodes(p: str) -> list:
         out, pos = [], 0
@@ -290,6 +293,7 @@ def telegraph(d: dict) -> str:
     content += [{"tag": "p", "children": nodes(p)} for p in d["paragraphs"]]
     r = requests.post("https://api.telegra.ph/createPage", data={
         "access_token": token, "title": plain(d["headline"])[:256], "author_name": "Cui Bono?",
+        "author_url": author_url,
         "content": json.dumps(content, ensure_ascii=False), "return_content": "false",
     }, timeout=60).json()
     if not r.get("ok"):
