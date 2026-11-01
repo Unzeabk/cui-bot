@@ -6,7 +6,11 @@
   "fly": "Топливный сбор",
   "headline": "Как удары по НПЗ привели к лимитам на заправках?",
   "subhead": "Под удар попало почти 10% российской нефтепереработки",
-  "paragraphs": [],
+  "paragraphs": [
+   "После массированного налета [стаи дронов](https://t.me/agentstvonews/17986) на Кстовский завод «Лукойла» власти Нижегородской области ограничили продажу бензина сорока литрами в одни руки.",
+   "Региональное правительство спешно ввело лимиты, хотя официально признает лишь [значительные повреждения](https://www.politico.eu/article/russia-strikes-leave-thousands-without-power-ukraine-volodymyr-zelenskyy/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication) промышленного объекта. Три атакованных за три дня предприятия в сумме перерабатывают около 24 млн тонн нефти ежегодно.",
+   "Запасные маршруты поставок упираются в жесткий дефицит свободных цистерн, а ремонт заводов тормозят западные санкции."
+  ],
   "final": "",
   "topic_key": "kstovo-npz-benz_limit-2026",
   "message_id": 100,
@@ -25,7 +29,8 @@
   "topic_key": "ydex-otzovet-prognozy-datacenters",
   "message_id": 99,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -39,7 +44,8 @@
   "topic_key": "g20-atlanta-family-photo-cancel",
   "message_id": 98,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -53,7 +59,8 @@
   "topic_key": "matvienko-vizit-v-kitay-2026",
   "message_id": 97,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -67,7 +74,8 @@
   "topic_key": "nvidia-astana-ai-hub",
   "message_id": 96,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -81,7 +89,8 @@
   "topic_key": "murmansk-zerno-arktika",
   "message_id": 95,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -95,7 +104,8 @@
   "topic_key": "nizhegorodskaja-obast-limit-benzina-2",
   "message_id": 94,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -109,7 +119,8 @@
   "topic_key": "proekt-byudzheta-2027-2029",
   "message_id": 93,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -123,7 +134,8 @@
   "topic_key": "prodlenie-zapreta-dizelya-yanvar",
   "message_id": 92,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -137,7 +149,8 @@
   "topic_key": "pochta-rossii-glavpochtamt-prodazha",
   "message_id": 91,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -151,7 +164,8 @@
   "topic_key": "ai-capex-free-cash-flow-2026",
   "message_id": 90,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -165,7 +179,8 @@
   "topic_key": "zapret-sputnikovoj-svyazi-fts-fsb",
   "message_id": 89,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -179,7 +194,8 @@
   "topic_key": "kndr-it-agents-uk-companies",
   "message_id": 88,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -193,7 +209,8 @@
   "topic_key": "china-gas-price-discount",
   "message_id": 87,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -207,7 +224,8 @@
   "topic_key": "rostics-vykup-franshizy",
   "message_id": 86,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -221,7 +239,8 @@
   "topic_key": "udobreniya-v-afriku-blokirovka",
   "message_id": 85,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -235,7 +254,8 @@
   "topic_key": "vzlom-rosstata-2026",
   "message_id": 84,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -249,7 +269,8 @@
   "topic_key": "rossiyskiy-dizel-v-evrope-novak",
   "message_id": 83,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -263,7 +284,8 @@
   "topic_key": "nizhegorodskaja-obast-limit-benzina",
   "message_id": 82,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -277,7 +299,8 @@
   "topic_key": "opek-kvoty-dekabr-2026",
   "message_id": 81,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -291,7 +314,8 @@
   "topic_key": "postavki-cherez-kazahstan",
   "message_id": 80,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -305,7 +329,8 @@
   "topic_key": "vzlom-binance-vyplaty",
   "message_id": 79,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  },
  {
   "kind": "note",
@@ -319,6 +344,7 @@
   "topic_key": "blokirovka-schetov-emigrantov",
   "message_id": 78,
   "cover": "",
-  "telegraph": ""
+  "telegraph": "",
+  "_tried": true
  }
 ]
