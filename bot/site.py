@@ -360,6 +360,9 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
         before = min(ids)
     for p in posts:
         p.pop("_tried", None)
+    if not found and need:
+        sample = next((c for c in chunks if "message_text" in c), raw[:1500]) if 'chunks' in locals() else ""
+        posts[0]["_debug"] = f"{datetime.now(TZ):%H:%M} ids={len(ids) if 'ids' in locals() else '-'} " + sample[:2500]
     if found:
         posts[0].pop("_debug", None)
         log(f"сайт: тексты {found} постов взяты из канала")
