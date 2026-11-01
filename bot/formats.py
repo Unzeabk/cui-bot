@@ -597,8 +597,6 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
             from .indicators import week_range
             d = {**d, "_range": week_range()}
         write_entry(fmt, d, res, cover, url)
-        from .dzen import publish as dzen_publish
-        dzen_publish(fmt, d, cover, url if fmt == "analysis" else "")
     return res
 
 

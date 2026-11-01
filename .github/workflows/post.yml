@@ -54,7 +54,6 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
-          DZEN_CHANNEL: ${{ vars.DZEN_CHANNEL || '' }}
           WRITER_MODELS: ${{ vars.WRITER_MODELS }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
           NEWS_FEEDS: ${{ vars.NEWS_FEEDS }}
