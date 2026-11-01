@@ -161,15 +161,44 @@ def topic_user_message(items: list[dict], recent: list[dict]) -> str:
     return "Баланс рубрик (сверху — те, которых давно не было):\n" + rubric_balance(recent) + "\n\nНедавние заметки (темы не повторять):\n" + _recent_txt(recent[-35:]) + "\n\nНовости за 48 часов:\n" + "\n".join(lines)
 
 
-def writer_user_message(today: str, recent: list[dict], materials: list[dict], rubric: str = "") -> str:
-    rule = f"Рубрика заметки: {rubric}. " if rubric in RUBRICS else ""
-    if recent:
-        last = recent[-1]
-        rule += (
-            f"Последняя заметка была в рубрике {last.get('rubric')} в форме «{last.get('form')}» и раскладке «{last.get('layout') or '—'}» "
-            f"с главной оптикой «{(last.get('optics') or [''])[0]}». Возьми другую рубрику, другую форму, другую раскладку и другую главную оптику. "
-            "Если сегодня уже был «невозможный факт», эту форму не бери."
-        )
+def plan_slot(recent: list[dict]) -> dict:
+    """Что код задаёт писателю заранее, чтобы не жечь попытки на «возьми другую форму»:
+    раскладка назначается, формы и главная оптика — из разрешённого списка."""
+    import random
+    from datetime import datetime, timedelta, timezone
+
+    from .rubrics import FORMS, LAYOUTS, OPTIC_FAMILY
+
+    notes = [r for r in recent if r.get("form") in FORMS]
+    last = notes[-1] if notes else {}
+    day_ago = datetime.now(timezone.utc) - timedelta(hours=24)
+
+    def fresh(r):
+        try:
+            return datetime.fromisoformat(r["time_iso"]) >= day_ago
+        except (KeyError, ValueError):
+            return False
+
+    forms = [f for f in FORMS if f != last.get("form")]
+    if any(r.get("form") == "невозможный факт" and fresh(r) for r in notes):
+        forms = [f for f in forms if f != "невозможный факт"]
+    layout = random.choice([l for l in LAYOUTS if l != last.get("layout")])
+    last_main = (last.get("optics") or [""])[0]
+    optics = [o for o in OPTIC_FAMILY if o != last_main]
+    return {"layout": layout, "forms": forms, "optics": optics, "last_main": last_main}
+
+
+def writer_user_message(today: str, recent: list[dict], materials: list[dict], rubric: str = "", slot: dict | None = None) -> str:
+    from .rubrics import OPTIC_FAMILY
+
+    slot = slot or plan_slot(recent)
+    fam = "; ".join(f"{o} — {f}" for o, f in OPTIC_FAMILY.items())
+    rule = (f"Рубрика заметки: {rubric} (задана, не меняй). " if rubric in RUBRICS else "") + (
+        f"Раскладка: «{slot['layout']}» (задана, не меняй). "
+        f"Форма заголовка — одна из: {', '.join(slot['forms'])}. "
+        f"Главная оптика — любая, кроме «{slot['last_main'] or '—'}». Вторая — из другого семейства. "
+        f"Названия оптик пиши точно как здесь (оптика — семейство): {fam}."
+    )
     mats = []
     for i, m in enumerate(materials):
         tag = "ГЛАВНЫЙ МАТЕРИАЛ" if i == 0 else f"Дополнительный материал {i}"

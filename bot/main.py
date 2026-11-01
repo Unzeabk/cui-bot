@@ -106,12 +106,20 @@ def materials_for(topic: dict, items: list[dict]) -> list[dict]:
     return mats
 
 
-def write_note(recent: list[dict], materials: list[dict], feedback: str = "", rubric: str = "") -> dict:
+def _snap(value: str, options) -> str:
+    """Опечатку в названии оптики или формы («спекталь») чиним, а не тратим на неё попытку."""
+    import difflib
+    v = str(value or "").strip().lower()
+    hit = difflib.get_close_matches(v, list(options), n=1, cutoff=0.8)
+    return hit[0] if hit else v
+
+
+def write_note(recent: list[dict], materials: list[dict], feedback: str = "", rubric: str = "", slot: dict | None = None) -> dict:
     from .gemini import WRITER_CHAIN, ask
     from .prompts import WRITER_SYSTEM, writer_user_message
 
     now = datetime.now(TZ)
-    user = writer_user_message(now.strftime("%d.%m.%Y, %H:%M"), recent, materials, rubric)
+    user = writer_user_message(now.strftime("%d.%m.%Y, %H:%M"), recent, materials, rubric, slot)
     if feedback:
         user += f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}"
     text, model = ask(WRITER_CHAIN, WRITER_SYSTEM, user, temperature=0.8)
@@ -230,13 +238,19 @@ def produce(recent: list[dict]) -> dict | None:
         allowed = {m["link"] for m in materials}
         log(f"тема {n}: {materials[0]['title']}")
         feedback = ""
-        for attempt in (1, 2):
+        from .prompts import plan_slot
+        from .rubrics import FORMS, OPTIC_FAMILY
+        slot = plan_slot(recent)
+        for attempt in (1, 2, 3):
             try:
-                note = write_note(recent, materials, feedback, topic.get("rubric", ""))
+                note = write_note(recent, materials, feedback, topic.get("rubric", ""), slot)
             except Exception as e:  # noqa: BLE001
                 feedback = f"Ответ не разобрался как JSON: {e}"
                 log(feedback)
                 continue
+            note["optics"] = [_snap(o, OPTIC_FAMILY) for o in note.get("optics") or []]
+            note["form"] = _snap(note.get("form"), FORMS)
+            note["layout"] = slot["layout"]  # раскладку назначил код
             if topic.get("rubric") in RUBRICS:
                 note["rubric"] = topic["rubric"]  # рубрику выбрал отбор тем и проверил код; писатель её не меняет
             problems = validate(note, allowed) + rubric_problems(note, recent) + feed_problems(note, recent) + copied_examples(note, recent)
