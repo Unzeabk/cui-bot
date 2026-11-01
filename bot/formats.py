@@ -509,7 +509,7 @@ WEEK_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><styl
 ANALYSIS_COVER = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .shade{background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.9) 45%,rgba(11,13,16,.15) 80%)}
 .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:800px;padding:20px 0}
-.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:linear-gradient(90deg,#4A4D54 0%,#6E727A 100%);padding:9px 18px}
+.stamp{align-self:flex-start;font-family:'Plex',monospace;font-weight:600;font-size:22px;letter-spacing:.22em;color:#EDE9E2;background:linear-gradient(90deg,#2C2E33 0%,#4A4D54 100%);padding:9px 18px}
 </style></head><body><div class="root">__MAP__<div class="layer shade"></div>
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">__DATE__</span></div>
 <div class="rule"></div>
