@@ -205,7 +205,7 @@
 
 | Документ | Что там полезного |
 | --- | --- |
-| Колода оптик — https://claude.ai/artifact/K84kDWLnnoXja7tZjAbkey (в проекте — `istochniki/07-koloda-optik.md`) | Связки оптик на реальных новостях и правки к ним; всё действующее из неё перенесено сюда |
+| Колода оптик — https://claude.ai/artifact/K84kDWLnnoXja7tZjAbkey | Связки оптик на реальных новостях и правки к ним; всё действующее из неё перенесено сюда |
 | Как сделан Economist: номер от 31 октября — https://claude.ai/artifact/DzzSKGxAEyyLqcQ9fhwmm7 | Разбор номера, жанры, расшифровка именных колонок |
 | Драматургия: Economist и мы — https://claude.ai/artifact/EMSqQHrVcAoU9p9NtZcuwD | Анатомия колонки Free Exchange, десять приёмов, чек-лист для разбора русских изданий |
 | Модель редакции: где искать удар — https://claude.ai/artifact/B6rzheDjRU3RXVjUjmvwv6 | Карта убеждений читателя, пять ходов переворота |
