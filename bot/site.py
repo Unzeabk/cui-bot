@@ -337,7 +337,6 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
         try:
             raw = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64)"}).text
         except Exception as e:
-            posts[0]["_debug"] = repr(e)
             break
         chunks = re.split(r'(?=<div class="tgme_widget_message_wrap)', raw)
         ids = []
@@ -353,18 +352,14 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
                     need.pop(mid)["paragraphs"] = paras
                     found += 1
         if not ids:
-            posts[0]["_debug"] = raw[:200] + " … " + raw[raw.find("tgme_channel"):][:1500]
             break
         if not need or min(ids) <= min(need):
             break
         before = min(ids)
     for p in posts:
         p.pop("_tried", None)
-    if not found and need:
-        sample = next((c for c in chunks if "message_text" in c), raw[:1500]) if 'chunks' in locals() else ""
-        posts[0]["_debug"] = f"{datetime.now(TZ):%H:%M} ids={len(ids) if 'ids' in locals() else '-'} " + sample[:2500]
+        p.pop("_debug", None)
     if found:
-        posts[0].pop("_debug", None)
         log(f"сайт: тексты {found} постов взяты из канала")
     return found
 
