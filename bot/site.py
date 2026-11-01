@@ -527,36 +527,43 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
 
 
 def _zen_feed(site: Path, posts: list[dict]) -> None:
-    """Лента для Дзена (zen.xml): полный текст, обложка через enclosure, флаги публикации категориями.
-    Попадают только тексты с текстом и обложкой (Дзену нужна картинка шире 700 px — у нас 1280)."""
+    """Лента для Дзена (zen.xml) по «Техническим требованиям к RSS-ленте» Дзена:
+    contentType blogs_only — статьи публикуются в канале Дзена; рубрика сайта, index, comment-all;
+    только материалы за последние 7 дней (старше Дзен не берёт); заголовок без точки в конце;
+    обложка через enclosure (у нас 1280×720, минимум — 480×320)."""
+    from datetime import timedelta
+    since = datetime.now(TZ) - timedelta(days=7)
     items = []
     for p in posts:
-        if not (_has_body(p) and p.get("cover") and _indexable(p)):
+        if not (_has_body(p) and _indexable(p)) or _dt(p["time_iso"]) < since:
             continue
         url = _abs(f"p/{p['slug']}.html")
-        img = _abs(f"img/{p['cover']}")
-        mime = "image/jpeg" if p["cover"].endswith(".jpg") else "image/png"
+        title = re.sub(r"\.+$", "", plain(p["headline"]).strip())[:200]
         body = "".join(f"<p>{_inline(x)}</p>" for x in p.get("paragraphs") or [])
         if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
             body += f"<p>{_inline(p['final'])}</p>"
         if p.get("subhead"):
             body = f"<p><i>{_esc(p['subhead'])}</i></p>" + body
+        body += f'<p><a href="{CHANNEL_URL}">Cui Bono? в Telegram</a></p>'
+        body = body.replace(' rel="nofollow noopener"', "")
+        encl = ""
+        if p.get("cover") and (site / "img" / p["cover"]).exists():
+            f = site / "img" / p["cover"]
+            mime = "image/jpeg" if f.suffix == ".jpg" else "image/png"
+            encl = f'<enclosure url="{_abs("img/" + p["cover"])}" length="{f.stat().st_size}" type="{mime}"/>'
         items.append(
-            f"<item><title>{_esc(p['headline'][:140])}</title><link>{url}</link><guid>{url}</guid>"
+            f"<item><title>{_esc(title)}</title><link>{url}</link><guid>{url}</guid>"
             f"<pubDate>{_dt(p['time_iso']).strftime('%a, %d %b %Y %H:%M:%S %z')}</pubDate>"
-            f"<author>{TITLE}</author><media:rating scheme=\"urn:simple\">nonadult</media:rating>"
-            f"<category>format-article</category><category>index</category><category>comment-all</category>"
-            f"<enclosure url=\"{img}\" type=\"{mime}\"/>"
-            f"<description><![CDATA[{_desc(p)}]]></description>"
+            f"<author>{TITLE}</author><category>{_esc(SECTION_TITLE.get(_section(p), 'Мир'))}</category>"
+            f"<category>index</category><category>comment-all</category><contentType>blogs_only</contentType>{encl}"
+            f"<description>{_esc(_desc(p))}</description>"
             f"<content:encoded><![CDATA[{body}]]></content:encoded></item>")
-        if len(items) >= 50:
-            break
     (site / "zen.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" '
-        'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/" '
-        'xmlns:atom="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss">'
-        f"<channel><title>{TITLE}</title><link>{_abs('index.html')}</link><description>{DESCRIPTION}</description>"
-        f"<language>ru</language>{''.join(items)}</channel></rss>\n", encoding="utf-8")
+        'xmlns:media="http://search.yahoo.com/mrss/">'
+        f"<channel><title>{TITLE}</title><link>{SITE_URL or 'https://cuibono.press'}</link>"
+        f"<description>{DESCRIPTION}</description><language>ru</language>{''.join(items)}</channel></rss>\n",
+        encoding="utf-8")
 
 
 def _jpeg(src: Path, dst_dir: Path) -> str:
