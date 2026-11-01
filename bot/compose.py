@@ -164,23 +164,42 @@ def dedupe_links(note: dict) -> dict:
     return note
 
 
-# Примеры из свода и из образца ответа: модель любит переписывать их дословно.
-_EXAMPLE_FLIES = {"не продаётся вдохновенье", "не продается вдохновенье", "добровольно-принудительно", "все ходы записаны"}
-_EXAMPLE_HEADLINES = ("самый быстрорастущий банк россии", "самый богатый собственник россии", "поставщики стали главным банком",
-                      "выручка яндекса теперь зависит", "как компании из ичхона")
+# Примеры из свода: модель любит переписывать их дословно. Список собирается сам из всех цитат
+# «…» в system.md и telegram.md, так что новый пример в документе сразу попадает под запрет.
+def _doc_quotes() -> list[str]:
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    text = "".join((root / n).read_text(encoding="utf-8") for n in ("system.md", "telegram.md") if (root / n).exists())
+    out = set()
+    found = re.findall(r"«([^«»]{2,120})»", text)
+    # Примеры заголовков в таблице форм стоят без кавычек: второй столбец таблицы «Форма | Пример | …»
+    sec = text.split("## Формы заголовка", 1)[-1].split("\n## ", 1)[0]
+    found += [row.split("|")[2] for row in sec.splitlines() if row.startswith("| ") and row.count("|") >= 4]
+    for q in found:
+        q = re.sub(r"\s+", " ", q).strip(" .,!?…").lower().replace("ё", "е")
+        if q and "[" not in q and not re.search(r"\b[xy]\b", q):
+            out.add(q)
+    return sorted(out)
+
+
+DOC_QUOTES = _doc_quotes()
+
+
+def _low(t: str) -> str:
+    return re.sub(r"\s+", " ", plain(t or "")).strip(" .,!?…«»\"").lower().replace("ё", "е")
 
 
 def copied_examples(note: dict) -> list[str]:
     out = []
-    fly = plain(note.get("fly") or "").strip(" .«»\"").lower()
-    if fly in _EXAMPLE_FLIES:
-        out.append(f"флай «{note['fly']}» списан с примера из свода — придумай свой под эту тему")
-    sub = plain(note.get("subhead") or "").strip().lower()
+    fly, head, sub = _low(note.get("fly")), _low(note.get("headline")), _low(note.get("subhead"))
+    if fly and fly in DOC_QUOTES:
+        out.append(f"флай «{note['fly']}» дословно взят из примеров свода — придумай свой под эту тему")
+    for name, val in (("заголовок", head), ("подзаголовок", sub)):
+        hit = next((q for q in DOC_QUOTES if len(q.split()) >= 3 and q in val), None)
+        if hit:
+            out.append(f"{name} повторяет пример из свода «{hit}» — нужен свой")
     if sub.startswith("подсказка"):
-        out.append("подзаголовок «Подсказка: …» списан с примера из свода — возьми другую форму подзаголовка")
-    head = plain(note.get("headline") or "").lower()
-    if any(head.startswith(h) for h in _EXAMPLE_HEADLINES):
-        out.append("заголовок списан с примера из свода — нужен свой")
+        out.append("подзаголовок «Подсказка: …» — заезженный приём, возьми другую форму")
     return out
 
 
