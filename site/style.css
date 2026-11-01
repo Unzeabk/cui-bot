@@ -26,6 +26,12 @@ ul.list li{border-bottom:1px solid var(--rule);padding:18px 0}
 ul.list h2 a{text-decoration:none}ul.list h2 a:hover{text-decoration:underline}
 ul.list .sub{font-size:16px;margin:4px 0 0}
 .all{display:block;margin:26px 0;font:13px "IBM Plex Mono",monospace;color:var(--cold)}
-footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:72px}
-footer.wrap div{border-top:1px solid var(--rule);padding-top:28px}
+footer.wrap{color:var(--mute);font:12px/1.9 "IBM Plex Mono",monospace;margin-top:72px;padding-top:0;padding-bottom:96px;width:100%}
+footer.wrap>div{border-top:1px solid var(--rule);padding-top:28px}
+footer .topics a{display:inline-block;margin:0 14px 4px 0;text-decoration:none}
+footer p{margin:14px 0 0}
+body{display:flex;flex-direction:column;min-height:100vh}main{flex:1 0 auto;width:100%}
+.topics-line{font:12px "IBM Plex Mono",monospace;color:var(--mute);margin:-12px 0 22px}
+.topics-line a{color:var(--cold);text-decoration:none;margin-right:12px}
+article b{font-weight:600}
 footer a{color:var(--cold)}
