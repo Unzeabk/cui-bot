@@ -2,17 +2,15 @@ name: Cui Bono — заметки
 
 on:
   schedule:
-    # 10 заметок в сутки по Москве: днём 08:37, 10:37, 12:37, 14:37, 17:07, 19:37, 22:07 (между ними — рубрики),
-    # ночью 23:37, 02:37, 05:37 — для релокантов в других часовых поясах.
+    # 8 заметок в сутки по Москве: днём 08:37, 10:37, 12:37, 17:07, 19:37, 22:07 (между ними — рубрики),
+    # ночью 02:37, 05:37 — для релокантов в других часовых поясах.
     # cron в UTC; минуты не круглые — GitHub меньше задерживает
     - cron: "37 5 * * *"
     - cron: "37 7 * * *"
     - cron: "37 9 * * *"
-    - cron: "37 11 * * *"
     - cron: "7 14 * * *"
     - cron: "37 16 * * *"
     - cron: "7 19 * * *"
-    - cron: "37 20 * * *"
     - cron: "37 23 * * *"
     - cron: "37 2 * * *"
   workflow_dispatch:
@@ -84,7 +82,7 @@ jobs:
           git commit -m "Заметка $(date -u +'%Y-%m-%d %H:%M')"
           # пока бот работал, в репозитории могли появиться новые коммиты — подтягиваем их и повторяем
           for i in 1 2 3 4 5; do
-            git pull --rebase -X theirs origin main && git push && exit 0
+            git pull --rebase --autostash -X theirs origin main && git push && exit 0
             sleep 5
           done
           exit 1
@@ -105,14 +103,14 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
         run: |
-          git pull --rebase -X theirs origin main || true
+          git pull --rebase --autostash -X theirs origin main || true
           python -m bot.site site
           git config user.name "cui-bot"
           git config user.email "cui-bot@users.noreply.github.com"
           git add site state/site-posts.json
           if ! git diff --cached --quiet; then
             git commit -m "Сайт $(date -u +'%Y-%m-%d %H:%M')"
-            for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
+            for i in 1 2 3 4 5; do git pull --rebase --autostash -X theirs origin main && git push && break; sleep 5; done
           fi
           npx --yes wrangler@3 pages project create cuibono --production-branch=main 2>/dev/null || true
           npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true

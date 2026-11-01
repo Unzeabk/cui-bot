@@ -22,7 +22,7 @@ from .prompts import BASE, WRITER_SYSTEM, _recent_txt
 FORMATS = {
     "indicators": {"label": "ПОКАЗАТЕЛИ", "days": [0], "hours": 168},
     "position": {"label": "ПОЗИЦИЯ", "days": [1, 3], "hours": 72},
-    "analysis": {"label": "РАЗБОР", "days": [2, 4, 6], "hours": 168},
+    "analysis": {"label": "РАЗБОР", "days": [0, 1, 2, 3, 4, 5, 6], "hours": 168},
     "week": {"label": "НЕДЕЛЯ", "days": [5], "hours": 168},
 }
 
@@ -550,16 +550,38 @@ def render_format_cover(fmt: str, d: dict, path) -> None:
     B.shoot(page, path)
 
 
+def site_first(fmt: str, d: dict, cover) -> str:
+    """Разбор живёт на сайте: страница выкладывается до поста, чтобы кнопка «Читать разбор» сразу открывала текст.
+    Если сайт не выложился — запасной путь, telegra.ph."""
+    import subprocess
+    try:
+        from .site import SITE_URL, _slug, write_entry
+        write_entry(fmt, d, None, cover, "")
+        root = Path(__file__).resolve().parent.parent
+        subprocess.run([sys.executable, "-m", "bot.site", "site"], cwd=root, check=True, timeout=600)
+        subprocess.run(["npx", "--yes", "wrangler@3", "pages", "deploy", "site", "--project-name=cuibono",
+                        "--branch=main", "--commit-dirty=true"], cwd=root, check=True, timeout=600)
+        entry = {"time_iso": datetime.now(TZ).isoformat(), "topic_key": d.get("topic_key", "")}
+        slug = _slug(entry)
+        if not (root / "site" / "p" / f"{slug}.html").exists():
+            raise RuntimeError(f"страница {slug} не собралась")
+        time.sleep(20)
+        return f"{SITE_URL or 'https://cuibono.press'}/p/{slug}"
+    except Exception as e:  # noqa: BLE001
+        log(f"сайт не выложился до поста ({e}) — разбор уходит на telegra.ph")
+        return telegraph(d)
+
+
 def publish(fmt: str, d: dict, dry: bool) -> dict:
     from .telegram import send_photo
 
     url = ""
-    if fmt == "analysis":
-        url = "https://telegra.ph/(пробный-запуск)" if dry else telegraph(d)
     stamp = datetime.now(TZ).strftime("%Y%m%d-%H%M")
     OUT.mkdir(exist_ok=True)
     cover = OUT / f"cover-{fmt}-{stamp}.png"
     render_format_cover(fmt, d, cover)
+    if fmt == "analysis":
+        url = "https://cuibono.press/p/(пробный-запуск)" if dry else site_first(fmt, d, cover)
     cap = caption(fmt, d, url)
     (OUT / f"{fmt}-{stamp}.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"caption-{fmt}-{stamp}.html").write_text(cap, encoding="utf-8")
@@ -613,8 +635,13 @@ def run_indicators(state: list[dict], dry: bool, d: dict | None = None, journal:
 def main() -> int:
     fmt = (os.environ.get("FORMAT") or "auto").strip()
     if fmt == "auto":
-        wd = datetime.now(TZ).weekday()
-        fmt = next((k for k, v in FORMATS.items() if wd in v["days"]), "")
+        # разбор выходит каждый день в 11:22 (запасной 15:22), остальные рубрики — по дням недели в свои часы
+        now = datetime.now(TZ)
+        cron = (os.environ.get("CRON") or "").strip()  # расписание, которое запустило задачу: GitHub часто опаздывает
+        if cron.startswith("22 ") or (not cron and now.hour in (11, 15)):
+            fmt = "analysis"
+        else:
+            fmt = next((k for k, v in FORMATS.items() if k != "analysis" and now.weekday() in v["days"]), "")
         if not fmt:
             log("сегодня по расписанию рубрик нет")
             return 0

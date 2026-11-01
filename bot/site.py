@@ -313,6 +313,8 @@ table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:no
 footer a{color:var(--cold)}
 """
 
+CSS_V = ""  # версия стилей: браузер берёт свежий файл после каждого изменения
+
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600&'
@@ -360,7 +362,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <link rel="alternate" type="application/rss+xml" title="{TITLE}" href="/feed.xml">
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta name="theme-color" content="#0B0D10">
-{verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css">{extra_head}
+{verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
@@ -551,6 +553,8 @@ def _indexnow(site: Path, urls: list[str]) -> None:
 
 
 def build(site: Path) -> int:
+    global CSS_V
+    CSS_V = hashlib.sha1(CSS.encode()).hexdigest()[:8]
     data = STATE.parent / "site-posts.json"
     posts = json.loads(data.read_text(encoding="utf-8")) if data.exists() else _seed_from_state()
     for d in ("img", "p", "r", "a"):
@@ -563,7 +567,10 @@ def build(site: Path) -> int:
             e["cover"] = _jpeg(OUT / e["cover"], site / "img")
         elif e.get("cover"):
             e["cover"] = ""
-        posts = [p for p in posts if not (e.get("message_id") and p.get("message_id") == e["message_id"])]
+        posts = [p for p in posts if not (
+            (e.get("message_id") and p.get("message_id") == e["message_id"])
+            or (p.get("kind") == e.get("kind") and p.get("topic_key") and p.get("topic_key") == e.get("topic_key")
+                and p["time_iso"][:10] == e["time_iso"][:10]))]
         posts.append(e)
         new_ids.append(id(e))
 
