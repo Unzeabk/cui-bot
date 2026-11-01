@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://cuibono.press/</loc><lastmod>2026-11-01</lastmod></url>
+<url><loc>https://cuibono.press/r/analysis</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/r/russia</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/r/regions</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/r/budget</loc><lastmod>2026-11-01</lastmod></url>
@@ -19,13 +20,14 @@
 <url><loc>https://cuibono.press/r/regulation</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/r/defense</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/a/2026-11</loc><lastmod>2026-11-01</lastmod></url>
+<url><loc>https://cuibono.press/p/2026-11-01-test-razbor</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-01-kstovo-npz-benz-limit-2026</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/about</loc></url>
-<url><loc>https://cuibono.press/data/klyuchevaya-stavka</loc><lastmod>2026-10-30</lastmod></url>
+<url><loc>https://cuibono.press/data/klyuchevaya-stavka</loc></url>
 <url><loc>https://cuibono.press/data/kurs-dollara</loc><lastmod>2026-10-31</lastmod></url>
 <url><loc>https://cuibono.press/data/kurs-evro</loc><lastmod>2026-10-31</lastmod></url>
 <url><loc>https://cuibono.press/data/kurs-yuanya</loc><lastmod>2026-10-31</lastmod></url>
 <url><loc>https://cuibono.press/data/indeks-mosbirzhi</loc><lastmod>2026-10-30</lastmod></url>
-<url><loc>https://cuibono.press/data/zoloto</loc><lastmod>2026-10-31</lastmod></url>
+<url><loc>https://cuibono.press/data/zoloto</loc></url>
 <url><loc>https://cuibono.press/data</loc></url>
 </urlset>
