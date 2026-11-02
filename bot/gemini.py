@@ -17,6 +17,9 @@ WRITER_CHAIN = (os.environ.get("WRITER_MODELS") or "gemini-3.8-flash,gemini-3.5-
 CHECK_CHAIN = (os.environ.get("CHECK_MODELS") or "gemini-3.6-flash,gemini-3.5-flash-lite,gemini-3.1-flash-lite").split(",")
 # Для «Разбора»: только сильные модели. Облегчённая пишет по 50–150 слов на часть — такой разбор не выпускаем.
 STRONG_CHAIN = (os.environ.get("STRONG_MODELS") or "gemini-3.8-flash,gemini-3.6-flash").split(",")
+# Если сильная модель перегружена (503), текст пишет вторая сильная, а не облегчённая: облегчённая валится на проверке.
+WRITER_CHAIN = [m for m in WRITER_CHAIN if m.strip() in STRONG_CHAIN] + [m for m in STRONG_CHAIN if m not in WRITER_CHAIN] + \
+    [m for m in WRITER_CHAIN if m.strip() not in STRONG_CHAIN]
 LIGHT_CHAIN = (os.environ.get("LIGHT_MODELS") or "gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.6-flash").split(",")
 
 
@@ -131,4 +134,6 @@ def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> t
             except (QuotaExhausted, RuntimeError) as e:
                 print("[cui]", e, "— пробую дальше", flush=True)
                 last = e
+                if "перегружен" in str(e) or "нет связи" in str(e) or "недоступна" in str(e):
+                    break  # сбой у Google на всю модель: другие ключи не помогут, сразу следующая модель
     raise RuntimeError(f"Ни одна модель не ответила, последняя ошибка: {last}")
