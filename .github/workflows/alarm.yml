@@ -1,0 +1,27 @@
+name: Cui Bono — будильник
+
+# Выкладывает будильник на Cloudflare (worker/). Ему нужен секрет GH_DISPATCH_TOKEN:
+# fine-grained токен GitHub только на репозиторий cui-bot, права Actions: Read and write.
+on:
+  push:
+    branches: [main]
+    paths: ["worker/**", ".github/workflows/alarm.yml"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Выложить воркер
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          GH_DISPATCH_TOKEN: ${{ secrets.GH_DISPATCH_TOKEN }}
+        run: |
+          npx --yes wrangler@3 deploy
+          if [ -n "$GH_DISPATCH_TOKEN" ]; then
+            echo "$GH_DISPATCH_TOKEN" | npx --yes wrangler@3 secret put GH_TOKEN
+          else
+            echo "::warning::Нет секрета GH_DISPATCH_TOKEN — будильник выложен, но запускать бота не сможет"
+          fi

@@ -1,0 +1,9 @@
+name = "cui-alarm"
+main = "index.js"
+compatibility_date = "2026-10-01"
+account_id = "4ffcbbed465bb60c05bc6203792fac1a"
+workers_dev = true
+
+[triggers]
+# один триггер на все слоты: воркер сам сверяет минуту с таблицей SLOTS
+crons = ["7,22,37,52 * * * *"]

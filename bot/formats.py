@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 import requests
 
 from .compose import BANNED, banned_hits, fix_links, LINK_RE, _inline, _norm, dedupe_links, extract_json, links_in, plain, visible_length
-from .main import CUSTOM_EMOJI, OUT, SITE, TZ, _similar, drop_noise, fresh_items, load_state, log, save_state  # noqa: F401
+from .main import CUSTOM_EMOJI, OUT, SITE, TZ, _similar, drop_noise, fresh_items, load_state, log, save_state, slot_key, slot_taken  # noqa: F401
 from .prompts import BASE, WRITER_SYSTEM, _recent_txt
 
 FORMATS = {
@@ -625,7 +625,7 @@ def run_indicators(state: list[dict], dry: bool, d: dict | None = None, journal:
     now = datetime.now(TZ)
     state.append({"time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"), "rubric": "indicators", "form": "показатели",
                   "optics": [], "topic_key": f"pokazateli-{now:%Y-%W}", "headline": "Цифра недели — " + d["week_figure"]["label"],
-                  "fly": "", "final": "", "main_title": "", "sources": d.get("_sources", []), "message_id": res.get("message_id")})
+                  "fly": "", "final": "", "main_title": "", "sources": d.get("_sources", []), "message_id": res.get("message_id"), "slot": slot_key()})
     save_state(state)
     log("готово")
     return 0
@@ -672,7 +672,10 @@ def main() -> int:
         publish(fmt, d, dry)
         log("готово (в журнал ленты тестовый пост не записан)")
         return 0
-    if not dry and fmt == "analysis" and os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+    if not dry and not test_chat and slot_taken(state):
+        log(f"слот {slot_key()} уже закрыт — пропускаю")
+        return 0
+    if not dry and fmt == "analysis" and os.environ.get("SLOT"):
         # у разбора два запуска в день (сразу после сброса квот и запасной) — второй не повторяет первый
         since = datetime.now(TZ) - timedelta(hours=12)
         if any(e.get("rubric") == fmt and datetime.fromisoformat(e["time_iso"]) > since for e in state if e.get("time_iso")):
@@ -696,7 +699,7 @@ def main() -> int:
             "optics": d.get("optics", []), "topic_key": d.get("topic_key", ""),
             "headline": plain(d.get("headline") or ("Неделя: " + ", ".join(i["subject"] for i in d.get("items", [])))),
             "fly": d.get("fly", ""), "final": "", "main_title": "", "sources": d.get("_sources", []),
-            "message_id": res.get("message_id"),
+            "message_id": res.get("message_id"), "slot": slot_key(),
         })
         save_state(state)
     log("готово")

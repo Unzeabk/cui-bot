@@ -29,6 +29,19 @@ STATE = ROOT / "state" / "posted.json"
 OUT = ROOT / "out"
 TZ = ZoneInfo(os.environ.get("EDITION_TZ") or "Europe/Moscow")
 
+
+def slot_key() -> str:
+    """Слот расписания: дата по Москве + cron, который его задал. Запуск приходит дважды — от внешнего будильника
+    (Cloudflare, точно по времени) и от расписания GitHub (запасной, часто с опозданием или вовсе пропадает).
+    Кто первым опубликовал, тот и закрыл слот; второй видит это в журнале ленты и выходит."""
+    slot = " ".join((os.environ.get("SLOT") or "").split())
+    return f"{datetime.now(TZ):%Y-%m-%d} {slot}" if slot else ""
+
+
+def slot_taken(state: list) -> bool:
+    key = slot_key()
+    return bool(key) and any(e.get("slot") == key for e in state)
+
 SITE = os.environ.get("SITE_LABEL") or ""
 CUSTOM_EMOJI = json.loads(os.environ.get("CUSTOM_EMOJI_JSON") or "{}")
 
@@ -347,6 +360,9 @@ def main() -> int:
 
 def run_once(dry: bool) -> int:
     state = load_state()
+    if not dry and slot_taken(state):
+        log(f"слот {slot_key()} уже закрыт — пропускаю")
+        return 0
     note = produce(state)
     if not note:
         log("ни одна тема не прошла проверку — в этот слот ничего не публикуем")
@@ -360,7 +376,7 @@ def run_once(dry: bool) -> int:
             "topic_key": note.get("topic_key", ""), "headline": note["headline"],
             "fly": note.get("fly", ""), "subhead": note.get("subhead", ""), "final": note.get("final", ""),
             "actor": note.get("_actor", ""), "main_title": note.get("_main_title", ""), "sources": note.get("_sources", []),
-            "message_id": result.get("message_id"),
+            "message_id": result.get("message_id"), "slot": slot_key(),
         })
         save_state(state)
     log("готово")
