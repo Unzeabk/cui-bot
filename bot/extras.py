@@ -1,7 +1,7 @@
 """Дополнительные страницы сайта, которые растят издание без денег и без спама.
 
 - /en/...           — английская версия разборов (перевод сильной моделью, кэш в site-posts.json, поле "en");
-- /data/dividendy/  — дивиденды крупных эмитентов Мосбиржи (ISS API), страница на каждую компанию;
+- /data/akcii/      — крупнейшие компании Мосбиржи: цена, график за год, капитализация (ISS API);
 - /calendar, calendar.ics — заседания ЦБ, недельная инфляция, отсечки дивидендов; подписка в любом календаре;
 - /data/igra        — «угадай цифру» недели по курсу юаня;
 - /perepechatka     — открытая лицензия на перепечатку со ссылкой;
@@ -166,86 +166,84 @@ def build_en(site: Path, posts: list[dict], abs_url, ld) -> list[tuple[str, str]
     return urls + [(abs_url("en/"), done[0]["time_iso"][:10] if done else "")]
 
 
-# ---------- дивиденды ----------
+# ---------- акции: страницы компаний Мосбиржи ----------
+# Эндпоинт дивидендов ISS отдаёт описание бумаги вместо выплат, поэтому страницы строятся на ценах (они работают).
 
-def _dividends(secid: str) -> list[dict]:
-    resp = requests.get(f"https://iss.moex.com/iss/securities/{secid}/dividends.json",
-                        params={"iss.meta": "off"}, headers=UA, timeout=30)
-    r = resp.json()
-    if "dividends" not in r:
-        raise RuntimeError(f"нет блока dividends: {resp.status_code} {list(r)[:5]} {resp.text[:150]}")
-    cols = r["dividends"]["columns"]
-    rows = [dict(zip(cols, x)) for x in r["dividends"]["data"]]
-    return sorted([x for x in rows if x.get("registryclosedate") and x.get("value") is not None],
-                  key=lambda x: x["registryclosedate"])
+def _board() -> dict:
+    r = requests.get("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json",
+                     params={"iss.meta": "off", "securities": ",".join(ISSUERS)}, headers=UA, timeout=40).json()
+    sec = {x[0]: dict(zip(r["securities"]["columns"], x)) for x in r["securities"]["data"]}
+    md = {x[r["marketdata"]["columns"].index("SECID")]: dict(zip(r["marketdata"]["columns"], x)) for x in r["marketdata"]["data"]}
+    return {k: {**sec.get(k, {}), **md.get(k, {})} for k in ISSUERS if k in sec}
 
 
-def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[list[tuple[str, str]], list[tuple[date, str, str]]]:
-    out = site / "data" / "dividendy"
+def _share_history(secid: str, days: int = 370) -> list[tuple[date, float]]:
+    now = datetime.now(TZ).date()
+    out, start = [], 0
+    while start < 1000:
+        r = requests.get(f"https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/{secid}.json",
+                         params={"from": (now - timedelta(days=days)).isoformat(), "iss.meta": "off",
+                                 "history.columns": "TRADEDATE,CLOSE", "start": start}, headers=UA, timeout=40).json()
+        rows = r["history"]["data"]
+        out += [(date.fromisoformat(d), float(c)) for d, c in rows if c]
+        if len(rows) < 100:
+            break
+        start += len(rows)
+    return sorted(out)
+
+
+def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[list[tuple[str, str]], list]:
+    from .data_pages import svg_chart
+    out = site / "data" / "akcii"
     out.mkdir(parents=True, exist_ok=True)
-    cache_f = Path("state") / "dividends.json"
-    cache = json.loads(cache_f.read_text(encoding="utf-8")) if cache_f.exists() else {}
-    urls, cards, upcoming = [], [], []
+    board = _board()
     today = datetime.now(TZ).date()
+    urls, cards = [], []
     for secid, name in ISSUERS.items():
-        try:
-            rows = _dividends(secid)
-            cache[secid] = rows
-        except Exception as e:  # noqa: BLE001
-            log(f"дивиденды: {secid} не получены ({e})")
-            rows = cache.get(secid) or []
-        if not rows:
+        b = board.get(secid)
+        if not b:
             continue
+        try:
+            pts = _share_history(secid)
+        except Exception as e:  # noqa: BLE001
+            log(f"акции: {secid} история не получена ({e})")
+            pts = []
+        last = b.get("LAST") or b.get("LCURRENTPRICE") or b.get("PREVPRICE") or (pts[-1][1] if pts else None)
+        if not last:
+            continue
+        cap = b.get("ISSUECAPITALIZATION")
+        y = [p for p in pts if p[0] <= today - timedelta(days=365)] or pts[:1]
+        ch = (last / y[-1][1] - 1) * 100 if y else None
         slug = secid.lower()
-        last = rows[-1]
-        ld_ = date.fromisoformat(last["registryclosedate"])
-        cur = " ₽" if (last.get("currencyid") or "RUB") in ("RUB", "SUR") else f" {last.get('currencyid')}"
-        by_year: dict[int, float] = {}
-        for x in rows:
-            by_year[int(x["registryclosedate"][:4])] = by_year.get(int(x["registryclosedate"][:4]), 0) + float(x["value"])
-        for x in rows:
-            d = date.fromisoformat(x["registryclosedate"])
-            if d >= today:
-                upcoming.append((d, f"Отсечка дивидендов: {name} ({secid}) — {_n(float(x['value']))}{cur}",
-                                 abs_url(f"data/dividendy/{slug}")))
-        when = "закрытие реестра" + (" назначено на " if ld_ >= today else " было ") + _ru(ld_)
-        lead = (f"Последний объявленный дивиденд {name} — <b>{_n(float(last['value']))}{cur}</b> на акцию, {when}. "
-                f"За {max(by_year)} год — {_n(by_year[max(by_year)])}{cur} на акцию.")
-        yrows = "".join(f"<tr><td>{y}</td><td>{_n(v)}{cur}</td></tr>" for y, v in sorted(by_year.items(), reverse=True))
-        hrows = "".join(f"<tr><td>{date.fromisoformat(x['registryclosedate']):%d.%m.%Y}</td><td>{_n(float(x['value']))}{cur}</td></tr>"
-                        for x in reversed(rows))
+        lead = (f"Акция {name} ({secid}) на Мосбирже — <b>{_n(float(last))} ₽</b>"
+                + (f", за год {'+' if ch > 0 else '−' if ch < 0 else ''}{_n(abs(ch), 1)}%" if ch is not None else "")
+                + (f". Капитализация — {_n(cap / 1e9, 0)} млрд ₽." if cap else "."))
         words = [name.split(" (")[0].lower(), secid.lower()]
         rel = [p for p in posts if p.get("paragraphs") and any(w in (p["headline"] + " " + " ".join(
             x["name"] for x in p.get("entities") or [])).lower() for w in words)][:6]
-        body = (f'<div class="kicker">ДАННЫЕ · ДИВИДЕНДЫ</div><h1>Дивиденды {html.escape(name)} ({secid})</h1>'
-                f'<p class="lead">{lead}</p><h2 class="dh">По годам</h2><table class="data"><thead><tr><th>Год</th><th>На акцию</th></tr></thead><tbody>{yrows}</tbody></table>'
-                f'<h2 class="dh">Все выплаты</h2><table class="data"><thead><tr><th>Закрытие реестра</th><th>На акцию</th></tr></thead><tbody>{hrows}</tbody></table>'
-                f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
-                f'Страница обновляется автоматически. <a href="/data/dividendy">Все компании</a> · <a href="/calendar">Календарь отсечек</a></p>'
+        body = (f'<div class="kicker">ДАННЫЕ · АКЦИИ</div><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
+                f'<p class="lead">{lead}</p>' + (svg_chart(pts) if len(pts) > 2 else "")
+                + f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
+                f'Обновляется автоматически. <a href="/data/akcii">Все компании</a></p>'
                 + (f'<h2 class="dh">Тексты по теме</h2>{list_posts(rel, "../../")}' if rel else ""))
         desc = re.sub(r"<[^>]+>", "", lead)[:200]
-        ds = ld({"@context": "https://schema.org", "@type": "Dataset", "name": f"Дивиденды {name}", "description": desc,
-                 "url": abs_url(f"data/dividendy/{slug}"), "dateModified": today.isoformat(), "isAccessibleForFree": True,
-                 "creator": {"@type": "Organization", "name": "Московская биржа"}})
-        (out / f"{slug}.html").write_text(page(f"Дивиденды {name} ({secid}) {today.year}: история выплат и даты отсечки — {TITLE}",
-                                               desc, body, abs_url(f"data/dividendy/{slug}"), depth=2, extra_head=ds), encoding="utf-8")
-        urls.append((abs_url(f"data/dividendy/{slug}"), today.isoformat()))
-        cards.append((slug, name, secid, f"{_n(float(last['value']))}{cur} · {ld_:%d.%m.%Y}"))
-    cache_f.parent.mkdir(exist_ok=True)
-    cache_f.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        (out / f"{slug}.html").write_text(page(f"Акции {name} ({secid}) сегодня: цена, график за год — {TITLE}",
+                                               desc, body, abs_url(f"data/akcii/{slug}"), depth=2), encoding="utf-8")
+        urls.append((abs_url(f"data/akcii/{slug}"), today.isoformat()))
+        cards.append((slug, name, secid, f"{_n(float(last))} ₽", ch, cap or 0))
     if cards:
-        trs = "".join(f'<tr><td><a href="/data/dividendy/{s}">{html.escape(n)}</a></td><td>{t}</td><td>{v}</td></tr>' for s, n, t, v in cards)
-        soon = "".join(f"<li>{d:%d.%m.%Y} — <a href=\"{u}\">{html.escape(t.split(': ', 1)[1])}</a></li>" for d, t, u in sorted(upcoming))
-        body = (f'<h1 class="sec">Дивиденды российских компаний</h1>'
-                + (f'<h2 class="dh">Ближайшие отсечки</h2><ul>{soon}</ul>' if soon else "")
-                + f'<table class="data"><thead><tr><th>Компания</th><th>Тикер</th><th>Последний дивиденд</th></tr></thead><tbody>{trs}</tbody></table>'
-                f'<p class="src">Источник: Московская биржа. Обновляется автоматически.</p>')
-        (out / "index.html").write_text(page(f"Дивиденды российских акций {today.year}: календарь отсечек и история — {TITLE}",
-                                             "Дивиденды крупнейших компаний Мосбиржи: последние выплаты, история по годам, ближайшие даты закрытия реестра.",
-                                             body, abs_url("data/dividendy"), depth=2), encoding="utf-8")
-        urls.append((abs_url("data/dividendy"), today.isoformat()))
-    log(f"дивиденды: {len(cards)} компаний")
-    return urls, upcoming
+        trs = "".join(f'<tr><td><a href="/data/akcii/{s}">{html.escape(n)}</a></td><td>{t}</td><td>{v}</td>'
+                      f'<td>{"" if c is None else ("+" if c > 0 else "") + _n(c, 1) + "%"}</td></tr>'
+                      for s, n, t, v, c, _ in sorted(cards, key=lambda x: -x[5]))
+        body = ('<h1 class="sec">Крупнейшие компании Мосбиржи</h1>'
+                f'<table class="data"><thead><tr><th>Компания</th><th>Тикер</th><th>Цена</th><th>За год</th></tr></thead><tbody>{trs}</tbody></table>'
+                '<p class="src">Источник: Московская биржа. Обновляется автоматически.</p>')
+        (out / "index.html").write_text(page(f"Акции крупнейших российских компаний сегодня — {TITLE}",
+                                             "Цены и изменение за год крупнейших акций Мосбиржи: Сбербанк, Лукойл, Газпром и другие.",
+                                             body, abs_url("data/akcii"), depth=2), encoding="utf-8")
+        urls.append((abs_url("data/akcii"), today.isoformat()))
+    log(f"акции: {len(cards)} компаний")
+    return urls, []
 
 
 # ---------- календарь ----------
@@ -284,7 +282,7 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
     webcal = "webcal://" + ics_url.split("://", 1)[-1]
     trs = "".join(f'<tr><td>{d:%d.%m.%Y}</td><td>{t}</td><td><a href="{u}">{html.escape(s)}</a></td></tr>'
                   for d, t, s, u in sorted(rows)[:60])
-    body = (f'<div class="kicker">ДАННЫЕ · КАЛЕНДАРЬ</div><h1>Календарь: заседания ЦБ, инфляция, дивиденды</h1>'
+    body = (f'<div class="kicker">ДАННЫЕ · КАЛЕНДАРЬ</div><h1>Календарь: заседания ЦБ и инфляция</h1>'
             f'<p class="lead">Следующее решение Банка России по ключевой ставке — '
             f'<b>{_ru(min(date.fromisoformat(d) for d in CBR_MEETINGS if date.fromisoformat(d) >= today))}</b>, пресс-релиз в 13:30 МСК. '
             f'Недельную инфляцию Росстат публикует по средам в 19:00.</p>'
@@ -293,7 +291,7 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
             f'<table class="data"><thead><tr><th>Дата</th><th>Время</th><th>Событие</th></tr></thead><tbody>{trs}</tbody></table>'
             f'<p class="src">Источники: <a href="https://www.cbr.ru/dkp/cal_mp/" rel="nofollow noopener">календарь Банка России</a>, Московская биржа.</p>')
     (site / "calendar.html").write_text(page(
-        f"Заседания ЦБ по ключевой ставке {today.year}–{today.year + 1}: даты, инфляция, дивиденды — {TITLE}",
+        f"Заседания ЦБ по ключевой ставке {today.year}–{today.year + 1}: даты и инфляция — {TITLE}",
         "Даты заседаний Банка России по ключевой ставке, публикации инфляции и отсечки дивидендов. Подписка на календарь.",
         body, abs_url("calendar")), encoding="utf-8")
     return [(abs_url("calendar"), today.isoformat())]
@@ -371,7 +369,7 @@ def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str
             "## Данные\n"
             f"- [Ключевая ставка ЦБ]({abs_url('data/klyuchevaya-stavka')})\n- [Курс доллара ЦБ]({abs_url('data/kurs-dollara')})\n"
             f"- [Курс юаня ЦБ]({abs_url('data/kurs-yuanya')})\n- [Индекс Мосбиржи]({abs_url('data/indeks-mosbirzhi')})\n"
-            f"- [Дивиденды российских компаний]({abs_url('data/dividendy')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
+            f"- [Акции крупнейших компаний]({abs_url('data/akcii')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
             f"- [Индекс жёсткости ЦБ]({abs_url('data/zhestkost-cb')})\n- [Новые законопроекты о деньгах]({abs_url('data/dokumenty')})\n"
             f"- [Регионы]({abs_url('region/')})\n\n"
             "## Разборы\n" + "".join(f"- [{p['headline']}]({abs_url('p/' + p['slug'] + '.html')})\n" for p in top)
@@ -386,7 +384,7 @@ def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, 
     upcoming: list = []
     for name, fn in [
         ("en", lambda: build_en(site, posts, abs_url, ld)),
-        ("дивиденды", lambda: build_dividends(site, page, abs_url, list_posts, posts, ld)),
+        ("акции", lambda: build_dividends(site, page, abs_url, list_posts, posts, ld)),
         ("игра", lambda: build_quiz(site, page, abs_url)),
         ("перепечатка", lambda: build_static(site, page, abs_url, posts)),
         ("жёсткость ЦБ", lambda: build_hawk(site, page, abs_url, ld)),
@@ -436,8 +434,8 @@ def build_hub(site: Path, page, abs_url) -> None:
             ("data/zoloto", "Золото", vals.get("zoloto"), "Учётная цена ЦБ за грамм"),
         ]),
         ("Компании и даты", [
-            ("data/dividendy/index", "Дивиденды", None, "32 крупнейшие компании, ближайшие отсечки"),
-            ("calendar", "Календарь", None, "Заседания ЦБ, инфляция, отсечки — с подпиской"),
+            ("data/akcii/index", "Акции", None, "32 крупнейшие компании: цена и год"),
+            ("calendar", "Календарь", None, "Заседания ЦБ и инфляция — с подпиской"),
         ]),
         ("Власть и регионы", [
             ("data/dokumenty", "Что готовят", None, "Новые проекты законов о налогах, банках, ценах"),
