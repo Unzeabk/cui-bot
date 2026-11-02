@@ -393,7 +393,7 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
 
 
 SUB_BOX = ('<form class="sub-box" action="/api/subscribe" method="post"><b>Письмо по субботам</b>'
-           '<span>Разборы, позиция и цифры недели — одним письмом.</span>'
+           '<span>Главное за неделю, разборы и позиция — одним письмом.</span>'
            '<div><input type="email" name="email" placeholder="почта" required autocomplete="email">'
            '<input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none">'
            '<button type="submit">Подписаться</button></div></form>'

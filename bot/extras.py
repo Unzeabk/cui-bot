@@ -677,11 +677,11 @@ def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
             '<p id="sub-msg" class="src"></p><script>var q=location.search;var m=document.getElementById("sub-msg");'
             'if(q.indexOf("ok=1")>-1)m.textContent="Готово. Первое письмо придёт в субботу.";'
             'else if(q.indexOf("err=1")>-1)m.textContent="Не получилось. Проверьте адрес и попробуйте ещё раз.";</script>')
-    body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: разборы, позиция редакции и главные цифры. '
+    body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: главное за неделю, разборы и позиция редакции. '
             f'Приходит в субботу днём.</p>{form}</article>')
     (site / "podpiska.html").unlink(missing_ok=True)
     (site / "_redirects").write_text("/podpiska /subscribe 301\n", encoding="utf-8")
-    (site / "subscribe.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: разборы, позиция, цифры.",
+    (site / "subscribe.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: главное за неделю, разборы, позиция.",
                                              body, abs_url("subscribe")), encoding="utf-8")
     return [(abs_url("subscribe"), "")]
 

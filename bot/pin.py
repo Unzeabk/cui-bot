@@ -20,22 +20,22 @@ ENVELOPE = ('<svg viewBox="0 0 46 46" fill="none" stroke="#C9CFD6" stroke-width=
 
 PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CSS__
 .mid{flex:1;display:flex;align-items:center;justify-content:space-between;gap:40px}
-.txt{display:flex;flex-direction:column;gap:26px;max-width:700px}
+.txt{display:flex;flex-direction:column;gap:26px;max-width:860px}
 .days{display:grid;grid-template-columns:repeat(7,52px);gap:8px;font-family:'Plex',monospace;font-size:16px;color:#6B6F72;letter-spacing:.08em;align-self:center}
 .days div{height:120px;border:1.5px solid #262B31;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px}
 .days .on{border-color:#EDE9E2;color:#EDE9E2;background:#15191e}
 </style></head><body><div class="root">__MAP__
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">Письмо по субботам</span></div>
 <div class="rule"></div>
-<div class="mid"><div class="txt"><div class="hl" style="font-size:96px">Разборы, позиция, цифры недели</div></div>
+<div class="mid"><div class="txt"><div class="hl" style="font-size:84px">Главное за неделю, разборы, позиция</div></div>
 <div class="days">__DAYS__</div></div>
 <div class="foot"><span>cuibono.press/subscribe</span>__MARK__</div>
 </div></body></html>"""
 
-VERSION = 4  # поменять текст или обложку → поднять номер: старый закреп заменится
+VERSION = 5  # поменять текст или обложку → поднять номер: старый закреп заменится
 
 CAPTION = ("<code>ПИСЬМО</code> · <i>По субботам</i>\n\n"
-           'Разборы, позиция редакции и цифры недели — <a href="https://cuibono.press/subscribe">cuibono.press/subscribe</a>')
+           'Главное за неделю, разборы и позиция редакции — <a href="https://cuibono.press/subscribe">cuibono.press/subscribe</a>')
 
 
 def main() -> int:
