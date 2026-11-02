@@ -818,52 +818,53 @@
   ],
   "visuals": {
    "blocks": [],
+   "place": {
+    "name": "НПЗ «ЛУКОЙЛА»",
+    "lat": 56.15,
+    "lon": 44.18,
+    "scale": "region",
+    "region": "Нижегородская область"
+   },
    "places": [
     {
-     "name": "НАССАУ",
-     "lat": 25.048,
-     "lon": -77.3554,
+     "name": "GEORGE TOWN",
+     "lat": 19.3,
+     "lon": -81.38,
      "scale": "country"
     },
     {
-     "name": "БЕЛГРАД",
+     "name": "BELGRADE",
      "lat": 44.7866,
      "lon": 20.4489,
      "scale": "country"
     },
     {
-     "name": "НИЖНИЙ НОВГОРОД",
+     "name": "NIZHNY NOVGOROD",
      "lat": 56.3269,
      "lon": 44.0059,
      "scale": "country"
     },
     {
-     "name": "МОСКВА",
+     "name": "MOSCOW",
      "lat": 55.7558,
      "lon": 37.6173,
      "scale": "country"
     },
     {
-     "name": "ТАШКЕНТ",
+     "name": "TASHKENT",
      "lat": 41.2995,
      "lon": 69.2401,
      "scale": "country"
     },
     {
-     "name": "АНКАРА",
+     "name": "ANKARA",
      "lat": 39.9334,
      "lon": 32.8597,
      "scale": "country"
     }
    ],
    "v": 11,
-   "place": {
-    "name": "НИЖЕГОРОДСКАЯ ОБЛАСТЬ",
-    "lat": 56.3269,
-    "lon": 44.0059,
-    "scale": "region",
-    "region": "Россия"
-   }
+   "r": 1
   }
  },
  {
@@ -905,14 +906,15 @@
   ],
   "visuals": {
    "blocks": [],
-   "v": 11,
    "place": {
     "name": "БЕЛГРАД",
     "lat": 44.7866,
     "lon": 20.4489,
     "scale": "city",
     "region": "Сербия"
-   }
+   },
+   "v": 11,
+   "r": 1
   }
  }
 ]
