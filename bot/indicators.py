@@ -327,7 +327,7 @@ def caption(d: dict) -> str:
         f"<code>ПОКАЗАТЕЛИ</code> · <i>{week_range()}</i>\n\n"
         f"<b>Цифра недели.</b> {_inline(wf['text'])}\n\n"
         f"{lines}\n\n"
-        f'Источник: <a href="{site}/data">cuibono.press</a>'
+        f'Данные ЦБ и Мосбиржи — на <a href="{site}/data">cuibono.press</a>'
     )
 
 
