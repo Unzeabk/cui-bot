@@ -704,19 +704,21 @@ def send_newsletter() -> int:
         ps = [p for p in week if p.get("kind") == kind][:n]
         if not ps:
             return ""
-        items = "".join(f'<p style="margin:0 0 18px"><a href="{site_url}/p/{_slug(p)}" style="color:#0B0D10;font-weight:600;font-size:18px;text-decoration:none">'
-                        f'{html.escape(p["headline"])}</a><br><span style="color:#555;font-style:italic">{html.escape(p.get("subhead", ""))}</span></p>' for p in ps)
-        return f'<h3 style="font:12px monospace;letter-spacing:.08em;color:#6B6F72;margin:28px 0 12px">{name.upper()}</h3>{items}'
+        items = "".join(f'<p style="margin:0 0 20px;font-family:Helvetica,Arial,sans-serif"><a href="{site_url}/p/{_slug(p)}" style="font-family:Helvetica,Arial,sans-serif;color:#0B0D10;font-weight:bold;font-size:18px;line-height:24px;text-decoration:none">'
+                        f'{html.escape(p["headline"])}</a><br><span style="font-family:Helvetica,Arial,sans-serif;color:#555555;font-size:15px;line-height:22px;font-style:italic">{html.escape(p.get("subhead", ""))}</span></p>' for p in ps)
+        return f'<p style="font-family:Courier New,Courier,monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:32px 0 14px">{name.upper()}</p>{items}'
     body = block("analysis", "Разборы", 7) + block("position", "Позиция", 4) + block("note", "Заметки", 6)
     if not body:
         log("рассылка: за неделю нечего отправлять")
         return 0
     today = datetime.now(TZ).date()
-    htm = (f'<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#0B0D10;padding:24px">'
-           f'<div style="font-size:28px">Cui Bono?</div><div style="font:12px monospace;color:#6B6F72">НЕДЕЛЯ ДО {today:%d.%m.%Y}</div>'
-           f'{body}<p style="font:12px monospace;color:#6B6F72;margin-top:32px"><a href="{site_url}/data">Показатели</a> · '
-           f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p>'
-           f'<p style="font:13px Georgia,serif;color:#6B6F72">Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe">{site_url.split("//")[-1]}/subscribe</a></p></div>')
+    host = site_url.split("//")[-1]
+    htm = (f'<div style="max-width:600px;margin:0 auto;padding:24px;font-family:Helvetica,Arial,sans-serif;color:#0B0D10">'
+           f'<p style="font-family:Georgia,\'Times New Roman\',serif;font-size:30px;line-height:34px;margin:0">Cui Bono?</p>'
+           f'<p style="font-family:Courier New,Courier,monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:6px 0 0">НЕДЕЛЯ ДО {today:%d.%m.%Y}</p>'
+           f'{body}<p style="font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#6B6F72;margin:36px 0 0;border-top:1px solid #DDDDDD;padding-top:14px">'
+           f'Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe" style="color:#6B6F72">{host}/subscribe</a> · '
+           f'<a href="{{{{ unsubscribe }}}}" style="color:#6B6F72">отписаться</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
     test = os.environ.get("TEST_EMAIL", "").strip()
     if test:  # пробное письмо одному адресу, списку не уходит
