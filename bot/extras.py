@@ -706,7 +706,7 @@ def send_newsletter() -> int:
             return ""
         items = "".join(f'<p style="margin:0 0 20px;font-family:Helvetica,Arial,sans-serif"><a href="{site_url}/p/{_slug(p)}" style="font-family:Helvetica,Arial,sans-serif;color:#0B0D10;font-weight:bold;font-size:18px;line-height:24px;text-decoration:none">'
                         f'{html.escape(p["headline"])}</a><br><span style="font-family:Helvetica,Arial,sans-serif;color:#555555;font-size:15px;line-height:22px;font-style:italic">{html.escape(p.get("subhead", ""))}</span></p>' for p in ps)
-        return f'<p style="font-family:Courier New,Courier,monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:32px 0 14px">{name.upper()}</p>{items}'
+        return f'<p style="font-family:monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:32px 0 14px">{name.upper()}</p>{items}'
     body = block("analysis", "Разборы", 7) + block("position", "Позиция", 4) + block("note", "Заметки", 6)
     if not body:
         log("рассылка: за неделю нечего отправлять")
@@ -715,7 +715,7 @@ def send_newsletter() -> int:
     host = site_url.split("//")[-1]
     htm = (f'<div style="max-width:600px;margin:0 auto;padding:24px;font-family:Helvetica,Arial,sans-serif;color:#0B0D10">'
            f'<p style="font-family:Georgia,\'Times New Roman\',serif;font-size:30px;line-height:34px;margin:0">Cui Bono?</p>'
-           f'<p style="font-family:Courier New,Courier,monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:6px 0 0">НЕДЕЛЯ ДО {today:%d.%m.%Y}</p>'
+           f'<p style="font-family:monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:6px 0 0">НЕДЕЛЯ ДО {today:%d.%m.%Y}</p>'
            f'{body}<p style="font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#6B6F72;margin:36px 0 0;border-top:1px solid #DDDDDD;padding-top:14px">'
            f'Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe" style="color:#6B6F72">{host}/subscribe</a> · '
            f'<a href="{{{{ unsubscribe }}}}" style="color:#6B6F72">отписаться</a></p></div>')
