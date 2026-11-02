@@ -120,7 +120,6 @@ def setup() -> int:
         st["list_id"] = st.get("list_id") or _list_id()
         st["domain_ok"] = _domain()
         st["sender"] = _sender()
-        st["checked"] = _check(st)
     except Exception as e:  # noqa: BLE001
         log(f"brevo: настройка не закончена ({e})")
     STATE.parent.mkdir(exist_ok=True)
@@ -129,5 +128,30 @@ def setup() -> int:
     return 0
 
 
+def selftest() -> int:
+    """После выкладки: подписать тестовый адрес через форму сайта, собрать черновик письма, всё удалить."""
+    if not os.environ.get("BREVO_API_KEY"):
+        return 0
+    st = load()
+    if not st.get("list_id") or st.get("checked"):
+        return 0
+    import time
+    site = (os.environ.get("SITE_URL") or f"https://{DOMAIN}").rstrip("/")
+    test = "selftest@cuibono.press"
+    r = requests.post(f"{site}/api/subscribe", data={"email": test}, allow_redirects=False, timeout=30)
+    log(f"brevo: форма подписки {r.status_code} → {r.headers.get('location')}")
+    form_ok = "ok=1" in (r.headers.get("location") or "")
+    time.sleep(5)
+    c = requests.get(f"{API}/contacts/{test}", headers=_h(), timeout=30)
+    in_list = c.ok and st["list_id"] in (c.json().get("listIds") or [])
+    log(f"brevo: тестовый контакт в списке — {in_list}")
+    st["checked"] = bool(form_ok and in_list and _check(st))
+    requests.delete(f"{API}/contacts/{test}", headers=_h(), timeout=30)
+    STATE.write_text(json.dumps(st, ensure_ascii=False, indent=1), encoding="utf-8")
+    log(f"brevo: проверка {'пройдена' if st['checked'] else 'НЕ пройдена'}")
+    return 0
+
+
 if __name__ == "__main__":
-    sys.exit(setup() if sys.argv[1:2] == ["setup"] else 0)
+    cmd = sys.argv[1:2]
+    sys.exit(setup() if cmd == ["setup"] else selftest() if cmd == ["selftest"] else 0)

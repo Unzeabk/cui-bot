@@ -60,3 +60,8 @@ jobs:
             python -c "import json;print(json.load(open('state/brevo.json')).get('list_id',''))" | npx --yes wrangler@3 pages secret put BREVO_LIST_ID --project-name=cuibono || true
           fi
           npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true
+          if [ -f state/brevo.json ] && ! grep -q '"checked": true' state/brevo.json; then
+            sleep 40
+            BREVO_API_KEY='${{ secrets.BREVO_API_KEY }}' python -m bot.brevo selftest || true
+            git add state/brevo.json && git commit -m "Brevo: проверка" && git pull --rebase -X theirs origin main && git push || true
+          fi
