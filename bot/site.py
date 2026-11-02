@@ -849,9 +849,10 @@ def build(site: Path) -> int:
         from . import visuals as V
         n = 0
         for p in posts:
-            if n >= 12:
+            if n >= 15:
                 break
-            if p.get("kind") in ("note", "analysis") and _has_body(p) and "visuals" not in p:
+            if p.get("kind") in ("note", "analysis", "position", "week") and _has_body(p) \
+                    and (p.get("visuals") or {}).get("v") != V.VERSION:
                 p["visuals"] = V.plan(p)
                 n += 1
     # чистка ленты: адреса или их хвосты из state/site-remove.txt — по одному в строке

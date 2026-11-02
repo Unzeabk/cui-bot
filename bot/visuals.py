@@ -61,6 +61,13 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 null, если место — столица как синоним власти (Вашингтон, Москва, Пекин, Брюссель), мера на всю страну, рынок, компания или деньги без точки.
 Сомневаешься — null. {"name": "...", "region": "регион/страна", "lat": 0.0, "lon": 0.0, "scale": "city" | "region" | "country" | "macro"}
 
+ЖАНРЫ:
+- "analysis" (разбор): 2–3 блока по ходам, как выше.
+- "note" (заметка) и "position" (позиция): РОВНО один блок или ноль — тот, что лучше всего доказывает главный поворот:
+  "share" (доля), "figure", "vs", "before_after", "compare" или "chart". Ставь после абзаца с этой цифрой (не после последнего).
+  "doc", "pull", "players", "timeline", "flow" в коротких текстах не нужны.
+  Пример: «Указ о резервировании 10% мощностей частных ЦОДов…» → {"type": "share", "para": 0, "value": "10%", "caption": "мощностей частных ЦОДов уходит в госрезерв"}.
+
 Подписи по-русски, холодно, без оценок. ОТВЕТ — только JSON: {"blocks": [...], "place": {...} | null}"""
 
 
@@ -94,13 +101,19 @@ def _s(x, n=90) -> str:
     return str(x or "").strip()[:n]
 
 
-def _check(d: dict, text: str, n_par: int) -> dict:
+SHORT_OK = {"share", "figure", "vs", "before_after", "compare", "chart"}
+VERSION = 4  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+
+
+def _check(d: dict, text: str, n_par: int, kind: str = "analysis") -> dict:
     out, used = [], set()
     for b in (d.get("blocks") or [])[:4]:
         if not isinstance(b, dict):
             continue
         t, para = b.get("type"), b.get("para")
-        if not isinstance(para, int) or not (0 <= para < n_par - 1) or para in used or (para - 1) in used or (para + 1) in used:
+        if kind != "analysis" and t not in SHORT_OK:
+            continue
+        if not isinstance(para, int) or not (0 <= para < max(1, n_par - 1)) or para in used or (para - 1) in used or (para + 1) in used:
             continue
         x = None
         if t == "doc":
@@ -152,12 +165,30 @@ def _check(d: dict, text: str, n_par: int) -> dict:
             x.update(type=t, para=para, source=_s(b.get("source"), 80))
             out.append(x)
             used.add(para)
-    res = {"blocks": out[:3]}
+    res = {"blocks": out[:3] if kind == "analysis" else out[:1]}
     p = B.place_ok(d.get("place"))
     if p:
         p["region"] = _s((d.get("place") or {}).get("region"), 60)
         res["place"] = p
     return res
+
+
+WEEK_SYSTEM = """Тебе дают события недели, пронумерованные [0], [1]… Для каждого — точка на карте мира, где это произошло:
+{"name": "город", "lat": 0.0, "lon": 0.0}. Компания — город штаб-квартиры или места события из текста; мера на всю Россию — Москва;
+страна — её столица. Не знаешь — null. ОТВЕТ — только JSON: {"places": [{...} | null, ...]} в том же порядке."""
+
+
+def week_places(e: dict) -> list:
+    try:
+        from .compose import extract_json, plain
+        from .gemini import LIGHT_CHAIN, ask
+        pars = e.get("paragraphs") or []
+        raw, _ = ask(LIGHT_CHAIN, WEEK_SYSTEM, "\n".join(f"[{i}] {plain(p)}" for i, p in enumerate(pars)), temperature=0.1)
+        pl = extract_json(raw).get("places") or []
+        return [B.place_ok(x) for x in pl][:len(pars)]
+    except Exception as ex:  # noqa: BLE001
+        log(f"визуал: места недели не получены ({ex})")
+        return []
 
 
 def plan(e: dict) -> dict:
@@ -171,9 +202,14 @@ def plan(e: dict) -> dict:
         numbered = "\n\n".join(f"[{i}] {plain(p)}" for i, p in enumerate(pars))
         raw, _ = ask(LIGHT_CHAIN, SYSTEM, f"Жанр: {e.get('kind')}\n{e.get('headline', '')}\n{e.get('subhead', '')}\n\n{numbered[:14000]}",
                      temperature=0.2)
-        d = _check(extract_json(raw), text, len(pars))
-        if e.get("kind") != "analysis":  # в заметке только карта: текст короткий, блоки его перегрузят
-            d["blocks"] = []
+        d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
+        if e.get("kind") == "position":
+            d.pop("place", None)  # позиция — мнение, не репортаж с места
+        if e.get("kind") == "week":
+            d["blocks"] = []  # у «Недели» своя вёрстка номера
+        if e.get("kind") == "week" and not any(e.get("places") or []):
+            d["places"] = week_places(e)
+        d["v"] = VERSION
         return d
     except Exception as ex:  # noqa: BLE001
         log(f"визуал: разметка не получена ({ex})")
@@ -478,12 +514,14 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
                 map_strip(place, f)
             alt = f"{place.get('name', '')}" + (f", {place['region']}" if place.get("region") else "") + " — место события на карте"
             out["top"] = img_html(f"/img/v/{f.name}", alt, 720, 260, "v-map")
+        if kind == "week" and not any(e.get("places") or []) and any(v.get("places") or []):
+            e = {**e, "places": v["places"]}
         if kind == "week" and any(e.get("places") or []):
             f = img_dir / f"{slug}-week.jpg"
             if not f.exists():
                 week_map(e["places"], f)
             out["top"] = img_html(f"/img/v/{f.name}", "Карта событий недели", 720, 320, "v-week")
-        if kind == "analysis":
+        if True:
             for b in v.get("blocks") or []:
                 t, para = b.get("type"), b.get("para")
                 if t == "figure":
