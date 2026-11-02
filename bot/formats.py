@@ -438,7 +438,7 @@ SAME_STORY = """Тебе дают заголовок нового текста �
 def same_story(headline: str, subhead: str, recent: list[dict]) -> str:
     """Дешёвая проверка лёгкой моделью: не тот же ли сюжет другими словами. Ошибка проверки публикацию не блокирует."""
     from .gemini import LIGHT_CHAIN, ask
-    past = [r.get("headline", "") for r in recent if r.get("headline") and r.get("rubric") != "indicators"][-40:]
+    past = [r.get("headline", "") for r in recent if r.get("headline") and r.get("rubric") != "indicators"][-90:]  # весь журнал — 7 дней
     if not past:
         return ""
     try:
