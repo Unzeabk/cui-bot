@@ -423,6 +423,17 @@ def build_hub(site: Path, page, abs_url) -> None:
     def bval(path):
         m = re.search(r'class="lead">.*?<b>([^<]+)</b>', (site / path).read_text(encoding="utf-8"), re.S) if (site / path).exists() else None
         return m.group(1) if m else ""
+    today = datetime.now(TZ).date()
+    nxt = min((date.fromisoformat(d) for d in CBR_MEETINGS if date.fromisoformat(d) >= today), default=None)
+    next_meeting = f"{nxt.day} {MONTHS[nxt.month - 1]}" if nxt else ""
+    best = None
+    ak = site / "data" / "akcii" / "index.html"
+    if ak.exists():
+        rows = re.findall(r'<td><a href="/data/akcii/[a-z]+">([^<]+)</a></td><td>[A-Z]+</td><td>[^<]*</td><td>([+-][0-9 ,]+)%</td>',
+                          ak.read_text(encoding="utf-8"))
+        if rows:
+            n, ch = max(rows, key=lambda r: float(r[1].replace(" ", "").replace(",", ".")))
+            best = (ch.replace("-", "−") + "%", f"{n} — лучший рост за год среди 32 крупнейших")
     groups = [
         ("Банк России и рынок", [
             ("data/klyuchevaya-stavka", "Ключевая ставка", vals.get("klyuchevaya-stavka"), "Решения ЦБ и история с 2013 года"),
@@ -432,6 +443,7 @@ def build_hub(site: Path, page, abs_url) -> None:
             ("data/kurs-evro", "Евро", vals.get("kurs-evro"), "Официальный курс ЦБ"),
             ("data/indeks-mosbirzhi", "Индекс Мосбиржи", vals.get("indeks-mosbirzhi"), "IMOEX за год"),
             ("data/zoloto", "Золото", vals.get("zoloto"), "Учётная цена ЦБ за грамм"),
+            ("calendar", "Следующее заседание ЦБ", next_meeting, "Решение по ставке в 13:30 МСК"),
         ]),
         ("Компании и даты", [
             ("data/akcii/index", "Акции", None, "32 крупнейшие компании: цена и год"),
@@ -441,7 +453,9 @@ def build_hub(site: Path, page, abs_url) -> None:
             ("data/dokumenty", "Что готовят", None, "Новые проекты законов о налогах, банках, ценах"),
             ("region/index", "Регионы", None, "Экономика и бюджеты регионов"),
         ]),
-        ("Цифра недели", [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
+        ("Цифра недели", [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?"),
+                          ("data/akcii/index", "Акция года", best[0], best[1])] if best else
+                         [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
     ]
     body = '<h1 class="sec">Показатели</h1>'
     for name, items in groups:
