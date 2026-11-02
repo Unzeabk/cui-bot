@@ -17,6 +17,8 @@ const SLOTS = [
   { cron: "52 10 * * *", wf: "formats.yml", format: "position" },  // 13:52 Позиция
   { cron: "22 12 * * *", wf: "formats.yml", format: "analysis" },  // 15:22 запасной Разбор
   { cron: "52 17 * * *", wf: "formats.yml", format: "position" },  // 20:52 Позиция
+  // рассылка: сб 14:17 МСК, после «Недели»; у неё нет входов
+  { cron: "17 11 * * 6", wf: "newsletter.yml", plain: true },
 ];
 const REPO = "Unzeabk/cui-bot";
 
@@ -26,7 +28,7 @@ function due(cron, d) {
 }
 
 async function dispatch(env, s) {
-  const inputs = { slot: s.cron, dry_run: "false" };
+  const inputs = s.plain ? {} : { slot: s.cron, dry_run: "false" };
   if (s.format) inputs.format = s.format;
   for (let i = 0; i < 3; i++) {
     const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${s.wf}/dispatches`, {

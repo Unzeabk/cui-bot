@@ -740,6 +740,12 @@ def send_newsletter() -> int:
             "subject": f"[проба] Cui Bono? — неделя до {_ru(today)}", "htmlContent": htm.replace("{{ unsubscribe }}", "#")})
         log(f"рассылка: проба {r.status_code} {r.text[:200]}")
         return 0 if r.ok else 1
+    # письмо приходит дважды — от будильника Cloudflare и от запасного расписания GitHub; уходит только одно в неделю
+    mark = Path("state") / "newsletter-sent.txt"
+    week = f"{today:%G-W%V}"
+    if mark.exists() and mark.read_text(encoding="utf-8").strip() == week:
+        log(f"рассылка: письмо за {week} уже ушло — пропускаю")
+        return 0
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
         "sender": {"name": "Cui Bono?", "email": sender}, "htmlContent": htm,
@@ -750,6 +756,8 @@ def send_newsletter() -> int:
     cid = r.json()["id"]
     r = requests.post(f"https://api.brevo.com/v3/emailCampaigns/{cid}/sendNow", headers=h, timeout=60)
     log(f"рассылка: кампания {cid}, отправка {r.status_code} {r.text[:200]}")
+    if r.ok:
+        mark.write_text(week, encoding="utf-8")
     return 0 if r.ok else 1
 
 
