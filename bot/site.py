@@ -750,7 +750,13 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             # «Неделя: 25–31 октября» в ленте Дзена ничего не говорит — нужен заголовок по событиям
             title = p.get("seo_title") or ("Главное за неделю: " + ", ".join(_week_subjects(p)[:3]))
             title = re.sub(r"\.+$", "", title)[:200]
-        body = "".join(f"<p>{_inline(x)}</p>" for x in p.get("paragraphs") or [])
+        figs = {}
+        try:
+            from . import visuals as V
+            figs = V.zen_figures(p, site / "img" / "v", p["slug"], _abs)
+        except Exception as ex:  # noqa: BLE001
+            log(f"дзен: картинки не готовы ({ex})")
+        body = "".join(f"<p>{_inline(x)}</p>" + figs.get(i, "") for i, x in enumerate(p.get("paragraphs") or []))
         if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
             body += f"<p>{_inline(p['final'])}</p>"
         if p.get("subhead"):

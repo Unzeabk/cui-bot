@@ -114,7 +114,8 @@ def _s(x, n=90) -> str:
 
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
-VERSION = 8  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+VERSION = 9
+RENDER = 2  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
 def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
@@ -208,8 +209,11 @@ CRITIC = """Ты — выпускающий редактор уровня The Ec
 1) он сравнивает один и тот же показатель в одних единицах (цена с ценой, тонны с тоннами, доля с долей);
    литры против тонн, убыток против цены, закупки против прибыли — НЕТ;
 2) подписи точно соответствуют тексту, ничего не додумано;
-3) блок добавляет смысл, а не пересказывает соседний абзац другими словами;
+3) цифровой блок (share, vs, before_after, compare, chart) добавляет смысл: показывает соотношение или долю нагляднее слов,
+   а не повторяет одну цифру абзаца;
 4) заголовок блока — вывод, а не общее слово вроде «Финансовые показатели».
+Блоки pull (сильная фраза текста), doc (цитата документа), players, flow, timeline — пропускай, если они точны и по делу:
+повторять текст — их суть, важно лишь, что фраза сильная, а участники и связи верны.
 ОТВЕТ — только JSON: {"keep": [номера блоков, которые пропускаешь]}"""
 
 
@@ -343,7 +347,7 @@ def map_strip(place: dict, path: Path) -> Path:
     return _shoot(page, path, W, H)
 
 
-def chart_img(c: dict, path: Path) -> Path:
+def chart_img(c: dict, path: Path, light: bool = False) -> Path:
     W, H = 720, 380
     pts, hi = c["points"], c["highlight"]
     vals = [v for _, v in pts]
@@ -384,6 +388,10 @@ svg{{position:absolute;left:0;top:0}}
 <div class="t">{html.escape(c["title"])}</div><div class="u">{html.escape(c["unit"])}</div>
 <svg width="{W}" height="{H}">{g}{body}<line x1="{x0}" x2="{x1}" y1="{Y(0):.1f}" y2="{Y(0):.1f}" stroke="#6B6F72"/></svg>
 <div class="k src">{("Источник: " + html.escape(c["source"]) + " · ") if c["source"] else ""}Cui Bono?</div></div></body></html>"""
+    if light:
+        mp = {"#0E1114": "#FBFAF7", "#EDE9E2": "#0B0D10", "#2F343C": "#CFCAC0", "#1C2026": "#E6E2DA", "#C9CFD6": "#3A3F45"}
+        page = re.sub("|".join(mp), lambda m: mp[m.group(0)], page)
+        page = page.replace("body{background:#FBFAF7;color:#0B0D10", "body{background:#FBFAF7;color:#0B0D10")
     return _shoot(page, path, W, H)
 
 
@@ -468,7 +476,7 @@ def flow_html(b: dict) -> str:
             parts.append(f'<div class="v-edge"><span>{html.escape(z.get("amount") or "")}</span>'
                          + (f'<i>{html.escape(z["label"])}</i>' if z.get("label") else "") + "</div>")
         parts.append(f'<div class="v-node">{html.escape(z["name"])}</div>')
-    return (f'<figure class="v-flow"><div class="v-k">Как идут деньги</div><div class="v-t">{html.escape(b["title"])}</div>'
+    return (f'<figure class="v-flow"><div class="v-k">Как это устроено</div><div class="v-t">{html.escape(b["title"])}</div>'
             f'<div class="v-chain">{"".join(parts)}</div>'
             + (f'<div class="v-src">Источник: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
 
@@ -574,7 +582,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
         # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis"):
             place["region"] = (v.get("place") or {}).get("region") or ""
-            f = img_dir / f"{slug}-map.jpg"
+            f = img_dir / f"{slug}-map-r{RENDER}.jpg"
             if not f.exists():
                 map_strip(place, f)
             alt = f"{place.get('name', '')}" + (f", {place['region']}" if place.get("region") else "") + " — место события на карте"
@@ -582,7 +590,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
         if kind == "week" and not any(e.get("places") or []) and any(v.get("places") or []):
             e = {**e, "places": v["places"]}
         if kind == "week" and any(e.get("places") or []):
-            f = img_dir / f"{slug}-week.jpg"
+            f = img_dir / f"{slug}-week-r{RENDER}.jpg"
             if not f.exists():
                 week_map(e["places"], f)
             out["top"] = img_html(f"/img/v/{f.name}", "Карта событий недели", 720, 320, "v-week")
@@ -608,7 +616,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
                 elif t == "compare":
                     h = compare_html(b)
                 elif t == "chart":
-                    f = img_dir / f"{slug}-chart-{para}.jpg"
+                    f = img_dir / f"{slug}-chart-{para}-r{RENDER}.jpg"
                     if not f.exists():
                         chart_img(b, f)
                     alt = f'{b["title"]}. {b["unit"]}: ' + ", ".join(f"{a} — {x:g}" for a, x in b["points"])
@@ -658,3 +666,68 @@ def week_page(e: dict, posts: list[dict], site: Path, inline) -> tuple[str, str]
                 f'<a href="/p/{p["slug"]}"><span>{datetime.fromisoformat(p["time_iso"]):%d.%m}</span>{html.escape(p["headline"])}</a>'
                 for p in ps) + "</div>"
     return evs, tail
+
+
+# ---------- Дзен: те же блоки в светлой теме, картинками ----------
+
+def _light_css() -> str:
+    fd = B.FONTS_DIR
+    return (f"@font-face{{font-family:'Commissioner';src:url('{(fd / 'Commissioner.ttf').as_uri()}') format('truetype');font-weight:100 900}}"
+            f"@font-face{{font-family:'IBM Plex Mono';src:url('{(fd / 'IBMPlexMono-Regular.ttf').as_uri()}') format('truetype');font-weight:400}}"
+            f"@font-face{{font-family:'IBM Plex Mono';src:url('{(fd / 'IBMPlexMono-SemiBold.ttf').as_uri()}') format('truetype');font-weight:600}}"
+            f"@font-face{{font-family:'Onest';src:url('{(fd / 'Onest.ttf').as_uri()}') format('truetype');font-weight:100 900}}"
+            ":root{--bg:#FBFAF7;--ink:#0B0D10;--mute:#6B6F72;--cold:#3A3F45;--rule:#DDD8CF}"
+            "*{box-sizing:border-box}body{margin:0;background:#FBFAF7;color:#0B0D10;font:17px/1.5 Commissioner,sans-serif}"
+            "#w{width:680px;padding:2px 20px;display:flow-root}figure{margin:12px 0!important}"
+            + CSS_SITE +
+            ".v-ba,.v-flow,.v-cmp,.v-players{background:#F2EFE8}.v-grid i{background:#E3DED4}.v-grid i.on{background:#0B0D10}"
+            ".v-node{border-color:#C9C4BA;background:#FBFAF7}.v-bar b{background:#C9C4BA}.v-bar.on b{background:#0B0D10}"
+            ".v-edge::before{border-left-color:#8A8E92}.v-edge::after{border-top-color:#8A8E92}.v-doc{border-color:#DDD8CF}")
+
+
+def _shoot_el(block_html: str, path: Path) -> Path:
+    from playwright.sync_api import sync_playwright
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False, encoding="utf-8") as f:
+        f.write(f'<!doctype html><html><head><meta charset="utf-8"><style>{_light_css()}</style></head><body><div id="w">{block_html}</div></body></html>')
+        tmp = Path(f.name)
+    try:
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            pg = b.new_page(viewport={"width": 720, "height": 400}, device_scale_factor=2)
+            pg.goto(tmp.as_uri(), wait_until="load")
+            pg.evaluate("document.fonts.ready")
+            pg.wait_for_timeout(200)
+            png = path.with_suffix(".png")
+            pg.locator("#w").screenshot(path=str(png))
+            b.close()
+        from PIL import Image
+        Image.open(png).convert("RGB").save(path, "JPEG", quality=88, optimize=True, progressive=True)
+        png.unlink(missing_ok=True)
+    finally:
+        tmp.unlink(missing_ok=True)
+    return path
+
+
+def zen_figures(e: dict, img_dir: Path, slug: str, abs_url) -> dict[int, str]:
+    """Блоки статьи для ленты Дзена: светлые картинки с подписью, по номеру абзаца. Карты в Дзен не идут:
+    там есть обложка."""
+    out: dict[int, str] = {}
+    v = e.get("visuals") or {}
+    render = {"doc": doc_html, "timeline": timeline_html, "share": share_html, "vs": pair_html, "before_after": pair_html,
+              "flow": flow_html, "compare": compare_html, "pull": pull_html, "players": players_html}
+    for b in v.get("blocks") or []:
+        t, para = b.get("type"), b.get("para")
+        if t not in render and t != "chart":
+            continue
+        f = img_dir / f"{slug}-{t}-{para}-zen-r{RENDER}.jpg"
+        try:
+            if not f.exists():
+                chart_img(b, f, light=True) if t == "chart" else _shoot_el(render[t](b), f)
+        except Exception as ex:  # noqa: BLE001
+            log(f"визуал: картинка для Дзена {f.name} не снята ({ex})")
+            continue
+        cap = b.get("title") or b.get("caption") or ""
+        out[para] = (f'<figure><img src="{abs_url("img/v/" + f.name)}">'
+                     + (f"<figcaption>{html.escape(cap)}</figcaption>" if cap else "") + "</figure>")
+    return out
