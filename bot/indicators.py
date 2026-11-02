@@ -9,6 +9,7 @@
 """
 
 import html
+import os
 import re
 import json
 import xml.etree.ElementTree as ET
@@ -292,6 +293,10 @@ def _lower_first(t: str) -> str:
     return t
 
 
+# строки табло со своей страницей данных на сайте: название строки в посте ведёт туда (график и история)
+DATA_PAGE = {"Доллар ЦБ": "kurs-dollara", "Евро ЦБ": "kurs-evro", "Юань ЦБ": "kurs-yuanya", "Ставка ЦБ": "klyuchevaya-stavka",
+             "Индекс IMOEX": "indeks-mosbirzhi", "Золото, грамм": "zoloto"}
+
 CAPTION_LABEL = {"Золото, грамм": "Золото за грамм", "Инфляция, год": "Инфляция за год", "Инфляция, неделя": "Инфляция за неделю"}
 
 
@@ -307,8 +312,15 @@ def caption(d: dict) -> str:
     for r in d["rows"]:
         sources.setdefault(r.get("source") or "Источник", r["url"])
     src = ", ".join(f'<a href="{html.escape(u, quote=True)}">{html.escape(n)}</a>' for n, u in sources.items())
+    site = (os.environ.get("SITE_URL") or "https://cuibono.press").rstrip("/")
+
+    def label(r):
+        t = html.escape(CAPTION_LABEL.get(r["label"], r["label"]))
+        slug = DATA_PAGE.get(r["label"])
+        return f'<a href="{site}/data/{slug}">{t}</a>' if slug else t
+
     lines = "\n".join(
-        f"{html.escape(CAPTION_LABEL.get(r['label'], r['label']))} — <b>{html.escape(r['value'])}</b>, {html.escape(_change_text(r.get('change')))}"
+        f"{label(r)} — <b>{html.escape(r['value'])}</b>, {html.escape(_change_text(r.get('change')))}"
         for r in _sorted_rows(d["rows"])
     )
     return (
