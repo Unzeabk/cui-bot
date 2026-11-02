@@ -443,7 +443,7 @@ CSS_SITE = """
 .v-pull blockquote{margin:0;font:600 22px/1.35 Commissioner,sans-serif;color:var(--ink)}
 .v-players{margin:28px 0;padding:20px 22px;background:#0E1114;border-top:3px solid var(--ink)}
 .v-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}.v-cols>div+div{border-left:1px solid var(--rule);padding-left:24px}
-.v-pl{margin-top:12px}.v-pl b{display:block;font:600 15px Commissioner,sans-serif}.v-pl span{font-size:14px;color:var(--cold)}
+.v-pl{margin-top:12px}.v-pl b{display:block;font:600 15px Commissioner,sans-serif}.v-pl span{display:block;font-size:14px;line-height:1.4;color:var(--cold);margin-top:2px}
 @media(max-width:560px){.v-cols{grid-template-columns:1fr}.v-cols>div+div{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:12px}}
 /* длинное чтение */
 .longread>p:first-of-type::first-letter{float:left;font:600 64px/0.86 Commissioner,sans-serif;margin:6px 10px 0 0;color:var(--ink)}
