@@ -34,10 +34,15 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 - механизм (кто кому и сколько платит) → "flow" (цепочка потоков с суммами);
 - другая сторона, сравнение с соседями → "compare" (3–6 сопоставимых: страны, компании, регионы);
 - подъём, закон во времени → "chart" (ряд за 3–8 лет/кварталов) или "before_after" (было → стало);
-- вход и финал — без блоков.
+- вход → "doc" (точная цитата документа или чиновника из текста, если с неё начинается история) или "timeline" (хронология, если история — цепочка дат);
+- поворот, если цифра — доля → "share" (каждый десятый, треть: сетка из 100 клеток);
+- финал — без блоков.
 Не больше 3 блоков на текст, каждый к своему ходу, не два подряд.
 
 Форматы блоков (в "blocks"):
+{"type": "doc", "para": 0, "quote": "дословная цитата из текста, 40–220 знаков, без кавычек", "who": "чей документ или кто сказал, как в тексте"}
+{"type": "timeline", "para": 0, "title": "4–7 слов", "items": [{"date": "24 октября", "text": "что случилось, до 60 знаков"}, ...]}  (3–6 дат из текста)
+{"type": "share", "para": 1, "value": "10%", "caption": "чего доля, до 90 знаков", "source": "..."}  (только проценты до 100)
 {"type": "figure", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
 {"type": "vs", "para": 1, "title": "4–7 слов", "expected": {"value": "...", "caption": "чего ждали"}, "actual": {"value": "...", "caption": "что вышло"}, "source": "..."}
 {"type": "flow", "para": 4, "title": "кто кому платит, 4–7 слов", "steps": [{"name": "Покупатель в Китае"}, {"name": "Посредник в Гонконге", "amount": "4,2 млрд $", "label": "за что"}, {"name": "Экспортёр"}], "source": "..."}
@@ -93,7 +98,19 @@ def _check(d: dict, text: str, n_par: int) -> dict:
         if not isinstance(para, int) or not (0 <= para < n_par - 1) or para in used or (para - 1) in used or (para + 1) in used:
             continue
         x = None
-        if t == "figure" and _num_in(text, b.get("value", "")):
+        if t == "doc":
+            q = re.sub(r"\s+", " ", _s(b.get("quote"), 260)).strip(" «»\"")
+            if 40 <= len(q) <= 240 and q.lower() in re.sub(r"\s+", " ", text).lower():
+                x = {"quote": q, "who": _s(b.get("who"), 80)}
+        elif t == "timeline":
+            it = [z for z in (b.get("items") or []) if isinstance(z, dict) and z.get("date") and z.get("text")][:6]
+            if len(it) >= 3 and all(_num_in(text, z["date"]) or z["date"].lower() in text.lower() for z in it):
+                x = {"title": _s(b.get("title"), 70), "items": [{"date": _s(z["date"], 24), "text": _s(z["text"], 80)} for z in it]}
+        elif t == "share":
+            m = re.search(r"(\d+(?:[.,]\d+)?)\s*%", str(b.get("value", "")))
+            if m and _num_in(text, b["value"]) and 0 < float(m.group(1).replace(",", ".")) <= 100:
+                x = {"value": _s(b["value"], 12), "pct": float(m.group(1).replace(",", ".")), "caption": _s(b.get("caption"), 120)}
+        elif t == "figure" and _num_in(text, b.get("value", "")):
             x = {"value": _s(b["value"], 20), "caption": _s(b.get("caption"), 120)}
         elif t in ("vs", "before_after"):
             a, c = (b.get("expected"), b.get("actual")) if t == "vs" else (b.get("before"), b.get("after"))
@@ -284,6 +301,25 @@ def figure_html(f: dict) -> str:
             + "</figcaption></figure>")
 
 
+def doc_html(b: dict) -> str:
+    return (f'<figure class="v-doc"><div class="v-k">Документ</div><blockquote>{html.escape(b["quote"])}</blockquote>'
+            + (f'<figcaption>{html.escape(b["who"])}</figcaption>' if b.get("who") else "") + "</figure>")
+
+
+def timeline_html(b: dict) -> str:
+    rows = "".join(f'<li><time>{html.escape(z["date"])}</time><span>{html.escape(z["text"])}</span></li>' for z in b["items"])
+    return (f'<figure class="v-tl"><div class="v-k">Хронология</div>'
+            + (f'<div class="v-t">{html.escape(b["title"])}</div>' if b.get("title") else "") + f"<ol>{rows}</ol></figure>")
+
+
+def share_html(b: dict) -> str:
+    n = max(1, round(b["pct"])) if b["pct"] >= .5 else 1
+    cells = "".join(f'<i class="{"on" if k < n else ""}"></i>' for k in range(100))
+    return (f'<figure class="v-share"><div class="v-grid">{cells}</div><div><div class="v-num">{html.escape(b["value"])}</div>'
+            f'<figcaption>{html.escape(b["caption"])}' + (f'<span>{html.escape(b["source"])}</span>' if b.get("source") else "")
+            + "</figcaption></div></figure>")
+
+
 def pair_html(b: dict) -> str:
     """«Против ожидания» и «было → стало»: две цифры и стрелка."""
     k = "Ожидание и факт" if b["type"] == "vs" else "Было и стало"
@@ -361,7 +397,33 @@ CSS_SITE = """
 .v-bar div{height:14px}.v-bar b{display:block;height:100%;background:#2F343C}.v-bar.on b{background:var(--ink)}.v-bar.on{color:var(--ink)}
 .v-bar em{font:normal 13px "IBM Plex Mono",monospace;text-align:right}
 @media(max-width:560px){.v-edge{padding-left:calc(50% + 14px)}.v-edge::before{left:50%}.v-edge::after{left:calc(50% - 5px)}.v-bar{grid-template-columns:100px 1fr 64px}}
-@media(max-width:560px){.v-num{font-size:40px}.v-val{font-size:28px}}
+.v-doc{margin:28px 0;padding:22px 24px;border:1px solid var(--rule);position:relative}
+.v-doc blockquote{margin:10px 0 0;font:400 20px/1.45 Commissioner,sans-serif;color:var(--ink)}
+.v-doc blockquote::before{content:"«"}.v-doc blockquote::after{content:"»"}
+.v-doc figcaption{font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-top:12px}
+.v-tl{margin:28px 0}.v-tl ol{list-style:none;padding:0;margin:12px 0 0;border-left:1px solid #2F343C}
+.v-tl li{position:relative;padding:0 0 14px 22px;display:grid;grid-template-columns:120px 1fr;gap:10px;font-size:15px}
+.v-tl li::before{content:"";position:absolute;left:-4px;top:7px;width:7px;height:7px;background:var(--ink)}
+.v-tl time{font:13px "IBM Plex Mono",monospace;color:var(--cold)}
+.v-share{margin:28px 0;display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:center}
+.v-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}.v-grid i{aspect-ratio:1;background:#1C2026}.v-grid i.on{background:var(--ink)}
+.v-share figcaption{font-size:16px;color:var(--cold);margin-top:8px}
+.v-share figcaption span{display:block;font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+/* длинное чтение */
+.longread>p:first-of-type::first-letter{float:left;font:600 64px/0.86 Commissioner,sans-serif;margin:6px 10px 0 0;color:var(--ink)}
+.longread>p.last::after{content:"";display:inline-block;width:.6em;height:.6em;background:var(--ink);margin-left:.35em;vertical-align:baseline}
+#rp{position:fixed;left:0;top:0;height:2px;background:var(--ink);width:0;z-index:20}
+/* неделя */
+.wk-ev{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.wk-ev .n{font:600 15px "IBM Plex Mono",monospace;color:var(--cold);padding-top:3px}.wk-ev p{margin:0}
+.wk-sec{font:12px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:36px 0 10px}
+.wk-num{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.wk-num a{background:var(--bg);padding:14px 16px;text-decoration:none}.wk-num a:hover{background:#12161b}
+.wk-num .k{font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.wk-num .v{font:600 22px Commissioner,sans-serif;margin-top:6px}.wk-num .d{font:13px "IBM Plex Mono",monospace;color:var(--cold);margin-top:2px}
+.wk-list a{display:block;padding:10px 0;border-bottom:1px solid var(--rule);text-decoration:none;font-weight:600}
+.wk-list a span{display:block;font:11px "IBM Plex Mono",monospace;color:var(--mute);font-weight:400;margin-bottom:3px}
+@media(max-width:560px){.v-num{font-size:40px}.v-val{font-size:28px}.v-share{grid-template-columns:110px 1fr}.v-tl li{grid-template-columns:1fr;gap:2px}.wk-num{grid-template-columns:1fr}}
 """
 
 
@@ -390,6 +452,12 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
                 t, para = b.get("type"), b.get("para")
                 if t == "figure":
                     h = figure_html(b)
+                elif t == "doc":
+                    h = doc_html(b)
+                elif t == "timeline":
+                    h = timeline_html(b)
+                elif t == "share":
+                    h = share_html(b)
                 elif t in ("vs", "before_after"):
                     h = pair_html(b)
                 elif t == "flow":
@@ -412,3 +480,38 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
 
 def to_json(v: dict) -> str:
     return json.dumps(v, ensure_ascii=False)
+
+
+def week_page(e: dict, posts: list[dict], site: Path, inline) -> tuple[str, str]:
+    """«Неделя» на сайте как номер: события с номерами, как на карте; неделя в цифрах; что мы написали за неделю.
+    Возвращает (события, хвост страницы)."""
+    from datetime import datetime, timedelta
+    evs = "".join(f'<div class="wk-ev"><div class="n">{i + 1:02d}</div><p>{inline(p)}</p></div>'
+                  for i, p in enumerate(e.get("paragraphs") or []))
+    tail = ""
+    nums = []
+    for slug, name in (("klyuchevaya-stavka", "Ставка ЦБ"), ("kurs-dollara", "Доллар"), ("kurs-yuanya", "Юань"),
+                       ("indeks-mosbirzhi", "IMOEX"), ("zoloto", "Золото, г"), ("kurs-evro", "Евро")):
+        f = site / "data" / f"{slug}.html"
+        if not f.exists():
+            continue
+        t = f.read_text(encoding="utf-8")
+        v = re.search(r'class="lead">.*?<b>([^<]+)</b>', t, re.S)
+        w = re.search(r"<td>За неделю</td><td>[^<]*</td><td>([^<]+)</td>", t)
+        if v:
+            nums.append((slug, name, v.group(1), ("за неделю " + w.group(1)) if w else ("без изменений" if slug == "klyuchevaya-stavka" else "")))
+    if nums:
+        tail += '<div class="wk-sec">Неделя в цифрах</div><div class="wk-num">' + "".join(
+            f'<a href="/data/{sl}"><div class="k">{html.escape(n)}</div><div class="v">{html.escape(v)}</div><div class="d">{html.escape(d)}</div></a>'
+            for sl, n, v, d in nums[:6]) + "</div>"
+    end = datetime.fromisoformat(e["time_iso"])
+    start = end - timedelta(days=7)
+    mine = [p for p in posts if p.get("kind") in ("analysis", "position") and p.get("slug")
+            and start <= datetime.fromisoformat(p["time_iso"]) <= end]
+    for kind, name in (("analysis", "Разборы недели"), ("position", "Позиция редакции за неделю")):
+        ps = [p for p in mine if p["kind"] == kind][:7]
+        if ps:
+            tail += f'<div class="wk-sec">{name}</div><div class="wk-list">' + "".join(
+                f'<a href="/p/{p["slug"]}"><span>{datetime.fromisoformat(p["time_iso"]):%d.%m}</span>{html.escape(p["headline"])}</a>'
+                for p in ps) + "</div>"
+    return evs, tail

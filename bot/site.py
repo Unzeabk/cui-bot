@@ -578,6 +578,17 @@ def _pager(n: int, total: int) -> str:
 
 # ---------- страницы ----------
 
+def _rtime(e: dict) -> str:
+    if e.get("kind") != "analysis":
+        return ""
+    n = max(1, round(len(" ".join(e.get("paragraphs") or []).split()) / 200))
+    return (f' · {n} мин чтения<div id="rp"></div><script>addEventListener("scroll",function(){{var a=document.querySelector("article"),'
+            f'r=a.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)));document.getElementById("rp").style.width=p*100+"%"}},{{passive:true}})</script>')
+
+
+ALL_POSTS: list = []
+
+
 def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None) -> str:
     topics = topics or {}
     slug = e["slug"]
@@ -589,8 +600,15 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
     if SITE_DIR:
         from . import visuals as V
         vis = V.build(e, SITE_DIR / "img" / "v", slug)
-    paras = "".join(f"<p>{_inline(_link_topics(p, topics, used))}</p>" + vis["after"].get(i, "")
-                    for i, p in enumerate(e.get("paragraphs") or []))
+    pl = e.get("paragraphs") or []
+    paras = "".join((f'<p class="last">' if i == len(pl) - 1 else "<p>") + f"{_inline(_link_topics(p, topics, used))}</p>"
+                    + vis["after"].get(i, "") for i, p in enumerate(pl))
+    tail = ""
+    if e.get("kind") == "analysis" and paras:
+        paras = f'<div class="longread">{paras}</div>'
+    if e.get("kind") == "week" and SITE_DIR:
+        from . import visuals as V
+        paras, tail = V.week_page(e, ALL_POSTS, SITE_DIR, lambda p: _inline(_link_topics(p, topics, used)))
     ents = [(x["name"], _translit(x["name"])) for x in e.get("entities") or []]
     ents = [(n, sl) for n, sl in ents if sl in topics.values()]
     tline = ('<div class="topics-line">' + "".join(f'<a href="/t/{sl}">{_esc(n)}</a>' for n, sl in ents) + "</div>") if ents else ""
@@ -623,8 +641,8 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
         {"@type": "ListItem", "position": 3, "name": e["headline"]}]}
     body = (f'<article>{_kicker_html(e, "../")}<h1>{_esc(e["headline"])}</h1>'
             f'<p class="sub">{_esc(e.get("subhead", ""))}</p>'
-            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}, {_dt(e["time_iso"]):%H:%M} МСК</time></div>{tline}'
-            f'{cover}{vis["top"]}{paras}<div class="more">{more}</div>{SUB_BOX}{rel}</article>')
+            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}, {_dt(e["time_iso"]):%H:%M} МСК</time>{_rtime(e)}</div>{tline}'
+            f'{cover}{vis["top"]}{paras}{tail}<div class="more">{more}</div>{SUB_BOX}{rel}</article>')
     title = f'{e["seo_title"]} — {TITLE}' if e.get("seo_title") else (
         f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}')
     extra = (f'<meta property="article:published_time" content="{_esc(e["time_iso"])}">'
@@ -894,6 +912,8 @@ def build(site: Path) -> int:
                   f'<h1 class="sec">{_esc(name)}</h1>{intro}' + _list(ps, "../"), _abs(f"t/{sl}"), depth=1,
                   extra_head=ld, noindex=sl not in live), encoding="utf-8")
 
+    global ALL_POSTS
+    ALL_POSTS = posts
     # статьи: «По теме» — сначала общие сущности, потом та же рубрика
     for p in posts:
         mine = {_translit(x["name"]) for x in p.get("entities") or []}
