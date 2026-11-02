@@ -84,13 +84,10 @@ def _call(model: str, system: str, user: str, temperature: float, key: str = "",
     headers = {"x-goog-api-key": key or _keys()[0], "content-type": "application/json"}
     for attempt in range(4):
         try:
-            r = requests.post(API.format(model=model.strip()), json=body, headers=headers, timeout=180)
+            r = requests.post(API.format(model=model.strip()), json=body, headers=headers, timeout=120)
             tag = f"{model.strip()} #{ki + 1}"
             USAGE[tag] = USAGE.get(tag, 0) + 1
         except requests.RequestException as e:
-            if attempt < 1:
-                time.sleep(15)
-                continue
             raise QuotaExhausted(f"{model}: нет связи ({e})")
         if r.status_code == 429:
             # Дневной лимит — отдать следующему ключу или модели; минутный — подождать, сколько просит Google.
@@ -104,8 +101,9 @@ def _call(model: str, system: str, user: str, temperature: float, key: str = "",
             time.sleep(wait)
             continue
         if r.status_code in (500, 502, 503, 504):
-            if attempt < 2:
-                time.sleep(15 * (attempt + 1))
+            # перегрузка у Google обычно не проходит за минуту: один короткий повтор, потом сразу другая модель
+            if attempt < 1:
+                time.sleep(5)
                 continue
             raise QuotaExhausted(f"{model}: сервер перегружен ({r.status_code})")
         if r.status_code == 404:
