@@ -707,7 +707,19 @@ def send_newsletter() -> int:
         items = "".join(f'<p style="margin:0 0 20px;font-family:Helvetica,Arial,sans-serif"><a href="{site_url}/p/{_slug(p)}" style="font-family:Helvetica,Arial,sans-serif;color:#0B0D10;font-weight:bold;font-size:18px;line-height:24px;text-decoration:none">'
                         f'{html.escape(p["headline"])}</a><br><span style="font-family:Helvetica,Arial,sans-serif;color:#555555;font-size:15px;line-height:22px;font-style:italic">{html.escape(p.get("subhead", ""))}</span></p>' for p in ps)
         return f'<p style="font-family:monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:32px 0 14px">{name.upper()}</p>{items}'
-    body = block("analysis", "Разборы", 7) + block("position", "Позиция", 4) + block("note", "Заметки", 6)
+    def week_block():
+        w = next((p for p in sorted(posts, key=lambda p: p["time_iso"], reverse=True)
+                  if p.get("kind") == "week" and p["time_iso"] >= since and p.get("paragraphs")), None)
+        if not w:
+            return ""
+        def para(t):
+            t = html.escape(t)
+            t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
+            t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: f'<a href="{html.unescape(m.group(2))}" style="color:#0B0D10">{m.group(1)}</a>', t)
+            return f'<p style="margin:0 0 14px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:24px;color:#0B0D10">{t}</p>'
+        return (f'<p style="font-family:monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:32px 0 14px">ГЛАВНОЕ ЗА НЕДЕЛЮ</p>'
+                + "".join(para(x) for x in w["paragraphs"]))
+    body = week_block() + block("analysis", "Разборы", 10) + block("position", "Позиция", 14)
     if not body:
         log("рассылка: за неделю нечего отправлять")
         return 0
