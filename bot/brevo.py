@@ -2,7 +2,7 @@
 
 Запускается в workflow «сайт», пока state/brevo.json не готов: находит или создаёт список «Cui Bono»,
 подключает домен cuibono.press (DNS-записи кладёт в Cloudflare через CLOUDFLARE_API_TOKEN),
-создаёт отправителя redaktsiya@cuibono.press. Итог пишет в state/brevo.json — его читают сайт и рассылка.
+создаёт отправителя editors@cuibono.press. Итог пишет в state/brevo.json — его читают сайт и рассылка.
 Нужен только secrets.BREVO_API_KEY.
 """
 from __future__ import annotations
@@ -18,7 +18,7 @@ from .main import log
 
 API = "https://api.brevo.com/v3"
 DOMAIN = "cuibono.press"
-SENDER = f"redaktsiya@{DOMAIN}"
+SENDER = f"editors@{DOMAIN}"
 STATE = Path("state") / "brevo.json"
 
 
@@ -92,11 +92,25 @@ def _sender() -> str:
     return SENDER
 
 
+def _check(st: dict) -> bool:
+    """Проверка рассылки без отправки: собрать черновик кампании на список и удалить его."""
+    r = requests.post(f"{API}/emailCampaigns", headers=_h(), timeout=30, json={
+        "name": "проверка", "subject": "проверка", "sender": {"name": "Cui Bono?", "email": st["sender"]},
+        "htmlContent": "<p>проверка</p><a href='{{ unsubscribe }}'>x</a>", "recipients": {"listIds": [int(st["list_id"])]}})
+    log(f"brevo: проверочная кампания {r.status_code} {r.text[:300]}")
+    if r.ok:
+        requests.delete(f"{API}/emailCampaigns/{r.json()['id']}", headers=_h(), timeout=30)
+    senders = requests.get(f"{API}/senders", headers=_h(), timeout=30).json().get("senders") or []
+    me = next((x for x in senders if x["email"] == st["sender"]), {})
+    log(f"brevo: отправитель {me}")
+    return bool(r.ok and me.get("active"))
+
+
 def setup() -> int:
     if not os.environ.get("BREVO_API_KEY"):
         return 0
     st = load()
-    if st.get("list_id") and st.get("domain_ok"):
+    if st.get("list_id") and st.get("domain_ok") and st.get("sender") == SENDER and st.get("checked"):
         return 0
     try:
         acc = requests.get(f"{API}/account", headers=_h(), timeout=30)
@@ -106,6 +120,7 @@ def setup() -> int:
         st["list_id"] = st.get("list_id") or _list_id()
         st["domain_ok"] = _domain()
         st["sender"] = _sender()
+        st["checked"] = _check(st)
     except Exception as e:  # noqa: BLE001
         log(f"brevo: настройка не закончена ({e})")
     STATE.parent.mkdir(exist_ok=True)
