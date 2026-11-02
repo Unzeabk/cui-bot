@@ -295,5 +295,28 @@
   ],
   "message_id": 131,
   "slot": "2026-11-02 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-02T20:06:08.975989+03:00",
+  "time": "02.11 20:06",
+  "rubric": "newmarkets",
+  "form": "неожиданная география",
+  "layout": "от развязки",
+  "optics": [
+   "спектакль",
+   "лестница власти"
+  ],
+  "topic_key": "festival-kabaevoy-reliance-mumbai",
+  "headline": "Мумбайский театр принял фестиваль гимнастики Алины Кабаевой",
+  "fly": "Нефть в обмен на грацию",
+  "subhead": "Площадку предоставил импортер нефти, но финансовое участие принял и российский фонд.",
+  "final": "",
+  "actor": "reliance industries",
+  "main_title": "Разбогатевший на российской нефти индийский миллиардер оплатил фестиваль Кабаевой в Мумбаи",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/02/razbogatevshii-na-rossiiskoi-nefti-indiiskii-milliarder-oplatil-festival-kabaevoi-v-mumbai-a210322"
+  ],
+  "message_id": 132,
+  "slot": "2026-11-02 37 16 * * *"
  }
 ]
