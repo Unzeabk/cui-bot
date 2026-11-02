@@ -371,7 +371,7 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 /* воздух */
 .feed-h{margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:10px}
 article p{margin-bottom:20px}.more{margin-top:28px}.related{margin:32px 0 0}.related a{margin:10px 0}
-.sub-box{margin:32px 0 0}footer.wrap{margin-top:44px}footer.wrap>div{padding-top:44px}.fgrid{gap:24px 24px}
+.sub-box{margin:32px 0 0}footer.wrap{margin-top:28px}footer.wrap>div{padding-top:28px}.fgrid{gap:24px 24px}
 ul.list li{padding:20px 0}.specials{margin-bottom:32px}h1{margin:12px 0 14px}.sub{margin-bottom:24px}
 .quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
 .q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
