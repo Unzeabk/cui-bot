@@ -135,7 +135,20 @@ def build_en(site: Path, posts: list[dict], abs_url, ld) -> list[tuple[str, str]
         e = p["en"]
         url, ru = abs_url(f"en/{p['slug']}"), abs_url(f"p/{p['slug']}.html")
         d = p["time_iso"][:10]
-        paras = "".join(f"<p>{_en_inline(x)}</p>" for x in e["paragraphs"])
+        vis = {"top": "", "after": {}}
+        try:
+            from . import visuals as V
+            rv = p.get("visuals") or {}
+            key = json.dumps([rv.get("blocks"), rv.get("place")], ensure_ascii=False, sort_keys=True)
+            if (rv.get("blocks") or rv.get("place")) and e.get("vis_key") != key and os.environ.get("GEMINI_API_KEY"):
+                e["visuals"], e["vis_key"] = V.translate(rv), key
+            if e.get("visuals"):
+                vis = V.build_lang(p, e["visuals"], site / "img" / "v", p["slug"])
+        except Exception as ex:  # noqa: BLE001
+            log(f"en: графика для {p['slug']} не собрана ({ex})")
+        n = len(e["paragraphs"])
+        after = {min(k, n - 1): h for k, h in vis["after"].items()}
+        paras = vis["top"] + "".join(f"<p>{_en_inline(x)}</p>" + after.get(i, "") for i, x in enumerate(e["paragraphs"]))
         body = (f'<article><div class="kicker">ANALYSIS</div><h1>{html.escape(e["title"])}</h1>'
                 f'<p class="sub">{html.escape(e.get("subtitle", ""))}</p>'
                 f'<div class="meta"><time datetime="{p["time_iso"]}">{datetime.fromisoformat(p["time_iso"]).strftime("%-d %B %Y")}</time></div>'

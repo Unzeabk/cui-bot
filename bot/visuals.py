@@ -354,6 +354,23 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         return {}
 
 
+# ---------- язык подписей ----------
+
+LANG = "ru"
+LABELS = {
+    "ru": {"km_msk": "км до Москвы", "place": "Место события", "chart": "График", "src": "Источник", "players": "Кто выигрывает и кто платит",
+           "wins": "Выигрывает", "pays": "Платит", "doc": "Документ", "timeline": "Хронология", "vs": "Ожидание и факт",
+           "ba": "Было и стало", "flow": "Как это устроено", "cmp": "Сравнение", "week_n": "событий недели"},
+    "en": {"km_msk": "km from Moscow", "place": "Where", "chart": "Chart", "src": "Source", "players": "Who gains, who pays",
+           "wins": "Gains", "pays": "Pays", "doc": "On the record", "timeline": "Timeline", "vs": "Expected and actual",
+           "ba": "Before and after", "flow": "How it works", "cmp": "Comparison", "week_n": "events this week"},
+}
+
+
+def L(k: str) -> str:
+    return LABELS.get(LANG, LABELS["ru"])[k]
+
+
 # ---------- съёмка ----------
 
 def _shoot(page: str, path: Path, w: int, h: int) -> Path:
@@ -403,7 +420,7 @@ def map_strip(place: dict, path: Path, light: bool = False) -> Path:
     lines = []
     d = _km((place["lat"], place["lon"]), MOSCOW)
     if d > 15:
-        lines.append(f"{d:,} км до Москвы".replace(",", " "))
+        lines.append(f"{d:,} {L('km_msk')}".replace(",", " "))
     lines.append(B.coords(place["lat"], place["lon"]))
     name = (place.get("title") or place.get("name") or "").strip()
     name = name[:1].upper() + name[1:]
@@ -421,7 +438,7 @@ body{{background:{bg};color:{fg}}}
 .reg{{font-family:'Onest',sans-serif;font-size:15px;color:{sub};margin-top:6px}}
 .facts{{margin-top:auto;font-family:'Plex',monospace;font-size:12.5px;line-height:21px;color:{sub}}}
 </style></head><body><div class="root"><div class="map">{m}</div><div class="shade"></div>
-<div class="txt"><div class="k">Место события</div><div class="name">{html.escape(name)}</div>
+<div class="txt"><div class="k">{L('place')}</div><div class="name">{html.escape(name)}</div>
 {f'<div class="reg">{region}</div>' if region else ''}<div class="facts">{"<br>".join(html.escape(x) for x in lines)}</div></div>
 </div></body></html>"""
     return _shoot(page, path, W, H)
@@ -464,10 +481,10 @@ svg{{position:absolute;left:0;top:0}}
 .ax{{font-family:'Plex',monospace;font-size:11.5px;fill:#6B6F72}}
 .val{{font-family:'Plex',monospace;font-size:12.5px;fill:#C9CFD6}}.val.on{{fill:#EDE9E2;font-weight:600}}
 .src{{position:absolute;left:24px;bottom:16px}}
-</style></head><body><div class="root"><div class="k" style="color:#C9CFD6">График</div>
+</style></head><body><div class="root"><div class="k" style="color:#C9CFD6">{L('chart')}</div>
 <div class="t">{html.escape(c["title"])}</div><div class="u">{html.escape(c["unit"])}</div>
 <svg width="{W}" height="{H}">{g}{body}<line x1="{x0}" x2="{x1}" y1="{Y(0):.1f}" y2="{Y(0):.1f}" stroke="#6B6F72"/></svg>
-<div class="k src">{("Источник: " + html.escape(c["source"]) + " · ") if c["source"] else ""}Cui Bono?</div></div></body></html>"""
+<div class="k src">{(L("src") + ": " + html.escape(c["source"]) + " · ") if c["source"] else ""}Cui Bono?</div></div></body></html>"""
     if light:
         mp = {"#0E1114": "#FBFAF7", "#EDE9E2": "#0B0D10", "#2F343C": "#CFCAC0", "#1C2026": "#E6E2DA", "#C9CFD6": "#3A3F45"}
         page = re.sub("|".join(mp), lambda m: mp[m.group(0)], page)
@@ -496,7 +513,7 @@ def week_map(places: list, path: Path, light: bool = False) -> Path:
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
 .root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}.map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
 .lab{{position:absolute;left:20px;bottom:16px}}</style></head><body><div class="root"><div class="map">{m}</div>
-<div class="k lab">{len([p for p in places if p])} событий недели</div></div></body></html>"""
+<div class="k lab">{len([p for p in places if p])} {L("week_n")}</div></div></body></html>"""
     if light:
         page = page.replace(".root{", "body{background:#FBFAF7}.root{background:#FBFAF7;", 1)
     return _shoot(page, path, W, H)
@@ -518,19 +535,19 @@ def players_html(b: dict) -> str:
     def col(name, lst):
         return (f'<div><div class="v-lab">{name}</div>' + "".join(
             f'<div class="v-pl"><b>{html.escape(z["name"])}</b><span>{html.escape(z["why"])}</span></div>' for z in lst) + "</div>")
-    return (f'<figure class="v-players"><div class="v-k">Кто выигрывает и кто платит</div>'
+    return (f'<figure class="v-players"><div class="v-k">{L("players")}</div>'
             + (f'<div class="v-t">{html.escape(b["title"])}</div>' if b.get("title") else "")
-            + f'<div class="v-cols">{col("Выигрывает", b["wins"])}{col("Платит", b["pays"])}</div></figure>')
+            + f'<div class="v-cols">{col(L("wins"), b["wins"])}{col(L("pays"), b["pays"])}</div></figure>')
 
 
 def doc_html(b: dict) -> str:
-    return (f'<figure class="v-doc"><div class="v-k">Документ</div><blockquote>{html.escape(b["quote"])}</blockquote>'
+    return (f'<figure class="v-doc"><div class="v-k">{L("doc")}</div><blockquote>{html.escape(b["quote"])}</blockquote>'
             + (f'<figcaption>{html.escape(b["who"])}</figcaption>' if b.get("who") else "") + "</figure>")
 
 
 def timeline_html(b: dict) -> str:
     rows = "".join(f'<li><time>{html.escape(z["date"])}</time><span>{html.escape(z["text"])}</span></li>' for z in b["items"])
-    return (f'<figure class="v-tl"><div class="v-k">Хронология</div>'
+    return (f'<figure class="v-tl"><div class="v-k">{L("timeline")}</div>'
             + (f'<div class="v-t">{html.escape(b["title"])}</div>' if b.get("title") else "") + f"<ol>{rows}</ol></figure>")
 
 
@@ -544,13 +561,13 @@ def share_html(b: dict) -> str:
 
 def pair_html(b: dict) -> str:
     """«Против ожидания» и «было → стало»: две цифры и стрелка."""
-    k = "Ожидание и факт" if b["type"] == "vs" else "Было и стало"
+    k = L("vs") if b["type"] == "vs" else L("ba")
     def side(x):
         return ((f'<div class="v-lab">{html.escape(x["label"])}</div>' if x.get("label") else "")
                 + f'<div class="v-val">{html.escape(x["value"])}</div><div class="v-cap">{html.escape(x["caption"])}</div>')
     return (f'<figure class="v-ba"><div class="v-k">{k}</div>' + (f'<div class="v-t">{html.escape(b["title"])}</div>' if b.get("title") else "")
             + f'<div class="v-row"><div class="{"v-dim" if b["type"] == "vs" else ""}">{side(b["a"])}</div><div class="v-arr">→</div><div>{side(b["b"])}</div></div>'
-            + (f'<div class="v-src">Источник: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
+            + (f'<div class="v-src">{L("src")}: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
 
 
 def flow_html(b: dict) -> str:
@@ -560,9 +577,9 @@ def flow_html(b: dict) -> str:
             parts.append(f'<div class="v-edge"><span>{html.escape(z.get("amount") or "")}</span>'
                          + (f'<i>{html.escape(z["label"])}</i>' if z.get("label") else "") + "</div>")
         parts.append(f'<div class="v-node">{html.escape(z["name"])}</div>')
-    return (f'<figure class="v-flow"><div class="v-k">Как это устроено</div><div class="v-t">{html.escape(b["title"])}</div>'
+    return (f'<figure class="v-flow"><div class="v-k">{L("flow")}</div><div class="v-t">{html.escape(b["title"])}</div>'
             f'<div class="v-chain">{"".join(parts)}</div>'
-            + (f'<div class="v-src">Источник: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
+            + (f'<div class="v-src">{L("src")}: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
 
 
 def compare_html(b: dict) -> str:
@@ -571,18 +588,18 @@ def compare_html(b: dict) -> str:
     rows = "".join(f'<div class="v-bar{" on" if i == b["highlight"] else ""}"><span>{html.escape(n)}</span>'
                    f'<div><b style="width:{abs(v) / mx * 100:.1f}%"></b></div><em>{fmt(v)}</em></div>'
                    for i, (n, v) in enumerate(b["points"]))
-    return (f'<figure class="v-cmp"><div class="v-k">Сравнение</div><div class="v-t">{html.escape(b["title"])}</div>'
+    return (f'<figure class="v-cmp"><div class="v-k">{L("cmp")}</div><div class="v-t">{html.escape(b["title"])}</div>'
             + (f'<div class="v-u">{html.escape(b["unit"])}</div>' if b.get("unit") else "") + rows
-            + (f'<div class="v-src">Источник: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
+            + (f'<div class="v-src">{L("src")}: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
 
 
 def before_after_html(b: dict) -> str:
     def side(x):
         return (f'<div><div class="v-lab">{html.escape(x["label"])}</div><div class="v-val">{html.escape(x["value"])}</div>'
                 f'<div class="v-cap">{html.escape(x["caption"])}</div></div>')
-    return (f'<figure class="v-ba"><div class="v-k">Было и стало</div><div class="v-t">{html.escape(b["title"])}</div>'
+    return (f'<figure class="v-ba"><div class="v-k">{L("ba")}</div><div class="v-t">{html.escape(b["title"])}</div>'
             f'<div class="v-row">{side(b["before"])}<div class="v-arr">→</div>{side(b["after"])}</div>'
-            + (f'<div class="v-src">Источник: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
+            + (f'<div class="v-src">{L("src")}: {html.escape(b["source"])}</div>' if b.get("source") else "") + "</figure>")
 
 
 def img_html(src: str, alt: str, w: int, h: int, cls: str) -> str:
@@ -833,3 +850,41 @@ def zen_figures(e: dict, img_dir: Path, slug: str, abs_url) -> dict[int, str]:
         out[para] = (f'<figure><img src="{abs_url("img/v/" + f.name)}">'
                      + (f"<figcaption>{html.escape(cap)}</figcaption>" if cap else "") + "</figure>")
     return out
+
+
+# ---------- английская версия разборов ----------
+
+EN_SYSTEM = """Translate every human-readable string in this JSON from Russian into English, The Economist house style:
+short, precise, British spelling. Keep keys, numbers, types and structure exactly. Values with numbers: keep the number,
+translate the unit («9,4 трлн ₽» → «₽9.4trn», «38%» → «38%», «24 октября» → «October 24th»).
+Do not translate keys like "type", "para", "kind", "lat", "lon", "scale". Return only the JSON."""
+
+
+def translate(v: dict) -> dict:
+    """Блоки и карта разбора по-английски — для страниц /en/. Один лёгкий запрос на текст."""
+    from .compose import extract_json
+    from .gemini import LIGHT_CHAIN, ask
+    src = {"blocks": v.get("blocks") or [], "place": v.get("place")}
+    raw, _ = ask(LIGHT_CHAIN, EN_SYSTEM, json.dumps(src, ensure_ascii=False), temperature=0.2)
+    d = extract_json(raw)
+    out = {"blocks": [], "place": None}
+    for a, b in zip(src["blocks"], d.get("blocks") or []):
+        if isinstance(b, dict) and b.get("type") == a.get("type"):
+            b["para"] = a["para"]
+            if a.get("points"):
+                b["points"] = [(str(x[0]), float(y)) for x, (_, y) in zip(b.get("points") or a["points"], a["points"])]
+                b["highlight"] = a.get("highlight", 0)
+            out["blocks"].append(b)
+    if src["place"] and isinstance(d.get("place"), dict):
+        out["place"] = {**src["place"], **{k: d["place"].get(k) or src["place"].get(k) for k in ("title", "region")}}
+    return out
+
+
+def build_lang(e: dict, en_vis: dict, img_dir: Path, slug: str) -> dict:
+    """То же, что build, но английскими подписями и с отдельными картинками."""
+    global LANG
+    LANG = "en"
+    try:
+        return build({**e, "visuals": en_vis}, img_dir, slug + "-en")
+    finally:
+        LANG = "ru"
