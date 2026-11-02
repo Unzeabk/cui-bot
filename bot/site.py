@@ -314,11 +314,11 @@ table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:no
 .src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
 ul.list li{padding:20px 0}ul.list h2{font-size:21px;line-height:1.3;margin:6px 0 4px}ul.list .sub{font-size:16px;line-height:1.5}
-nav.menu{align-items:center}nav.menu a.tg{display:flex;color:var(--cold)}nav.menu a.tg:hover{color:var(--ink)}
+nav.menu{align-items:center}nav.menu a.tg{color:var(--ink)}nav.menu a.tg:hover{color:var(--ink)}
 details.rub{position:relative}details.rub summary{cursor:pointer;color:var(--cold);list-style:none}details.rub summary::-webkit-details-marker{display:none}
 details.rub summary::after{content:" ▾";font-size:10px}details.rub[open] summary{color:var(--ink)}
 .rub-list{position:absolute;right:-20px;top:28px;z-index:10;background:#101317;border:1px solid var(--rule);padding:18px 20px;
-display:grid;grid-template-columns:repeat(5,max-content);gap:8px 28px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+display:grid;grid-template-columns:repeat(4,max-content);gap:8px 28px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .rub-list b{display:block;font-weight:400;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;font-size:11px;margin-bottom:6px}
 .rub-list a{display:block;line-height:2;white-space:nowrap}
 @media(max-width:720px){.rub-list{position:fixed;left:12px;right:12px;top:auto;grid-template-columns:1fr 1fr}}
@@ -374,14 +374,15 @@ def _rub_menu(sections: list[str]) -> str:
     groups = [("Россия", ["russia", "regions", "budget", "property", "defense", "economy", "labour", "regulation"]),
               ("Деньги", ["finance", "business", "sanctions", "settlements"]),
               ("Мир", ["abroad", "postsoviet", "china", "newmarkets", "europe", "usa", "world"]),
-              ("Ещё", ["tech", "culture"])]
-    have = [x for x in sections if x not in ("analysis", "position", "week")]
+              ("Ещё", ["analysis", "position", "data", "week", "tech", "culture"])]
+    have = [x for x in sections if x not in ("week", "analysis")] + ["analysis", "data"] + (["week"] if "week" in sections else [])
     out, used = "", set()
     for name, keys in groups:
         items = [k for k in keys if k in have]
         used |= set(items)
         if items:
-            out += f'<div><b>{name}</b>' + "".join(f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in items) + "</div>"
+            out += f'<div><b>{name}</b>' + "".join(
+                '<a href="/data">Показатели</a>' if k == "data" else f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in items) + "</div>"
     rest = [k for k in have if k not in used]
     if rest:
         out += '<div><b>Другое</b>' + "".join(f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in rest) + "</div>"
@@ -434,7 +435,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 {verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
-<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/data">Показатели</a><details class="rub"><summary>Разделы</summary><div class="rub-list"><div><b>Издание</b><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/r/week">Неделя</a><a href="/archive">Архив</a></div>{RUB_MENU}</div></details><a class="tg" href="{CHANNEL_URL}" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.1 1.4 11.6c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4z"/></svg></a></nav></div></header>
+<nav class="menu"><details class="rub"><summary>Рубрики</summary><div class="rub-list">{RUB_MENU}</div></details><a class="tg" href="{CHANNEL_URL}">Telegram ↗</a></nav></div></header>
 <main class="wrap">{body}</main>
 <script>document.addEventListener("click",function(e){{document.querySelectorAll("details.rub[open]").forEach(function(d){{if(!d.contains(e.target))d.removeAttribute("open")}})}});document.addEventListener("keydown",function(e){{if(e.key==="Escape")document.querySelectorAll("details.rub[open]").forEach(function(d){{d.removeAttribute("open")}})}})</script>
 <footer class="wrap"><div>{FOOTER_TOPICS}<div class="fcols">
