@@ -204,5 +204,29 @@
    "https://www.kommersant.ru/doc/9078609"
   ],
   "message_id": 115
+ },
+ {
+  "time_iso": "2026-11-02T04:26:18.726263+03:00",
+  "time": "02.11 04:26",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-44",
+  "headline": "Цифра недели — Индекс IMOEX",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "http://government.ru/news/60326/",
+   "https://frankmedia.ru/313279",
+   "https://novayagazeta.eu/articles/2026/11/01/v-nizhegorodskoi-oblasti-ogranichili-prodazhu-benzina-i-zapretili-zapravliat-kanistry-news",
+   "https://www.bbc.co.uk/news/articles/cwj34gdmnly4o?at_medium=RSS&at_campaign=rss",
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.cbr.ru/hd_base/KeyRate/",
+   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
+   "https://www.moex.com/ru/index/IMOEX",
+   "https://www.vedomosti.ru/business/articles/2026/11/02/1241871-gazprom-dopustil-rost"
+  ],
+  "message_id": 116
  }
 ]
