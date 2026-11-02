@@ -47,7 +47,14 @@ export default {
     const d = new Date(event.scheduledTime);
     for (const s of SLOTS) if (due(s.cron, d)) ctx.waitUntil(dispatch(env, s));
   },
-  async fetch() {
+  async fetch(req, env) {
+    if (new URL(req.url).pathname === "/check") {
+      // проверка токена: GitHub должен узнать его и дать доступ к workflow (секрет в ответ не попадает)
+      const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/post.yml`, {
+        headers: { Authorization: `Bearer ${env.GH_TOKEN || ""}`, Accept: "application/vnd.github+json", "User-Agent": "cui-alarm" },
+      });
+      return new Response(`token: ${env.GH_TOKEN ? "есть" : "нет"}\ngithub: ${r.status}\nscopes: ${r.headers.get("x-accepted-github-permissions") || ""}\n`);
+    }
     return new Response("cui-alarm: ok\n" + SLOTS.map((s) => `${s.cron}  ${s.wf} ${s.format || ""}`).join("\n"));
   },
 };

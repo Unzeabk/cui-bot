@@ -25,3 +25,8 @@ jobs:
           else
             echo "::warning::Нет секрета GH_DISPATCH_TOKEN — будильник выложен, но запускать бота не сможет"
           fi
+      - name: Проверить токен будильника
+        run: |
+          sleep 20
+          curl -s https://cui-alarm.skskkswlqlmz.workers.dev/check
+          curl -s https://cui-alarm.skskkswlqlmz.workers.dev/ | head -3
