@@ -26,11 +26,13 @@ from .main import log
 MOSCOW = (55.7558, 37.6173)
 
 SYSTEM = """Ты — бильд-редактор издания об экономике уровня The Economist. Тебе дают опубликованный текст, абзацы пронумерованы [0], [1]…
-Визуал не украшает, а доказывает ход драматургии там, где он стоит. Правило цифр: ТОЛЬКО цифры, которые уже есть в тексте, слово в слово;
+Визуал не украшает, а доказывает ход драматургии там, где он стоит. И НЕ ПОВТОРЯЕТ ТЕКСТ: читатель только что прочёл абзац —
+блок должен показать то, что словами видно хуже: соотношение двух-трёх цифр, долю, динамику, цепочку. Одна цифра,
+которую абзац уже назвал, крупным шрифтом — это повтор, такой блок запрещён. Подпись не пересказывает фразу из абзаца. Правило цифр: ТОЛЬКО цифры, которые уже есть в тексте, слово в слово;
 ничего не досчитывай, не округляй, не добавляй. Нет подходящих цифр — блока нет. Лучше ноль блоков, чем слабый.
 
 Ходы разбора и что к ним ставить (поле "para" — номер абзаца, ПОСЛЕ которого встаёт блок; это абзац с нужными цифрами):
-- поворот (очевидное объяснение ломается об одну цифру) → "vs" (ожидание против факта) или "figure" (одна цифра);
+- поворот (очевидное объяснение ломается об одну цифру) → "vs" (две цифры рядом: ожидание и факт, мы и другие);
 - механизм (кто кому и сколько платит) → "flow" (цепочка потоков с суммами);
 - другая сторона, сравнение с соседями → "compare" (3–6 сопоставимых: страны, компании, регионы);
 - подъём, закон во времени → "chart" (ряд за 3–8 лет/кварталов) или "before_after" (было → стало);
@@ -48,7 +50,7 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 {"type": "share", "para": 1, "value": "10%", "caption": "чего доля, до 90 знаков", "source": "..."}  (только проценты до 100)
 {"type": "players", "para": 6, "title": "4–7 слов", "wins": [{"name": "как в тексте", "why": "до 70 знаков"}], "pays": [{"name": "...", "why": "..."}]}  (по 1–3 в колонке)
 {"type": "pull", "para": 9, "quote": "одна фраза из текста дословно, 60–200 знаков"}
-{"type": "figure", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
+{"type": "figure_disabled", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
 {"type": "vs", "para": 1, "title": "4–7 слов", "expected": {"value": "...", "caption": "чего ждали"}, "actual": {"value": "...", "caption": "что вышло"}, "source": "..."}
 {"type": "flow", "para": 4, "title": "кто кому платит, 4–7 слов", "steps": [{"name": "Покупатель в Китае"}, {"name": "Посредник в Гонконге", "amount": "4,2 млрд $", "label": "за что"}, {"name": "Экспортёр"}], "source": "..."}
    (2–4 участника по цепочке; "amount" у участника — сумма, пришедшая к нему от предыдущего)
@@ -64,7 +66,8 @@ null, если место — столица как синоним власти 
 ЖАНРЫ:
 - "analysis" (разбор): 2–3 блока по ходам, как выше.
 - "note" (заметка) и "position" (позиция): РОВНО один блок или ноль — тот, что лучше всего доказывает главный поворот:
-  "share" (доля), "figure", "vs", "before_after", "compare" или "chart". Ставь после абзаца с этой цифрой (не после последнего).
+  "share" (доля), "vs", "before_after", "compare" или "chart" — только если блок сопоставляет хотя бы две цифры
+  или показывает долю наглядно. Иначе ноль блоков. Ставь после абзаца с этой цифрой (не после последнего).
   "doc", "pull", "players", "timeline", "flow" в коротких текстах не нужны.
   Пример: «Указ о резервировании 10% мощностей частных ЦОДов…» → {"type": "share", "para": 0, "value": "10%", "caption": "мощностей частных ЦОДов уходит в госрезерв"}.
 
@@ -101,8 +104,8 @@ def _s(x, n=90) -> str:
     return str(x or "").strip()[:n]
 
 
-SHORT_OK = {"share", "figure", "vs", "before_after", "compare", "chart"}
-VERSION = 5  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
+VERSION = 6  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
 def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
@@ -139,7 +142,7 @@ def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | 
             m = re.search(r"(\d+(?:[.,]\d+)?)\s*%", str(b.get("value", "")))
             if m and _num_in(text, b["value"]) and 0 < float(m.group(1).replace(",", ".")) <= 100:
                 x = {"value": _s(b["value"], 12), "pct": float(m.group(1).replace(",", ".")), "caption": _s(b.get("caption"), 120)}
-        elif t == "figure" and _num_in(text, b.get("value", "")):
+        elif t == "figure" and False:
             x = {"value": _s(b["value"], 20), "caption": _s(b.get("caption"), 120)}
         elif t in ("vs", "before_after"):
             a, c = (b.get("expected"), b.get("actual")) if t == "vs" else (b.get("before"), b.get("after"))
@@ -355,7 +358,7 @@ def week_map(places: list, path: Path) -> Path:
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
 .root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}.map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
 .lab{{position:absolute;left:20px;bottom:16px}}</style></head><body><div class="root"><div class="map">{m}</div>
-</div></body></html>"""
+<div class="k lab">{len([p for p in places if p])} событий недели</div></div></body></html>"""
     return _shoot(page, path, W, H)
 
 
@@ -519,7 +522,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
     kind = e.get("kind")
     img_dir.mkdir(parents=True, exist_ok=True)
     try:
-        place = B.place_ok(v.get("place")) if not (kind != "analysis" and v.get("blocks")) else None  # в коротком тексте один элемент: блок важнее карты
+        place = B.place_ok(v.get("place")) if not (kind != "analysis" and any(b.get("type") != "figure" for b in v.get("blocks") or [])) else None  # в коротком тексте один элемент: блок важнее карты
         # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis"):
             place["region"] = (v.get("place") or {}).get("region") or ""
@@ -539,7 +542,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
             for b in v.get("blocks") or []:
                 t, para = b.get("type"), b.get("para")
                 if t == "figure":
-                    h = figure_html(b)
+                    continue  # одна цифра крупно повторяет абзац — не ставим
                 elif t == "doc":
                     h = doc_html(b)
                 elif t == "pull":
