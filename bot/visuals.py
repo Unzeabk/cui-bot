@@ -114,7 +114,7 @@ def _s(x, n=90) -> str:
 
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
-VERSION = 10
+VERSION = 11
 RENDER = 2  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -310,6 +310,14 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         chain = CHECK_CHAIN + LIGHT_CHAIN  # бильд-редактор — модель посильнее; квоты хватает: текст размечается один раз
         raw, _ = ask(chain, SYSTEM, head + numbered[:14000], temperature=0.3)
         d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
+        nums = len(re.findall(r"\d+(?:[.,]\d+)?", text))
+        if e.get("kind") in ("note", "position") and not d.get("blocks") and nums >= 2:
+            # второй заход для короткого текста: блок почти всегда есть, если в тексте две цифры одного показателя
+            more = ("\nПрошлый ответ не дал блока. Посмотри ещё раз: найди две цифры ОДНОГО показателя (было и стало, мы и другие, "
+                    "штраф раньше и теперь, цена для одних и для других) или долю — и дай один блок. Ноль, только если таких цифр правда нет.")
+            raw2, _ = ask(chain, SYSTEM, head + numbered[:14000] + more, temperature=0.5)
+            d["blocks"] = _check(extract_json(raw2), text, len(pars), e.get("kind"))["blocks"]
+            log(f"визуал: второй заход «{e.get('headline', '')[:40]}» → {[b['type'] for b in d['blocks']]}")
         if e.get("kind") == "analysis" and len(d.get("blocks") or []) < 3 and len(pars) >= 8:
             # второй проход: добрать блоки к другим ходам, другими типами
             have = d.get("blocks") or []
