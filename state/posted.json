@@ -409,5 +409,29 @@
   ],
   "message_id": 136,
   "slot": "2026-11-03 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T02:40:03.539029+03:00",
+  "time": "03.11 02:40",
+  "rubric": "postsoviet",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "обменник",
+   "лестница власти"
+  ],
+  "topic_key": "astana-ai-hub-nvidia",
+  "headline": "Как Казахстан превращает углеводороды в цифровой интеллект",
+  "fly": "Нефть в обмен на кремний",
+  "subhead": "Астана строит дата-центры Nvidia при поддержке Вашингтона и Пекина",
+  "final": "",
+  "actor": "astana",
+  "main_title": "Nvidia chief taps Astana as AI hub",
+  "sources": [
+   "https://eurasianet.org/nvidia-chief-taps-astana-as-ai-hub",
+   "https://eurasianet.org/us-touting-small-nuclear-reactors-for-use-in-caucasus-and-central-asia"
+  ],
+  "message_id": 137,
+  "slot": "2026-11-03 37 23 * * *"
  }
 ]
