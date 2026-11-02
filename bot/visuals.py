@@ -343,6 +343,7 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
             d.pop("place", None)  # позиция — мнение, не репортаж с места
         if e.get("kind") == "week":
             d["blocks"] = []  # у «Недели» своя вёрстка номера
+            d.pop("place", None)
         if e.get("kind") == "week" and not any(e.get("places") or []):
             d["places"] = week_places(e)
         d["v"] = VERSION
