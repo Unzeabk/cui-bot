@@ -386,5 +386,28 @@
   ],
   "message_id": 135,
   "slot": "2026-11-02 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T00:42:15.603365+03:00",
+  "time": "03.11 00:42",
+  "rubric": "labour",
+  "form": "невозможный факт",
+  "layout": "от предмета",
+  "optics": [
+   "предел физики",
+   "метрика-оборотень"
+  ],
+  "topic_key": "rosgvardiya-forma-ekonomiya",
+  "headline": "Росгвардия отказывается от шерсти ради силовой экономии",
+  "fly": "Тепло ли тебе, девица",
+  "subhead": "Ведомство предложило убрать из норм снабжения мех и сукно на фоне растущих бюджетных расходов.",
+  "final": "",
+  "actor": "rosgvardia",
+  "main_title": "Сотрудникам Росгвардии начнут шить форму без меха и шерсти из-за экономии",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/02/sotrudnikam-rosgvardii-nachnut-shit-formu-bez-meha-ishersti-iz-za-ekonomii-a210338"
+  ],
+  "message_id": 136,
+  "slot": "2026-11-03 37 21 * * *"
  }
 ]
