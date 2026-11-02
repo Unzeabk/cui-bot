@@ -226,13 +226,13 @@
      {
       "value": "10%",
       "pct": 10.0,
-      "caption": "commercial data-centre capacity and floor space requisitioned for reserve",
+      "caption": "commercial data-centre capacity and space reserved",
       "type": "share",
       "para": 0,
       "source": "Presidential decree of November 2nd"
      },
      {
-      "title": "Procedure for using foreign facilities",
+      "title": "Procedure for using foreign sites",
       "steps": [
        {
         "name": "Affected firm",
@@ -250,7 +250,7 @@
         "label": "mandatory approval"
        },
        {
-        "name": "Foreign facility",
+        "name": "Foreign site",
         "amount": "",
         "label": ""
        }
@@ -260,7 +260,7 @@
       "source": "Presidential decree of November 2nd"
      },
      {
-      "title": "Splitting the IT market into two speeds",
+      "title": "A two-speed IT market",
       "wins": [
        {
         "name": "Rostelecom and Nornickel",
@@ -439,33 +439,17 @@
    }
   ],
   "visuals": {
-   "blocks": [
-    {
-     "title": "Падение доли российского газа в Евросоюзе",
-     "a": {
-      "label": "До войны",
-      "value": "64%",
-      "caption": "всего газового экспорта в ЕС"
-     },
-     "b": {
-      "label": "Сейчас",
-      "value": "11%",
-      "caption": "текущая доля поставок"
-     },
-     "type": "before_after",
-     "para": 1,
-     "source": ""
-    }
-   ],
-   "v": 11,
-   "r": 1,
+   "blocks": [],
    "place": {
     "name": "ВАШИНГТОН",
     "lat": 38.8951,
     "lon": -77.0364,
     "scale": "city",
-    "region": "США"
-   }
+    "region": "США",
+    "title": "Вашингтон"
+   },
+   "v": 11,
+   "r": 1
   }
  },
  {
