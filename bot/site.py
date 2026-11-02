@@ -857,10 +857,6 @@ def build(site: Path) -> int:
                 recent = [b["type"] for q in posts[:12] for b in (q.get("visuals") or {}).get("blocks") or []]
                 new = V.plan(p, recent)
                 old = p.get("visuals") or {}
-                keep = [b for b in old.get("blocks") or [] if b.get("type") != "figure"
-                        and (p.get("kind") == "analysis" or b.get("type") in V.SHORT_OK)]
-                if len(new.get("blocks") or []) < len(keep):  # переразметка не теряет найденное, если оно по новым правилам
-                    new["blocks"] = keep
                 if not new.get("place") and old.get("place") and p.get("kind") != "position":
                     new["place"] = old["place"]
                 p["visuals"] = new

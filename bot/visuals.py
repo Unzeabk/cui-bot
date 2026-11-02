@@ -114,7 +114,7 @@ def _s(x, n=90) -> str:
 
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
-VERSION = 7  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+VERSION = 8  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
 def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
@@ -203,6 +203,38 @@ def week_places(e: dict) -> list:
         return []
 
 
+CRITIC = """Ты — выпускающий редактор уровня The Economist. Тебе дают текст и визуальные блоки, которые к нему предложили.
+Пропусти блок, только если ВСЁ верно:
+1) он сравнивает один и тот же показатель в одних единицах (цена с ценой, тонны с тоннами, доля с долей);
+   литры против тонн, убыток против цены, закупки против прибыли — НЕТ;
+2) подписи точно соответствуют тексту, ничего не додумано;
+3) блок добавляет смысл, а не пересказывает соседний абзац другими словами;
+4) заголовок блока — вывод, а не общее слово вроде «Финансовые показатели».
+ОТВЕТ — только JSON: {"keep": [номера блоков, которые пропускаешь]}"""
+
+
+def _critic(e: dict, blocks: list[dict]) -> list[dict]:
+    if not blocks:
+        return blocks
+    try:
+        from .compose import extract_json
+        from .gemini import LIGHT_CHAIN, ask
+        listing = "\n".join(f"[{i}] {json.dumps(b, ensure_ascii=False)}" for i, b in enumerate(blocks))
+        raw, _ = ask(LIGHT_CHAIN, CRITIC, f"ТЕКСТ:\n{_plain(e)[:12000]}\n\nБЛОКИ:\n{listing}", temperature=0.1)
+        keep = {int(i) for i in extract_json(raw).get("keep") or [] if str(i).isdigit()}
+        out = [b for i, b in enumerate(blocks) if i in keep]
+        if len(out) < len(blocks):
+            log(f"визуал: редактор снял {len(blocks) - len(out)} из {len(blocks)}")
+        return out
+    except Exception as ex:  # noqa: BLE001
+        log(f"визуал: проверка не прошла ({ex}) — блоки не ставим")
+        return []
+
+
+def _unit(v: str) -> str:
+    return re.sub(r"[\d\s.,−\-–+]+", " ", str(v)).strip().lower()
+
+
 def plan(e: dict, recent: list[str] | None = None) -> dict:
     """Разметка визуальных блоков для текста (один лёгкий запрос). Пустой dict — нечего показывать."""
     try:
@@ -228,6 +260,13 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
                         taken={b["para"] for b in have})
             d["blocks"] = sorted([*have, *[b for b in d2["blocks"] if b["type"] not in {h["type"] for h in have}]][:3],
                                  key=lambda b: b["para"])
+        # одинаковые единицы у сравнений — проверка кодом, потом редактор
+        d["blocks"] = [b for b in d.get("blocks") or [] if not (b["type"] in ("vs", "before_after")
+                       and _unit(b["a"]["value"]) != _unit(b["b"]["value"]))]
+        for b in d["blocks"]:
+            if (b.get("source") or "").strip().lower() in ("текст", "текст статьи", "статья", "cui bono?"):
+                b["source"] = ""
+        d["blocks"] = _critic(e, d["blocks"])
         if e.get("kind") == "position":
             d.pop("place", None)  # позиция — мнение, не репортаж с места
         if e.get("kind") == "week":
