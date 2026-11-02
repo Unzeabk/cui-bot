@@ -251,7 +251,7 @@ def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, st
         body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · обновлено {last_d:%d.%m.%Y}</a><h1>{html.escape(title)} на сегодня</h1>'
                 f'<p class="lead">{lead}</p>{chart}{table}'
                 f'<p class="src">Источник: <a href="{src_url}" rel="nofollow noopener">{html.escape(src)}</a>. '
-                f'Страница обновляется автоматически.</p>{rel_html}')
+                f'</p>{rel_html}')
         desc = re.sub(r"<[^>]+>", "", lead)[:200]
         dataset = ld({"@context": "https://schema.org", "@type": "Dataset", "name": title, "description": desc,
                       "url": abs_url(f"data/{slug}"), "dateModified": last_d.isoformat(),

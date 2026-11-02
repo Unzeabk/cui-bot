@@ -224,7 +224,7 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
         body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · АКЦИИ</a><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
                 f'<p class="lead">{lead}</p>' + (svg_chart(pts) if len(pts) > 2 else "")
                 + f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
-                f'Обновляется автоматически. <a href="/data/akcii">Все компании</a></p>'
+                f'<a href="/data/akcii">Все компании</a></p>'
                 + (f'<h2 class="dh">Тексты по теме</h2>{list_posts(rel, "../../")}' if rel else ""))
         desc = re.sub(r"<[^>]+>", "", lead)[:200]
         (out / f"{slug}.html").write_text(page(f"Акции {name} ({secid}) сегодня: цена, график за год — {TITLE}",
@@ -237,7 +237,7 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
                       for s, n, t, v, c, _ in sorted(cards, key=lambda x: -x[5]))
         body = ('<h1 class="sec">Крупнейшие компании Мосбиржи</h1>'
                 f'<table class="data"><thead><tr><th>Компания</th><th>Тикер</th><th>Цена</th><th>За год</th></tr></thead><tbody>{trs}</tbody></table>'
-                '<p class="src">Источник: Московская биржа. Обновляется автоматически.</p>')
+                '<p class="src">Источник: Московская биржа.</p>')
         (out / "index.html").write_text(page(f"Акции крупнейших российских компаний сегодня — {TITLE}",
                                              "Цены и изменение за год крупнейших акций Мосбиржи: Сбербанк, Лукойл, Газпром и другие.",
                                              body, abs_url("data/akcii"), depth=2), encoding="utf-8")
@@ -586,8 +586,8 @@ def build_hawk(site: Path, page, abs_url, ld) -> list[tuple[str, str]]:
     body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · ИНДЕКС</a><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
             f'<p class="lead">{lead}</p>{diff}<h2 class="dh">История</h2><table class="data"><thead><tr><th>Дата</th>'
             f'<th>Индекс</th><th>Источник</th></tr></thead><tbody>{trend}</tbody></table>'
-            '<p class="src">Расчёт Cui Bono? по текстам пресс-релизов Банка России: доля «жёстких» и «мягких» формулировок. '
-            'Страница обновляется автоматически. <a href="/data/klyuchevaya-stavka">Ключевая ставка</a> · <a href="/calendar">Календарь заседаний</a></p>')
+            '<p class="src">Расчёт Cui Bono? по пресс-релизам Банка России: доля жёстких и мягких формулировок. '
+            '<a href="/data/klyuchevaya-stavka">Ключевая ставка</a> · <a href="/calendar">Календарь заседаний</a></p>')
     ds = ld({"@context": "https://schema.org", "@type": "Dataset", "name": "Индекс жёсткости ЦБ (Cui Bono?)",
              "description": re.sub(r"<[^>]+>", "", lead), "url": abs_url("data/zhestkost-cb"), "dateModified": d.isoformat(),
              "isAccessibleForFree": True})
@@ -644,9 +644,9 @@ def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
                    for x in seen[:200])
     body = ('<a class="kicker" href="/data">ПОКАЗАТЕЛИ · ДОКУМЕНТЫ</a><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
             f'<p class="lead">Новые проекты актов, законопроекты и решения ведомств о налогах, банках, ценах и собственности. '
-            f'За последнюю сборку добавлено: {added}.</p>'
+            '</p>'
             f'<table class="data"><thead><tr><th>Дата</th><th>Источник</th><th>Документ</th></tr></thead><tbody>{rows}</tbody></table>'
-            '<p class="src">Источники: regulation.gov.ru, СОЗД Госдумы, Банк России, Минфин. Обновляется автоматически.</p>')
+            '<p class="src">Источники: regulation.gov.ru, Госдума, Минфин.</p>')
     (site / "data" / "dokumenty.html").write_text(page(
         f"Новые законопроекты о налогах, банках и бизнесе — {TITLE}",
         "Новые проекты законов и решений о налогах, банках, ценах и собственности: ежедневная подборка из первоисточников.",

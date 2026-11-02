@@ -370,7 +370,7 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .sub-box button{padding:10px 18px;font:600 15px Commissioner,sans-serif;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
 .specials{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 30px}
 .sp{background:var(--bg);padding:18px 18px 16px;text-decoration:none;display:flex;flex-direction:column;gap:8px}
-.sp:hover{background:#12161b}.sp .k{font:11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--cold)}
+.sp a{text-decoration:none}.sp a.t:hover,.sp a.k:hover,.sp a.go:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}.sp .k{font:11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--cold)}
 .sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font:11px "IBM Plex Mono",monospace;color:var(--mute)}
 .sp-main{background:#15191e}.sp-main .k{color:var(--ink)}.sp-main .k::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px}
 .sp-main .t{font-size:21px}
@@ -556,15 +556,16 @@ def _specials(posts: list[dict], site: Path) -> str:
         return m.group(1) if m else ""
     nums = [(n, val(sl)) for n, sl in (("Ставка ЦБ", "klyuchevaya-stavka"), ("Доллар", "kurs-dollara"), ("Юань", "kurs-yuanya"))]
     nums_html = "".join(f'<span><i>{n}</i>{_esc(v)}</span>' for n, v in nums if v)
+    def tile(cls, key, href_all, label, p, empty):
+        t = (f'<a class="t" href="/p/{p["slug"]}">{_esc(p["headline"])}</a><div class="d">{_when(p["time_iso"])}</div>'
+             if p and p.get("slug") else f'<div class="t">{empty}</div>')
+        return (f'<div class="sp{cls}"><a class="k" href="{href_all}">{key}</a>{t}'
+                f'<a class="go" href="{href_all}">{label} →</a></div>')
     return ('<div class="specials">'
-            f'<a class="sp sp-main" href="/r/analysis"><div class="k">Разборы</div>'
-            f'<div class="t">{_esc(an["headline"]) if an else "Выходит каждый день в 11:22"}</div>'
-            + (f'<div class="d">{_when(an["time_iso"])}</div>' if an else "") + '<div class="go">Все разборы →</div></a>'
-            f'<a class="sp" href="/r/position"><div class="k">Позиция</div>'
-            f'<div class="t">{_esc(po["headline"]) if po else ""}</div>'
-            + (f'<div class="d">{_when(po["time_iso"])}</div>' if po else "") + '<div class="go">Все позиции →</div></a>'
-            f'<a class="sp" href="/data"><div class="k">Показатели</div><div class="nums">{nums_html}</div>'
-            '<div class="go">Все показатели →</div></a></div>')
+            + tile(" sp-main", "Разборы", "/r/analysis", "Все разборы", an, "Выходит каждый день в 11:22")
+            + tile("", "Позиция", "/r/position", "Все позиции", po, "Мнение редакции")
+            + f'<div class="sp"><a class="k" href="/data">Показатели</a><a class="nums" href="/data">{nums_html}</a>'
+            '<a class="go" href="/data">Все показатели →</a></div></div>')
 
 
 def _pager(n: int, total: int) -> str:
@@ -927,7 +928,8 @@ def build(site: Path) -> int:
         mine = {_translit(x["name"]) for x in p.get("entities") or []}
         def score(q):
             return len(mine & {_translit(x["name"]) for x in q.get("entities") or []})
-        cands = [q for q in posts if q is not p and _indexable(q)]
+        # кандидаты «По теме» — только тексты с общими темами (индекс), а не перебор всего архива: сборка не растёт квадратично
+        cands = [q for q in {id(q): q for sl in mine for q in by_topic.get(sl, [])}.values() if q is not p and _indexable(q)]
         same = sorted([q for q in cands if score(q)], key=lambda q: (-score(q), q["time_iso"]), reverse=False)[:5]
         if len(same) < 5:
             same += [q for q in by_sec[_section(p)] if q is not p and _indexable(q) and q not in same][:5 - len(same)]
@@ -959,7 +961,7 @@ def build(site: Path) -> int:
         name = SECTION_TITLE.get(sec) or {"analysis": "Разборы", "position": "Позиция", "week": "Неделя"}[sec]
         (site / "r" / f"{sec}.html").write_text(
             _page(f"{name} — {TITLE}", f"{name}: тексты издания {TITLE}.",
-                  f'<h1 class="sec">{_esc(name)}</h1><p class="sub">Здесь пока нет текстов.</p>',
+                  f'<h1 class="sec">{_esc(name)}</h1><p class="sub">Тексты появятся здесь.</p>',
                   _abs(f"r/{sec}.html"), depth=1, noindex=True), encoding="utf-8")
     for sec in sections:
         name = SECTION_TITLE[sec]

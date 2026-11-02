@@ -276,7 +276,7 @@ def map_strip(place: dict, path: Path) -> Path:
     if d > 15:
         lines.append(f"{d:,} км до Москвы".replace(",", " "))
     lines.append(B.coords(place["lat"], place["lon"]))
-    region = html.escape(place.get("region") or "")
+    region = html.escape(place.get("region") or "") if (place.get("region") or "").strip().lower() != (place.get("name") or "").strip().lower() else ""
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
 .root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}
 .map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
@@ -355,7 +355,7 @@ def week_map(places: list, path: Path) -> Path:
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
 .root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}.map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
 .lab{{position:absolute;left:20px;bottom:16px}}</style></head><body><div class="root"><div class="map">{m}</div>
-<div class="k lab">{len([p for p in places if p])} событий недели · номера — как в тексте</div></div></body></html>"""
+</div></body></html>"""
     return _shoot(page, path, W, H)
 
 
@@ -519,7 +519,8 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
     kind = e.get("kind")
     img_dir.mkdir(parents=True, exist_ok=True)
     try:
-        place = B.place_ok(v.get("place"))  # место от автора текста — для обложки; на сайте карта, только если место — суть истории
+        place = B.place_ok(v.get("place")) if not (kind != "analysis" and v.get("blocks")) else None  # в коротком тексте один элемент: блок важнее карты
+        # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis"):
             place["region"] = (v.get("place") or {}).get("region") or ""
             f = img_dir / f"{slug}-map.jpg"
