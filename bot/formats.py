@@ -429,6 +429,27 @@ def fix_headline(d: dict) -> dict:
     return d
 
 
+SAME_STORY = """Тебе дают заголовок нового текста и список заголовков, которые издание уже выпустило.
+Один и тот же сюжет — это одно событие или решение, даже если заголовки написаны разными словами
+(«Государство забирает десятую часть частных серверов» и «Принудительное резервирование дата-центров» — один сюжет).
+Ответ — только JSON: {"same": номер совпавшего заголовка или null}"""
+
+
+def same_story(headline: str, subhead: str, recent: list[dict]) -> str:
+    """Дешёвая проверка лёгкой моделью: не тот же ли сюжет другими словами. Ошибка проверки публикацию не блокирует."""
+    from .gemini import LIGHT_CHAIN, ask
+    past = [r.get("headline", "") for r in recent if r.get("headline") and r.get("rubric") != "indicators"][-40:]
+    if not past:
+        return ""
+    try:
+        lst = "\n".join(f"{i}. {h}" for i, h in enumerate(past))
+        n = extract_json(ask(LIGHT_CHAIN, SAME_STORY, f"Новый: {headline}. {subhead}\n\nУже вышли:\n{lst}", temperature=0)[0]).get("same")
+        return past[n] if isinstance(n, int) and 0 <= n < len(past) else ""
+    except Exception as e:  # noqa: BLE001
+        log(f"проверка сюжета не удалась ({e})")
+        return ""
+
+
 def produce(fmt: str, recent: list[dict]) -> dict | None:
     from .gemini import WRITER_CHAIN, ask
 
@@ -462,6 +483,8 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         hl = plain(d.get("headline", ""))
         twin = next((r.get("headline", "") for r in recent if hl and r.get("headline") and r.get("rubric") != "indicators"
                      and (_similar(hl, r["headline"]) or (main_title and _similar(main_title, r.get("main_title", ""))))), "")
+        if not twin and hl:
+            twin = same_story(hl, d.get("subhead", ""), recent)
         if twin:
             log(f"тема уже была: «{twin}» — в этот раз не публикуем")
             return None
