@@ -325,6 +325,7 @@ display:grid;grid-template-columns:repeat(4,max-content);gap:8px 28px;box-shadow
 @media(max-width:720px){.rub-list{position:fixed;left:12px;right:12px;top:auto;grid-template-columns:1fr 1fr}}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .row time{font:11px "IBM Plex Mono",monospace;color:var(--mute);white-space:nowrap}
+.pin{font:600 11px "IBM Plex Mono",monospace;letter-spacing:.1em;color:var(--bg,#0B0D10);background:#EDE9E2;padding:2px 6px;margin-right:10px;vertical-align:1px}
 .lead-item{border-bottom:1px solid var(--cold);padding:4px 0 22px;margin-bottom:4px}
 .lead-item h2{font:600 30px/1.18 Commissioner,sans-serif;margin:8px 0 8px}.lead-item h2 a{text-decoration:none}
 .lead-item .sub{font-size:18px;margin:0}
@@ -503,7 +504,8 @@ def _list(posts: list[dict], up: str) -> str:
 
 def _lead(p: dict) -> str:
     """Главный текст на первой странице: свежий разбор крупно."""
-    return (f'<div class="lead-item"><div class="row">{_kicker_html(p, "")}<time>{_when(p["time_iso"])}</time></div>'
+    # помечен как главный: иначе непонятно, почему он стоит выше более свежих текстов
+    return (f'<div class="lead-item"><div class="row"><span class="pin">ГЛАВНОЕ</span>{_kicker_html(p, "")}<time>{_when(p["time_iso"])}</time></div>'
             f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
             f'<p class="sub">{_esc(p.get("subhead", ""))}</p></div>')
 

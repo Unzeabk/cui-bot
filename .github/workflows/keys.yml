@@ -1,0 +1,25 @@
+name: Cui Bono — проверка ключей
+
+# Сколько ключей Gemini видит бот и живы ли они. Запрос списка моделей квоту на тексты не тратит.
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+        run: |
+          pip -q install requests
+          python - <<'PY'
+          import requests
+          from bot.gemini import _keys
+          ks = _keys()
+          print(f"ключей видно: {len(ks)}")
+          for i, k in enumerate(ks, 1):
+              r = requests.get("https://generativelanguage.googleapis.com/v1beta/models", headers={"x-goog-api-key": k}, timeout=30)
+              print(f"ключ #{i} (…{k[-4:]}): {'работает' if r.ok else 'ошибка ' + str(r.status_code)}")
+          PY
