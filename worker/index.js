@@ -53,7 +53,13 @@ export default {
       const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/post.yml`, {
         headers: { Authorization: `Bearer ${env.GH_TOKEN || ""}`, Accept: "application/vnd.github+json", "User-Agent": "cui-alarm" },
       });
-      return new Response(`token: ${env.GH_TOKEN ? "есть" : "нет"}\ngithub: ${r.status}\nscopes: ${r.headers.get("x-accepted-github-permissions") || ""}\n`);
+      // пробный запуск на несуществующую ветку: 422 — право запуска есть, 403/404 — нет; ничего не запускается
+      const d = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/post.yml/dispatches`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.GH_TOKEN || ""}`, Accept: "application/vnd.github+json", "User-Agent": "cui-alarm" },
+        body: JSON.stringify({ ref: "no-such-branch-check" }),
+      });
+      return new Response(`dispatch: ${d.status} ${(await d.text()).slice(0, 120)}\ntoken: ${env.GH_TOKEN ? "есть" : "нет"}\ngithub: ${r.status}\nscopes: ${r.headers.get("x-accepted-github-permissions") || ""}\n`);
     }
     return new Response("cui-alarm: ok\n" + SLOTS.map((s) => `${s.cron}  ${s.wf} ${s.format || ""}`).join("\n"));
   },
