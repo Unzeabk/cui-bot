@@ -23,3 +23,16 @@ jobs:
               r = requests.get("https://generativelanguage.googleapis.com/v1beta/models", headers={"x-goog-api-key": k}, timeout=30)
               print(f"ключ #{i} (…{k[-4:]}): {'работает' if r.ok else 'ошибка ' + str(r.status_code)}")
           PY
+      - name: Проверка повтора сюжета
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+        run: |
+          pip -q install -r requirements.txt
+          python -c "
+          import json
+          from bot.formats import same_story
+          st = json.load(open('state/posted.json'))
+          print('повтор:', same_story('Зачем государству десятая часть всех частных дата-центров', 'Операторов обяжут уступить ресурсы за сутки', st) or 'НЕ ПОЙМАН')
+          print('чужая тема:', same_story('Казахстан поднял пошлину на экспорт пшеницы', '', st) or 'не повтор')
+          "

@@ -265,6 +265,12 @@ def produce(recent: list[dict]) -> dict | None:
         if bad:
             log(f"тема {n} отклонена: {bad}")
             continue
+        # тот же сюжет другими словами (2 ноября заметка в 22:07 повторила разбор и две позиции про 10% дата-центров)
+        from .formats import same_story
+        twin = same_story(materials[0]["title"], materials[0].get("summary", "")[:300], recent)
+        if twin:
+            log(f"тема {n} отклонена: сюжет уже был — «{twin}»")
+            continue
         allowed = {m["link"] for m in materials}
         log(f"тема {n}: {materials[0]['title']}")
         feedback = ""
@@ -292,6 +298,10 @@ def produce(recent: list[dict]) -> dict | None:
                 feedback = "\n".join(f"- {p}" for p in problems)
                 log("валидация не прошла:\n" + feedback)
                 continue
+            twin = same_story(note.get("headline", ""), note.get("subhead", ""), recent)
+            if twin:
+                log(f"тема {n} отклонена после написания: сюжет уже был — «{twin}»")
+                break
             try:
                 v = check_note(note, materials)
             except Exception as e:  # noqa: BLE001
