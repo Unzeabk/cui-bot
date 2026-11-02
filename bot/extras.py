@@ -667,14 +667,16 @@ def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[st
 # secret: BREVO_API_KEY. Страница /podpiska появляется, когда задан BREVO_FORM_URL.
 
 def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
-    form_url = os.environ.get("BREVO_FORM_URL", "").strip()
-    if not form_url:
+    from .brevo import load
+    if not load().get("list_id"):
         return []
-    form = (f'<form class="sub-form" action="{html.escape(form_url)}" method="post" target="_blank">'
-            '<input type="email" name="EMAIL" placeholder="почта" required autocomplete="email">'
-            '<input type="text" name="email_address_check" value="" style="display:none">'
-            '<input type="hidden" name="locale" value="ru">'
-            '<button type="submit">Подписаться</button></form>')
+    form = ('<form class="sub-form" action="/api/subscribe" method="post">'
+            '<input type="email" name="email" placeholder="почта" required autocomplete="email">'
+            '<input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none">'
+            '<button type="submit">Подписаться</button></form>'
+            '<p id="sub-msg" class="src"></p><script>var q=location.search;var m=document.getElementById("sub-msg");'
+            'if(q.indexOf("ok=1")>-1)m.textContent="Готово. Первое письмо придёт в субботу.";'
+            'else if(q.indexOf("err=1")>-1)m.textContent="Не получилось. Проверьте адрес и попробуйте ещё раз.";</script>')
     body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: разборы, позиция редакции и главные цифры. '
             f'Telegram и сайты могут замедлить, почту — нет.</p>{form}</article>')
     (site / "podpiska.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: разборы, позиция, цифры.",
@@ -684,9 +686,12 @@ def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
 
 def send_newsletter() -> int:
     """Субботнее письмо через Brevo. Запуск: python -m bot.extras newsletter"""
-    key, list_id, sender = (os.environ.get(k, "").strip() for k in ("BREVO_API_KEY", "BREVO_LIST_ID", "BREVO_SENDER"))
+    from .brevo import load
+    st = load()
+    key = os.environ.get("BREVO_API_KEY", "").strip()
+    list_id, sender = str(st.get("list_id") or ""), st.get("sender") or ""
     if not (key and list_id and sender):
-        log("рассылка: нет BREVO_API_KEY / BREVO_LIST_ID / BREVO_SENDER, пропускаю")
+        log("рассылка: Brevo не настроен (ключ или state/brevo.json), пропускаю")
         return 0
     site_url = (os.environ.get("SITE_URL") or "https://cuibono.press").rstrip("/")
     from .site import _slug

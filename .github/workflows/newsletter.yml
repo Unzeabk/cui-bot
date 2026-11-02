@@ -1,6 +1,6 @@
 name: Cui Bono — рассылка
 
-# Субботнее письмо через Brevo. Нужны secrets.BREVO_API_KEY, vars.BREVO_LIST_ID, vars.BREVO_SENDER.
+# Субботнее письмо через Brevo. Нужен только secrets.BREVO_API_KEY; список и отправитель — в state/brevo.json.
 on:
   workflow_dispatch:
   schedule:
@@ -19,7 +19,5 @@ jobs:
       - run: pip install -r requirements.txt
       - env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
-          BREVO_SENDER: ${{ vars.BREVO_SENDER }}
           SITE_URL: ${{ vars.SITE_URL || 'https://cuibono.press' }}
         run: python -m bot.extras newsletter

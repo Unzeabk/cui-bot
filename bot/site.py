@@ -313,7 +313,14 @@ table.data td,table.data th{border-bottom:1px solid var(--rule);padding:7px 0;te
 table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:not(:first-child){text-align:right}
 .src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
-ul.list li{padding:14px 0}ul.list h2{font-size:20px;line-height:1.28;margin:4px 0 2px}ul.list .sub{font-size:15px;line-height:1.45}
+ul.list li{padding:20px 0}ul.list h2{font-size:21px;line-height:1.3;margin:6px 0 4px}ul.list .sub{font-size:16px;line-height:1.5}
+details.rub{position:relative}details.rub summary{cursor:pointer;color:var(--cold);list-style:none}details.rub summary::-webkit-details-marker{display:none}
+details.rub summary::after{content:" ▾";font-size:10px}details.rub[open] summary{color:var(--ink)}
+.rub-list{position:absolute;right:-20px;top:28px;z-index:10;background:#101317;border:1px solid var(--rule);padding:18px 20px;
+display:grid;grid-template-columns:repeat(4,max-content);gap:8px 28px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.rub-list b{display:block;font-weight:400;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;font-size:11px;margin-bottom:6px}
+.rub-list a{display:block;line-height:2;white-space:nowrap}
+@media(max-width:720px){.rub-list{position:fixed;left:12px;right:12px;top:auto;grid-template-columns:1fr 1fr}}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .row time{font:11px "IBM Plex Mono",monospace;color:var(--mute);white-space:nowrap}
 .lead-item{border-bottom:1px solid var(--cold);padding:4px 0 22px;margin-bottom:4px}
@@ -359,7 +366,28 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
        "publishingPrinciples": f"{SITE_URL}/about"}
 
 
-SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if os.environ.get("BREVO_FORM_URL") else ""
+RUB_MENU = ""  # заполняется при сборке: рубрики, в которых есть тексты
+
+
+def _rub_menu(sections: list[str]) -> str:
+    groups = [("Россия", ["russia", "regions", "budget", "property", "defense", "economy", "labour", "regulation"]),
+              ("Деньги", ["finance", "business", "sanctions", "settlements"]),
+              ("Мир", ["abroad", "postsoviet", "china", "newmarkets", "europe", "usa", "world"]),
+              ("Ещё", ["tech", "culture", "week"])]
+    have = [x for x in sections if x not in ("analysis", "position")]
+    out, used = "", set()
+    for name, keys in groups:
+        items = [k for k in keys if k in have]
+        used |= set(items)
+        if items:
+            out += f'<div><b>{name}</b>' + "".join(f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in items) + "</div>"
+    rest = [k for k in have if k not in used]
+    if rest:
+        out += '<div><b>Другое</b>' + "".join(f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in rest) + "</div>"
+    return out
+
+
+SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if '"list_id": ' in ((STATE.parent / "brevo.json").read_text(encoding="utf-8") if (STATE.parent / "brevo.json").exists() else "") else ""
 
 
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
@@ -405,7 +433,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 {verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
-<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Показатели</a><a href="/archive">Архив</a><a class="tg" href="{CHANNEL_URL}">Telegram ↗</a></nav></div></header>
+<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><details class="rub"><summary>Рубрики</summary><div class="rub-list">{RUB_MENU}</div></details><a href="/data">Показатели</a><a href="/archive">Архив</a><a class="tg" href="{CHANNEL_URL}">Telegram ↗</a></nav></div></header>
 <main class="wrap">{body}</main>
 <footer class="wrap"><div>{FOOTER_TOPICS}<div class="fcols">
 <div><b>Издание</b><a href="/archive">Архив</a><a href="/about">Об издании</a><a href="/perepechatka">Перепечатка</a><a href="/en/">English</a></div>
@@ -725,6 +753,8 @@ def build(site: Path) -> int:
         by_sec[_section(p)].append(p)
         by_month[p["time_iso"][:7]].append(p)
     sections = [s for s in ("analysis", "position", "week", *RUBRICS.keys()) if by_sec.get(s)]
+    global RUB_MENU
+    RUB_MENU = _rub_menu(sections)
 
     # темы: сущности, о которых написано не меньше TOPIC_MIN текстов
     global FOOTER_TOPICS
