@@ -505,7 +505,7 @@ def _list(posts: list[dict], up: str) -> str:
 def _lead(p: dict) -> str:
     """Главный текст на первой странице: свежий разбор крупно."""
     # помечен как главный: иначе непонятно, почему он стоит выше более свежих текстов
-    return (f'<div class="lead-item"><div class="row"><span class="pin">ГЛАВНОЕ</span>{_kicker_html(p, "")}<time>{_when(p["time_iso"])}</time></div>'
+    return (f'<div class="lead-item"><div class="row">{_kicker_html(p, "")}<time>{_when(p["time_iso"])}</time></div>'
             f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
             f'<p class="sub">{_esc(p.get("subhead", ""))}</p></div>')
 
@@ -851,7 +851,8 @@ def build(site: Path) -> int:
     # главная
     home_ld = _ld({"@context": "https://schema.org", "@type": "WebSite", "name": TITLE, "url": _abs("index.html"),
                    "inLanguage": "ru", "publisher": ORG})
-    lead = next((p for p in posts[:12] if p.get("kind") == "analysis" and _indexable(p)), None)
+    # разбор в ленте стоит по времени, как все: свежий разбор и так виден в плитке «Разборы» над лентой
+    lead = None
     rest = [p for p in posts if p is not lead]
     pages = [rest[i:i + PAGE] for i in range(0, len(rest), PAGE)] or [[]]
     shutil.rmtree(site / "page", ignore_errors=True)
