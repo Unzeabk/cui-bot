@@ -3,8 +3,14 @@ name: Cui Bono — рассылка
 # Субботнее письмо через Brevo. Нужен только secrets.BREVO_API_KEY; список и отправитель — в state/brevo.json.
 on:
   workflow_dispatch:
+  push:  # проба: адрес в state/newsletter-test.txt — письмо уходит только ему, файл потом удаляется
+    branches: [main]
+    paths: ["state/newsletter-test.txt"]
   schedule:
     - cron: "17 11 * * 6"  # сб 14:17 МСК, после «Недели»
+
+permissions:
+  contents: write
 
 jobs:
   send:
@@ -20,4 +26,12 @@ jobs:
       - env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL || 'https://cuibono.press' }}
-        run: python -m bot.extras newsletter
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            [ -f state/newsletter-test.txt ] || exit 0
+            TEST_EMAIL="$(head -1 state/newsletter-test.txt)" python -m bot.extras newsletter
+            git config user.name "cui-bot"; git config user.email "cui-bot@users.noreply.github.com"
+            git rm -q state/newsletter-test.txt && git commit -m "Проба письма отправлена" && git push || true
+          else
+            python -m bot.extras newsletter
+          fi

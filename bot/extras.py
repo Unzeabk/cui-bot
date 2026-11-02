@@ -718,6 +718,13 @@ def send_newsletter() -> int:
            f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p>'
            f'<p style="font:13px Georgia,serif;color:#6B6F72">Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe">{site_url.split("//")[-1]}/subscribe</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
+    test = os.environ.get("TEST_EMAIL", "").strip()
+    if test:  # пробное письмо одному адресу, списку не уходит
+        r = requests.post("https://api.brevo.com/v3/smtp/email", headers=h, timeout=60, json={
+            "sender": {"name": "Cui Bono?", "email": sender}, "to": [{"email": test}],
+            "subject": f"[проба] Cui Bono? — неделя до {_ru(today)}", "htmlContent": htm.replace("{{ unsubscribe }}", "#")})
+        log(f"рассылка: проба {r.status_code} {r.text[:200]}")
+        return 0 if r.ok else 1
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
         "sender": {"name": "Cui Bono?", "email": sender}, "htmlContent": htm,
