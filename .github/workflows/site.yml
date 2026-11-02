@@ -52,13 +52,13 @@ jobs:
           python -m bot.site site
           git config user.name "cui-bot"
           git config user.email "cui-bot@users.noreply.github.com"
-          git add site state/site-posts.json state/cbr-releases.json state/docs.json $(ls state/brevo.json 2>/dev/null)
+          git add site state/site-posts.json state/cbr-releases.json state/docs.json $(ls state/brevo.json state/stamps.json 2>/dev/null)
           if ! git diff --cached --quiet; then
             git commit -m "Сайт $(date -u +'%Y-%m-%d %H:%M')"
             for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
           fi
           npx --yes wrangler@3 pages project create cuibono --production-branch=main >/dev/null 2>&1 || true  # проект уже есть — это нормально
-          if [ -n "${{ secrets.BREVO_API_KEY }}" ] && [ -f state/brevo.json ]; then
+          if [ -n "${{ secrets.BREVO_API_KEY }}" ] && [ -f state/brevo.json ] && ! grep -q '"checked": true' state/brevo.json; then  # ключ в Pages — один раз
             echo '${{ secrets.BREVO_API_KEY }}' | npx --yes wrangler@3 pages secret put BREVO_API_KEY --project-name=cuibono || true
             python -c "import json;print(json.load(open('state/brevo.json')).get('list_id',''))" | npx --yes wrangler@3 pages secret put BREVO_LIST_ID --project-name=cuibono || true
           fi

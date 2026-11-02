@@ -109,7 +109,7 @@ jobs:
           python -m bot.site site
           git config user.name "cui-bot"
           git config user.email "cui-bot@users.noreply.github.com"
-          git add site state/site-posts.json state/cbr-releases.json state/docs.json $(ls state/brevo.json 2>/dev/null)
+          git add site state/site-posts.json state/cbr-releases.json state/docs.json $(ls state/brevo.json state/stamps.json 2>/dev/null)
           if ! git diff --cached --quiet; then
             git commit -m "Сайт $(date -u +'%Y-%m-%d %H:%M')"
             for i in 1 2 3 4 5; do git pull --rebase --autostash -X theirs origin main && git push && break; sleep 5; done

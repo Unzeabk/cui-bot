@@ -102,11 +102,11 @@ def _s(x, n=90) -> str:
 
 
 SHORT_OK = {"share", "figure", "vs", "before_after", "compare", "chart"}
-VERSION = 4  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+VERSION = 5  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
-def _check(d: dict, text: str, n_par: int, kind: str = "analysis") -> dict:
-    out, used = [], set()
+def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
+    out, used = [], set(taken or ())
     for b in (d.get("blocks") or [])[:4]:
         if not isinstance(b, dict):
             continue
@@ -191,7 +191,7 @@ def week_places(e: dict) -> list:
         return []
 
 
-def plan(e: dict) -> dict:
+def plan(e: dict, recent: list[str] | None = None) -> dict:
     """Разметка визуальных блоков для текста (один лёгкий запрос). Пустой dict — нечего показывать."""
     try:
         from .compose import extract_json
@@ -200,9 +200,22 @@ def plan(e: dict) -> dict:
         text = _plain(e)
         pars = e.get("paragraphs") or []
         numbered = "\n\n".join(f"[{i}] {plain(p)}" for i, p in enumerate(pars))
-        raw, _ = ask(LIGHT_CHAIN, SYSTEM, f"Жанр: {e.get('kind')}\n{e.get('headline', '')}\n{e.get('subhead', '')}\n\n{numbered[:14000]}",
-                     temperature=0.2)
+        from collections import Counter
+        tired = [t for t, c in Counter(recent or []).most_common() if c >= 3]
+        hint = (f"\nНа сайте сейчас часто: {', '.join(tired)} — если текст позволяет, выбери другой тип." if tired else "")
+        head = f"Жанр: {e.get('kind')}{hint}\n{e.get('headline', '')}\n{e.get('subhead', '')}\n\n"
+        raw, _ = ask(LIGHT_CHAIN, SYSTEM, head + numbered[:14000], temperature=0.3)
         d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
+        if e.get("kind") == "analysis" and len(d.get("blocks") or []) < 3 and len(pars) >= 8:
+            # второй проход: добрать блоки к другим ходам, другими типами
+            have = d.get("blocks") or []
+            more = (f"\nУже стоят: " + ", ".join(f"{b['type']} после [{b['para']}]" for b in have)
+                    + ". Добавь 1–2 блока ДРУГИХ типов к другим ходам (не рядом с этими абзацами). Без цифр — doc, pull, players, flow без сумм.")
+            raw2, _ = ask(LIGHT_CHAIN, SYSTEM, head + numbered[:14000] + more, temperature=0.4)
+            d2 = _check({"blocks": extract_json(raw2).get("blocks") or []}, text, len(pars), "analysis",
+                        taken={b["para"] for b in have})
+            d["blocks"] = sorted([*have, *[b for b in d2["blocks"] if b["type"] not in {h["type"] for h in have}]][:3],
+                                 key=lambda b: b["para"])
         if e.get("kind") == "position":
             d.pop("place", None)  # позиция — мнение, не репортаж с места
         if e.get("kind") == "week":

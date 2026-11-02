@@ -378,25 +378,47 @@ def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str
     return [(abs_url("perepechatka"), "")]
 
 
+STAMPS = Path("state") / "stamps.json"
+
+
+def cached(name: str, minutes: int, fn) -> list:
+    """Медленные блоки (сеть) пересобираются не чаще раза в `minutes`; между ними страницы остаются прошлые,
+    а адреса для карты сайта берутся из прошлого раза. Так сборка после поста не растёт со временем.
+    SITE_FULL=1 — пересобрать всё."""
+    import time
+    st = json.loads(STAMPS.read_text(encoding="utf-8")) if STAMPS.exists() else {}
+    rec = st.get(name) or {}
+    if not os.environ.get("SITE_FULL") and time.time() - rec.get("t", 0) < minutes * 60:
+        return [tuple(u) for u in rec.get("urls") or []]
+    r = fn()
+    if isinstance(r, tuple):
+        r = r[0]
+    st[name] = {"t": time.time(), "urls": r}
+    STAMPS.parent.mkdir(exist_ok=True)
+    STAMPS.write_text(json.dumps(st, ensure_ascii=False), encoding="utf-8")
+    return r
+
+
 def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, str]]:
     site = Path(site)
     urls: list[tuple[str, str]] = []
     upcoming: list = []
-    for name, fn in [
-        ("en", lambda: build_en(site, posts, abs_url, ld)),
-        ("акции", lambda: build_dividends(site, page, abs_url, list_posts, posts, ld)),
-        ("игра", lambda: build_quiz(site, page, abs_url)),
-        ("перепечатка", lambda: build_static(site, page, abs_url, posts)),
-        ("жёсткость ЦБ", lambda: build_hawk(site, page, abs_url, ld)),
-        ("документы", lambda: build_docs(site, page, abs_url)),
-        ("регионы", lambda: build_regions(site, page, abs_url, list_posts, posts)),
-        ("рассылка", lambda: build_subscribe(site, page, abs_url)),
+    for name, minutes, fn in [
+        ("en", 0, lambda: build_en(site, posts, abs_url, ld)),
+        ("акции", 360, lambda: build_dividends(site, page, abs_url, list_posts, posts, ld)),
+        ("игра", 360, lambda: build_quiz(site, page, abs_url)),
+        ("перепечатка", 0, lambda: build_static(site, page, abs_url, posts)),
+        ("жёсткость ЦБ", 360, lambda: build_hawk(site, page, abs_url, ld)),
+        ("документы", 180, lambda: build_docs(site, page, abs_url)),
+        ("регионы", 0, lambda: build_regions(site, page, abs_url, list_posts, posts)),
+        ("рассылка", 0, lambda: build_subscribe(site, page, abs_url)),
     ]:
         try:
-            r = fn()
-            if isinstance(r, tuple):
-                r, upcoming = r
-            urls += r
+            if minutes:
+                urls += cached(name, minutes, fn)
+            else:
+                r = fn()
+                urls += r[0] if isinstance(r, tuple) else r
         except Exception as e:  # noqa: BLE001
             log(f"{name}: сборка не удалась ({e})")
     try:
@@ -509,7 +531,7 @@ def _fetch_releases(cache: dict) -> dict:
     import xml.etree.ElementTree as ET
     for feed in CBR_RSS:
         try:
-            root = ET.fromstring(requests.get(feed, headers=UA, timeout=30).content)
+            root = ET.fromstring(requests.get(feed, headers=UA, timeout=12).content)
         except Exception as e:  # noqa: BLE001
             log(f"жёсткость ЦБ: лента {feed} не ответила ({e})")
             continue
@@ -526,7 +548,7 @@ def _fetch_releases(cache: dict) -> dict:
             except Exception:  # noqa: BLE001
                 d = datetime.now(TZ).date().isoformat()
             try:
-                text = _clean_text(requests.get(link, headers=UA, timeout=30).text)
+                text = _clean_text(requests.get(link, headers=UA, timeout=12).text)
             except Exception as e:  # noqa: BLE001
                 log(f"жёсткость ЦБ: релиз не скачан ({e})")
                 continue
@@ -598,7 +620,7 @@ def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
     added = 0
     for src, url in DOC_FEEDS:
         try:
-            root = ET.fromstring(requests.get(url, headers=UA, timeout=30).content)
+            root = ET.fromstring(requests.get(url, headers=UA, timeout=12).content)
         except Exception as e:  # noqa: BLE001
             log(f"документы: {url} не ответил ({e})")
             continue

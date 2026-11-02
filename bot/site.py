@@ -849,11 +849,12 @@ def build(site: Path) -> int:
         from . import visuals as V
         n = 0
         for p in posts:
-            if n >= 15:
+            if n >= 6:  # остальное доразметится следующими сборками: пост не ждёт
                 break
             if p.get("kind") in ("note", "analysis", "position", "week") and _has_body(p) \
                     and (p.get("visuals") or {}).get("v") != V.VERSION:
-                p["visuals"] = V.plan(p)
+                recent = [b["type"] for q in posts[:12] for b in (q.get("visuals") or {}).get("blocks") or []]
+                p["visuals"] = V.plan(p, recent)
                 n += 1
     # чистка ленты: адреса или их хвосты из state/site-remove.txt — по одному в строке
     rm_file = STATE.parent / "site-remove.txt"
@@ -994,7 +995,8 @@ def build(site: Path) -> int:
     # вечные страницы данных
     try:
         from .data_pages import build_data
-        data_urls = build_data(site, _page, _abs, _list, posts, _ld)
+        from .extras import cached
+        data_urls = cached("данные", 60, lambda: build_data(site, _page, _abs, _list, posts, _ld))
     except Exception as ex:
         log(f"данные: сборка не удалась ({ex})")
         data_urls = []
