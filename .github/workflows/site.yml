@@ -10,7 +10,7 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ["bot/site.py", "bot/brevo.py", "functions/**", "bot/data_pages.py", "bot/extras.py", ".github/workflows/site.yml", "state/site-remove.txt"]
+    paths: ["bot/site.py", "bot/brevo.py", "functions/**", "bot/data_pages.py", "bot/extras.py", "bot/visuals.py", ".github/workflows/site.yml", "state/site-remove.txt"]
 
 permissions:
   contents: write
@@ -30,7 +30,9 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Зависимости
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
       - name: Сайт
         env:
           SITE_URL: ${{ vars.SITE_URL || 'https://cuibono.press' }}

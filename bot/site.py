@@ -73,10 +73,12 @@ def write_entry(kind: str, d: dict, res: dict | None, cover: Path | None, url: s
             "message_id": (res or {}).get("message_id"),
             "cover": cover.name if cover else "",
             "telegraph": url,
+            "place": d.get("place"),
         }
         if kind == "week":
             entry["headline"] = f"Неделя: {d.get('_range') or now.strftime('%d.%m.%Y')}"
             entry["paragraphs"] = [f"**{i.get('subject', '')}.** {i.get('text', '')}" for i in d.get("items", [])]
+            entry["places"] = [i.get("place") for i in d.get("items", [])]
         if kind == "indicators":
             wf = d.get("week_figure") or {}
             entry["headline"] = f"Цифра недели — {plain(wf.get('label', ''))}"
@@ -583,7 +585,12 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
     image = _abs(f"img/{e['cover']}") if e.get("cover") else ""
     sec = _section(e)
     used: set[str] = set()
-    paras = "".join(f"<p>{_inline(_link_topics(p, topics, used))}</p>" for p in e.get("paragraphs") or [])
+    vis = {"top": "", "after": {}}
+    if SITE_DIR:
+        from . import visuals as V
+        vis = V.build(e, SITE_DIR / "img" / "v", slug)
+    paras = "".join(f"<p>{_inline(_link_topics(p, topics, used))}</p>" + vis["after"].get(i, "")
+                    for i, p in enumerate(e.get("paragraphs") or []))
     ents = [(x["name"], _translit(x["name"])) for x in e.get("entities") or []]
     ents = [(n, sl) for n, sl in ents if sl in topics.values()]
     tline = ('<div class="topics-line">' + "".join(f'<a href="/t/{sl}">{_esc(n)}</a>' for n, sl in ents) + "</div>") if ents else ""
@@ -617,7 +624,7 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
     body = (f'<article>{_kicker_html(e, "../")}<h1>{_esc(e["headline"])}</h1>'
             f'<p class="sub">{_esc(e.get("subhead", ""))}</p>'
             f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}, {_dt(e["time_iso"]):%H:%M} МСК</time></div>{tline}'
-            f'{cover}{paras}<div class="more">{more}</div>{SUB_BOX}{rel}</article>')
+            f'{cover}{vis["top"]}{paras}<div class="more">{more}</div>{SUB_BOX}{rel}</article>')
     title = f'{e["seo_title"]} — {TITLE}' if e.get("seo_title") else (
         f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}')
     extra = (f'<meta property="article:published_time" content="{_esc(e["time_iso"])}">'
@@ -781,8 +788,16 @@ def _indexnow(site: Path, urls: list[str]) -> None:
         log(f"сайт: IndexNow не ответил ({e})")
 
 
+SITE_DIR: Path | None = None
+
+
 def build(site: Path) -> int:
-    global CSS_V
+    global CSS_V, SITE_DIR
+    SITE_DIR = site
+    global CSS
+    from .visuals import CSS_SITE
+    if CSS_SITE not in CSS:
+        CSS += CSS_SITE
     CSS_V = hashlib.sha1(CSS.encode()).hexdigest()[:8]
     data = STATE.parent / "site-posts.json"
     posts = json.loads(data.read_text(encoding="utf-8")) if data.exists() else _seed_from_state()
@@ -811,6 +826,15 @@ def build(site: Path) -> int:
                 break
             if _has_body(p) and "seo_title" not in p and not p.get("_seo_tried"):
                 p.update(_seo(p) or {"_seo_tried": True})
+                n += 1
+    if os.environ.get("GEMINI_API_KEY") or os.environ.get("CUI_CONFIG"):
+        from . import visuals as V
+        n = 0
+        for p in posts:
+            if n >= 12:
+                break
+            if p.get("kind") in ("note", "analysis") and _has_body(p) and "visuals" not in p:
+                p["visuals"] = V.plan(p)
                 n += 1
     # чистка ленты: адреса или их хвосты из state/site-remove.txt — по одному в строке
     rm_file = STATE.parent / "site-remove.txt"
