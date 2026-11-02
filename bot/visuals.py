@@ -47,7 +47,8 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 Форматы блоков (в "blocks"):
 {"type": "doc", "para": 0, "quote": "дословная цитата из текста, 40–220 знаков, без кавычек", "who": "чей документ или кто сказал, как в тексте"}
 {"type": "timeline", "para": 0, "title": "4–7 слов", "items": [{"date": "24 октября", "text": "что случилось, до 60 знаков"}, ...]}  (3–6 дат из текста)
-{"type": "share", "para": 1, "value": "10%", "caption": "чего доля, до 90 знаков", "source": "..."}  (только проценты до 100)
+{"type": "share", "para": 1, "value": "10%", "caption": "чего доля, до 90 знаков", "source": "..."}  (только проценты до 100;
+   подходит любая доля целого: ставка налога 15% — «15% дохода уйдёт в налог», «до 90–95% дохода — пайщикам», доля рынка, доля экспорта)
 {"type": "players", "para": 6, "title": "4–7 слов", "wins": [{"name": "как в тексте", "why": "до 70 знаков"}], "pays": [{"name": "...", "why": "..."}]}  (по 1–3 в колонке)
 {"type": "pull", "para": 9, "quote": "одна фраза из текста дословно, 60–200 знаков"}
 {"type": "figure_disabled", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
@@ -115,7 +116,7 @@ def _s(x, n=90) -> str:
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
 VERSION = 11
-RETRY_EMPTY = 1  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
+RETRY_EMPTY = 2  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
 RENDER = 3  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -339,8 +340,8 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
                 b["source"] = ""
         d["blocks"] = _critic(e, d["blocks"])
         _add_series(e, d, pars)
-        if e.get("kind") == "position":
-            d.pop("place", None)  # позиция — мнение, не репортаж с места
+        if e.get("kind") == "position" and d.get("blocks"):
+            d.pop("place", None)  # у позиции карта — только если нет блока с цифрами
         if e.get("kind") == "week":
             d["blocks"] = []  # у «Недели» своя вёрстка номера
             d.pop("place", None)
@@ -681,7 +682,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
     try:
         place = B.place_ok(v.get("place")) if not (kind != "analysis" and any(b.get("type") != "figure" for b in v.get("blocks") or [])) else None  # в коротком тексте один элемент: блок важнее карты
         # место от автора текста — для обложки; на сайте карта, только если место — суть истории
-        if place and kind in ("note", "analysis"):
+        if place and kind in ("note", "analysis", "position"):
             place["region"] = (v.get("place") or {}).get("region") or ""
             place["title"] = (v.get("place") or {}).get("title") or ""
             f = img_dir / f"{slug}-map-r{RENDER}.jpg"
@@ -821,7 +822,7 @@ def zen_figures(e: dict, img_dir: Path, slug: str, abs_url) -> dict[int, str]:
     kind = e.get("kind")
     try:  # верх статьи — как на сайте: карта места или карта недели, светлые
         place = B.place_ok(v.get("place"))
-        if place and kind in ("note", "analysis") and not (kind == "note" and v.get("blocks")):
+        if place and kind in ("note", "analysis", "position") and not (kind != "analysis" and v.get("blocks")):
             place.update(region=(v.get("place") or {}).get("region") or "", title=(v.get("place") or {}).get("title") or "")
             f = img_dir / f"{slug}-map-zen-r{RENDER}.jpg"
             if not f.exists():
