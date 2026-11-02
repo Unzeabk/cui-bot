@@ -42,6 +42,7 @@ TITLE = "Cui Bono?"
 DESCRIPTION = "Аналитическое издание об экономике и власти"
 KIND_LABEL = {"note": None, "position": "ПОЗИЦИЯ", "analysis": "РАЗБОР", "week": "НЕДЕЛЯ"}
 SECTION_TITLE = {k: v[0][:1] + v[0][1:].lower() for k, v in RUBRICS.items()}
+SECTION_TITLE["usa"] = "США"
 SECTION_TITLE.update({"position": "Позиция", "analysis": "Разбор", "week": "Неделя"})
 MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля",
           "августа", "сентября", "октября", "ноября", "декабря"]
@@ -348,6 +349,11 @@ footer .topics{border-bottom:1px solid var(--rule);padding-bottom:14px}
 h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);font-weight:400;text-transform:uppercase;margin:0 0 10px}
 .sub-form{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.sub-form input[type=email]{flex:1;min-width:220px;padding:12px;font:16px Commissioner,sans-serif;background:#15191e;color:var(--ink);border:1px solid #2F343C}
 .sub-form button{padding:12px 22px;font:600 16px Commissioner,sans-serif;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
+.sub-box{border:1px solid var(--rule);padding:18px 20px;margin:30px 0 8px;display:flex;flex-direction:column;gap:6px}
+.sub-box b{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--cold);font-weight:400}
+.sub-box span{font-size:16px;color:var(--cold)}.sub-box div{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.sub-box input[type=email]{flex:1;min-width:200px;padding:10px;font:15px Commissioner,sans-serif;background:#15191e;color:var(--ink);border:1px solid #2F343C}
+.sub-box button{padding:10px 18px;font:600 15px Commissioner,sans-serif;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
 .quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
 .q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
 .q.ok{border-color:var(--ink)}.q.no{opacity:.4}
@@ -367,6 +373,12 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
        "publishingPrinciples": f"{SITE_URL}/about"}
 
 
+SUB_BOX = ('<form class="sub-box" action="/api/subscribe" method="post"><b>Письмо по субботам</b>'
+           '<span>Разборы, позиция и цифры недели — одним письмом.</span>'
+           '<div><input type="email" name="email" placeholder="почта" required autocomplete="email">'
+           '<input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none">'
+           '<button type="submit">Подписаться</button></div></form>'
+           if '"list_id": ' in ((STATE.parent / "brevo.json").read_text(encoding="utf-8") if (STATE.parent / "brevo.json").exists() else "") else "")
 RUB_MENU = ""  # заполняется при сборке: рубрики, в которых есть тексты
 
 
@@ -382,7 +394,7 @@ def _rub_menu(sections: list[str]) -> str:
         used |= set(items)
         if items:
             out += f'<div><b>{name}</b>' + "".join(
-                '<a href="/data">Показатели</a>' if k == "data" else f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in items) + "</div>"
+                '<a href="/data">Показатели</a>' if k == "data" else f'<a href="/r/{k}">{"Разборы" if k == "analysis" else _esc(SECTION_TITLE[k])}</a>' for k in items) + "</div>"
     rest = [k for k in have if k not in used]
     if rest:
         out += '<div><b>Другое</b>' + "".join(f'<a href="/r/{k}">{_esc(SECTION_TITLE[k])}</a>' for k in rest) + "</div>"
@@ -464,7 +476,7 @@ def _nav(sections: list[str], up: str) -> str:
 
 def _when(iso: str) -> str:
     d = _dt(iso)
-    return f"{d.day} {MONTHS[d.month - 1][:3]} · {d:%H:%M}"
+    return f"{d.day} {MONTHS[d.month - 1][:3]}"
 
 
 def _list(posts: list[dict], up: str) -> str:
@@ -532,8 +544,8 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
         {"@type": "ListItem", "position": 3, "name": e["headline"]}]}
     body = (f'<article>{_kicker_html(e, "../")}<h1>{_esc(e["headline"])}</h1>'
             f'<p class="sub">{_esc(e.get("subhead", ""))}</p>'
-            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}</time></div>{tline}'
-            f'{cover}{paras}<div class="more">{more}</div>{rel}</article>')
+            f'<div class="meta"><time datetime="{_esc(e["time_iso"])}">{_date_ru(e["time_iso"])}, {_dt(e["time_iso"]):%H:%M} МСК</time></div>{tline}'
+            f'{cover}{paras}<div class="more">{more}</div>{SUB_BOX}{rel}</article>')
     title = f'{e["seo_title"]} — {TITLE}' if e.get("seo_title") else (
         f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}')
     extra = (f'<meta property="article:published_time" content="{_esc(e["time_iso"])}">'
@@ -757,7 +769,7 @@ def build(site: Path) -> int:
         by_month[p["time_iso"][:7]].append(p)
     sections = [s for s in ("analysis", "position", "week", *RUBRICS.keys()) if by_sec.get(s)]
     global RUB_MENU
-    RUB_MENU = _rub_menu(sections)
+    RUB_MENU = _rub_menu(list(dict.fromkeys(["analysis", "position", "week", *RUBRICS.keys()])))
 
     # темы: сущности, о которых написано не меньше TOPIC_MIN текстов
     global FOOTER_TOPICS
@@ -818,6 +830,12 @@ def build(site: Path) -> int:
                 encoding="utf-8")
 
     # рубрики
+    for sec in [k for k in RUBRICS if k not in sections] + [k for k in ("analysis", "position", "week") if k not in sections]:
+        name = SECTION_TITLE.get(sec) or {"analysis": "Разборы", "position": "Позиция", "week": "Неделя"}[sec]
+        (site / "r" / f"{sec}.html").write_text(
+            _page(f"{name} — {TITLE}", f"{name}: тексты издания {TITLE}.",
+                  f'<h1 class="sec">{_esc(name)}</h1><p class="sub">Здесь пока нет текстов.</p>',
+                  _abs(f"r/{sec}.html"), depth=1, noindex=True), encoding="utf-8")
     for sec in sections:
         name = SECTION_TITLE[sec]
         body = f'<h1 class="sec">{_esc(name)}</h1>' + _list(by_sec[sec], "../")
