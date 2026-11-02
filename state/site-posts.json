@@ -149,18 +149,6 @@
     "Ultimately, the seizure of a tenth of server space creates no new secure facilities, but turns the civilian digital ecosystem into a mobilized resource. The market IT sector is obliged to function in a state of constant readiness to hand over equipment within a day upon instructions from officials. The state shifts all physical and financial costs of military failures onto the balance sheets of commercial companies while retaining absolute control over the country's key digital arteries."
    ],
    "model": "gemini-3.5-flash-lite"
-  },
-  "visuals": {
-   "blocks": [
-    {
-     "value": "10%",
-     "pct": 10.0,
-     "caption": "мощностей и площадей обязаны зарезервировать владельцы центров обработки данных",
-     "type": "share",
-     "para": 0,
-     "source": "Указ президента"
-    }
-   ]
   }
  },
  {

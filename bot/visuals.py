@@ -36,13 +36,18 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 - подъём, закон во времени → "chart" (ряд за 3–8 лет/кварталов) или "before_after" (было → стало);
 - вход → "doc" (точная цитата документа или чиновника из текста, если с неё начинается история) или "timeline" (хронология, если история — цепочка дат);
 - поворот, если цифра — доля → "share" (каждый десятый, треть: сетка из 100 клеток);
+- механизм без сумм → "flow" без "amount": цепочка участников и что передаётся (полномочия, доступ, товар);
+- другая сторона без цифр → "players": кто выигрывает и кто платит — участники из текста;
+- длинный кусок без цифр → "pull": самая сильная фраза из нашего же текста, дословно;
 - финал — без блоков.
-Не больше 3 блоков на текст, каждый к своему ходу, не два подряд.
+В разборе ставь 2–3 блока: если цифр мало, бери "doc", "flow" без сумм, "players", "pull". Каждый к своему ходу, не два подряд.
 
 Форматы блоков (в "blocks"):
 {"type": "doc", "para": 0, "quote": "дословная цитата из текста, 40–220 знаков, без кавычек", "who": "чей документ или кто сказал, как в тексте"}
 {"type": "timeline", "para": 0, "title": "4–7 слов", "items": [{"date": "24 октября", "text": "что случилось, до 60 знаков"}, ...]}  (3–6 дат из текста)
 {"type": "share", "para": 1, "value": "10%", "caption": "чего доля, до 90 знаков", "source": "..."}  (только проценты до 100)
+{"type": "players", "para": 6, "title": "4–7 слов", "wins": [{"name": "как в тексте", "why": "до 70 знаков"}], "pays": [{"name": "...", "why": "..."}]}  (по 1–3 в колонке)
+{"type": "pull", "para": 9, "quote": "одна фраза из текста дословно, 60–200 знаков"}
 {"type": "figure", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
 {"type": "vs", "para": 1, "title": "4–7 слов", "expected": {"value": "...", "caption": "чего ждали"}, "actual": {"value": "...", "caption": "что вышло"}, "source": "..."}
 {"type": "flow", "para": 4, "title": "кто кому платит, 4–7 слов", "steps": [{"name": "Покупатель в Китае"}, {"name": "Посредник в Гонконге", "amount": "4,2 млрд $", "label": "за что"}, {"name": "Экспортёр"}], "source": "..."}
@@ -102,6 +107,17 @@ def _check(d: dict, text: str, n_par: int) -> dict:
             q = re.sub(r"\s+", " ", _s(b.get("quote"), 260)).strip(" «»\"")
             if 40 <= len(q) <= 240 and q.lower() in re.sub(r"\s+", " ", text).lower():
                 x = {"quote": q, "who": _s(b.get("who"), 80)}
+        elif t == "pull":
+            q = re.sub(r"\s+", " ", _s(b.get("quote"), 260)).strip(" «»\"")
+            if 60 <= len(q) <= 220 and q.lower() in re.sub(r"\s+", " ", text).lower():
+                x = {"quote": q}
+        elif t == "players":
+            def side(lst):
+                return [{"name": _s(z.get("name"), 50), "why": _s(z.get("why"), 90)} for z in (lst or [])[:3]
+                        if isinstance(z, dict) and z.get("name") and z["name"].split()[0][:5].lower() in text.lower()]
+            w, pz = side(b.get("wins")), side(b.get("pays"))
+            if w and pz:
+                x = {"title": _s(b.get("title"), 70), "wins": w, "pays": pz}
         elif t == "timeline":
             it = [z for z in (b.get("items") or []) if isinstance(z, dict) and z.get("date") and z.get("text")][:6]
             if len(it) >= 3 and all(_num_in(text, z["date"]) or z["date"].lower() in text.lower() for z in it):
@@ -120,7 +136,8 @@ def _check(d: dict, text: str, n_par: int) -> dict:
                      "b": {k: _s(c.get(k)) for k in ("label", "value", "caption")}}
         elif t == "flow":
             st = [z for z in (b.get("steps") or []) if isinstance(z, dict) and z.get("name")][:4]
-            if len(st) >= 2 and all(_num_in(text, z["amount"]) for z in st if z.get("amount")) and any(z.get("amount") for z in st):
+            if len(st) >= 2 and all(_num_in(text, z["amount"]) for z in st if z.get("amount") and _digits(z["amount"])) \
+                    and all(z["name"].split()[0][:5].lower() in text.lower() for z in st):
                 x = {"title": _s(b.get("title"), 70), "steps": [{k: _s(z.get(k), 60) for k in ("name", "amount", "label")} for z in st]}
         elif t in ("compare", "chart"):
             key = "items" if t == "compare" else "points"
@@ -301,6 +318,19 @@ def figure_html(f: dict) -> str:
             + "</figcaption></figure>")
 
 
+def pull_html(b: dict) -> str:
+    return f'<figure class="v-pull"><blockquote>{html.escape(b["quote"])}</blockquote></figure>'
+
+
+def players_html(b: dict) -> str:
+    def col(name, lst):
+        return (f'<div><div class="v-lab">{name}</div>' + "".join(
+            f'<div class="v-pl"><b>{html.escape(z["name"])}</b><span>{html.escape(z["why"])}</span></div>' for z in lst) + "</div>")
+    return (f'<figure class="v-players"><div class="v-k">Кто выигрывает и кто платит</div>'
+            + (f'<div class="v-t">{html.escape(b["title"])}</div>' if b.get("title") else "")
+            + f'<div class="v-cols">{col("Выигрывает", b["wins"])}{col("Платит", b["pays"])}</div></figure>')
+
+
 def doc_html(b: dict) -> str:
     return (f'<figure class="v-doc"><div class="v-k">Документ</div><blockquote>{html.escape(b["quote"])}</blockquote>'
             + (f'<figcaption>{html.escape(b["who"])}</figcaption>' if b.get("who") else "") + "</figure>")
@@ -409,6 +439,12 @@ CSS_SITE = """
 .v-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}.v-grid i{aspect-ratio:1;background:#1C2026}.v-grid i.on{background:var(--ink)}
 .v-share figcaption{font-size:16px;color:var(--cold);margin-top:8px}
 .v-share figcaption span{display:block;font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+.v-pull{margin:30px 0;padding:6px 0 6px 22px;border-left:4px solid var(--ink)}
+.v-pull blockquote{margin:0;font:600 22px/1.35 Commissioner,sans-serif;color:var(--ink)}
+.v-players{margin:28px 0;padding:20px 22px;background:#0E1114;border-top:3px solid var(--ink)}
+.v-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}.v-cols>div+div{border-left:1px solid var(--rule);padding-left:24px}
+.v-pl{margin-top:12px}.v-pl b{display:block;font:600 15px Commissioner,sans-serif}.v-pl span{font-size:14px;color:var(--cold)}
+@media(max-width:560px){.v-cols{grid-template-columns:1fr}.v-cols>div+div{border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:12px}}
 /* длинное чтение */
 .longread>p:first-of-type::first-letter{float:left;font:600 64px/0.86 Commissioner,sans-serif;margin:6px 10px 0 0;color:var(--ink)}
 .longread>p.last::after{content:"";display:inline-block;width:.6em;height:.6em;background:var(--ink);margin-left:.35em;vertical-align:baseline}
@@ -454,6 +490,10 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
                     h = figure_html(b)
                 elif t == "doc":
                     h = doc_html(b)
+                elif t == "pull":
+                    h = pull_html(b)
+                elif t == "players":
+                    h = players_html(b)
                 elif t == "timeline":
                     h = timeline_html(b)
                 elif t == "share":
