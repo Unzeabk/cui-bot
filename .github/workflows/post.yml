@@ -114,7 +114,7 @@ jobs:
             git commit -m "Сайт $(date -u +'%Y-%m-%d %H:%M')"
             for i in 1 2 3 4 5; do git pull --rebase --autostash -X theirs origin main && git push && break; sleep 5; done
           fi
-          npx --yes wrangler@3 pages project create cuibono --production-branch=main 2>/dev/null || true
+          npx --yes wrangler@3 pages project create cuibono --production-branch=main >/dev/null 2>&1 || true  # проект уже есть — это нормально
           if [ "$new_brevo" = 1 ] && [ -f state/brevo.json ]; then
             echo '${{ secrets.BREVO_API_KEY }}' | npx --yes wrangler@3 pages secret put BREVO_API_KEY --project-name=cuibono || true
             python -c "import json;print(json.load(open('state/brevo.json')).get('list_id',''))" | npx --yes wrangler@3 pages secret put BREVO_LIST_ID --project-name=cuibono || true
