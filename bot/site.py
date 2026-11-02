@@ -327,6 +327,9 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
        "publishingPrinciples": f"{SITE_URL}/about"}
 
 
+SUBSCRIBE_LINK = ' <a href="/podpiska">Рассылка</a> ·' if os.environ.get("BUTTONDOWN_USER") else ""
+
+
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
           extra_head: str = "", og_type: str = "website", noindex: bool = False) -> str:
     up = "../" * depth
@@ -372,7 +375,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/calendar">Календарь</a> · <a href="/data/dividendy">Дивиденды</a> · <a href="/archive">Архив</a> · <a href="/en/">English</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
+<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/calendar">Календарь</a> · <a href="/data/zhestkost-cb">Жёсткость ЦБ</a> · <a href="/data/dokumenty">Документы</a> · <a href="/region/">Регионы</a> ·{SUBSCRIBE_LINK} <a href="/data/dividendy">Дивиденды</a> · <a href="/archive">Архив</a> · <a href="/en/">English</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
 
 

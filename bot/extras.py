@@ -349,7 +349,9 @@ def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str
             "## Данные\n"
             f"- [Ключевая ставка ЦБ]({abs_url('data/klyuchevaya-stavka')})\n- [Курс доллара ЦБ]({abs_url('data/kurs-dollara')})\n"
             f"- [Курс юаня ЦБ]({abs_url('data/kurs-yuanya')})\n- [Индекс Мосбиржи]({abs_url('data/indeks-mosbirzhi')})\n"
-            f"- [Дивиденды российских компаний]({abs_url('data/dividendy')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n\n"
+            f"- [Дивиденды российских компаний]({abs_url('data/dividendy')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
+            f"- [Индекс жёсткости ЦБ]({abs_url('data/zhestkost-cb')})\n- [Новые законопроекты о деньгах]({abs_url('data/dokumenty')})\n"
+            f"- [Регионы]({abs_url('region/')})\n\n"
             "## Разборы\n" + "".join(f"- [{p['headline']}]({abs_url('p/' + p['slug'] + '.html')})\n" for p in top)
             + f"\n## English\n- [Analysis in English]({abs_url('en/')})\n")
     (site / "llms.txt").write_text(llms, encoding="utf-8")
@@ -365,6 +367,10 @@ def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, 
         ("дивиденды", lambda: build_dividends(site, page, abs_url, list_posts, posts, ld)),
         ("игра", lambda: build_quiz(site, page, abs_url)),
         ("перепечатка", lambda: build_static(site, page, abs_url, posts)),
+        ("жёсткость ЦБ", lambda: build_hawk(site, page, abs_url, ld)),
+        ("документы", lambda: build_docs(site, page, abs_url)),
+        ("регионы", lambda: build_regions(site, page, abs_url, list_posts, posts)),
+        ("рассылка", lambda: build_subscribe(site, page, abs_url)),
     ]:
         try:
             r = fn()
@@ -378,3 +384,250 @@ def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, 
     except Exception as e:  # noqa: BLE001
         log(f"календарь: сборка не удалась ({e})")
     return urls
+
+
+# ---------- «Жёсткость ЦБ»: дифф пресс-релизов о ставке ----------
+
+CBR_RSS = ["https://www.cbr.ru/rss/RssPress", "https://www.cbr.ru/rss/eventrss"]
+HAWK = ["проинфляционн", "жёстк", "жестк", "повышен", "ускорен", "перегрев", "дефицит рабочей силы", "рост кредитования",
+        "высок", "устойчиво высок", "необходимость", "продолжительн", "дополнительн", "риски смещены в сторону проинфляционных",
+        "ослаблени рубл", "ослабление рубля", "бюджетн", "инфляционные ожидания остаются"]
+DOVE = ["дезинфляц", "снижени", "замедлен", "охлаждени", "смягчен", "снизилась", "ниже", "умерен", "возвращени",
+        "укреплени", "сбалансирован", "риски смещены в сторону дезинфляционных", "пространство для снижения"]
+
+
+def _clean_text(raw: str) -> str:
+    raw = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", raw)
+    m = re.search(r'(?is)<div[^>]+class="[^"]*(landing-text|press_release|text-block|lead-text)[^"]*"[^>]*>(.*)', raw)
+    t = re.sub(r"<[^>]+>", " ", m.group(2) if m else raw)
+    return re.sub(r"\s+", " ", html.unescape(t)).strip()
+
+
+def _sentences(t: str) -> list[str]:
+    return [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[А-ЯA-Z«])", t) if len(s.strip()) > 30]
+
+
+def _score(t: str) -> float:
+    low = t.lower()
+    h = sum(low.count(w) for w in HAWK)
+    d = sum(low.count(w) for w in DOVE)
+    return round(100 * (h - d) / max(1, h + d), 0)
+
+
+def _fetch_releases(cache: dict) -> dict:
+    import xml.etree.ElementTree as ET
+    for feed in CBR_RSS:
+        try:
+            root = ET.fromstring(requests.get(feed, headers=UA, timeout=30).content)
+        except Exception as e:  # noqa: BLE001
+            log(f"жёсткость ЦБ: лента {feed} не ответила ({e})")
+            continue
+        for it in root.iter("item"):
+            title = (it.findtext("title") or "").strip()
+            if "ключевую ставку" not in title.lower() and "ключевой ставк" not in title.lower():
+                continue
+            link = (it.findtext("link") or "").strip()
+            if not link or link in cache:
+                continue
+            try:
+                from email.utils import parsedate_to_datetime
+                d = parsedate_to_datetime(it.findtext("pubDate")).date().isoformat()
+            except Exception:  # noqa: BLE001
+                d = datetime.now(TZ).date().isoformat()
+            try:
+                text = _clean_text(requests.get(link, headers=UA, timeout=30).text)
+            except Exception as e:  # noqa: BLE001
+                log(f"жёсткость ЦБ: релиз не скачан ({e})")
+                continue
+            if len(text) > 500:
+                cache[link] = {"date": d, "title": title, "text": text[:20000]}
+    return cache
+
+
+def build_hawk(site: Path, page, abs_url, ld) -> list[tuple[str, str]]:
+    f = Path("state") / "cbr-releases.json"
+    cache = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+    cache = _fetch_releases(cache)
+    f.parent.mkdir(exist_ok=True)
+    f.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+    rel = sorted(cache.items(), key=lambda kv: kv[1]["date"])
+    if not rel:
+        return []
+    for _, r in rel:
+        r["score"] = _score(r["text"])
+    last_url, last = rel[-1]
+    diff = ""
+    if len(rel) > 1:
+        prev = rel[-2][1]
+        a, b = set(_sentences(prev["text"])), _sentences(last["text"])
+        new = [s for s in b if s not in a][:12]
+        gone = [s for s in _sentences(prev["text"]) if s not in set(b)][:12]
+        diff = ('<h2 class="dh">Что появилось в тексте</h2><ul>' + "".join(f"<li>{html.escape(s)}</li>" for s in new) + "</ul>"
+                '<h2 class="dh">Что из текста ушло</h2><ul>' + "".join(f"<li><s>{html.escape(s)}</s></li>" for s in gone) + "</ul>")
+    trend = "".join(f'<tr><td>{date.fromisoformat(r["date"]):%d.%m.%Y}</td><td>{int(r["score"]):+d}</td>'
+                    f'<td><a href="{html.escape(u)}" rel="nofollow noopener">пресс-релиз</a></td></tr>' for u, r in reversed(rel))
+    d = date.fromisoformat(last["date"])
+    delta = f", было {int(rel[-2][1]['score']):+d}" if len(rel) > 1 else ""
+    lead = (f"Жёсткость риторики Банка России в пресс-релизе от {_ru(d)} — <b>{int(last['score']):+d}</b>{delta}. "
+            "Шкала от −100 (только слова о замедлении инфляции) до +100 (только слова о проинфляционных рисках).")
+    body = (f'<div class="kicker">ДАННЫЕ · ИНДЕКС</div><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
+            f'<p class="lead">{lead}</p>{diff}<h2 class="dh">История</h2><table class="data"><thead><tr><th>Дата</th>'
+            f'<th>Индекс</th><th>Источник</th></tr></thead><tbody>{trend}</tbody></table>'
+            '<p class="src">Расчёт Cui Bono? по текстам пресс-релизов Банка России: доля «жёстких» и «мягких» формулировок. '
+            'Страница обновляется автоматически. <a href="/data/klyuchevaya-stavka">Ключевая ставка</a> · <a href="/calendar">Календарь заседаний</a></p>')
+    ds = ld({"@context": "https://schema.org", "@type": "Dataset", "name": "Индекс жёсткости ЦБ (Cui Bono?)",
+             "description": re.sub(r"<[^>]+>", "", lead), "url": abs_url("data/zhestkost-cb"), "dateModified": d.isoformat(),
+             "isAccessibleForFree": True})
+    (site / "data" / "zhestkost-cb.html").write_text(page(
+        f"Индекс жёсткости ЦБ: риторика пресс-релиза от {_ru(d)} — {TITLE}", re.sub(r"<[^>]+>", "", lead)[:200],
+        body, abs_url("data/zhestkost-cb"), depth=1, extra_head=ds), encoding="utf-8")
+    log(f"жёсткость ЦБ: {len(rel)} релизов, последний {int(last['score']):+d}")
+    return [(abs_url("data/zhestkost-cb"), d.isoformat())]
+
+
+# ---------- трекер документов ----------
+
+DOC_FEEDS = [
+    ("Проекты актов", "https://regulation.gov.ru/api/public/Rss/"),
+    ("Проекты актов", "https://regulation.gov.ru/rss"),
+    ("Законопроекты", "https://sozd.duma.gov.ru/rss/bills"),
+    ("Банк России", "https://www.cbr.ru/rss/eventrss"),
+    ("Минфин", "https://minfin.gov.ru/ru/press-center/rss"),
+]
+DOC_WORDS = ["налог", "бюджет", "пошлин", "банк", "валют", "вклад", "ипотек", "акци", "дивиденд", "санкц", "экспорт",
+             "импорт", "собственност", "национализ", "приватизац", "тариф", "цен", "кредит", "криптовалют", "цифров рубл",
+             "майнинг", "страхов", "пенси", "зарплат", "мигрант", "релокант", "иностран", "нефт", "газ", "уголь", "золот"]
+
+
+def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
+    import xml.etree.ElementTree as ET
+    f = Path("state") / "docs.json"
+    seen = json.loads(f.read_text(encoding="utf-8")) if f.exists() else []
+    known = {x["link"] for x in seen}
+    today = datetime.now(TZ).date().isoformat()
+    added = 0
+    for src, url in DOC_FEEDS:
+        try:
+            root = ET.fromstring(requests.get(url, headers=UA, timeout=30).content)
+        except Exception as e:  # noqa: BLE001
+            log(f"документы: {url} не ответил ({e})")
+            continue
+        for it in root.iter("item"):
+            title = re.sub(r"\s+", " ", (it.findtext("title") or "")).strip()
+            link = (it.findtext("link") or "").strip()
+            if not title or not link or link in known:
+                continue
+            if not any(w in title.lower() for w in DOC_WORDS):
+                continue
+            seen.append({"date": today, "src": src, "title": title[:400], "link": link})
+            known.add(link)
+            added += 1
+    seen = sorted(seen, key=lambda x: x["date"], reverse=True)[:500]
+    f.parent.mkdir(exist_ok=True)
+    f.write_text(json.dumps(seen, ensure_ascii=False, indent=0), encoding="utf-8")
+    if not seen:
+        return []
+    rows = "".join(f'<tr><td>{date.fromisoformat(x["date"]):%d.%m}</td><td>{html.escape(x["src"])}</td>'
+                   f'<td><a href="{html.escape(x["link"])}" rel="nofollow noopener">{html.escape(x["title"])}</a></td></tr>'
+                   for x in seen[:200])
+    body = ('<div class="kicker">ДАННЫЕ · ДОКУМЕНТЫ</div><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
+            f'<p class="lead">Новые проекты актов, законопроекты и решения ведомств о налогах, банках, ценах и собственности. '
+            f'За последнюю сборку добавлено: {added}.</p>'
+            f'<table class="data"><thead><tr><th>Дата</th><th>Источник</th><th>Документ</th></tr></thead><tbody>{rows}</tbody></table>'
+            '<p class="src">Источники: regulation.gov.ru, СОЗД Госдумы, Банк России, Минфин. Обновляется автоматически.</p>')
+    (site / "data" / "dokumenty.html").write_text(page(
+        f"Новые законопроекты о налогах, банках и бизнесе — {TITLE}",
+        "Новые проекты законов и решений о налогах, банках, ценах и собственности: ежедневная подборка из первоисточников.",
+        body, abs_url("data/dokumenty"), depth=1), encoding="utf-8")
+    log(f"документы: всего {len(seen)}, новых {added}")
+    return [(abs_url("data/dokumenty"), today)]
+
+
+# ---------- регионы: страницы из текстов издания + ссылки на официальные данные ----------
+
+REGIONS = ["Москва", "Санкт-Петербург", "Московская область", "Татарстан", "Башкортостан", "Свердловская область",
+           "Краснодарский край", "Новосибирская область", "Тюменская область", "ХМАО", "ЯНАО", "Красноярский край",
+           "Челябинская область", "Самарская область", "Нижегородская область", "Ростовская область", "Пермский край",
+           "Кемеровская область", "Кузбасс", "Иркутская область", "Приморский край", "Якутия", "Белгородская область",
+           "Курская область", "Брянская область", "Воронежская область", "Калининградская область", "Дагестан", "Чечня",
+           "Крым", "Омская область", "Хабаровский край", "Мурманская область", "Архангельская область", "Сахалин"]
+
+
+def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[str, str]]:
+    from .site import _translit
+    (site / "region").mkdir(exist_ok=True)
+    urls, cards = [], []
+    for r in REGIONS:
+        stem = r.split()[0][:-2].lower() if len(r.split()[0]) > 6 else r.lower()
+        ps = [p for p in posts if p.get("paragraphs") and stem in (p["headline"] + " " + p.get("subhead", "") + " "
+              + " ".join(p.get("paragraphs") or []) + " " + " ".join(x["name"] for x in p.get("entities") or [])).lower()]
+        if len(ps) < 2:
+            continue
+        sl = _translit(r)
+        body = (f'<div class="kicker">РЕГИОНЫ</div><h1>{html.escape(r)}: экономика и бюджет</h1>'
+                f'<p class="lead">{len(ps)} текстов Cui Bono? о том, что происходит с деньгами региона. '
+                f'Официальные цифры — <a href="https://www.roskazna.gov.ru/ispolnenie-byudzhetov/konsolidirovannye-byudzhety-subektov/" rel="nofollow noopener">исполнение бюджетов субъектов (Казначейство)</a>, '
+                f'<a href="https://minfin.gov.ru/ru/perfomance/public_debt/subdbt" rel="nofollow noopener">госдолг регионов (Минфин)</a>.</p>'
+                + list_posts(ps, "../"))
+        (site / "region" / f"{sl}.html").write_text(page(
+            f"{r}: экономика, бюджет, госдолг — {TITLE}", f"{r}: тексты о бюджете, долге, бизнесе и деньгах региона.",
+            body, abs_url(f"region/{sl}"), depth=1, noindex=len(ps) < 3), encoding="utf-8")
+        if len(ps) >= 3:
+            urls.append((abs_url(f"region/{sl}"), ps[0]["time_iso"][:10]))
+        cards.append((sl, r, len(ps)))
+    if cards:
+        items = "".join(f'<li><h2><a href="/region/{s}">{html.escape(n)}</a></h2><p class="sub">{c} текстов</p></li>'
+                        for s, n, c in sorted(cards, key=lambda x: -x[2]))
+        (site / "region" / "index.html").write_text(page(f"Регионы России: экономика и бюджет — {TITLE}",
+                                                         "Экономика и бюджеты регионов России: все тексты издания по регионам.",
+                                                         f'<h1 class="sec">Регионы</h1><ul class="list">{items}</ul>', abs_url("region/"), depth=1),
+                                                    encoding="utf-8")
+        urls.append((abs_url("region/"), ""))
+    return urls
+
+
+# ---------- рассылка (Buttondown: регистрация на почту издания, без имени) ----------
+
+def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
+    user = os.environ.get("BUTTONDOWN_USER", "").strip()
+    if not user:
+        return []
+    form = (f'<form action="https://buttondown.com/api/emails/embed-subscribe/{html.escape(user)}" method="post" target="_blank">'
+            '<input type="email" name="email" placeholder="почта" required style="padding:10px;font-size:16px;width:260px">'
+            '<button type="submit" style="padding:10px 18px;font-size:16px">Подписаться</button></form>')
+    body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: шесть событий недели, разборы и цифры. '
+            f'Telegram и сайты могут замедлить, почту — нет.</p>{form}</article>')
+    (site / "podpiska.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: события недели, разборы, цифры.",
+                                             body, abs_url("podpiska")), encoding="utf-8")
+    return [(abs_url("podpiska"), "")]
+
+
+def send_newsletter() -> int:
+    """Субботнее письмо: разборы и позиции за неделю. Запуск: python -m bot.extras newsletter"""
+    key = os.environ.get("BUTTONDOWN_API_KEY")
+    if not key:
+        log("рассылка: нет BUTTONDOWN_API_KEY, пропускаю")
+        return 0
+    site_url = (os.environ.get("SITE_URL") or "https://cuibono.press").rstrip("/")
+    from .site import _slug
+    posts = json.loads((Path("state") / "site-posts.json").read_text(encoding="utf-8"))
+    since = (datetime.now(TZ) - timedelta(days=7)).isoformat()
+    week = sorted([p for p in posts if p["time_iso"] >= since and p.get("paragraphs")], key=lambda p: p["time_iso"], reverse=True)
+    def block(kind, name):
+        ps = [p for p in week if p.get("kind") == kind][:7]
+        return (f"## {name}\n\n" + "".join(f"**[{p['headline']}]({site_url}/p/{_slug(p)})**  \n{p.get('subhead', '')}\n\n" for p in ps)) if ps else ""
+    md = block("analysis", "Разборы") + block("position", "Позиция") + block("note", "Заметки")
+    if not md:
+        return 0
+    md += f"\n---\n[Данные]({site_url}/data) · [Календарь]({site_url}/calendar) · [Telegram](https://t.me/cuibono_press)\n"
+    r = requests.post("https://api.buttondown.com/v1/emails", headers={"Authorization": f"Token {key}"},
+                      json={"subject": f"Cui Bono? — неделя до {_ru(datetime.now(TZ).date())}", "body": md, "status": "about_to_send"},
+                      timeout=60)
+    log(f"рассылка: {r.status_code} {r.text[:200]}")
+    return 0 if r.ok else 1
+
+
+if __name__ == "__main__":
+    import sys
+    if sys.argv[1:2] == ["newsletter"]:
+        sys.exit(send_newsletter())
