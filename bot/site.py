@@ -367,6 +367,11 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .fgrid b{display:block;color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .fgrid a{display:block;text-decoration:none;line-height:1.95}.fgrid a:hover{color:var(--ink)}
 @media(max-width:720px){.specials{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr;justify-content:stretch}}
+.go{font:11px "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--cold);margin-top:6px}.sp:hover .go{color:var(--ink)}
+/* воздух */
+article p{margin-bottom:22px}.more{margin-top:36px}.related{margin-top:44px;margin-bottom:24px}.related a{margin:12px 0}
+.sub-box{margin:44px 0 12px}footer.wrap{margin-top:72px}footer.wrap>div{padding-top:36px}.fgrid{gap:30px 28px}
+ul.list li{padding:24px 0}.specials{margin-bottom:40px}h1{margin:14px 0 16px}.sub{margin-bottom:28px}
 .quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
 .q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
 .q.ok{border-color:var(--ink)}.q.no{opacity:.4}
@@ -516,12 +521,12 @@ def _specials(posts: list[dict], site: Path) -> str:
     return ('<div class="specials">'
             f'<a class="sp sp-main" href="/r/analysis"><div class="k">Разборы</div>'
             f'<div class="t">{_esc(an["headline"]) if an else "Выходит каждый день в 11:22"}</div>'
-            + (f'<div class="d">{_when(an["time_iso"])}</div>' if an else "") + '</a>'
+            + (f'<div class="d">{_when(an["time_iso"])}</div>' if an else "") + '<div class="go">Все разборы →</div></a>'
             f'<a class="sp" href="/r/position"><div class="k">Позиция</div>'
             f'<div class="t">{_esc(po["headline"]) if po else ""}</div>'
-            + (f'<div class="d">{_when(po["time_iso"])}</div>' if po else "") + '</a>'
+            + (f'<div class="d">{_when(po["time_iso"])}</div>' if po else "") + '<div class="go">Все позиции →</div></a>'
             f'<a class="sp" href="/data"><div class="k">Показатели</div><div class="nums">{nums_html}</div>'
-            '</a></div>')
+            '<div class="go">Все показатели →</div></a></div>')
 
 
 def _pager(n: int, total: int) -> str:
