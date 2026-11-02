@@ -590,7 +590,7 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
     if e.get("final") and e["final"] not in " ".join(e.get("paragraphs") or []):
         paras += f"<p>{_inline(e['final'])}</p>"
     more = ""
-    if e.get("telegraph"):
+    if e.get("telegraph") and "cuibono.press" not in e["telegraph"]:  # только запасной telegra.ph; ссылка на саму себя не нужна
         more += f'<p><a href="{_esc(e["telegraph"])}">Полный текст разбора</a></p>'
     if not paras and not e.get("telegraph"):
         paras = f'<p><a href="{_esc(_post_url(e))}">Текст заметки в Telegram</a></p>'
