@@ -31,7 +31,8 @@
     "name": "Москва",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "position",
@@ -146,6 +147,13 @@
     "Ultimately, the seizure of a tenth of server space creates no new secure facilities, but turns the civilian digital ecosystem into a mobilized resource. The market IT sector is obliged to function in a state of constant readiness to hand over equipment within a day upon instructions from officials. The state shifts all physical and financial costs of military failures onto the balance sheets of commercial companies while retaining absolute control over the country's key digital arteries."
    ],
    "model": "gemini-3.5-flash-lite"
+  },
+  "visuals": {
+   "figure": {
+    "value": "10%",
+    "caption": "Доля частных серверных мощностей, которую обязаны зарезервировать владельцы ЦОДов",
+    "source": "указ президента"
+   }
   }
  },
  {
@@ -188,7 +196,16 @@
     "name": "Мукеш Амбани",
     "type": "person"
    }
-  ]
+  ],
+  "visuals": {
+   "place": {
+    "name": "МУМБАЙ",
+    "lat": 18.975,
+    "lon": 72.8258,
+    "scale": "city",
+    "region": "Индия"
+   }
+  }
  },
  {
   "kind": "note",
@@ -230,7 +247,8 @@
     "name": "природный газ",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "note",
@@ -264,7 +282,8 @@
     "name": "дженерики",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "note",
@@ -306,7 +325,16 @@
     "name": "бензин",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "place": {
+    "name": "КСТОВО",
+    "lat": 56.1472,
+    "lon": 44.1836,
+    "scale": "city",
+    "region": "Нижегородская область"
+   }
+  }
  },
  {
   "kind": "note",
@@ -340,7 +368,8 @@
     "name": "НДФЛ",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "note",
@@ -378,7 +407,8 @@
     "name": "Туркменистан",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "position",
@@ -450,7 +480,16 @@
     "name": "Мясницкая улица",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "place": {
+    "name": "ГЛАВПОЧТАМТ",
+    "lat": 55.7622,
+    "lon": 37.6331,
+    "scale": "city",
+    "region": "Москва"
+   }
+  }
  },
  {
   "kind": "note",
@@ -488,7 +527,8 @@
     "name": "экспорт",
     "type": "topic"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "note",
@@ -526,7 +566,8 @@
     "name": "криптовалюта",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {}
  },
  {
   "kind": "week",
@@ -609,6 +650,15 @@
     "name": "Сербия",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "place": {
+    "name": "БЕЛГРАД",
+    "lat": 44.7866,
+    "lon": 20.4489,
+    "scale": "city",
+    "region": "Сербия"
+   }
+  }
  }
 ]
