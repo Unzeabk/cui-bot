@@ -347,6 +347,8 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
         verify += f'<meta name="yandex-verification" content="{_esc(os.environ["YANDEX_VERIFICATION"])}">'
     zen = os.environ.get("ZEN_VERIFICATION") or "8u6kyMv5LBaBbm0wI8BxocAyG2SIgh6MkNUI1YayGGhLSnESTV7Og38O7xs6LyHY"
     verify += f'<meta name="zen-verification" content="{_esc(zen)}">'
+    if os.environ.get("BING_VERIFICATION"):
+        verify += f'<meta name="msvalidate.01" content="{_esc(os.environ["BING_VERIFICATION"])}">'
     if os.environ.get("GOOGLE_VERIFICATION"):
         verify += f'<meta name="google-site-verification" content="{_esc(os.environ["GOOGLE_VERIFICATION"])}">'
     img = (f'<meta property="og:image" content="{_esc(image)}"><meta property="og:image:width" content="1280">'
@@ -370,7 +372,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
 <a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/archive">Архив</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
+<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/calendar">Календарь</a> · <a href="/data/dividendy">Дивиденды</a> · <a href="/archive">Архив</a> · <a href="/en/">English</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
 
 
@@ -444,6 +446,9 @@ def _article(e: dict, related: list[dict], topics: dict[str, str] | None = None)
         f'{e["headline"]} — {SECTION_TITLE.get(sec, "")} — {TITLE}' if sec in SECTION_TITLE else f'{e["headline"]} — {TITLE}')
     extra = (f'<meta property="article:published_time" content="{_esc(e["time_iso"])}">'
              f'<meta property="article:section" content="{_esc(SECTION_TITLE.get(sec, ""))}">' + _ld(article_ld) + _ld(crumbs))
+    if e.get("en"):
+        extra += (f'<link rel="alternate" hreflang="ru" href="{_esc(canonical)}">'
+                  f'<link rel="alternate" hreflang="en" href="{_esc(_abs("en/" + slug))}">')
     return _page(title, _desc(e), body, canonical, image, depth=1, extra_head=extra, og_type="article",
                  noindex=not _indexable(e))
 
@@ -753,6 +758,12 @@ def build(site: Path) -> int:
     except Exception as ex:
         log(f"данные: сборка не удалась ({ex})")
         data_urls = []
+    # английская версия, дивиденды, календарь, игра, перепечатка, llms.txt
+    try:
+        from .extras import build_extras
+        data_urls += build_extras(site, _page, _abs, _list, posts, _ld)
+    except Exception as ex:
+        log(f"доп. страницы: сборка не удалась ({ex})")
     if SITE_URL:
         host = urlparse(SITE_URL).netloc
         if host and not host.endswith("github.io"):
