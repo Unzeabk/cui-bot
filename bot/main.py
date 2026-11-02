@@ -338,7 +338,10 @@ def publish(note: dict, dry: bool) -> dict:
         return {}
     from .telegram import send_photo
     from .site import write_entry
-    res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, caption)
+    from .site import page_url
+    link = page_url(note)
+    res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, caption,
+                     ("Полная версия на cuibono.press", link) if link else None)
     write_entry("note", note, res, cover)
     return res
 

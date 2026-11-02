@@ -623,6 +623,10 @@ def publish(fmt: str, d: dict, dry: bool) -> dict:
         log("DRY_RUN: в канал не отправляю")
         return {}
     button = ("Читать разбор", url) if fmt == "analysis" else None
+    if fmt in ("position", "week"):
+        from .site import page_url
+        link = page_url(d)
+        button = ("Полная версия на cuibono.press", link) if link else None
     res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap, button)
     if fmt in ("position", "analysis", "week"):
         from .site import write_entry

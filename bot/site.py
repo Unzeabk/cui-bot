@@ -180,6 +180,13 @@ def _slug(e: dict) -> str:
     return f"{e['time_iso'][:10]}-{base}"
 
 
+def page_url(d: dict) -> str:
+    """Адрес будущей страницы текста на сайте — для кнопки под постом (страница выкладывается через минуту после поста)."""
+    if not d.get("topic_key"):
+        return ""
+    return f"{SITE_URL or 'https://cuibono.press'}/p/{_slug({'topic_key': d['topic_key'], 'time_iso': datetime.now(TZ).isoformat()})}"
+
+
 def _dt(iso: str) -> datetime:
     return datetime.fromisoformat(iso).astimezone(TZ)
 
