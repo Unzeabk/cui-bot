@@ -1,10 +1,10 @@
 """Дополнительные страницы сайта, которые растят издание без денег и без спама.
 
 - /en/...           — английская версия разборов (перевод сильной моделью, кэш в site-posts.json, поле "en");
-- /data/akcii/      — крупнейшие компании Мосбиржи: цена, график за год, капитализация (ISS API);
+- /data/stocks/      — крупнейшие компании Мосбиржи: цена, график за год, капитализация (ISS API);
 - /calendar, calendar.ics — заседания ЦБ, недельная инфляция, отсечки дивидендов; подписка в любом календаре;
-- /data/igra        — «угадай цифру» недели по курсу юаня;
-- /perepechatka     — открытая лицензия на перепечатку со ссылкой;
+- /data/quiz        — «угадай цифру» недели по курсу юаня;
+- /reprint     — открытая лицензия на перепечатку со ссылкой;
 - llms.txt          — карта сайта для нейропоиска.
 
 Каждый блок в своём try: если источник не ответил, остальное собирается. Модель цифры не трогает.
@@ -194,7 +194,7 @@ def _share_history(secid: str, days: int = 370) -> list[tuple[date, float]]:
 
 def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[list[tuple[str, str]], list]:
     from .data_pages import svg_chart
-    out = site / "data" / "akcii"
+    out = site / "data" / "stocks"
     out.mkdir(parents=True, exist_ok=True)
     board = _board()
     today = datetime.now(TZ).date()
@@ -224,15 +224,15 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
         body = (f'<div class="kicker">ПОКАЗАТЕЛИ · АКЦИИ</div><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
                 f'<p class="lead">{lead}</p>' + (svg_chart(pts) if len(pts) > 2 else "")
                 + f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
-                f'Обновляется автоматически. <a href="/data/akcii">Все компании</a></p>'
+                f'Обновляется автоматически. <a href="/data/stocks">Все компании</a></p>'
                 + (f'<h2 class="dh">Тексты по теме</h2>{list_posts(rel, "../../")}' if rel else ""))
         desc = re.sub(r"<[^>]+>", "", lead)[:200]
         (out / f"{slug}.html").write_text(page(f"Акции {name} ({secid}) сегодня: цена, график за год — {TITLE}",
-                                               desc, body, abs_url(f"data/akcii/{slug}"), depth=2), encoding="utf-8")
-        urls.append((abs_url(f"data/akcii/{slug}"), today.isoformat()))
+                                               desc, body, abs_url(f"data/stocks/{slug}"), depth=2), encoding="utf-8")
+        urls.append((abs_url(f"data/stocks/{slug}"), today.isoformat()))
         cards.append((slug, name, secid, f"{_n(float(last))} ₽", ch, cap or 0))
     if cards:
-        trs = "".join(f'<tr><td><a href="/data/akcii/{s}">{html.escape(n)}</a></td><td>{t}</td><td>{v}</td>'
+        trs = "".join(f'<tr><td><a href="/data/stocks/{s}">{html.escape(n)}</a></td><td>{t}</td><td>{v}</td>'
                       f'<td>{"" if c is None else ("+" if c > 0 else "") + _n(c, 1) + "%"}</td></tr>'
                       for s, n, t, v, c, _ in sorted(cards, key=lambda x: -x[5]))
         body = ('<h1 class="sec">Крупнейшие компании Мосбиржи</h1>'
@@ -240,8 +240,8 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
                 '<p class="src">Источник: Московская биржа. Обновляется автоматически.</p>')
         (out / "index.html").write_text(page(f"Акции крупнейших российских компаний сегодня — {TITLE}",
                                              "Цены и изменение за год крупнейших акций Мосбиржи: Сбербанк, Лукойл, Газпром и другие.",
-                                             body, abs_url("data/akcii"), depth=2), encoding="utf-8")
-        urls.append((abs_url("data/akcii"), today.isoformat()))
+                                             body, abs_url("data/stocks"), depth=2), encoding="utf-8")
+        urls.append((abs_url("data/stocks"), today.isoformat()))
     log(f"акции: {len(cards)} компаний")
     return urls, []
 
@@ -264,9 +264,9 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
     for d in CBR_MEETINGS:
         dd = date.fromisoformat(d)
         events.append(_ics_event(f"cbr-{d}", datetime(dd.year, dd.month, dd.day, 13, 30, tzinfo=msk), 30,
-                                 "Банк России: решение по ключевой ставке", abs_url("data/klyuchevaya-stavka")))
+                                 "Банк России: решение по ключевой ставке", abs_url("data/key-rate")))
         if dd >= today:
-            rows.append((dd, "13:30", "Банк России: решение по ключевой ставке", abs_url("data/klyuchevaya-stavka")))
+            rows.append((dd, "13:30", "Банк России: решение по ключевой ставке", abs_url("data/key-rate")))
     # недельная инфляция Росстата: каждая среда, 19:00 МСК
     nxt = today + timedelta(days=(2 - today.weekday()) % 7)
     events.append(_ics_event("rosstat-weekly-cpi", datetime(nxt.year, nxt.month, nxt.day, 19, 0, tzinfo=msk), 15,
@@ -343,14 +343,14 @@ def build_quiz(site: Path, page, abs_url) -> list[tuple[str, str]]:
     body = (f'<div class="kicker">ЦИФРА НЕДЕЛИ</div><h1>Как изменился курс юаня за неделю?</h1>'
             f'<p class="sub">Официальный курс Банка России, {d0:%d.%m} — {d1:%d.%m.%Y}</p>'
             f'<div class="quiz">{btns}</div><p id="ans" class="lead" hidden>{html.escape(answer)} '
-            f'<a href="/data/kurs-yuanya">График и история</a></p>'
+            f'<a href="/data/cny-rate">График и история</a></p>'
 '<script>document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{document.querySelectorAll(".q").forEach(x=>'
             'x.classList.add(x.dataset.ok==="1"?"ok":"no"));document.getElementById("ans").hidden=false;'
             'try{ym&&0}catch(e){}})</script>')
-    (site / "data" / "igra.html").write_text(page(f"Цифра недели: курс юаня за неделю — {TITLE}",
+    (site / "data" / "quiz.html").write_text(page(f"Цифра недели: курс юаня за неделю — {TITLE}",
                                                   "Угадайте, как изменился официальный курс юаня за неделю. Ответ — с цифрами ЦБ.",
-                                                  body, abs_url("data/igra"), depth=1), encoding="utf-8")
-    return [(abs_url("data/igra"), d1.isoformat())]
+                                                  body, abs_url("data/quiz"), depth=1), encoding="utf-8")
+    return [(abs_url("data/quiz"), d1.isoformat())]
 
 
 # ---------- перепечатка и llms.txt ----------
@@ -361,25 +361,46 @@ def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str
             'на оригинал на cuibono.press. Цифры со страниц раздела «Показатели» можно использовать с той же ссылкой.</p>'
             '<p>Лицензия: <a href="https://creativecommons.org/licenses/by-nd/4.0/deed.ru" rel="license noopener">CC BY-ND 4.0</a>.</p>'
             '</article>')
-    (site / "perepechatka.html").write_text(page(f"Перепечатка — {TITLE}", "Условия перепечатки материалов издания.",
-                                                 body, abs_url("perepechatka")), encoding="utf-8")
+    (site / "reprint.html").write_text(page(f"Перепечатка — {TITLE}", "Условия перепечатки материалов издания.",
+                                                 body, abs_url("reprint")), encoding="utf-8")
     top = [p for p in posts if p.get("kind") == "analysis" and p.get("slug")][:20]
     llms = ("# Cui Bono?\n\n> Аналитическое издание об экономике и власти (Россия). Ежедневные разборы, "
             "позиция редакции и страницы официальных данных (ЦБ, Мосбиржа), обновляемые автоматически.\n\n"
             "## Показатели\n"
-            f"- [Ключевая ставка ЦБ]({abs_url('data/klyuchevaya-stavka')})\n- [Курс доллара ЦБ]({abs_url('data/kurs-dollara')})\n"
-            f"- [Курс юаня ЦБ]({abs_url('data/kurs-yuanya')})\n- [Индекс Мосбиржи]({abs_url('data/indeks-mosbirzhi')})\n"
-            f"- [Акции крупнейших компаний]({abs_url('data/akcii')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
-            f"- [Индекс жёсткости ЦБ]({abs_url('data/zhestkost-cb')})\n- [Новые законопроекты о деньгах]({abs_url('data/dokumenty')})\n"
+            f"- [Ключевая ставка ЦБ]({abs_url('data/key-rate')})\n- [Курс доллара ЦБ]({abs_url('data/usd-rate')})\n"
+            f"- [Курс юаня ЦБ]({abs_url('data/cny-rate')})\n- [Индекс Мосбиржи]({abs_url('data/moex-index')})\n"
+            f"- [Акции крупнейших компаний]({abs_url('data/stocks')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
+            f"- [Индекс жёсткости ЦБ]({abs_url('data/cbr-tone')})\n- [Новые законопроекты о деньгах]({abs_url('data/bills')})\n"
             f"- [Регионы]({abs_url('region/')})\n\n"
             "## Разборы\n" + "".join(f"- [{p['headline']}]({abs_url('p/' + p['slug'] + '.html')})\n" for p in top)
             + f"\n## English\n- [Analysis in English]({abs_url('en/')})\n")
     (site / "llms.txt").write_text(llms, encoding="utf-8")
-    return [(abs_url("perepechatka"), "")]
+    return [(abs_url("reprint"), "")]
+
+
+OLD_URLS = {"podpiska": "subscribe", "perepechatka": "reprint", "data/klyuchevaya-stavka": "data/key-rate",
+            "data/kurs-dollara": "data/usd-rate", "data/kurs-evro": "data/eur-rate", "data/kurs-yuanya": "data/cny-rate",
+            "data/indeks-mosbirzhi": "data/moex-index", "data/zoloto": "data/gold", "data/igra": "data/quiz",
+            "data/dokumenty": "data/bills", "data/zhestkost-cb": "data/cbr-tone", "data/akcii": "data/stocks",
+            "region/nizhegorodskaya-oblast": "region/nizhny-novgorod-oblast"}
+
+
+def _redirects(site: Path) -> None:
+    """Старые адреса с транслитом: 301 на английские, старые файлы удаляются."""
+    import shutil
+    lines = []
+    for a, b in OLD_URLS.items():
+        lines.append(f"/{a} /{b} 301")
+        if (site / a).is_dir():
+            lines.append(f"/{a}/* /{b}/:splat 301")
+            shutil.rmtree(site / a, ignore_errors=True)
+        (site / f"{a}.html").unlink(missing_ok=True)
+    (site / "_redirects").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, str]]:
     site = Path(site)
+    _redirects(site)
     urls: list[tuple[str, str]] = []
     upcoming: list = []
     for name, fn in [
@@ -425,23 +446,23 @@ def build_hub(site: Path, page, abs_url) -> None:
         return m.group(1) if m else ""
     groups = [
         ("Банк России и рынок", [
-            ("data/klyuchevaya-stavka", "Ключевая ставка", vals.get("klyuchevaya-stavka"), "Решения ЦБ и история с 2013 года"),
-            ("data/zhestkost-cb", "Жёсткость ЦБ", None, "Риторика пресс-релизов: что добавилось, что ушло"),
-            ("data/kurs-dollara", "Доллар", vals.get("kurs-dollara"), "Официальный курс ЦБ"),
-            ("data/kurs-yuanya", "Юань", vals.get("kurs-yuanya"), "Официальный курс ЦБ"),
-            ("data/kurs-evro", "Евро", vals.get("kurs-evro"), "Официальный курс ЦБ"),
-            ("data/indeks-mosbirzhi", "Индекс Мосбиржи", vals.get("indeks-mosbirzhi"), "IMOEX за год"),
-            ("data/zoloto", "Золото", vals.get("zoloto"), "Учётная цена ЦБ за грамм"),
+            ("data/key-rate", "Ключевая ставка", vals.get("key-rate"), "Решения ЦБ и история с 2013 года"),
+            ("data/cbr-tone", "Жёсткость ЦБ", None, "Риторика пресс-релизов: что добавилось, что ушло"),
+            ("data/usd-rate", "Доллар", vals.get("usd-rate"), "Официальный курс ЦБ"),
+            ("data/cny-rate", "Юань", vals.get("cny-rate"), "Официальный курс ЦБ"),
+            ("data/eur-rate", "Евро", vals.get("eur-rate"), "Официальный курс ЦБ"),
+            ("data/moex-index", "Индекс Мосбиржи", vals.get("moex-index"), "IMOEX за год"),
+            ("data/gold", "Золото", vals.get("gold"), "Учётная цена ЦБ за грамм"),
         ]),
         ("Компании и даты", [
-            ("data/akcii/index", "Акции", None, "32 крупнейшие компании: цена и год"),
+            ("data/stocks/index", "Акции", None, "32 крупнейшие компании: цена и год"),
             ("calendar", "Календарь", None, "Заседания ЦБ и инфляция — с подпиской"),
         ]),
         ("Власть и регионы", [
-            ("data/dokumenty", "Что готовят", None, "Новые проекты законов о налогах, банках, ценах"),
+            ("data/bills", "Что готовят", None, "Новые проекты законов о налогах, банках, ценах"),
             ("region/index", "Регионы", None, "Экономика и бюджеты регионов"),
         ]),
-        ("Цифра недели", [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
+        ("Цифра недели", [("data/quiz", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
     ]
     body = '<h1 class="sec">Показатели</h1>'
     for name, items in groups:
@@ -551,15 +572,15 @@ def build_hawk(site: Path, page, abs_url, ld) -> list[tuple[str, str]]:
             f'<p class="lead">{lead}</p>{diff}<h2 class="dh">История</h2><table class="data"><thead><tr><th>Дата</th>'
             f'<th>Индекс</th><th>Источник</th></tr></thead><tbody>{trend}</tbody></table>'
             '<p class="src">Расчёт Cui Bono? по текстам пресс-релизов Банка России: доля «жёстких» и «мягких» формулировок. '
-            'Страница обновляется автоматически. <a href="/data/klyuchevaya-stavka">Ключевая ставка</a> · <a href="/calendar">Календарь заседаний</a></p>')
+            'Страница обновляется автоматически. <a href="/data/key-rate">Ключевая ставка</a> · <a href="/calendar">Календарь заседаний</a></p>')
     ds = ld({"@context": "https://schema.org", "@type": "Dataset", "name": "Индекс жёсткости ЦБ (Cui Bono?)",
-             "description": re.sub(r"<[^>]+>", "", lead), "url": abs_url("data/zhestkost-cb"), "dateModified": d.isoformat(),
+             "description": re.sub(r"<[^>]+>", "", lead), "url": abs_url("data/cbr-tone"), "dateModified": d.isoformat(),
              "isAccessibleForFree": True})
-    (site / "data" / "zhestkost-cb.html").write_text(page(
+    (site / "data" / "cbr-tone.html").write_text(page(
         f"Индекс жёсткости ЦБ: риторика пресс-релиза от {_ru(d)} — {TITLE}", re.sub(r"<[^>]+>", "", lead)[:200],
-        body, abs_url("data/zhestkost-cb"), depth=1, extra_head=ds), encoding="utf-8")
+        body, abs_url("data/cbr-tone"), depth=1, extra_head=ds), encoding="utf-8")
     log(f"жёсткость ЦБ: {len(rel)} релизов, последний {int(last['score']):+d}")
-    return [(abs_url("data/zhestkost-cb"), d.isoformat())]
+    return [(abs_url("data/cbr-tone"), d.isoformat())]
 
 
 # ---------- трекер документов ----------
@@ -611,12 +632,12 @@ def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
             f'За последнюю сборку добавлено: {added}.</p>'
             f'<table class="data"><thead><tr><th>Дата</th><th>Источник</th><th>Документ</th></tr></thead><tbody>{rows}</tbody></table>'
             '<p class="src">Источники: regulation.gov.ru, СОЗД Госдумы, Банк России, Минфин. Обновляется автоматически.</p>')
-    (site / "data" / "dokumenty.html").write_text(page(
+    (site / "data" / "bills.html").write_text(page(
         f"Новые законопроекты о налогах, банках и бизнесе — {TITLE}",
         "Новые проекты законов и решений о налогах, банках, ценах и собственности: ежедневная подборка из первоисточников.",
-        body, abs_url("data/dokumenty"), depth=1), encoding="utf-8")
+        body, abs_url("data/bills"), depth=1), encoding="utf-8")
     log(f"документы: всего {len(seen)}, новых {added}")
-    return [(abs_url("data/dokumenty"), today)]
+    return [(abs_url("data/bills"), today)]
 
 
 # ---------- регионы: страницы из текстов издания + ссылки на официальные данные ----------
@@ -629,6 +650,9 @@ REGIONS = ["Москва", "Санкт-Петербург", "Московска�
            "Крым", "Омская область", "Хабаровский край", "Мурманская область", "Архангельская область", "Сахалин"]
 
 
+REGION_SLUG = {'Москва': 'moscow', 'Санкт-Петербург': 'saint-petersburg', 'Московская область': 'moscow-oblast', 'Татарстан': 'tatarstan', 'Башкортостан': 'bashkortostan', 'Свердловская область': 'sverdlovsk-oblast', 'Краснодарский край': 'krasnodar-krai', 'Новосибирская область': 'novosibirsk-oblast', 'Тюменская область': 'tyumen-oblast', 'ХМАО': 'khanty-mansi', 'ЯНАО': 'yamal', 'Красноярский край': 'krasnoyarsk-krai', 'Челябинская область': 'chelyabinsk-oblast', 'Самарская область': 'samara-oblast', 'Нижегородская область': 'nizhny-novgorod-oblast', 'Ростовская область': 'rostov-oblast', 'Пермский край': 'perm-krai', 'Кемеровская область': 'kemerovo-oblast', 'Кузбасс': 'kuzbass', 'Иркутская область': 'irkutsk-oblast', 'Приморский край': 'primorsky-krai', 'Якутия': 'yakutia', 'Белгородская область': 'belgorod-oblast', 'Курская область': 'kursk-oblast', 'Брянская область': 'bryansk-oblast', 'Воронежская область': 'voronezh-oblast', 'Калининградская область': 'kaliningrad-oblast', 'Дагестан': 'dagestan', 'Чечня': 'chechnya', 'Крым': 'crimea', 'Омская область': 'omsk-oblast', 'Хабаровский край': 'khabarovsk-krai', 'Мурманская область': 'murmansk-oblast', 'Архангельская область': 'arkhangelsk-oblast', 'Сахалин': 'sakhalin'}
+
+
 def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[str, str]]:
     from .site import _translit
     (site / "region").mkdir(exist_ok=True)
@@ -639,7 +663,7 @@ def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[st
               + " ".join(p.get("paragraphs") or []) + " " + " ".join(x["name"] for x in p.get("entities") or [])).lower()]
         if len(ps) < 2:
             continue
-        sl = _translit(r)
+        sl = REGION_SLUG.get(r) or _translit(r)
         body = (f'<div class="kicker">РЕГИОНЫ</div><h1>{html.escape(r)}: экономика и бюджет</h1>'
                 f'<p class="lead">{len(ps)} текстов Cui Bono? о том, что происходит с деньгами региона. '
                 f'Официальные цифры — <a href="https://www.roskazna.gov.ru/ispolnenie-byudzhetov/konsolidirovannye-byudzhety-subektov/" rel="nofollow noopener">исполнение бюджетов субъектов (Казначейство)</a>, '
@@ -680,7 +704,7 @@ def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
     body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: главное за неделю, разборы и позиция редакции. '
             f'Приходит в субботу днём.</p>{form}</article>')
     (site / "podpiska.html").unlink(missing_ok=True)
-    (site / "_redirects").write_text("/podpiska /subscribe 301\n", encoding="utf-8")
+
     (site / "subscribe.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: главное за неделю, разборы, позиция.",
                                              body, abs_url("subscribe")), encoding="utf-8")
     return [(abs_url("subscribe"), "")]
