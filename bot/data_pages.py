@@ -203,6 +203,17 @@ def _key_rate_changes(pts):
     return out
 
 
+def _save_series(slug, title, src, unit, digits, pts) -> None:
+    import json
+    from pathlib import Path
+    f = Path("state") / "series.json"
+    d = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+    d[slug] = {"title": title, "src": src, "unit": unit.strip(), "digits": digits,
+               "pts": [[a.isoformat(), b] for a, b in pts[-800:]]}
+    f.parent.mkdir(exist_ok=True)
+    f.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+
+
 def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, str]]:
     """Пишет /data/*.html и /data.html. Возвращает адреса для карты сайта."""
     from pathlib import Path
@@ -215,6 +226,8 @@ def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, st
         except Exception as e:  # noqa: BLE001
             log(f"данные: {slug} не получены ({e})")
             pts = []
+        if len(pts) > 30:  # ряд для контекстных графиков в текстах (bot/visuals.py)
+            _save_series(slug, title, src, unit, digits, pts)
         f = site / "data" / f"{slug}.html"
         if len(pts) < 2:
             if f.exists():

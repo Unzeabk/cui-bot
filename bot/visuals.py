@@ -114,7 +114,7 @@ def _s(x, n=90) -> str:
 
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
-VERSION = 9
+VERSION = 10
 RENDER = 2  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -209,9 +209,10 @@ CRITIC = """Ты — выпускающий редактор уровня The Ec
 1) он сравнивает один и тот же показатель в одних единицах (цена с ценой, тонны с тоннами, доля с долей);
    литры против тонн, убыток против цены, закупки против прибыли — НЕТ;
 2) подписи точно соответствуют тексту, ничего не додумано;
-3) цифровой блок (share, vs, before_after, compare, chart) добавляет смысл: показывает соотношение или долю нагляднее слов,
-   а не повторяет одну цифру абзаца;
-4) заголовок блока — вывод, а не общее слово вроде «Финансовые показатели».
+3) заголовок блока не врёт и не пустой.
+Снимай только ошибки: разные показатели, неточные подписи, искажение смысла. Вкус не оценивай —
+блок, который наглядно сопоставляет цифры из текста, пропускай, даже если цифры есть в соседнем абзаце.
+«Было → стало» одного показателя в разных мерах (штраф до 40 тыс. руб. → штраф 50–200% выручки) — это верно, пропускай.
 Блоки pull (сильная фраза текста), doc (цитата документа), players, flow, timeline — пропускай, если они точны и по делу:
 повторять текст — их суть, важно лишь, что фраза сильная, а участники и связи верны.
 ОТВЕТ — только JSON: {"keep": [номера блоков, которые пропускаешь]}"""
@@ -239,6 +240,59 @@ def _unit(v: str) -> str:
     return re.sub(r"[\d\s.,−\-–+]+", " ", str(v)).strip().lower()
 
 
+SERIES_KEYS = [  # о чём текст → наш официальный ряд (ЦБ, Мосбиржа) для графика-контекста
+    ("klyuchevaya-stavka", r"ключев\w* ставк"),
+    ("kurs-yuanya", r"юан"),
+    ("kurs-dollara", r"курс\w* доллар|доллар\w* к рубл|рубл\w* к доллар"),
+    ("kurs-evro", r"курс\w* евро|евро к рубл"),
+    ("indeks-mosbirzhi", r"индекс\w* мосбирж|imoex|индекс\w* московской бирж"),
+    ("zoloto", r"цен\w* золот|золот\w* подорож|золот\w* дешев"),
+]
+MONTHS_SHORT = ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]
+
+
+def _add_series(e: dict, d: dict, pars: list) -> None:
+    """Если текст о ставке, курсе, индексе или золоте — график этого показателя за год из официальных данных.
+    Это не цифры из текста, а контекст из первоисточника (ЦБ, Мосбиржа) с подписью источника."""
+    from datetime import date
+    f = Path("state") / "series.json"
+    if not f.exists() or e.get("kind") not in ("note", "analysis", "position"):
+        return
+    blocks = d.get("blocks") or []
+    if (e.get("kind") != "analysis" and blocks) or len(blocks) >= 3 or any(b["type"] == "chart" for b in blocks):
+        return
+    from .compose import plain
+    low = [plain(p).lower() for p in pars]
+    series = json.loads(f.read_text(encoding="utf-8"))
+    for slug, rx in SERIES_KEYS:
+        hit = next((i for i, t in enumerate(low) if re.search(rx, t)), None)
+        if hit is None or slug not in series:
+            continue
+        sr = series[slug]
+        pts = [(date.fromisoformat(a), b) for a, b in sr["pts"]]
+        last = pts[-1][0]
+        month_end = {}
+        for dt, v in pts:
+            if (last - dt).days <= 365:
+                month_end[(dt.year, dt.month)] = v
+        ms = sorted(month_end.items())[-12:]
+        if len(ms) < 6:
+            continue
+        nd = sr["digits"] if sr["digits"] <= 2 else 2
+        pts2 = [(MONTHS_SHORT[m - 1], round(v, nd)) for (y, m), v in ms]
+        para = hit if hit < len(pars) - 1 else max(0, hit - 1)
+        used = {b["para"] for b in blocks}
+        while para in used or para - 1 in used or para + 1 in used:
+            para += 2
+            if para >= len(pars) - 1:
+                return
+        unit = {"%": "% годовых, на конец месяца", "₽": "₽, на конец месяца"}.get(sr["unit"], "пункты, на конец месяца")
+        blocks.append({"type": "chart", "kind": "line", "para": para, "title": f"{sr['title']} за год",
+                       "unit": unit, "points": pts2, "highlight": len(pts2) - 1, "source": sr["src"], "context": True})
+        d["blocks"] = sorted(blocks, key=lambda b: b["para"])
+        return
+
+
 def plan(e: dict, recent: list[str] | None = None) -> dict:
     """Разметка визуальных блоков для текста (один лёгкий запрос). Пустой dict — нечего показывать."""
     try:
@@ -252,25 +306,28 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         tired = [t for t, c in Counter(recent or []).most_common() if c >= 3]
         hint = (f"\nНа сайте сейчас часто: {', '.join(tired)} — если текст позволяет, выбери другой тип." if tired else "")
         head = f"Жанр: {e.get('kind')}{hint}\n{e.get('headline', '')}\n{e.get('subhead', '')}\n\n"
-        raw, _ = ask(LIGHT_CHAIN, SYSTEM, head + numbered[:14000], temperature=0.3)
+        from .gemini import CHECK_CHAIN
+        chain = CHECK_CHAIN + LIGHT_CHAIN  # бильд-редактор — модель посильнее; квоты хватает: текст размечается один раз
+        raw, _ = ask(chain, SYSTEM, head + numbered[:14000], temperature=0.3)
         d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
         if e.get("kind") == "analysis" and len(d.get("blocks") or []) < 3 and len(pars) >= 8:
             # второй проход: добрать блоки к другим ходам, другими типами
             have = d.get("blocks") or []
             more = (f"\nУже стоят: " + ", ".join(f"{b['type']} после [{b['para']}]" for b in have)
                     + ". Добавь 1–2 блока ДРУГИХ типов к другим ходам (не рядом с этими абзацами). Без цифр — doc, pull, players, flow без сумм.")
-            raw2, _ = ask(LIGHT_CHAIN, SYSTEM, head + numbered[:14000] + more, temperature=0.4)
+            raw2, _ = ask(chain, SYSTEM, head + numbered[:14000] + more, temperature=0.4)
             d2 = _check({"blocks": extract_json(raw2).get("blocks") or []}, text, len(pars), "analysis",
                         taken={b["para"] for b in have})
             d["blocks"] = sorted([*have, *[b for b in d2["blocks"] if b["type"] not in {h["type"] for h in have}]][:3],
                                  key=lambda b: b["para"])
         # одинаковые единицы у сравнений — проверка кодом, потом редактор
-        d["blocks"] = [b for b in d.get("blocks") or [] if not (b["type"] in ("vs", "before_after")
+        d["blocks"] = [b for b in d.get("blocks") or [] if not (b["type"] == "vs"
                        and _unit(b["a"]["value"]) != _unit(b["b"]["value"]))]
         for b in d["blocks"]:
             if (b.get("source") or "").strip().lower() in ("текст", "текст статьи", "статья", "cui bono?"):
                 b["source"] = ""
         d["blocks"] = _critic(e, d["blocks"])
+        _add_series(e, d, pars)
         if e.get("kind") == "position":
             d.pop("place", None)  # позиция — мнение, не репортаж с места
         if e.get("kind") == "week":
