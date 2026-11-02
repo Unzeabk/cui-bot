@@ -43,6 +43,7 @@ jobs:
           METRIKA_ID: ${{ vars.METRIKA_ID || '113988036' }}
           CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
         run: |
           BREVO_API_KEY='${{ secrets.BREVO_API_KEY }}' python -m bot.brevo setup

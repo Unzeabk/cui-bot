@@ -55,6 +55,7 @@ jobs:
         env:
           CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL: ${{ secrets.TELEGRAM_CHANNEL }}
           WRITER_MODELS: ${{ vars.WRITER_MODELS }}
@@ -106,6 +107,7 @@ jobs:
           METRIKA_ID: ${{ vars.METRIKA_ID || '113988036' }}
           CUI_CONFIG: ${{ secrets.CUI_CONFIG }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           LIGHT_MODELS: ${{ vars.LIGHT_MODELS }}
         run: |
           git pull --rebase --autostash -X theirs origin main || true
