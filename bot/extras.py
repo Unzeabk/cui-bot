@@ -716,7 +716,7 @@ def send_newsletter() -> int:
            f'<div style="font-size:28px">Cui Bono?</div><div style="font:12px monospace;color:#6B6F72">НЕДЕЛЯ ДО {today:%d.%m.%Y}</div>'
            f'{body}<p style="font:12px monospace;color:#6B6F72;margin-top:32px"><a href="{site_url}/data">Показатели</a> · '
            f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p>'
-           f'<p style="font:13px Georgia,serif;color:#6B6F72">Вам переслали это письмо? Подписаться: <a href="{site_url}/subscribe">{site_url.split("//")[-1]}/subscribe</a></p></div>')
+           f'<p style="font:13px Georgia,serif;color:#6B6F72">Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe">{site_url.split("//")[-1]}/subscribe</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
