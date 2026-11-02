@@ -32,7 +32,7 @@ jobs:
           python -c "
           import json
           from bot.formats import same_story
-          st = json.load(open('state/posted.json'))
+          st = [e for e in json.load(open('state/posted.json')) if 'Зачем государству' not in e.get('headline','')]
           print('повтор:', same_story('Зачем государству десятая часть всех частных дата-центров', 'Операторов обяжут уступить ресурсы за сутки', st) or 'НЕ ПОЙМАН')
           print('чужая тема:', same_story('Казахстан поднял пошлину на экспорт пшеницы', '', st) or 'не повтор')
           "
