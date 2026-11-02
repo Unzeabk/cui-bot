@@ -3,14 +3,14 @@
 > Аналитическое издание об экономике и власти (Россия). Ежедневные разборы, позиция редакции и страницы официальных данных (ЦБ, Мосбиржа), обновляемые автоматически.
 
 ## Показатели
-- [Ключевая ставка ЦБ](https://cuibono.press/data/klyuchevaya-stavka)
-- [Курс доллара ЦБ](https://cuibono.press/data/kurs-dollara)
-- [Курс юаня ЦБ](https://cuibono.press/data/kurs-yuanya)
-- [Индекс Мосбиржи](https://cuibono.press/data/indeks-mosbirzhi)
-- [Акции крупнейших компаний](https://cuibono.press/data/akcii)
+- [Ключевая ставка ЦБ](https://cuibono.press/data/key-rate)
+- [Курс доллара ЦБ](https://cuibono.press/data/usd-rate)
+- [Курс юаня ЦБ](https://cuibono.press/data/cny-rate)
+- [Индекс Мосбиржи](https://cuibono.press/data/moex-index)
+- [Акции крупнейших компаний](https://cuibono.press/data/stocks)
 - [Календарь заседаний ЦБ](https://cuibono.press/calendar)
-- [Индекс жёсткости ЦБ](https://cuibono.press/data/zhestkost-cb)
-- [Новые законопроекты о деньгах](https://cuibono.press/data/dokumenty)
+- [Индекс жёсткости ЦБ](https://cuibono.press/data/cbr-tone)
+- [Новые законопроекты о деньгах](https://cuibono.press/data/bills)
 - [Регионы](https://cuibono.press/region/)
 
 ## Разборы
