@@ -27,12 +27,12 @@ PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CS
 </style></head><body><div class="root">__MAP__
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">Письмо по субботам</span></div>
 <div class="rule"></div>
-<div class="mid"><div class="txt"><div class="hl" style="font-size:84px">Главное за неделю, разборы, позиция</div></div>
+<div class="mid"><div class="txt"><div class="hl" style="font-size:84px">Разборы, позиция, главное за неделю</div></div>
 <div class="days">__DAYS__</div></div>
 <div class="foot"><span>cuibono.press/subscribe</span>__MARK__</div>
 </div></body></html>"""
 
-VERSION = 5  # поменять текст или обложку → поднять номер: старый закреп заменится
+VERSION = 6  # поменять текст или обложку → поднять номер: старый закреп заменится
 
 CAPTION = ("<code>ПИСЬМО</code> · <i>По субботам</i>\n\n"
            'Главное за неделю, разборы и позиция редакции — <a href="https://cuibono.press/subscribe">cuibono.press/subscribe</a>')
