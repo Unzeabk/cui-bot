@@ -2,13 +2,12 @@ name: Cui Bono — рассылка
 
 # Субботнее письмо через Brevo. Нужен только secrets.BREVO_API_KEY; список и отправитель — в state/brevo.json.
 on:
+  # Запускает только будильник Cloudflare (worker/index.js, таблица SLOTS). Расписание GitHub убрано 2 ноября:
+  # оно теряло запуски, а опоздавшие тратили квоту Gemini.
   workflow_dispatch:
   push:  # проба: адрес в state/newsletter-test.txt — письмо уходит только ему, файл потом удаляется
     branches: [main]
     paths: ["state/newsletter-test.txt"]
-  schedule:
-    # основной запуск — будильник Cloudflare (worker/); это запасной, повторное письмо за ту же неделю не уходит
-    - cron: "17 11 * * 6"  # сб 14:17 МСК, после «Недели»
 
 permissions:
   contents: write
