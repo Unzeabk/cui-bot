@@ -1,6 +1,47 @@
 [
  {
   "kind": "note",
+  "time_iso": "2026-11-03T00:42:14.725420+03:00",
+  "rubric": "labour",
+  "fly": "Тепло ли тебе, девица",
+  "headline": "Росгвардия отказывается от шерсти ради силовой экономии",
+  "subhead": "Ведомство предложило убрать из норм снабжения мех и сукно на фоне растущих бюджетных расходов.",
+  "paragraphs": [
+   "Серые меховые шапки и шерстяные куртки могут исчезнуть из гардероба Росгвардии. Ведомство предложило изъять из норм ушанки и шерстяные тужурки, объяснив правки оптимизацией расходов и улучшением внешнего вида.",
+   "Формально отказаться решили от «малоиспользуемых» вещей: вместо шерсти офицерам выдадут брюки из других тканей, а женщин переведут на утеплённые шапки. Месяцем ранее нормы снабжения предлагала менять и ФСБ.",
+   "Инициатива застигла силовые службы при рекордных сметах: в 2027 году на национальную безопасность в бюджете заложено [4,286 триллиона рублей](https://ru.themoscowtimes.com/2026/11/02/sotrudnikam-rosgvardii-nachnut-shit-formu-bez-meha-ishersti-iz-za-ekonomii-a210338)."
+  ],
+  "final": "",
+  "topic_key": "rosgvardiya-forma-ekonomiya",
+  "message_id": 136,
+  "cover": "cover-20261103-0042.jpg",
+  "telegraph": "",
+  "place": {
+   "name": "Москва",
+   "lat": 55.75,
+   "lon": 37.62,
+   "scale": "country"
+  },
+  "seo_title": "Росгвардия предложила отказаться от шерсти и меха в форме",
+  "seo_description": "Росгвардия предложила убрать из норм снабжения мех и сукно для оптимизации бюджетных расходов. На нацбезопасность в 2027 году заложено 4,286 трлн рублей.",
+  "entities": [
+   {
+    "name": "Росгвардия",
+    "type": "org"
+   },
+   {
+    "name": "ФСБ",
+    "type": "org"
+   }
+  ],
+  "visuals": {
+   "blocks": [],
+   "v": 11,
+   "r": 1
+  }
+ },
+ {
+  "kind": "note",
   "time_iso": "2026-11-02T22:10:00.215229+03:00",
   "rubric": "regulation",
   "fly": "Десятина с сервера",
@@ -179,7 +220,67 @@
     "Blocking independent foreign relocation through [FSB approval](https://www.themoscowtimes.com/2026/11/02/putin-orders-private-data-centers-to-set-aside-10-of-capacity-to-support-it-infrastructure-a94159) deprives commercial data centres of flexible adaptation options. While private operators could previously redistribute loads and diversify locations, the new order turns the entire commercial data centre sector into a tightly regulated rear-guard reserve. Security officials and bureaucrats gain total control over access to computing power without bearing any responsibility for the commercial losses of hardware owners.",
     "Ultimately, the seizure of a tenth of server space creates no new secure facilities, but turns the civilian digital ecosystem into a mobilized resource. The market IT sector is obliged to function in a state of constant readiness to hand over equipment within a day upon instructions from officials. The state shifts all physical and financial costs of military failures onto the balance sheets of commercial companies while retaining absolute control over the country's key digital arteries."
    ],
-   "model": "gemini-3.5-flash-lite"
+   "model": "gemini-3.5-flash-lite",
+   "visuals": {
+    "blocks": [
+     {
+      "value": "10%",
+      "pct": 10.0,
+      "caption": "commercial data-centre capacity and floor space requisitioned for reserve",
+      "type": "share",
+      "para": 0,
+      "source": "Presidential decree of November 2nd"
+     },
+     {
+      "title": "Procedure for using foreign facilities",
+      "steps": [
+       {
+        "name": "Affected firm",
+        "amount": "",
+        "label": ""
+       },
+       {
+        "name": "Government subcommission",
+        "amount": "",
+        "label": "verdict"
+       },
+       {
+        "name": "FSB",
+        "amount": "",
+        "label": "mandatory approval"
+       },
+       {
+        "name": "Foreign facility",
+        "amount": "",
+        "label": ""
+       }
+      ],
+      "type": "flow",
+      "para": 4,
+      "source": "Presidential decree of November 2nd"
+     },
+     {
+      "title": "Splitting the IT market into two speeds",
+      "wins": [
+       {
+        "name": "Rostelecom and Nornickel",
+        "why": "building a deeply buried underground data centre with state support"
+       }
+      ],
+      "pays": [
+       {
+        "name": "Private infrastructure owners",
+        "why": "surrender a tenth of their capacity and manage risks independently"
+       }
+      ],
+      "type": "players",
+      "para": 11,
+      "source": ""
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"caption\": \"мощностей и площадей коммерческих ЦОДов изымается в резерв\", \"para\": 0, \"pct\": 10.0, \"source\": \"Указ президента от 2 ноября\", \"type\": \"share\", \"value\": \"10%\"}, {\"para\": 4, \"source\": \"Указ президента от 2 ноября\", \"steps\": [{\"amount\": \"\", \"label\": \"\", \"name\": \"Пострадавшая фирма\"}, {\"amount\": \"\", \"label\": \"вердикт\", \"name\": \"Правительственная подкомиссия\"}, {\"amount\": \"\", \"label\": \"обязательное согласование\", \"name\": \"ФСБ\"}, {\"amount\": \"\", \"label\": \"\", \"name\": \"Иностранная площадка\"}], \"title\": \"Порядок использования иностранных площадок\", \"type\": \"flow\"}, {\"para\": 11, \"pays\": [{\"name\": \"Частные владельцы инфраструктуры\", \"why\": \"отдают десятую часть мощностей и самостоятельно справляются с рисками\"}], \"source\": \"\", \"title\": \"Разделение IT-рынка на две скорости\", \"type\": \"players\", \"wins\": [{\"name\": \"Ростелеком и Норникель\", \"why\": \"строят глубоко заглубленный подземный ЦОД с господдержкой\"}]}], null]"
   },
   "visuals": {
    "blocks": [
@@ -340,16 +441,16 @@
   "visuals": {
    "blocks": [
     {
-     "title": "Доля российского газа в экспорте в ЕС",
+     "title": "Падение доли российского газа в Евросоюзе",
      "a": {
       "label": "До войны",
       "value": "64%",
-      "caption": "маршрут через Украину и «Северный поток»"
+      "caption": "всего газового экспорта в ЕС"
      },
      "b": {
       "label": "Сейчас",
       "value": "11%",
-      "caption": "текущая доля в экспорте в Евросоюз"
+      "caption": "текущая доля поставок"
      },
      "type": "before_after",
      "para": 1,
@@ -824,9 +925,9 @@
    "blocks": [],
    "places": [
     {
-     "name": "ГОНКОНГ",
-     "lat": 22.3193,
-     "lon": 114.1694,
+     "name": "НАССАУ",
+     "lat": 25.048,
+     "lon": -77.3554,
      "scale": "country"
     },
     {
