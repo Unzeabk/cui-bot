@@ -164,33 +164,33 @@ def _recent_table(pts, digits, unit, n=30) -> str:
 
 SERIES = [
     # slug, заголовок, имя для текста, источник, ссылка источника, единица, знаков, темы для связанных текстов
-    ("key-rate", "Ключевая ставка ЦБ", "ключевая ставка Банка России", "Банк России", "https://www.cbr.ru/hd_base/KeyRate/", "%", 2,
+    ("klyuchevaya-stavka", "Ключевая ставка ЦБ", "ключевая ставка Банка России", "Банк России", "https://www.cbr.ru/hd_base/KeyRate/", "%", 2,
      ["ключевая ставка", "Банк России", "ЦБ", "ставка", "инфляция", "вклады", "ипотека"]),
-    ("usd-rate", "Курс доллара ЦБ", "официальный курс доллара", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
+    ("kurs-dollara", "Курс доллара ЦБ", "официальный курс доллара", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
      ["доллар", "рубль", "курс", "валюта", "Банк России"]),
-    ("eur-rate", "Курс евро ЦБ", "официальный курс евро", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
+    ("kurs-evro", "Курс евро ЦБ", "официальный курс евро", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
      ["евро", "рубль", "курс", "валюта", "Европа"]),
-    ("cny-rate", "Курс юаня ЦБ", "официальный курс юаня", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
+    ("kurs-yuanya", "Курс юаня ЦБ", "официальный курс юаня", "Банк России", "https://www.cbr.ru/currency_base/dynamics/", " ₽", 4,
      ["юань", "рубль", "Китай", "расчёты", "курс"]),
-    ("moex-index", "Индекс Мосбиржи", "индекс Московской биржи (IMOEX)", "Московская биржа", "https://www.moex.com/ru/index/IMOEX", "", 2,
+    ("indeks-mosbirzhi", "Индекс Мосбиржи", "индекс Московской биржи (IMOEX)", "Московская биржа", "https://www.moex.com/ru/index/IMOEX", "", 2,
      ["Мосбиржа", "Московская биржа", "акции", "IMOEX", "рынок"]),
-    ("gold", "Цена золота ЦБ", "учётная цена золота Банка России за грамм", "Банк России", "https://www.cbr.ru/hd_base/metall/metall_base_new/", " ₽", 2,
+    ("zoloto", "Цена золота ЦБ", "учётная цена золота Банка России за грамм", "Банк России", "https://www.cbr.ru/hd_base/metall/metall_base_new/", " ₽", 2,
      ["золото", "Банк России", "резервы"]),
 ]
 
 
 def _fetch(slug: str):
-    if slug == "key-rate":
+    if slug == "klyuchevaya-stavka":
         return key_rate_history()
-    if slug == "usd-rate":
+    if slug == "kurs-dollara":
         return currency_history("R01235")
-    if slug == "eur-rate":
+    if slug == "kurs-evro":
         return currency_history("R01239")
-    if slug == "cny-rate":
+    if slug == "kurs-yuanya":
         return currency_history("R01375")
-    if slug == "moex-index":
+    if slug == "indeks-mosbirzhi":
         return moex_history()
-    if slug == "gold":
+    if slug == "zoloto":
         return gold_history()
     return []
 
@@ -222,7 +222,7 @@ def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, st
                 cards.append((slug, title, ""))
             continue
         last_d, last = pts[-1]
-        if slug == "key-rate":
+        if slug == "klyuchevaya-stavka":
             ch = _key_rate_changes(pts)
             since, prev = ch[-1][0], (ch[-2][1] if len(ch) > 1 else None)
             lead = (f"Ключевая ставка Банка России — <b>{_num(last)}%</b> годовых. Действует с {_ru_date(since)}"
