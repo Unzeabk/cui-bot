@@ -115,6 +115,7 @@ def _s(x, n=90) -> str:
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
 VERSION = 11
+RETRY_EMPTY = 1  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
 RENDER = 2  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -329,8 +330,9 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
             d["blocks"] = sorted([*have, *[b for b in d2["blocks"] if b["type"] not in {h["type"] for h in have}]][:3],
                                  key=lambda b: b["para"])
         # одинаковые единицы у сравнений — проверка кодом, потом редактор
-        d["blocks"] = [b for b in d.get("blocks") or [] if not (b["type"] == "vs"
-                       and _unit(b["a"]["value"]) != _unit(b["b"]["value"]))]
+        for b in d.get("blocks") or []:  # разные меры одного показателя (40 тыс. руб. → 50–200% выручки) — это «было и стало»
+            if b["type"] == "vs" and _unit(b["a"]["value"]) != _unit(b["b"]["value"]):
+                b["type"] = "before_after"
         for b in d["blocks"]:
             if (b.get("source") or "").strip().lower() in ("текст", "текст статьи", "статья", "cui bono?"):
                 b["source"] = ""
@@ -343,6 +345,7 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         if e.get("kind") == "week" and not any(e.get("places") or []):
             d["places"] = week_places(e)
         d["v"] = VERSION
+        d["r"] = RETRY_EMPTY
         return d
     except Exception as ex:  # noqa: BLE001
         log(f"визуал: разметка не получена ({ex})")

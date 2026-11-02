@@ -859,7 +859,8 @@ def build(site: Path) -> int:
             if n >= 6:  # остальное доразметится следующими сборками: пост не ждёт
                 break
             if p.get("kind") in ("note", "analysis", "position", "week") and _has_body(p) \
-                    and (p.get("visuals") or {}).get("v") != V.VERSION:
+                    and ((p.get("visuals") or {}).get("v") != V.VERSION
+                         or (not (p.get("visuals") or {}).get("blocks") and (p.get("visuals") or {}).get("r", 0) < V.RETRY_EMPTY)):
                 recent = [b["type"] for q in posts[:12] for b in (q.get("visuals") or {}).get("blocks") or []]
                 new = V.plan(p, recent)
                 old = p.get("visuals") or {}
