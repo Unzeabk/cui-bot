@@ -39,8 +39,12 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 - "before_after": сдвиг «было → стало», если в тексте есть две цифры одного показателя в разное время.
   {"title": "что сдвинулось, 3–7 слов", "before": {"label": "2024", "value": "38%", "caption": "..."},
    "after": {"label": "2026", "value": "61%", "caption": "..."}, "source": "..."}
-- "place": где происходит главное, для карты: {"name": "город или место", "region": "регион/страна", "lat": 0.0, "lon": 0.0,
-  "scale": "city" | "region" | "country" | "macro"} или null, если места нет (общероссийская мера — null).
+- "place": карта места — ТОЛЬКО если география и есть суть истории: событие физически произошло в конкретной точке
+  (завод, порт, месторождение, город с очередями, граница, регион с особым режимом) и читателю важно, где это.
+  null, если место — просто столица как синоним правительства (Вашингтон = власти США, Москва = Кремль/Минфин,
+  Пекин = власти Китая, Брюссель = ЕС), если речь о мере на всю страну, о рынке, компании или деньгах без точки на карте.
+  Сомневаешься — null: лишняя карта хуже, чем никакой.
+  {"name": "город или место", "region": "регион/страна", "lat": 0.0, "lon": 0.0, "scale": "city" | "region" | "country" | "macro"}
 
 Подписи по-русски, холодно, без оценок, без слов «важно», «ключевой», «рекордный», если их нет в тексте.
 ОТВЕТ — только JSON: {"chart": ... | null, "figure": ... | null, "before_after": ... | null, "place": ... | null}"""
@@ -295,9 +299,9 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
     try:
         if kind == "position":
             out["top"] = POSITION_PLATE
-        place = B.place_ok(e.get("place")) or B.place_ok(v.get("place"))
+        place = B.place_ok(v.get("place"))  # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis"):
-            place["region"] = (e.get("place") or {}).get("region") or (v.get("place") or {}).get("region") or ""
+            place["region"] = (v.get("place") or {}).get("region") or ""
             f = img_dir / f"{slug}-map.jpg"
             if not f.exists():
                 map_strip(place, f)
