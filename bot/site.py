@@ -361,6 +361,7 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font:11px "IBM Plex Mono",monospace;color:var(--mute)}
 .sp-main{background:#15191e}.sp-main .k{color:var(--ink)}.sp-main .k::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px}
 .sp-main .t{font-size:21px}
+.list li.an .kicker{color:var(--ink)}.list li.an .kicker::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px;vertical-align:1px}
 .nums{display:flex;flex-direction:column;gap:2px;flex:1}.nums span{display:flex;justify-content:space-between;font:15px "IBM Plex Mono",monospace;color:var(--ink)}
 .nums i{font-style:normal;color:var(--mute)}
 .fgrid{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:22px 24px}
@@ -497,7 +498,7 @@ def _when(iso: str) -> str:
 
 def _list(posts: list[dict], up: str) -> str:
     return '<ul class="list">' + "".join(
-        f'<li><div class="row">{_kicker_html(p, up)}<time>{_when(p["time_iso"])}</time></div>'
+        f'<li{" class=an" if p.get("kind") == "analysis" else ""}><div class="row">{_kicker_html(p, up)}<time>{_when(p["time_iso"])}</time></div>'
         f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
         f'<p class="sub">{_esc(p.get("subhead", ""))}</p></li>' for p in posts) + "</ul>"
 
