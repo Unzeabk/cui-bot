@@ -469,7 +469,7 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <script>document.addEventListener("click",function(e){{document.querySelectorAll("details.rub[open]").forEach(function(d){{if(!d.contains(e.target))d.removeAttribute("open")}})}});document.addEventListener("keydown",function(e){{if(e.key==="Escape")document.querySelectorAll("details.rub[open]").forEach(function(d){{d.removeAttribute("open")}})}})</script>
 <footer class="wrap"><div><div class="fgrid">
 <div><b>Издание</b><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Показатели</a><a href="/r/week">Неделя</a><a href="/archive">Архив</a>{SUBSCRIBE_LINK}</div>{RUB_MENU}</div>
-<p class="fmeta"><a href="/about">Об издании</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/en/">English</a> · <a href="/feed.xml">RSS</a></p></div></footer>
+<p class="fmeta"><a href="{CHANNEL_URL}">Telegram</a> · <a href="/about">Об издании</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/en/">English</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
 
 
@@ -695,7 +695,8 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
         if p.get("subhead"):
             body = f"<p><i>{_esc(p['subhead'])}</i></p>" + body
         body += (f'<p><i>Оригинал — <a href="{url}">cuibono.press</a>. '
-                 f'Cui Bono? в <a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
+                 f'Письмо по субботам — <a href="{SITE_URL}/subscribe">cuibono.press/subscribe</a>. '
+                 f'<a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
         body = body.replace(' rel="nofollow noopener"', "")
         encl = ""
         if p.get("cover") and (site / "img" / p["cover"]).exists():

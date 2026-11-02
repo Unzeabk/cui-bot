@@ -718,6 +718,7 @@ def send_newsletter() -> int:
            f'<p style="font-family:monospace;font-size:12px;letter-spacing:1px;color:#6B6F72;margin:6px 0 0">НЕДЕЛЯ ДО {today:%d.%m.%Y}</p>'
            f'{body}<p style="font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#6B6F72;margin:36px 0 0;border-top:1px solid #DDDDDD;padding-top:14px">'
            f'Еженедельное письмо Cui Bono? — <a href="{site_url}/subscribe" style="color:#6B6F72">{host}/subscribe</a> · '
+           f'<a href="https://t.me/cuibono_press" style="color:#6B6F72">Telegram</a> · '
            f'<a href="{{{{ unsubscribe }}}}" style="color:#6B6F72">отписаться</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
     test = os.environ.get("TEST_EMAIL", "").strip()
