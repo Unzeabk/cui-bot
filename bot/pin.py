@@ -27,20 +27,23 @@ PAGE = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>__CS
 </style></head><body><div class="root">__MAP__
 <div class="top"><span class="logo">Cui Bono?</span><span class="tag">Письмо по субботам</span></div>
 <div class="rule"></div>
-<div class="mid"><div class="txt"><div class="hl" style="font-size:96px">Если Telegram замедлят</div><div class="fly">Почту — нет.</div></div>
+<div class="mid"><div class="txt"><div class="hl" style="font-size:104px">Неделя в одном письме</div><div class="fly">Разборы, позиция, цифры</div></div>
 <div class="days">__DAYS__</div></div>
-<div class="foot"><span>cuibono.press/podpiska</span>__MARK__</div>
+<div class="foot"><span>cuibono.press/subscribe</span>__MARK__</div>
 </div></body></html>"""
 
+VERSION = 2  # поменять текст или обложку → поднять номер: старый закреп заменится
+
 CAPTION = ("<code>ПИСЬМО</code> · <i>По субботам</i>\n\n"
-           "<b>Если Telegram замедлят</b>\n\n"
-           "Разборы, позиция и цифры недели — одним письмом в субботу. Почту не замедляют.\n\n"
-           '<a href="https://cuibono.press/podpiska">cuibono.press/podpiska</a>')
+           "<b>Неделя в одном письме</b>\n\n"
+           "Разборы, позиция редакции и цифры недели. Приходит в субботу днём.\n\n"
+           '<a href="https://cuibono.press/subscribe">cuibono.press/subscribe</a>')
 
 
 def main() -> int:
     f = Path("state") / "pinned.json"
-    if f.exists() and json.loads(f.read_text()).get("subscribe"):
+    old = json.loads(f.read_text()) if f.exists() else {}
+    if old.get("version") == VERSION:
         log("закреп: уже есть")
         return 0
     token, chat = os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"]
@@ -52,12 +55,16 @@ def main() -> int:
         log(f"закреп: обложка {png}, не публикую")
         return 0
     from .telegram import send_photo
-    msg = send_photo(token, chat, png, CAPTION, ("Подписаться", "https://cuibono.press/podpiska"))
+    msg = send_photo(token, chat, png, CAPTION, ("Подписаться", "https://cuibono.press/subscribe"))
     r = requests.post(f"https://api.telegram.org/bot{token}/pinChatMessage", timeout=30,
                       data={"chat_id": chat, "message_id": msg["message_id"], "disable_notification": True}).json()
     log(f"закреп: пост {msg['message_id']}, закрепление {r}")
+    if old.get("subscribe"):  # прошлый закреп убрать
+        d = requests.post(f"https://api.telegram.org/bot{token}/deleteMessage", timeout=30,
+                          data={"chat_id": chat, "message_id": old["subscribe"]}).json()
+        log(f"закреп: старый пост {old['subscribe']} удалён — {d}")
     f.parent.mkdir(exist_ok=True)
-    f.write_text(json.dumps({"subscribe": msg["message_id"]}), encoding="utf-8")
+    f.write_text(json.dumps({"subscribe": msg["message_id"], "version": VERSION}), encoding="utf-8")
     return 0
 
 

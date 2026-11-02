@@ -357,15 +357,16 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .specials{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 30px}
 .sp{background:var(--bg);padding:18px 18px 16px;text-decoration:none;display:flex;flex-direction:column;gap:8px}
 .sp:hover{background:#12161b}.sp .k{font:11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--cold)}
-.sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font-size:13px;color:var(--mute)}
+.sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font:11px "IBM Plex Mono",monospace;color:var(--mute)}
 .sp-main{background:#15191e}.sp-main .k{color:var(--ink)}.sp-main .k::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px}
 .sp-main .t{font-size:21px}
 .nums{display:flex;flex-direction:column;gap:2px;flex:1}.nums span{display:flex;justify-content:space-between;font:15px "IBM Plex Mono",monospace;color:var(--ink)}
 .nums i{font-style:normal;color:var(--mute)}
-.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 20px}
+.fgrid{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:22px 24px}
+.fmeta{margin-top:26px!important;color:var(--mute)}.fmeta a{color:var(--mute);text-decoration:none}.fmeta a:hover{color:var(--ink)}
 .fgrid b{display:block;color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .fgrid a{display:block;text-decoration:none;line-height:1.95}.fgrid a:hover{color:var(--ink)}
-@media(max-width:720px){.specials{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.specials{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr;justify-content:stretch}}
 .quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
 .q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
 .q.ok{border-color:var(--ink)}.q.no{opacity:.4}
@@ -396,9 +397,8 @@ RUB_MENU = ""  # заполняется при сборке: рубрики, в 
 
 def _rub_menu(sections: list[str]) -> str:
     groups = [("Россия", ["russia", "regions", "budget", "property", "defense", "economy", "labour", "regulation"]),
-              ("Деньги", ["finance", "business", "sanctions", "settlements"]),
-              ("Мир", ["abroad", "postsoviet", "china", "newmarkets", "europe", "usa", "world"]),
-              ("Ещё", ["tech", "culture"])]
+              ("Деньги", ["finance", "business", "sanctions", "settlements", "tech", "culture"]),
+              ("Мир", ["abroad", "postsoviet", "china", "newmarkets", "europe", "usa", "world"])]
     have = [x for x in sections if x in RUBRICS]
     out, used = "", set()
     for name, keys in groups:
@@ -413,7 +413,7 @@ def _rub_menu(sections: list[str]) -> str:
     return out
 
 
-SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if '"list_id": ' in ((STATE.parent / "brevo.json").read_text(encoding="utf-8") if (STATE.parent / "brevo.json").exists() else "") else ""
+SUBSCRIBE_LINK = '<a href="/subscribe">Письмо</a>' if '"list_id": ' in ((STATE.parent / "brevo.json").read_text(encoding="utf-8") if (STATE.parent / "brevo.json").exists() else "") else ""
 
 
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
@@ -462,10 +462,9 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 <nav class="menu"><a class="tg" href="{CHANNEL_URL}">Telegram ↗</a></nav></div></header>
 <main class="wrap">{body}{SUB_BOX if ("/data" in canonical or canonical.endswith("/calendar")) else ""}</main>
 <script>document.addEventListener("click",function(e){{document.querySelectorAll("details.rub[open]").forEach(function(d){{if(!d.contains(e.target))d.removeAttribute("open")}})}});document.addEventListener("keydown",function(e){{if(e.key==="Escape")document.querySelectorAll("details.rub[open]").forEach(function(d){{d.removeAttribute("open")}})}})</script>
-<footer class="wrap"><div><div class="fgrid">{RUB_MENU}
-<div><b>Издание</b><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Показатели</a><a href="/r/week">Неделя</a><a href="/archive">Архив</a><a href="/about">Об издании</a><a href="/perepechatka">Перепечатка</a><a href="/en/">English</a></div>
-<div><b>Читать</b><a href="{CHANNEL_URL}">Telegram</a>{SUBSCRIBE_LINK}<a href="/feed.xml">RSS</a></div>
-</div></div></footer>
+<footer class="wrap"><div><div class="fgrid">
+<div><b>Издание</b><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Показатели</a><a href="/r/week">Неделя</a><a href="/archive">Архив</a>{SUBSCRIBE_LINK}</div>{RUB_MENU}</div>
+<p class="fmeta"><a href="/about">Об издании</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/en/">English</a> · <a href="/feed.xml">RSS</a></p></div></footer>
 </body></html>"""
 
 
@@ -516,12 +515,13 @@ def _specials(posts: list[dict], site: Path) -> str:
     nums_html = "".join(f'<span><i>{n}</i>{_esc(v)}</span>' for n, v in nums if v)
     return ('<div class="specials">'
             f'<a class="sp sp-main" href="/r/analysis"><div class="k">Разборы</div>'
-            f'<div class="t">{_esc(an["headline"]) if an else "Каждый день — большой текст об одном сдвиге"}</div>'
-            '<div class="d">Главный материал дня</div></a>'
+            f'<div class="t">{_esc(an["headline"]) if an else "Выходит каждый день в 11:22"}</div>'
+            + (f'<div class="d">{_when(an["time_iso"])}</div>' if an else "") + '</a>'
             f'<a class="sp" href="/r/position"><div class="k">Позиция</div>'
-            f'<div class="t">{_esc(po["headline"]) if po else "Мнение редакции"}</div><div class="d">Мнение редакции</div></a>'
+            f'<div class="t">{_esc(po["headline"]) if po else ""}</div>'
+            + (f'<div class="d">{_when(po["time_iso"])}</div>' if po else "") + '</a>'
             f'<a class="sp" href="/data"><div class="k">Показатели</div><div class="nums">{nums_html}</div>'
-            '<div class="d">Ставка, курсы, рынок, календарь</div></a></div>')
+            '</a></div>')
 
 
 def _pager(n: int, total: int) -> str:

@@ -1,7 +1,7 @@
 // Cloudflare Pages Function: форма подписки → контакт в списке Brevo.
 // Переменные проекта Pages (ставит workflow «сайт»): BREVO_API_KEY, BREVO_LIST_ID.
 export async function onRequestPost({ request, env }) {
-  const back = (q) => Response.redirect(new URL("/podpiska?" + q, request.url).toString(), 303);
+  const back = (q) => Response.redirect(new URL("/subscribe?" + q, request.url).toString(), 303);
   let email = "";
   try {
     const f = await request.formData();

@@ -664,7 +664,7 @@ def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[st
 
 # ---------- рассылка (Brevo) ----------
 # vars: BREVO_FORM_URL (адрес формы подписки из Brevo), BREVO_LIST_ID, BREVO_SENDER (почта отправителя);
-# secret: BREVO_API_KEY. Страница /podpiska появляется, когда задан BREVO_FORM_URL.
+# secret: BREVO_API_KEY. Страница /subscribe появляется, когда state/brevo.json готов.
 
 def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
     from .brevo import load
@@ -678,10 +678,12 @@ def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
             'if(q.indexOf("ok=1")>-1)m.textContent="Готово. Первое письмо придёт в субботу.";'
             'else if(q.indexOf("err=1")>-1)m.textContent="Не получилось. Проверьте адрес и попробуйте ещё раз.";</script>')
     body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: разборы, позиция редакции и главные цифры. '
-            f'Telegram и сайты могут замедлить, почту — нет.</p>{form}</article>')
-    (site / "podpiska.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: разборы, позиция, цифры.",
-                                             body, abs_url("podpiska")), encoding="utf-8")
-    return [(abs_url("podpiska"), "")]
+            f'Приходит в субботу днём.</p>{form}</article>')
+    (site / "podpiska.html").unlink(missing_ok=True)
+    (site / "_redirects").write_text("/podpiska /subscribe 301\n", encoding="utf-8")
+    (site / "subscribe.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: разборы, позиция, цифры.",
+                                             body, abs_url("subscribe")), encoding="utf-8")
+    return [(abs_url("subscribe"), "")]
 
 
 def send_newsletter() -> int:
@@ -714,7 +716,7 @@ def send_newsletter() -> int:
            f'<div style="font-size:28px">Cui Bono?</div><div style="font:12px monospace;color:#6B6F72">НЕДЕЛЯ ДО {today:%d.%m.%Y}</div>'
            f'{body}<p style="font:12px monospace;color:#6B6F72;margin-top:32px"><a href="{site_url}/data">Показатели</a> · '
            f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p>'
-           f'<p style="font:13px Georgia,serif;color:#6B6F72">Вам переслали это письмо? Подписаться: <a href="{site_url}/podpiska">{site_url.split("//")[-1]}/podpiska</a></p></div>')
+           f'<p style="font:13px Georgia,serif;color:#6B6F72">Вам переслали это письмо? Подписаться: <a href="{site_url}/subscribe">{site_url.split("//")[-1]}/subscribe</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
