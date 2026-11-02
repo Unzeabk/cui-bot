@@ -51,7 +51,7 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
    подходит любая доля целого: ставка налога 15% — «15% дохода уйдёт в налог», «до 90–95% дохода — пайщикам», доля рынка, доля экспорта)
 {"type": "players", "para": 6, "title": "4–7 слов", "wins": [{"name": "как в тексте", "why": "до 70 знаков"}], "pays": [{"name": "...", "why": "..."}]}  (по 1–3 в колонке)
 {"type": "pull", "para": 9, "quote": "одна фраза из текста дословно, 60–200 знаков"}
-{"type": "figure_disabled", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
+{"type": "figure", "para": 1, "value": "9,4 трлн ₽", "caption": "что это, до 90 знаков", "source": "..."}
 {"type": "vs", "para": 1, "title": "4–7 слов", "expected": {"value": "...", "caption": "чего ждали"}, "actual": {"value": "...", "caption": "что вышло"}, "source": "..."}
 {"type": "flow", "para": 4, "title": "кто кому платит, 4–7 слов", "steps": [{"name": "Покупатель в Китае"}, {"name": "Посредник в Гонконге", "amount": "4,2 млрд $", "label": "за что"}, {"name": "Экспортёр"}], "source": "..."}
    (2–4 участника по цепочке; "amount" у участника — сумма, пришедшая к нему от предыдущего)
@@ -70,6 +70,8 @@ null, если место — столица как синоним власти 
   "share" (доля), "vs", "before_after", "compare" или "chart" — только если блок сопоставляет хотя бы две цифры
   или показывает долю наглядно. Иначе ноль блоков. Ставь после абзаца с этой цифрой (не после последнего).
   "doc", "pull", "players", "timeline", "flow" в коротких текстах не нужны.
+  Если сопоставлять нечего — "figure": главная цифра поворота с подписью-смыслом (она встанет выносом ПЕРЕД абзацем
+  со своей цифрой). Только если правда нет ни пары цифр, ни доли.
   Пример: «Указ о резервировании 10% мощностей частных ЦОДов…» → {"type": "share", "para": 0, "value": "10%", "caption": "мощностей частных ЦОДов уходит в госрезерв"}.
 
 "vs", "before_after", "compare", "chart" сравнивают ОДИН показатель в одних единицах: цена с ценой, доля с долей,
@@ -114,9 +116,9 @@ def _s(x, n=90) -> str:
     return t.strip()[:n]
 
 
-SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
+SHORT_OK = {"share", "vs", "before_after", "compare", "chart", "figure"}
 VERSION = 11
-RETRY_EMPTY = 4  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
+RETRY_EMPTY = 5  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
 RENDER = 3  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -155,7 +157,7 @@ def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | 
             m = re.search(r"(\d+(?:[.,]\d+)?)\s*%", str(b.get("value", "")))
             if m and _num_in(text, b["value"]) and 0 < float(m.group(1).replace(",", ".")) <= 100:
                 x = {"value": _s(b["value"], 12), "pct": float(m.group(1).replace(",", ".")), "caption": _s(b.get("caption"), 120)}
-        elif t == "figure" and False:
+        elif t == "figure" and _num_in(text, b.get("value", "")):
             x = {"value": _s(b["value"], 20), "caption": _s(b.get("caption"), 120)}
         elif t in ("vs", "before_after"):
             a, c = (b.get("expected"), b.get("actual")) if t == "vs" else (b.get("before"), b.get("after"))
@@ -355,6 +357,14 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
             if (b.get("source") or "").strip().lower() in ("текст", "текст статьи", "статья", "cui bono?"):
                 b["source"] = ""
         d["blocks"] = _critic(e, d["blocks"])
+        bl = d.get("blocks") or []
+        if any(b["type"] != "figure" for b in bl):  # одна цифра — только когда ничего лучше нет
+            bl = [b for b in bl if b["type"] != "figure"]
+        for b in bl:
+            if b["type"] == "figure":  # вынос перед абзацем со своей цифрой, а не после него
+                idx = next((i for i, p in enumerate(pars) if _num_in(plain(p), b["value"])), 0)
+                b["para"] = idx - 1
+        d["blocks"] = bl[:1] if e.get("kind") != "analysis" else bl
         _add_series(e, d, pars)
         if e.get("kind") == "position" and d.get("blocks"):
             d.pop("place", None)  # у позиции карта — только если нет блока с цифрами
@@ -696,7 +706,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
     kind = e.get("kind")
     img_dir.mkdir(parents=True, exist_ok=True)
     try:
-        place = B.place_ok(v.get("place")) if not (kind != "analysis" and any(b.get("type") != "figure" for b in v.get("blocks") or [])) else None  # в коротком тексте один элемент: блок важнее карты
+        place = B.place_ok(v.get("place")) if not (kind != "analysis" and v.get("blocks")) else None  # в коротком тексте один элемент: блок важнее карты
         # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis", "position"):
             place["region"] = (v.get("place") or {}).get("region") or ""
@@ -717,7 +727,10 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
             for b in v.get("blocks") or []:
                 t, para = b.get("type"), b.get("para")
                 if t == "figure":
-                    continue  # одна цифра крупно повторяет абзац — не ставим
+                    h = figure_html(b)
+                    if b.get("para", 0) < 0:  # цифра из первого абзаца — выносом над текстом
+                        out["top"] = h + out["top"] if kind == "analysis" else h
+                        continue
                 elif t == "doc":
                     h = doc_html(b)
                 elif t == "pull":
@@ -833,7 +846,7 @@ def zen_figures(e: dict, img_dir: Path, slug: str, abs_url) -> dict[int, str]:
     там есть обложка."""
     out: dict[int, str] = {}
     v = e.get("visuals") or {}
-    render = {"doc": doc_html, "timeline": timeline_html, "share": share_html, "vs": pair_html, "before_after": pair_html,
+    render = {"figure": figure_html, "doc": doc_html, "timeline": timeline_html, "share": share_html, "vs": pair_html, "before_after": pair_html,
               "flow": flow_html, "compare": compare_html, "pull": pull_html, "players": players_html}
     kind = e.get("kind")
     try:  # верх статьи — как на сайте: карта места или карта недели, светлые
