@@ -387,7 +387,7 @@ def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> 
                 f"\n\nУЖЕ НАПИСАНО:\n" + ("\n\n".join(paragraphs) or "(ничего, это начало статьи)"))
         sysmsg = base.replace("{fmt}", ANALYSIS_PART.format(n=n, used=", ".join(used) or "пока нет"))
         part, m = [], ""
-        for _ in range(2):  # короткую часть (меньше 150 слов) просим ещё раз
+        for _ in range(3):  # короткую или не написанную часть просим ещё раз
             try:
                 t, m = ask(WRITER_CHAIN, sysmsg, user, temperature=0.7)
                 got = fix_links(extract_json(t), allowed).get("paragraphs") or []
@@ -438,7 +438,7 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         return None
     allowed = {m["link"] for m in mats}
     feedback = ""
-    for attempt in ((1, 2) if fmt == "analysis" else (1, 2, 3)):
+    for attempt in (1, 2, 3):  # три попытки, у разбора ещё запасной слот 15:22
         user = user_message(fmt, recent, mats) + (f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}" if feedback else "")
         try:
             if fmt == "analysis":
