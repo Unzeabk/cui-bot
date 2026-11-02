@@ -372,10 +372,10 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font:11px "IBM Plex Mono",monospace;color:var(--mute)}
 .sp-main{background:#15191e}.sp-main .k{color:var(--ink)}.sp-main .k::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px}
 .sp-main .t{font-size:21px}
-.list li:is(.an,.po,.wk,.ix) .kicker{color:var(--ink)}
-.list li:is(.an,.po,.wk,.ix) .kicker::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;vertical-align:1px;box-sizing:border-box}
-.list li.an .kicker::before{background:var(--ink)}.list li.po .kicker::before{border:1.5px solid var(--ink)}
-.list li.wk .kicker::before{background:var(--ink);border-radius:50%}.list li.ix .kicker::before{height:2px;vertical-align:3px;background:var(--ink)}
+.list li:is(.an,.po,.wk) .kicker{color:var(--ink)}
+.list li:is(.an,.po,.wk) .kicker::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;vertical-align:1px;background:var(--ink)}
+.list li.po .kicker::before{border-radius:50%}
+.list li.wk .kicker::before{width:11px;background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 3.2px)}
 .nums{display:flex;flex-direction:column;gap:2px;flex:1}.nums span{display:flex;justify-content:space-between;font:15px "IBM Plex Mono",monospace;color:var(--ink)}
 .nums i{font-style:normal;color:var(--mute)}
 .fgrid{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:22px 24px}
@@ -518,16 +518,22 @@ def _list(posts: list[dict], up: str) -> str:
 
 
 def _mark(p: dict) -> str:
-    """Свои рубрики издания отмечены значком перед строкой рубрики: разбор — квадрат, позиция — контур, неделя — круг, показатели — черта."""
-    return {"analysis": " class=an", "position": " class=po", "week": " class=wk", "indicators": " class=ix"}.get(p.get("kind"), "")
+    """Свои рубрики издания отмечены значком перед строкой рубрики: разбор — квадрат, как в плитке «Разборы»;
+    позиция и неделя — их знаки с обложек (bot/rubrics.py: позиция — круг, неделя — семь черт)."""
+    return {"analysis": " class=an", "position": " class=po", "week": " class=wk"}.get(p.get("kind"), "")
+
+
+def _week_subjects(p: dict) -> list[str]:
+    """События «Недели» по жирным началам абзацев — то же, из чего собирается заголовок для Дзена."""
+    subj = [re.sub(r"\*\*|\.$", "", x.split(".**")[0]).strip() for x in p.get("paragraphs") or []]
+    return [t for t in subj if t]
 
 
 def _sub(p: dict) -> str:
-    """У «Недели» нет подзаголовка — в ленте показываем, о чём она: первые события."""
+    """У «Недели» нет подзаголовка — в ленте, как в Дзене, показываем события."""
     if p.get("subhead") or p.get("kind") != "week":
         return p.get("subhead", "")
-    names = [re.match(r"\*\*(.+?)\.?\*\*", x) for x in p.get("paragraphs") or []]
-    return " · ".join(m.group(1).rstrip(".") for m in names if m)[:160]
+    return ", ".join(_week_subjects(p)[:4])
 
 
 def _lead(p: dict) -> str:
@@ -716,8 +722,7 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
         title = re.sub(r"\.+$", "", plain(p["headline"]).strip())[:200]
         if p.get("kind") == "week":
             # «Неделя: 25–31 октября» в ленте Дзена ничего не говорит — нужен заголовок по событиям
-            subj = [re.sub(r"\*\*|\.$", "", x.split(".**")[0]).strip() for x in p.get("paragraphs") or []]
-            title = p.get("seo_title") or ("Главное за неделю: " + ", ".join(t for t in subj[:3] if t))
+            title = p.get("seo_title") or ("Главное за неделю: " + ", ".join(_week_subjects(p)[:3]))
             title = re.sub(r"\.+$", "", title)[:200]
         body = "".join(f"<p>{_inline(x)}</p>" for x in p.get("paragraphs") or [])
         if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
