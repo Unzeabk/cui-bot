@@ -437,6 +437,7 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
         log("нет материалов")
         return None
     allowed = {m["link"] for m in mats}
+    main_title = mats[0].get("title", "")
     feedback = ""
     for attempt in (1, 2, 3):  # три попытки, у разбора ещё запасной слот 15:22
         user = user_message(fmt, recent, mats) + (f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}" if feedback else "")
@@ -457,6 +458,14 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
             log(feedback)
             continue
         log(f"текст написала {model}")
+        # тема не повторяет то, что вышло за неделю, в любой рубрике (2 ноября разбор повторил позицию про серверы)
+        hl = plain(d.get("headline", ""))
+        twin = next((r.get("headline", "") for r in recent if hl and r.get("headline") and r.get("rubric") != "indicators"
+                     and (_similar(hl, r["headline"]) or (main_title and _similar(main_title, r.get("main_title", ""))))), "")
+        if twin:
+            log(f"тема уже была: «{twin}» — в этот раз не публикуем")
+            return None
+        d["_main_title"] = main_title
         probs = validate_format(fmt, d, allowed)
         if any(p.startswith("запрещённый оборот") or p.startswith("в заголовке") for p in probs):
             d = fix_headline(repair_banned(fmt, d))
@@ -482,6 +491,7 @@ def produce(fmt: str, recent: list[dict]) -> dict | None:
                     a.setdefault("place", b.get("place"))
             if not validate_format(fmt, f, allowed):
                 f["_sources"] = list(allowed)
+                f["_main_title"] = main_title
                 return f
         feedback = "Фактчек нашёл ошибки:\n" + "\n".join(f"- {p}" for p in (v.get("problems") or []))
     return None
@@ -698,7 +708,7 @@ def main() -> int:
             "time_iso": now.isoformat(), "time": now.strftime("%d.%m %H:%M"), "rubric": fmt, "form": FORMATS[fmt]["label"].lower(),
             "optics": d.get("optics", []), "topic_key": d.get("topic_key", ""),
             "headline": plain(d.get("headline") or ("Неделя: " + ", ".join(i["subject"] for i in d.get("items", [])))),
-            "fly": d.get("fly", ""), "final": "", "main_title": "", "sources": d.get("_sources", []),
+            "fly": d.get("fly", ""), "final": "", "main_title": d.get("_main_title", ""), "sources": d.get("_sources", []),
             "message_id": res.get("message_id"), "slot": slot_key(),
         })
         save_state(state)

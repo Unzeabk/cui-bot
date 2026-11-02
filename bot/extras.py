@@ -746,6 +746,17 @@ def send_newsletter() -> int:
     if mark.exists() and mark.read_text(encoding="utf-8").strip() == week:
         log(f"рассылка: письмо за {week} уже ушло — пропускаю")
         return 0
+    # вторая страховка — сам Brevo: кампания этой недели уже создана или отправлена
+    try:
+        got = requests.get("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60,
+                           params={"limit": 20, "sort": "desc"}).json().get("campaigns") or []
+        if any(c.get("name") == f"Неделя {today:%Y-%m-%d}" for c in got):
+            log("рассылка: в Brevo кампания этой недели уже есть — пропускаю")
+            mark.write_text(week, encoding="utf-8")
+            return 0
+    except Exception as e:  # noqa: BLE001
+        log(f"рассылка: Brevo не ответил на проверку ({e}) — без проверки не отправляю")
+        return 1
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
         "sender": {"name": "Cui Bono?", "email": sender}, "htmlContent": htm,

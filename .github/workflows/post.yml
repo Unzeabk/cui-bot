@@ -40,6 +40,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main  # свежий main на момент старта, а не коммит момента постановки в очередь: иначе не видно, что слот уже вышел
 
       - uses: actions/setup-python@v5
         with:
