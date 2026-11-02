@@ -652,6 +652,9 @@ def run_indicators(state: list[dict], dry: bool, d: dict | None = None, journal:
         log("DRY_RUN: в канал не отправляю")
         return 0
     res = send_photo(os.environ["TELEGRAM_BOT_TOKEN"], os.environ["TELEGRAM_CHANNEL"], cover, cap)
+    if journal:  # на сайт: «Цифра недели» в ленте, ссылка рубрики ведёт на витрину показателей
+        from .site import write_entry
+        write_entry("indicators", d, res, cover)
     if not journal:
         log("готово (в журнал ленты тестовый пост не записан)")
         return 0

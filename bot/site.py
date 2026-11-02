@@ -40,7 +40,7 @@ CHANNEL_URL = f"https://t.me/{CHANNEL}"
 SITE_URL = (os.environ.get("SITE_URL") or "").rstrip("/")
 TITLE = "Cui Bono?"
 DESCRIPTION = "Аналитическое издание об экономике и власти"
-KIND_LABEL = {"note": None, "position": "ПОЗИЦИЯ", "analysis": "РАЗБОР", "week": "НЕДЕЛЯ"}
+KIND_LABEL = {"note": None, "position": "ПОЗИЦИЯ", "analysis": "РАЗБОР", "week": "НЕДЕЛЯ", "indicators": "ПОКАЗАТЕЛИ"}
 SECTION_TITLE = {k: v[0][:1] + v[0][1:].lower() for k, v in RUBRICS.items()}
 SECTION_TITLE["usa"] = "США"
 SECTION_TITLE.update({"position": "Позиция", "analysis": "Разбор", "week": "Неделя"})
@@ -77,6 +77,13 @@ def write_entry(kind: str, d: dict, res: dict | None, cover: Path | None, url: s
         if kind == "week":
             entry["headline"] = f"Неделя: {d.get('_range') or now.strftime('%d.%m.%Y')}"
             entry["paragraphs"] = [f"**{i.get('subject', '')}.** {i.get('text', '')}" for i in d.get("items", [])]
+        if kind == "indicators":
+            wf = d.get("week_figure") or {}
+            entry["headline"] = f"Цифра недели — {plain(wf.get('label', ''))}"
+            entry["subhead"] = ", ".join(plain(r.get("label", "")) for r in (d.get("rows") or [])[:5])
+            entry["paragraphs"] = [wf.get("text", "")] + [
+                f"**{r.get('label', '')}** — {r.get('value', '')}" + (f" ({r['change']})" if r.get("change") else "")
+                for r in d.get("rows") or []]
         if not entry["headline"]:
             return
         entry.update(d.get("_seo") if d.get("_seo") is not None else _seo(entry))
@@ -215,20 +222,24 @@ def _link_topics(text: str, topics: dict[str, str], used: set[str]) -> str:
 
 
 def _section(e: dict) -> str:
-    return e["kind"] if e.get("kind") in ("position", "analysis", "week") else (e.get("rubric") or "world")
+    return e["kind"] if e.get("kind") in ("position", "analysis", "week", "indicators") else (e.get("rubric") or "world")
 
 
 def _kicker(e: dict) -> str:
     if e.get("kind") == "position":
         return "ПОЗИЦИЯ · Мнение редакции"
     if e.get("kind") == "week":
-        return "НЕДЕЛЯ"
+        return "НЕДЕЛЯ · Главное за неделю"
+    if e.get("kind") == "indicators":
+        return "ПОКАЗАТЕЛИ · Цифра недели"
     label = KIND_LABEL.get(e.get("kind")) or RUBRICS.get(e.get("rubric"), ("", ""))[0]
     fly = e.get("fly") or ""
     return f"{label} · {fly}" if label and fly else (label or fly)
 
 
 def _kicker_html(e: dict, up: str) -> str:
+    if e.get("kind") == "indicators":
+        return f'<a class="kicker" href="/data">{_esc(_kicker(e))}</a>'
     sec = _section(e)
     if sec in SECTION_TITLE:
         return f'<a class="kicker" href="/r/{sec}">{_esc(_kicker(e))}</a>'
@@ -361,7 +372,10 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .sp .t{font:600 17px/1.3 Commissioner,sans-serif;color:var(--ink);flex:1}.sp .d{font:11px "IBM Plex Mono",monospace;color:var(--mute)}
 .sp-main{background:#15191e}.sp-main .k{color:var(--ink)}.sp-main .k::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px}
 .sp-main .t{font-size:21px}
-.list li.an .kicker{color:var(--ink)}.list li.an .kicker::before{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-right:8px;vertical-align:1px}
+.list li:is(.an,.po,.wk,.ix) .kicker{color:var(--ink)}
+.list li:is(.an,.po,.wk,.ix) .kicker::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;vertical-align:1px;box-sizing:border-box}
+.list li.an .kicker::before{background:var(--ink)}.list li.po .kicker::before{border:1.5px solid var(--ink)}
+.list li.wk .kicker::before{background:var(--ink);border-radius:50%}.list li.ix .kicker::before{height:2px;vertical-align:3px;background:var(--ink)}
 .nums{display:flex;flex-direction:column;gap:2px;flex:1}.nums span{display:flex;justify-content:space-between;font:15px "IBM Plex Mono",monospace;color:var(--ink)}
 .nums i{font-style:normal;color:var(--mute)}
 .fgrid{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:22px 24px}
@@ -498,9 +512,22 @@ def _when(iso: str) -> str:
 
 def _list(posts: list[dict], up: str) -> str:
     return '<ul class="list">' + "".join(
-        f'<li{" class=an" if p.get("kind") == "analysis" else ""}><div class="row">{_kicker_html(p, up)}<time>{_when(p["time_iso"])}</time></div>'
+        f'<li{_mark(p)}><div class="row">{_kicker_html(p, up)}<time>{_when(p["time_iso"])}</time></div>'
         f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
-        f'<p class="sub">{_esc(p.get("subhead", ""))}</p></li>' for p in posts) + "</ul>"
+        f'<p class="sub">{_esc(_sub(p))}</p></li>' for p in posts) + "</ul>"
+
+
+def _mark(p: dict) -> str:
+    """Свои рубрики издания отмечены значком перед строкой рубрики: разбор — квадрат, позиция — контур, неделя — круг, показатели — черта."""
+    return {"analysis": " class=an", "position": " class=po", "week": " class=wk", "indicators": " class=ix"}.get(p.get("kind"), "")
+
+
+def _sub(p: dict) -> str:
+    """У «Недели» нет подзаголовка — в ленте показываем, о чём она: первые события."""
+    if p.get("subhead") or p.get("kind") != "week":
+        return p.get("subhead", "")
+    names = [re.match(r"\*\*(.+?)\.?\*\*", x) for x in p.get("paragraphs") or []]
+    return " · ".join(m.group(1).rstrip(".") for m in names if m)[:160]
 
 
 def _lead(p: dict) -> str:
