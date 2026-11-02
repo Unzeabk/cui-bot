@@ -854,7 +854,13 @@ def build(site: Path) -> int:
             if p.get("kind") in ("note", "analysis", "position", "week") and _has_body(p) \
                     and (p.get("visuals") or {}).get("v") != V.VERSION:
                 recent = [b["type"] for q in posts[:12] for b in (q.get("visuals") or {}).get("blocks") or []]
-                p["visuals"] = V.plan(p, recent)
+                new = V.plan(p, recent)
+                old = p.get("visuals") or {}
+                if len(new.get("blocks") or []) < len(old.get("blocks") or []):  # переразметка не теряет найденное
+                    new["blocks"] = old["blocks"]
+                if not new.get("place") and old.get("place") and p.get("kind") != "position":
+                    new["place"] = old["place"]
+                p["visuals"] = new
                 n += 1
     # чистка ленты: адреса или их хвосты из state/site-remove.txt — по одному в строке
     rm_file = STATE.parent / "site-remove.txt"
