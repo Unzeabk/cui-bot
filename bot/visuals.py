@@ -116,7 +116,7 @@ def _s(x, n=90) -> str:
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
 VERSION = 11
-RETRY_EMPTY = 2  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
+RETRY_EMPTY = 3  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
 RENDER = 3  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -230,6 +230,7 @@ def _critic(e: dict, blocks: list[dict]) -> list[dict]:
         listing = "\n".join(f"[{i}] {json.dumps(b, ensure_ascii=False)}" for i, b in enumerate(blocks))
         raw, _ = ask(LIGHT_CHAIN, CRITIC, f"ТЕКСТ:\n{_plain(e)[:12000]}\n\nБЛОКИ:\n{listing}", temperature=0.1)
         keep = {int(i) for i in extract_json(raw).get("keep") or [] if str(i).isdigit()}
+        _debug(e, "редактор", raw, {"keep": sorted(keep)})
         out = [b for i, b in enumerate(blocks) if i in keep]
         if len(out) < len(blocks):
             log(f"визуал: редактор снял {len(blocks) - len(out)} из {len(blocks)}")
@@ -296,6 +297,18 @@ def _add_series(e: dict, d: dict, pars: list) -> None:
         return
 
 
+def _debug(e: dict, step: str, raw: str, d) -> None:
+    """Журнал решений бильд-редактора: state/visuals-log.json, последние 60 записей — чтобы видеть, почему блока нет."""
+    try:
+        f = Path("state") / "visuals-log.json"
+        lg = json.loads(f.read_text(encoding="utf-8")) if f.exists() else []
+        lg.append({"text": e.get("headline", "")[:60], "step": step, "raw": (raw or "")[:1500], "kept": d})
+        f.parent.mkdir(exist_ok=True)
+        f.write_text(json.dumps(lg[-60:], ensure_ascii=False, indent=0), encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def plan(e: dict, recent: list[str] | None = None) -> dict:
     """Разметка визуальных блоков для текста (один лёгкий запрос). Пустой dict — нечего показывать."""
     try:
@@ -313,6 +326,7 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         chain = CHECK_CHAIN + LIGHT_CHAIN  # бильд-редактор — модель посильнее; квоты хватает: текст размечается один раз
         raw, _ = ask(chain, SYSTEM, head + numbered[:14000], temperature=0.3)
         d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
+        _debug(e, "план", raw, d)
         nums = len(re.findall(r"\d+(?:[.,]\d+)?", text))
         if e.get("kind") in ("note", "position") and not d.get("blocks") and nums >= 2:
             # второй заход для короткого текста: блок почти всегда есть, если в тексте две цифры одного показателя
@@ -320,6 +334,7 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
                     "штраф раньше и теперь, цена для одних и для других) или долю — и дай один блок. Ноль, только если таких цифр правда нет.")
             raw2, _ = ask(chain, SYSTEM, head + numbered[:14000] + more, temperature=0.5)
             d["blocks"] = _check(extract_json(raw2), text, len(pars), e.get("kind"))["blocks"]
+            _debug(e, "второй заход", raw2, d)
             log(f"визуал: второй заход «{e.get('headline', '')[:40]}» → {[b['type'] for b in d['blocks']]}")
         if e.get("kind") == "analysis" and len(d.get("blocks") or []) < 3 and len(pars) >= 8:
             # второй проход: добрать блоки к другим ходам, другими типами
