@@ -256,7 +256,8 @@ def caption(fmt: str, d: dict, url: str = "") -> str:
 
     if fmt == "week":
         body = "\n\n".join(f"<b>{html.escape(i['subject'])}.</b> {_inline(_cap(i['text']))}" for i in d.get("items", []))
-        return f"<code>НЕДЕЛЯ</code> · <i>{week_range()}</i>\n\n{body}"
+        sub = '\n\n<i>Неделя письмом — <a href="https://cuibono.press/podpiska">cuibono.press/podpiska</a></i>'
+        return f"<code>НЕДЕЛЯ</code> · <i>{week_range()}</i>\n\n{body}{sub}"
     title = f"<b>{_inline(plain(d['headline']))}</b>\n\n<i>{_inline(plain(d['subhead']))}</i>\n\n"
     if fmt == "position":
         body = "\n\n".join(_inline(p) for p in d.get("paragraphs", []))

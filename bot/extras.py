@@ -421,7 +421,7 @@ def build_hub(site: Path, page, abs_url) -> None:
         m = re.search(r'class="lead">(.*?)</p>', f.read_text(encoding="utf-8"), re.S)
         return re.sub(r"<[^>]+>", "", m.group(1)) if m else ""
     def bval(path):
-        m = re.search(r"<b>([^<]+)</b>", (site / path).read_text(encoding="utf-8")) if (site / path).exists() else None
+        m = re.search(r'class="lead">.*?<b>([^<]+)</b>', (site / path).read_text(encoding="utf-8"), re.S) if (site / path).exists() else None
         return m.group(1) if m else ""
     groups = [
         ("Банк России и рынок", [
@@ -713,7 +713,8 @@ def send_newsletter() -> int:
     htm = (f'<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#0B0D10;padding:24px">'
            f'<div style="font-size:28px">Cui Bono?</div><div style="font:12px monospace;color:#6B6F72">НЕДЕЛЯ ДО {today:%d.%m.%Y}</div>'
            f'{body}<p style="font:12px monospace;color:#6B6F72;margin-top:32px"><a href="{site_url}/data">Показатели</a> · '
-           f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p></div>')
+           f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p>'
+           f'<p style="font:13px Georgia,serif;color:#6B6F72">Вам переслали это письмо? Подписаться: <a href="{site_url}/podpiska">{site_url.split("//")[-1]}/podpiska</a></p></div>')
     h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
     r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
         "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
