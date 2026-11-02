@@ -221,7 +221,7 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
         words = [name.split(" (")[0].lower(), secid.lower()]
         rel = [p for p in posts if p.get("paragraphs") and any(w in (p["headline"] + " " + " ".join(
             x["name"] for x in p.get("entities") or [])).lower() for w in words)][:6]
-        body = (f'<div class="kicker">ПОКАЗАТЕЛИ · АКЦИИ</div><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
+        body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · АКЦИИ</a><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
                 f'<p class="lead">{lead}</p>' + (svg_chart(pts) if len(pts) > 2 else "")
                 + f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
                 f'Обновляется автоматически. <a href="/data/akcii">Все компании</a></p>'
@@ -282,7 +282,7 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
     webcal = "webcal://" + ics_url.split("://", 1)[-1]
     trs = "".join(f'<tr><td>{d:%d.%m.%Y}</td><td>{t}</td><td><a href="{u}">{html.escape(s)}</a></td></tr>'
                   for d, t, s, u in sorted(rows)[:60])
-    body = (f'<div class="kicker">ПОКАЗАТЕЛИ · КАЛЕНДАРЬ</div><h1>Календарь: заседания ЦБ и инфляция</h1>'
+    body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · КАЛЕНДАРЬ</a><h1>Календарь: заседания ЦБ и инфляция</h1>'
             f'<p class="lead">Следующее решение Банка России по ключевой ставке — '
             f'<b>{_ru(min(date.fromisoformat(d) for d in CBR_MEETINGS if date.fromisoformat(d) >= today))}</b>, пресс-релиз в 13:30 МСК. '
             f'Недельную инфляцию Росстат публикует по средам в 19:00.</p>'
@@ -340,7 +340,7 @@ def build_quiz(site: Path, page, abs_url) -> list[tuple[str, str]]:
     fmt = lambda x: ("+" if x > 0 else "") + _n(x, 1) + "%"  # noqa: E731
     btns = "".join(f'<button class="q" data-ok="{1 if o == right else 0}">{fmt(o)}</button>' for o in opts)
     answer = (f"Юань у ЦБ: {_n(v0, 4)} ₽ на {d0:%d.%m} и {_n(v1, 4)} ₽ на {d1:%d.%m}, изменение {fmt(right)}.")
-    body = (f'<div class="kicker">ЦИФРА НЕДЕЛИ</div><h1>Как изменился курс юаня за неделю?</h1>'
+    body = (f'<a class="kicker" href="/data">ЦИФРА НЕДЕЛИ</a><h1>Как изменился курс юаня за неделю?</h1>'
             f'<p class="sub">Официальный курс Банка России, {d0:%d.%m} — {d1:%d.%m.%Y}</p>'
             f'<div class="quiz">{btns}</div><p id="ans" class="lead" hidden>{html.escape(answer)} '
             f'<a href="/data/kurs-yuanya">График и история</a></p>'
@@ -547,7 +547,7 @@ def build_hawk(site: Path, page, abs_url, ld) -> list[tuple[str, str]]:
     delta = f", было {int(rel[-2][1]['score']):+d}" if len(rel) > 1 else ""
     lead = (f"Жёсткость риторики Банка России в пресс-релизе от {_ru(d)} — <b>{int(last['score']):+d}</b>{delta}. "
             "Шкала от −100 (только слова о замедлении инфляции) до +100 (только слова о проинфляционных рисках).")
-    body = (f'<div class="kicker">ПОКАЗАТЕЛИ · ИНДЕКС</div><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
+    body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · ИНДЕКС</a><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
             f'<p class="lead">{lead}</p>{diff}<h2 class="dh">История</h2><table class="data"><thead><tr><th>Дата</th>'
             f'<th>Индекс</th><th>Источник</th></tr></thead><tbody>{trend}</tbody></table>'
             '<p class="src">Расчёт Cui Bono? по текстам пресс-релизов Банка России: доля «жёстких» и «мягких» формулировок. '
@@ -606,7 +606,7 @@ def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
     rows = "".join(f'<tr><td>{date.fromisoformat(x["date"]):%d.%m}</td><td>{html.escape(x["src"])}</td>'
                    f'<td><a href="{html.escape(x["link"])}" rel="nofollow noopener">{html.escape(x["title"])}</a></td></tr>'
                    for x in seen[:200])
-    body = ('<div class="kicker">ПОКАЗАТЕЛИ · ДОКУМЕНТЫ</div><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
+    body = ('<a class="kicker" href="/data">ПОКАЗАТЕЛИ · ДОКУМЕНТЫ</a><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
             f'<p class="lead">Новые проекты актов, законопроекты и решения ведомств о налогах, банках, ценах и собственности. '
             f'За последнюю сборку добавлено: {added}.</p>'
             f'<table class="data"><thead><tr><th>Дата</th><th>Источник</th><th>Документ</th></tr></thead><tbody>{rows}</tbody></table>'
@@ -640,7 +640,7 @@ def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[st
         if len(ps) < 2:
             continue
         sl = _translit(r)
-        body = (f'<div class="kicker">РЕГИОНЫ</div><h1>{html.escape(r)}: экономика и бюджет</h1>'
+        body = (f'<a class="kicker" href="/r/regions">РЕГИОНЫ</a><h1>{html.escape(r)}: экономика и бюджет</h1>'
                 f'<p class="lead">{len(ps)} текстов Cui Bono? о том, что происходит с деньгами региона. '
                 f'Официальные цифры — <a href="https://www.roskazna.gov.ru/ispolnenie-byudzhetov/konsolidirovannye-byudzhety-subektov/" rel="nofollow noopener">исполнение бюджетов субъектов (Казначейство)</a>, '
                 f'<a href="https://minfin.gov.ru/ru/perfomance/public_debt/subdbt" rel="nofollow noopener">госдолг регионов (Минфин)</a>.</p>'

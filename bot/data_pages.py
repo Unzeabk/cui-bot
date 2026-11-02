@@ -248,7 +248,7 @@ def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, st
             w in (" ".join([p["headline"], p.get("subhead", "")] + [x["name"] for x in p.get("entities") or []])).lower()
             for w in low)][:8]
         rel_html = (f'<h2 class="dh">Тексты по теме</h2>{list_posts(rel, "../")}' if rel else "")
-        body = (f'<div class="kicker">ПОКАЗАТЕЛИ · обновлено {last_d:%d.%m.%Y}</div><h1>{html.escape(title)} на сегодня</h1>'
+        body = (f'<a class="kicker" href="/data">ПОКАЗАТЕЛИ · обновлено {last_d:%d.%m.%Y}</a><h1>{html.escape(title)} на сегодня</h1>'
                 f'<p class="lead">{lead}</p>{chart}{table}'
                 f'<p class="src">Источник: <a href="{src_url}" rel="nofollow noopener">{html.escape(src)}</a>. '
                 f'Страница обновляется автоматически.</p>{rel_html}')
@@ -262,7 +262,7 @@ def build_data(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, st
         urls.append((abs_url(f"data/{slug}"), last_d.isoformat()))
         cards.append((slug, title, value))
     if cards:
-        items = "".join(f'<li><div class="kicker">ПОКАЗАТЕЛИ</div><h2><a href="/data/{s}">{html.escape(t)}</a></h2>'
+        items = "".join(f'<li><a class="kicker" href="/data">ПОКАЗАТЕЛИ</a><h2><a href="/data/{s}">{html.escape(t)}</a></h2>'
                         f'<p class="sub">{html.escape(v)}</p></li>' for s, t, v in cards)
         (site / "data.html").write_text(page("Показатели: ставка ЦБ, курсы валют, индекс Мосбиржи, золото — Cui Bono?",
                                              "Ключевая ставка, официальные курсы доллара, евро и юаня, индекс Мосбиржи и цена золота — на сегодня и в истории.",
