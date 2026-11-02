@@ -19,6 +19,9 @@ const SLOTS = [
   { cron: "52 17 * * *", wf: "formats.yml", format: "position" },  // 20:52 Позиция
   // рассылка: сб 14:17 МСК, после «Недели»; у неё нет входов
   { cron: "17 11 * * 6", wf: "newsletter.yml", plain: true },
+  // разовая проверка будильника 2 ноября: разбор в 17:22 UTC, запасной 17:37 (пропустится, если первый вышел)
+  { cron: "22 17 * * *", wf: "formats.yml", format: "analysis", once: "2026-11-02" },
+  { cron: "37 17 * * *", wf: "formats.yml", format: "analysis", once: "2026-11-02" },
 ];
 const REPO = "Unzeabk/cui-bot";
 
@@ -45,7 +48,7 @@ async function dispatch(env, s) {
 export default {
   async scheduled(event, env, ctx) {
     const d = new Date(event.scheduledTime);
-    for (const s of SLOTS) if (due(s.cron, d)) ctx.waitUntil(dispatch(env, s));
+    for (const s of SLOTS) if (due(s.cron, d) && (!s.once || d.toISOString().startsWith(s.once))) ctx.waitUntil(dispatch(env, s));
   },
   async fetch(req, env) {
     if (new URL(req.url).pathname === "/check") {
