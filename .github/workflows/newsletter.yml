@@ -1,6 +1,6 @@
 name: Cui Bono — рассылка
 
-# Субботнее письмо через Buttondown. Нужны secrets.BUTTONDOWN_API_KEY и vars.BUTTONDOWN_USER.
+# Субботнее письмо через Brevo. Нужны secrets.BREVO_API_KEY, vars.BREVO_LIST_ID, vars.BREVO_SENDER.
 on:
   workflow_dispatch:
   schedule:
@@ -18,6 +18,8 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - env:
-          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
+          BREVO_SENDER: ${{ vars.BREVO_SENDER }}
           SITE_URL: ${{ vars.SITE_URL || 'https://cuibono.press' }}
         run: python -m bot.extras newsletter

@@ -221,7 +221,7 @@ def build_dividends(site: Path, page, abs_url, list_posts, posts, ld) -> tuple[l
         words = [name.split(" (")[0].lower(), secid.lower()]
         rel = [p for p in posts if p.get("paragraphs") and any(w in (p["headline"] + " " + " ".join(
             x["name"] for x in p.get("entities") or [])).lower() for w in words)][:6]
-        body = (f'<div class="kicker">ДАННЫЕ · АКЦИИ</div><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
+        body = (f'<div class="kicker">ПОКАЗАТЕЛИ · АКЦИИ</div><h1>{html.escape(name)}: акции {secid} сегодня</h1>'
                 f'<p class="lead">{lead}</p>' + (svg_chart(pts) if len(pts) > 2 else "")
                 + f'<p class="src">Источник: <a href="https://www.moex.com/ru/issue.aspx?code={secid}" rel="nofollow noopener">Московская биржа</a>. '
                 f'Обновляется автоматически. <a href="/data/akcii">Все компании</a></p>'
@@ -282,7 +282,7 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
     webcal = "webcal://" + ics_url.split("://", 1)[-1]
     trs = "".join(f'<tr><td>{d:%d.%m.%Y}</td><td>{t}</td><td><a href="{u}">{html.escape(s)}</a></td></tr>'
                   for d, t, s, u in sorted(rows)[:60])
-    body = (f'<div class="kicker">ДАННЫЕ · КАЛЕНДАРЬ</div><h1>Календарь: заседания ЦБ и инфляция</h1>'
+    body = (f'<div class="kicker">ПОКАЗАТЕЛИ · КАЛЕНДАРЬ</div><h1>Календарь: заседания ЦБ и инфляция</h1>'
             f'<p class="lead">Следующее решение Банка России по ключевой ставке — '
             f'<b>{_ru(min(date.fromisoformat(d) for d in CBR_MEETINGS if date.fromisoformat(d) >= today))}</b>, пресс-релиз в 13:30 МСК. '
             f'Недельную инфляцию Росстат публикует по средам в 19:00.</p>'
@@ -358,7 +358,7 @@ def build_quiz(site: Path, page, abs_url) -> list[tuple[str, str]]:
 def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str, str]]:
     body = ('<h1 class="sec">Перепечатка</h1><article>'
             '<p>Заметки, позиции и разборы издания можно перепечатывать целиком, без изменений, с активной ссылкой '
-            'на оригинал на cuibono.press. Данные со страниц раздела «Данные» можно использовать с той же ссылкой.</p>'
+            'на оригинал на cuibono.press. Цифры со страниц раздела «Показатели» можно использовать с той же ссылкой.</p>'
             '<p>Лицензия: <a href="https://creativecommons.org/licenses/by-nd/4.0/deed.ru" rel="license noopener">CC BY-ND 4.0</a>.</p>'
             '</article>')
     (site / "perepechatka.html").write_text(page(f"Перепечатка — {TITLE}", "Условия перепечатки материалов издания.",
@@ -366,7 +366,7 @@ def build_static(site: Path, page, abs_url, posts: list[dict]) -> list[tuple[str
     top = [p for p in posts if p.get("kind") == "analysis" and p.get("slug")][:20]
     llms = ("# Cui Bono?\n\n> Аналитическое издание об экономике и власти (Россия). Ежедневные разборы, "
             "позиция редакции и страницы официальных данных (ЦБ, Мосбиржа), обновляемые автоматически.\n\n"
-            "## Данные\n"
+            "## Показатели\n"
             f"- [Ключевая ставка ЦБ]({abs_url('data/klyuchevaya-stavka')})\n- [Курс доллара ЦБ]({abs_url('data/kurs-dollara')})\n"
             f"- [Курс юаня ЦБ]({abs_url('data/kurs-yuanya')})\n- [Индекс Мосбиржи]({abs_url('data/indeks-mosbirzhi')})\n"
             f"- [Акции крупнейших компаний]({abs_url('data/akcii')})\n- [Календарь заседаний ЦБ]({abs_url('calendar')})\n"
@@ -443,7 +443,7 @@ def build_hub(site: Path, page, abs_url) -> None:
         ]),
         ("Цифра недели", [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
     ]
-    body = '<h1 class="sec">Данные</h1>'
+    body = '<h1 class="sec">Показатели</h1>'
     for name, items in groups:
         tiles = ""
         for path, title, val, desc in items:
@@ -458,7 +458,7 @@ def build_hub(site: Path, page, abs_url) -> None:
         if tiles:
             body += f'<h2 class="hubh">{name}</h2><div class="hub">{tiles}</div>'
     (site / "data.html").write_text(page(
-        "Данные: ставка ЦБ, курсы, индекс Мосбиржи, дивиденды, календарь — Cui Bono?",
+        "Показатели: ставка ЦБ, курсы, индекс Мосбиржи, дивиденды, календарь — Cui Bono?",
         "Ключевая ставка и риторика ЦБ, официальные курсы, индекс Мосбиржи, золото, дивиденды, календарь заседаний и новые законопроекты.",
         body, abs_url("data")), encoding="utf-8")
 
@@ -547,7 +547,7 @@ def build_hawk(site: Path, page, abs_url, ld) -> list[tuple[str, str]]:
     delta = f", было {int(rel[-2][1]['score']):+d}" if len(rel) > 1 else ""
     lead = (f"Жёсткость риторики Банка России в пресс-релизе от {_ru(d)} — <b>{int(last['score']):+d}</b>{delta}. "
             "Шкала от −100 (только слова о замедлении инфляции) до +100 (только слова о проинфляционных рисках).")
-    body = (f'<div class="kicker">ДАННЫЕ · ИНДЕКС</div><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
+    body = (f'<div class="kicker">ПОКАЗАТЕЛИ · ИНДЕКС</div><h1>Жёсткость ЦБ: что изменилось в словах регулятора</h1>'
             f'<p class="lead">{lead}</p>{diff}<h2 class="dh">История</h2><table class="data"><thead><tr><th>Дата</th>'
             f'<th>Индекс</th><th>Источник</th></tr></thead><tbody>{trend}</tbody></table>'
             '<p class="src">Расчёт Cui Bono? по текстам пресс-релизов Банка России: доля «жёстких» и «мягких» формулировок. '
@@ -606,7 +606,7 @@ def build_docs(site: Path, page, abs_url) -> list[tuple[str, str]]:
     rows = "".join(f'<tr><td>{date.fromisoformat(x["date"]):%d.%m}</td><td>{html.escape(x["src"])}</td>'
                    f'<td><a href="{html.escape(x["link"])}" rel="nofollow noopener">{html.escape(x["title"])}</a></td></tr>'
                    for x in seen[:200])
-    body = ('<div class="kicker">ДАННЫЕ · ДОКУМЕНТЫ</div><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
+    body = ('<div class="kicker">ПОКАЗАТЕЛИ · ДОКУМЕНТЫ</div><h1>Что готовят: новые проекты законов и решений о деньгах</h1>'
             f'<p class="lead">Новые проекты актов, законопроекты и решения ведомств о налогах, банках, ценах и собственности. '
             f'За последнюю сборку добавлено: {added}.</p>'
             f'<table class="data"><thead><tr><th>Дата</th><th>Источник</th><th>Документ</th></tr></thead><tbody>{rows}</tbody></table>'
@@ -662,44 +662,64 @@ def build_regions(site: Path, page, abs_url, list_posts, posts) -> list[tuple[st
     return urls
 
 
-# ---------- рассылка (Buttondown: регистрация на почту издания, без имени) ----------
+# ---------- рассылка (Brevo) ----------
+# vars: BREVO_FORM_URL (адрес формы подписки из Brevo), BREVO_LIST_ID, BREVO_SENDER (почта отправителя);
+# secret: BREVO_API_KEY. Страница /podpiska появляется, когда задан BREVO_FORM_URL.
 
 def build_subscribe(site: Path, page, abs_url) -> list[tuple[str, str]]:
-    user = os.environ.get("BUTTONDOWN_USER", "").strip()
-    if not user:
+    form_url = os.environ.get("BREVO_FORM_URL", "").strip()
+    if not form_url:
         return []
-    form = (f'<form action="https://buttondown.com/api/emails/embed-subscribe/{html.escape(user)}" method="post" target="_blank">'
-            '<input type="email" name="email" placeholder="почта" required style="padding:10px;font-size:16px;width:260px">'
-            '<button type="submit" style="padding:10px 18px;font-size:16px">Подписаться</button></form>')
-    body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: шесть событий недели, разборы и цифры. '
+    form = (f'<form class="sub-form" action="{html.escape(form_url)}" method="post" target="_blank">'
+            '<input type="email" name="EMAIL" placeholder="почта" required autocomplete="email">'
+            '<input type="text" name="email_address_check" value="" style="display:none">'
+            '<input type="hidden" name="locale" value="ru">'
+            '<button type="submit">Подписаться</button></form>')
+    body = ('<h1 class="sec">Письмо по субботам</h1><article><p>Раз в неделю: разборы, позиция редакции и главные цифры. '
             f'Telegram и сайты могут замедлить, почту — нет.</p>{form}</article>')
-    (site / "podpiska.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: события недели, разборы, цифры.",
+    (site / "podpiska.html").write_text(page(f"Рассылка — {TITLE}", "Еженедельное письмо: разборы, позиция, цифры.",
                                              body, abs_url("podpiska")), encoding="utf-8")
     return [(abs_url("podpiska"), "")]
 
 
 def send_newsletter() -> int:
-    """Субботнее письмо: разборы и позиции за неделю. Запуск: python -m bot.extras newsletter"""
-    key = os.environ.get("BUTTONDOWN_API_KEY")
-    if not key:
-        log("рассылка: нет BUTTONDOWN_API_KEY, пропускаю")
+    """Субботнее письмо через Brevo. Запуск: python -m bot.extras newsletter"""
+    key, list_id, sender = (os.environ.get(k, "").strip() for k in ("BREVO_API_KEY", "BREVO_LIST_ID", "BREVO_SENDER"))
+    if not (key and list_id and sender):
+        log("рассылка: нет BREVO_API_KEY / BREVO_LIST_ID / BREVO_SENDER, пропускаю")
         return 0
     site_url = (os.environ.get("SITE_URL") or "https://cuibono.press").rstrip("/")
     from .site import _slug
     posts = json.loads((Path("state") / "site-posts.json").read_text(encoding="utf-8"))
     since = (datetime.now(TZ) - timedelta(days=7)).isoformat()
     week = sorted([p for p in posts if p["time_iso"] >= since and p.get("paragraphs")], key=lambda p: p["time_iso"], reverse=True)
-    def block(kind, name):
-        ps = [p for p in week if p.get("kind") == kind][:7]
-        return (f"## {name}\n\n" + "".join(f"**[{p['headline']}]({site_url}/p/{_slug(p)})**  \n{p.get('subhead', '')}\n\n" for p in ps)) if ps else ""
-    md = block("analysis", "Разборы") + block("position", "Позиция") + block("note", "Заметки")
-    if not md:
+    def block(kind, name, n):
+        ps = [p for p in week if p.get("kind") == kind][:n]
+        if not ps:
+            return ""
+        items = "".join(f'<p style="margin:0 0 18px"><a href="{site_url}/p/{_slug(p)}" style="color:#0B0D10;font-weight:600;font-size:18px;text-decoration:none">'
+                        f'{html.escape(p["headline"])}</a><br><span style="color:#555;font-style:italic">{html.escape(p.get("subhead", ""))}</span></p>' for p in ps)
+        return f'<h3 style="font:12px monospace;letter-spacing:.08em;color:#6B6F72;margin:28px 0 12px">{name.upper()}</h3>{items}'
+    body = block("analysis", "Разборы", 7) + block("position", "Позиция", 4) + block("note", "Заметки", 6)
+    if not body:
+        log("рассылка: за неделю нечего отправлять")
         return 0
-    md += f"\n---\n[Данные]({site_url}/data) · [Календарь]({site_url}/calendar) · [Telegram](https://t.me/cuibono_press)\n"
-    r = requests.post("https://api.buttondown.com/v1/emails", headers={"Authorization": f"Token {key}"},
-                      json={"subject": f"Cui Bono? — неделя до {_ru(datetime.now(TZ).date())}", "body": md, "status": "about_to_send"},
-                      timeout=60)
-    log(f"рассылка: {r.status_code} {r.text[:200]}")
+    today = datetime.now(TZ).date()
+    htm = (f'<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;color:#0B0D10;padding:24px">'
+           f'<div style="font-size:28px">Cui Bono?</div><div style="font:12px monospace;color:#6B6F72">НЕДЕЛЯ ДО {today:%d.%m.%Y}</div>'
+           f'{body}<p style="font:12px monospace;color:#6B6F72;margin-top:32px"><a href="{site_url}/data">Показатели</a> · '
+           f'<a href="https://t.me/cuibono_press">Telegram</a> · <a href="{{{{ unsubscribe }}}}">Отписаться</a></p></div>')
+    h = {"api-key": key, "content-type": "application/json", "accept": "application/json"}
+    r = requests.post("https://api.brevo.com/v3/emailCampaigns", headers=h, timeout=60, json={
+        "name": f"Неделя {today:%Y-%m-%d}", "subject": f"Cui Bono? — неделя до {_ru(today)}",
+        "sender": {"name": "Cui Bono?", "email": sender}, "htmlContent": htm,
+        "recipients": {"listIds": [int(list_id)]}})
+    if not r.ok:
+        log(f"рассылка: кампания не создана {r.status_code} {r.text[:300]}")
+        return 1
+    cid = r.json()["id"]
+    r = requests.post(f"https://api.brevo.com/v3/emailCampaigns/{cid}/sendNow", headers=h, timeout=60)
+    log(f"рассылка: кампания {cid}, отправка {r.status_code} {r.text[:200]}")
     return 0 if r.ok else 1
 
 

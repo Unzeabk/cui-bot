@@ -48,6 +48,7 @@ MONTHS = ["января", "февраля", "марта", "апреля", "ма�
 MONTHS_NOM = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
               "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 HOME_LIMIT = 60
+PAGE = 25  # текстов на странице ленты
 TOPIC_MIN = 3  # страница темы попадает в индекс, когда по ней не меньше трёх текстов
 FOOTER_TOPICS = ""
 
@@ -312,6 +313,15 @@ table.data td,table.data th{border-bottom:1px solid var(--rule);padding:7px 0;te
 table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:not(:first-child){text-align:right}
 .src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
+ul.list li{padding:14px 0}ul.list h2{font-size:20px;line-height:1.28;margin:4px 0 2px}ul.list .sub{font-size:15px;line-height:1.45}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.row time{font:11px "IBM Plex Mono",monospace;color:var(--mute);white-space:nowrap}
+.lead-item{border-bottom:1px solid var(--cold);padding:4px 0 22px;margin-bottom:4px}
+.lead-item h2{font:600 30px/1.18 Commissioner,sans-serif;margin:8px 0 8px}.lead-item h2 a{text-decoration:none}
+.lead-item .sub{font-size:18px;margin:0}
+nav.pager{display:flex;justify-content:space-between;font:12px "IBM Plex Mono",monospace;color:var(--mute);margin:26px 0 8px;letter-spacing:.04em}
+nav.pager a{color:var(--cold);text-decoration:none}
+header.top{margin-bottom:28px}
 nav.menu{display:flex;gap:18px;flex-wrap:wrap;font:13px "IBM Plex Mono",monospace;letter-spacing:.04em}
 nav.menu a{color:var(--cold);text-decoration:none}nav.menu a:hover{color:var(--ink)}nav.menu a.tg{color:var(--ink)}
 header.top .wrap{flex-wrap:wrap;gap:10px 24px}
@@ -328,6 +338,8 @@ footer .topics{border-bottom:1px solid var(--rule);padding-bottom:14px}
 .hub .v{font:600 24px Commissioner,sans-serif;margin:6px 0 2px;color:var(--ink)}
 .hub .d{font-size:14px;color:var(--cold);line-height:1.4}
 h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);font-weight:400;text-transform:uppercase;margin:0 0 10px}
+.sub-form{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.sub-form input[type=email]{flex:1;min-width:220px;padding:12px;font:16px Commissioner,sans-serif;background:#15191e;color:var(--ink);border:1px solid #2F343C}
+.sub-form button{padding:12px 22px;font:600 16px Commissioner,sans-serif;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
 .quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
 .q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
 .q.ok{border-color:var(--ink)}.q.no{opacity:.4}
@@ -347,7 +359,7 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
        "publishingPrinciples": f"{SITE_URL}/about"}
 
 
-SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if os.environ.get("BUTTONDOWN_USER") else ""
+SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if os.environ.get("BREVO_FORM_URL") else ""
 
 
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
@@ -393,13 +405,13 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 {verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
-<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Данные</a><a href="/archive">Архив</a><a class="tg" href="{CHANNEL_URL}">Telegram</a></nav></div></header>
+<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Показатели</a><a href="/archive">Архив</a><a class="tg" href="{CHANNEL_URL}">Telegram ↗</a></nav></div></header>
 <main class="wrap">{body}</main>
 <footer class="wrap"><div>{FOOTER_TOPICS}<div class="fcols">
 <div><b>Издание</b><a href="/archive">Архив</a><a href="/about">Об издании</a><a href="/perepechatka">Перепечатка</a><a href="/en/">English</a></div>
-<div><b>Данные</b><a href="/data/klyuchevaya-stavka">Ключевая ставка</a><a href="/data/kurs-dollara">Курсы ЦБ</a><a href="/calendar">Календарь ЦБ</a><a href="/data">Все данные →</a></div>
+<div><b>Показатели</b><a href="/data/klyuchevaya-stavka">Ключевая ставка</a><a href="/data/kurs-dollara">Курсы ЦБ</a><a href="/calendar">Календарь ЦБ</a><a href="/data">Все показатели →</a></div>
 <div><b>Читать</b><a href="{CHANNEL_URL}">Telegram</a>{SUBSCRIBE_LINK}<a href="/feed.xml">RSS</a></div>
-</div><p class="fdesc">{DESCRIPTION}.</p></div></footer>
+</div></div></footer>
 </body></html>"""
 
 
@@ -416,13 +428,35 @@ def _ld(obj: dict) -> str:
 
 
 def _nav(sections: list[str], up: str) -> str:
-    return '<nav class="sec"><a href="/data">Данные</a>' + "".join(f'<a href="/r/{s}">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
+    return '<nav class="sec"><a href="/data">Показатели</a>' + "".join(f'<a href="/r/{s}">{_esc(SECTION_TITLE[s])}</a>' for s in sections) + "</nav>"
+
+
+def _when(iso: str) -> str:
+    d = _dt(iso)
+    return f"{d.day} {MONTHS[d.month - 1][:3]} · {d:%H:%M}"
 
 
 def _list(posts: list[dict], up: str) -> str:
     return '<ul class="list">' + "".join(
-        f'<li>{_kicker_html(p, up)}<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
+        f'<li><div class="row">{_kicker_html(p, up)}<time>{_when(p["time_iso"])}</time></div>'
+        f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
         f'<p class="sub">{_esc(p.get("subhead", ""))}</p></li>' for p in posts) + "</ul>"
+
+
+def _lead(p: dict) -> str:
+    """Главный текст на первой странице: свежий разбор крупно."""
+    return (f'<div class="lead-item"><div class="row">{_kicker_html(p, "")}<time>{_when(p["time_iso"])}</time></div>'
+            f'<h2><a href="/p/{p["slug"]}">{_esc(p["headline"])}</a></h2>'
+            f'<p class="sub">{_esc(p.get("subhead", ""))}</p></div>')
+
+
+def _pager(n: int, total: int) -> str:
+    if total <= 1:
+        return ""
+    prev = (f'<a href="{"/" if n == 2 else f"/page/{n - 1}"}">← Новее</a>' if n > 1 else "<span></span>")
+    nxt = (f'<a href="/page/{n + 1}">Раньше →</a>' if n < total else "<span></span>")
+    return f'<nav class="pager">{prev}<span>{n} / {total}</span>{nxt}</nav>'
+
 
 
 # ---------- страницы ----------
@@ -734,11 +768,21 @@ def build(site: Path) -> int:
     # главная
     home_ld = _ld({"@context": "https://schema.org", "@type": "WebSite", "name": TITLE, "url": _abs("index.html"),
                    "inLanguage": "ru", "publisher": ORG})
-    home = (_nav(sections, "") + _list(posts[:HOME_LIMIT], "")
-            + (f'<a class="all" href="/archive">Все тексты →</a>' if len(posts) > HOME_LIMIT else ""))
-    (site / "index.html").write_text(
-        _page(f"{TITLE} — {DESCRIPTION.lower()}", DESCRIPTION + ": заметки, разборы и позиция редакции каждый день.",
-              home, _abs("index.html"), extra_head=home_ld), encoding="utf-8")
+    lead = next((p for p in posts[:12] if p.get("kind") == "analysis" and _indexable(p)), None)
+    rest = [p for p in posts if p is not lead]
+    pages = [rest[i:i + PAGE] for i in range(0, len(rest), PAGE)] or [[]]
+    shutil.rmtree(site / "page", ignore_errors=True)
+    (site / "page").mkdir(exist_ok=True)
+    for n, chunk in enumerate(pages, 1):
+        body = ((_lead(lead) if n == 1 and lead else "") + _list(chunk, "") + _pager(n, len(pages)))
+        if n == 1:
+            (site / "index.html").write_text(
+                _page(f"{TITLE} — {DESCRIPTION.lower()}", DESCRIPTION + ": заметки, разборы и позиция редакции каждый день.",
+                      body, _abs("index.html"), extra_head=home_ld), encoding="utf-8")
+        else:
+            (site / "page" / f"{n}.html").write_text(
+                _page(f"{TITLE} — страница {n}", f"Тексты {TITLE}, страница {n}.", body, _abs(f"page/{n}.html"), depth=1),
+                encoding="utf-8")
 
     # рубрики
     for sec in sections:
