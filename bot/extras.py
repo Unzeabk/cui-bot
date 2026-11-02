@@ -169,8 +169,11 @@ def build_en(site: Path, posts: list[dict], abs_url, ld) -> list[tuple[str, str]
 # ---------- дивиденды ----------
 
 def _dividends(secid: str) -> list[dict]:
-    r = requests.get(f"https://iss.moex.com/iss/securities/{secid}/dividends.json",
-                     params={"iss.meta": "off"}, headers=UA, timeout=30).json()
+    resp = requests.get(f"https://iss.moex.com/iss/securities/{secid}/dividends.json",
+                        params={"iss.meta": "off"}, headers=UA, timeout=30)
+    r = resp.json()
+    if "dividends" not in r:
+        raise RuntimeError(f"нет блока dividends: {resp.status_code} {list(r)[:5]} {resp.text[:150]}")
     cols = r["dividends"]["columns"]
     rows = [dict(zip(cols, x)) for x in r["dividends"]["data"]]
     return sorted([x for x in rows if x.get("registryclosedate") and x.get("value") is not None],
@@ -298,9 +301,30 @@ def build_calendar(site: Path, page, abs_url, upcoming: list[tuple[date, str, st
 
 # ---------- «угадай цифру» ----------
 
+def _cny_points() -> list[tuple[date, float]]:
+    """Курс юаня ЦБ. cbr.ru из GitHub Actions часто отдаёт заглушку — тогда зеркало cbr-xml-daily.ru."""
+    try:
+        from .data_pages import currency_history
+        pts = currency_history("R01375", days=30)
+        if len(pts) >= 6:
+            return pts
+    except Exception as e:  # noqa: BLE001
+        log(f"игра: cbr.ru не ответил ({e}), беру зеркало")
+    out, d = [], datetime.now(TZ).date()
+    for _ in range(16):
+        try:
+            r = requests.get(f"https://www.cbr-xml-daily.ru/archive/{d:%Y/%m/%d}/daily_json.js", headers=UA, timeout=20)
+            if r.ok:
+                v = r.json()["Valute"]["CNY"]
+                out.append((d, v["Value"] / v["Nominal"]))
+        except Exception:  # noqa: BLE001
+            pass
+        d -= timedelta(days=1)
+    return sorted(out)
+
+
 def build_quiz(site: Path, page, abs_url) -> list[tuple[str, str]]:
-    from .data_pages import currency_history
-    pts = currency_history("R01375", days=30)
+    pts = _cny_points()
     if len(pts) < 6:
         return []
     (d1, v1) = pts[-1]
@@ -322,9 +346,7 @@ def build_quiz(site: Path, page, abs_url) -> list[tuple[str, str]]:
             f'<p class="sub">Официальный курс Банка России, {d0:%d.%m} — {d1:%d.%m.%Y}</p>'
             f'<div class="quiz">{btns}</div><p id="ans" class="lead" hidden>{html.escape(answer)} '
             f'<a href="/data/kurs-yuanya">График и история</a></p>'
-            '<style>.quiz{display:flex;gap:12px;margin:24px 0}.q{font:600 20px Commissioner,sans-serif;padding:14px 22px;'
-            'background:#15191e;color:#EDE9E2;border:1px solid #2F343C;cursor:pointer}.q.ok{border-color:#EDE9E2}.q.no{opacity:.4}</style>'
-            '<script>document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{document.querySelectorAll(".q").forEach(x=>'
+'<script>document.querySelectorAll(".q").forEach(b=>b.onclick=()=>{document.querySelectorAll(".q").forEach(x=>'
             'x.classList.add(x.dataset.ok==="1"?"ok":"no"));document.getElementById("ans").hidden=false;'
             'try{ym&&0}catch(e){}})</script>')
     (site / "data" / "igra.html").write_text(page(f"Цифра недели: курс юаня за неделю — {TITLE}",
@@ -383,7 +405,64 @@ def build_extras(site, page, abs_url, list_posts, posts, ld) -> list[tuple[str, 
         urls += build_calendar(site, page, abs_url, upcoming)
     except Exception as e:  # noqa: BLE001
         log(f"календарь: сборка не удалась ({e})")
+    try:
+        build_hub(site, page, abs_url)
+    except Exception as e:  # noqa: BLE001
+        log(f"витрина данных: сборка не удалась ({e})")
     return urls
+
+
+def build_hub(site: Path, page, abs_url) -> None:
+    """/data — витрина всех данных: плитки по группам, только страницы, которые реально есть."""
+    old = (site / "data.html").read_text(encoding="utf-8") if (site / "data.html").exists() else ""
+    vals = dict(re.findall(r'<a href="/data/([a-z-]+)">[^<]*</a></h2><p class="sub">([^<]*)</p>', old))
+    def lead(path):
+        f = site / path
+        if not f.exists():
+            return None
+        m = re.search(r'class="lead">(.*?)</p>', f.read_text(encoding="utf-8"), re.S)
+        return re.sub(r"<[^>]+>", "", m.group(1)) if m else ""
+    def bval(path):
+        m = re.search(r"<b>([^<]+)</b>", (site / path).read_text(encoding="utf-8")) if (site / path).exists() else None
+        return m.group(1) if m else ""
+    groups = [
+        ("Банк России и рынок", [
+            ("data/klyuchevaya-stavka", "Ключевая ставка", vals.get("klyuchevaya-stavka"), "Решения ЦБ и история с 2013 года"),
+            ("data/zhestkost-cb", "Жёсткость ЦБ", None, "Риторика пресс-релизов: что добавилось, что ушло"),
+            ("data/kurs-dollara", "Доллар", vals.get("kurs-dollara"), "Официальный курс ЦБ"),
+            ("data/kurs-yuanya", "Юань", vals.get("kurs-yuanya"), "Официальный курс ЦБ"),
+            ("data/kurs-evro", "Евро", vals.get("kurs-evro"), "Официальный курс ЦБ"),
+            ("data/indeks-mosbirzhi", "Индекс Мосбиржи", vals.get("indeks-mosbirzhi"), "IMOEX за год"),
+            ("data/zoloto", "Золото", vals.get("zoloto"), "Учётная цена ЦБ за грамм"),
+        ]),
+        ("Компании и даты", [
+            ("data/dividendy/index", "Дивиденды", None, "32 крупнейшие компании, ближайшие отсечки"),
+            ("calendar", "Календарь", None, "Заседания ЦБ, инфляция, отсечки — с подпиской"),
+        ]),
+        ("Власть и регионы", [
+            ("data/dokumenty", "Что готовят", None, "Новые проекты законов о налогах, банках, ценах"),
+            ("region/index", "Регионы", None, "Экономика и бюджеты регионов"),
+        ]),
+        ("Цифра недели", [("data/igra", "Угадайте цифру", None, "Как изменился юань за неделю?")]),
+    ]
+    body = '<h1 class="sec">Данные</h1>'
+    for name, items in groups:
+        tiles = ""
+        for path, title, val, desc in items:
+            if not (site / f"{path}.html").exists():
+                continue
+            if not val and name == "Банк России и рынок":
+                val = bval(f"{path}.html")
+            href = "/" + path.removesuffix("/index").removesuffix("index")
+            tiles += (f'<a href="{href}"><div class="k">{html.escape(title)}</div>'
+                      + (f'<div class="v">{html.escape(val)}</div>' if val else "")
+                      + f'<div class="d">{html.escape(desc)}</div></a>')
+        if tiles:
+            body += f'<h2 class="hubh">{name}</h2><div class="hub">{tiles}</div>'
+    (site / "data.html").write_text(page(
+        "Данные: ставка ЦБ, курсы, индекс Мосбиржи, дивиденды, календарь — Cui Bono?",
+        "Ключевая ставка и риторика ЦБ, официальные курсы, индекс Мосбиржи, золото, дивиденды, календарь заседаний и новые законопроекты.",
+        body, abs_url("data")), encoding="utf-8")
 
 
 # ---------- «Жёсткость ЦБ»: дифф пресс-релизов о ставке ----------
@@ -491,7 +570,6 @@ DOC_FEEDS = [
     ("Проекты актов", "https://regulation.gov.ru/api/public/Rss/"),
     ("Проекты актов", "https://regulation.gov.ru/rss"),
     ("Законопроекты", "https://sozd.duma.gov.ru/rss/bills"),
-    ("Банк России", "https://www.cbr.ru/rss/eventrss"),
     ("Минфин", "https://minfin.gov.ru/ru/press-center/rss"),
 ]
 DOC_WORDS = ["налог", "бюджет", "пошлин", "банк", "валют", "вклад", "ипотек", "акци", "дивиденд", "санкц", "экспорт",

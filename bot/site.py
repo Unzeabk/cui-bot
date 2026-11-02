@@ -312,6 +312,26 @@ table.data td,table.data th{border-bottom:1px solid var(--rule);padding:7px 0;te
 table.data th{color:var(--mute)}table.data td:not(:first-child),table.data th:not(:first-child){text-align:right}
 .src{font-size:14px;color:var(--cold);margin-top:22px}
 footer a{color:var(--cold)}
+nav.menu{display:flex;gap:18px;flex-wrap:wrap;font:13px "IBM Plex Mono",monospace;letter-spacing:.04em}
+nav.menu a{color:var(--cold);text-decoration:none}nav.menu a:hover{color:var(--ink)}nav.menu a.tg{color:var(--ink)}
+header.top .wrap{flex-wrap:wrap;gap:10px 24px}
+.fcols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:18px}
+.fcols b{display:block;color:var(--mute);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.fcols a{display:block;text-decoration:none;line-height:2}.fcols a:hover{color:var(--ink)}
+.fdesc{margin-top:22px!important}
+footer .topics{border-bottom:1px solid var(--rule);padding-bottom:14px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hub{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:0 0 34px}
+.hub a{background:var(--bg);padding:16px 18px;text-decoration:none;display:block;min-height:96px}
+.hub a:hover{background:#12161b}
+.hub .k{font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.hub .v{font:600 24px Commissioner,sans-serif;margin:6px 0 2px;color:var(--ink)}
+.hub .d{font-size:14px;color:var(--cold);line-height:1.4}
+h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mute);font-weight:400;text-transform:uppercase;margin:0 0 10px}
+.quiz{display:flex;gap:12px;margin:24px 0;flex-wrap:wrap}
+.q{font:600 20px Commissioner,sans-serif;padding:14px 22px;background:#15191e;color:var(--ink);border:1px solid #2F343C;cursor:pointer}
+.q.ok{border-color:var(--ink)}.q.no{opacity:.4}
+@media(max-width:560px){h1{font-size:28px}.hub{grid-template-columns:1fr}.fcols{grid-template-columns:1fr 1fr}nav.menu{gap:14px;font-size:12px}}
 """
 
 CSS_V = ""  # версия стилей: браузер берёт свежий файл после каждого изменения
@@ -327,7 +347,7 @@ ORG = {"@type": "NewsMediaOrganization", "name": TITLE, "description": DESCRIPTI
        "publishingPrinciples": f"{SITE_URL}/about"}
 
 
-SUBSCRIBE_LINK = ' <a href="/podpiska">Рассылка</a> ·' if os.environ.get("BUTTONDOWN_USER") else ""
+SUBSCRIBE_LINK = '<a href="/podpiska">Письмо по субботам</a>' if os.environ.get("BUTTONDOWN_USER") else ""
 
 
 def _page(title: str, desc: str, body: str, canonical: str, image: str = "", depth: int = 0,
@@ -373,9 +393,13 @@ def _page(title: str, desc: str, body: str, canonical: str, image: str = "", dep
 {verify}{metrika}{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{extra_head}
 </head><body>
 <header class="top"><div class="wrap"><a class="mark" href="/">Cui Bono?</a>
-<a class="chan" href="{CHANNEL_URL}">t.me/{CHANNEL}</a></div></header>
+<nav class="menu"><a href="/r/analysis">Разборы</a><a href="/r/position">Позиция</a><a href="/data">Данные</a><a href="/archive">Архив</a><a class="tg" href="{CHANNEL_URL}">Telegram</a></nav></div></header>
 <main class="wrap">{body}</main>
-<footer class="wrap"><div>{FOOTER_TOPICS}<p>{DESCRIPTION}. Telegram: <a href="{CHANNEL_URL}">@{CHANNEL}</a> · <a href="/data">Данные</a> · <a href="/calendar">Календарь</a> · <a href="/data/zhestkost-cb">Жёсткость ЦБ</a> · <a href="/data/dokumenty">Документы</a> · <a href="/region/">Регионы</a> ·{SUBSCRIBE_LINK} <a href="/data/dividendy">Дивиденды</a> · <a href="/archive">Архив</a> · <a href="/en/">English</a> · <a href="/perepechatka">Перепечатка</a> · <a href="/about">Об издании</a> · <a href="/feed.xml">RSS</a></p></div></footer>
+<footer class="wrap"><div>{FOOTER_TOPICS}<div class="fcols">
+<div><b>Издание</b><a href="/archive">Архив</a><a href="/about">Об издании</a><a href="/perepechatka">Перепечатка</a><a href="/en/">English</a></div>
+<div><b>Данные</b><a href="/data/klyuchevaya-stavka">Ключевая ставка</a><a href="/data/kurs-dollara">Курсы ЦБ</a><a href="/calendar">Календарь ЦБ</a><a href="/data">Все данные →</a></div>
+<div><b>Читать</b><a href="{CHANNEL_URL}">Telegram</a>{SUBSCRIBE_LINK}<a href="/feed.xml">RSS</a></div>
+</div><p class="fdesc">{DESCRIPTION}.</p></div></footer>
 </body></html>"""
 
 
