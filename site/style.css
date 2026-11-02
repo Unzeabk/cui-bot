@@ -124,6 +124,19 @@ ul.list li{padding:20px 0}.specials{margin-bottom:32px}h1{margin:12px 0 14px}.su
 .v-row{display:grid;grid-template-columns:1fr 36px 1fr;align-items:center;gap:10px}
 .v-val{font:600 36px/1.1 Commissioner,sans-serif;margin:4px 0}.v-cap{font-size:14px;color:var(--cold)}
 .v-arr{font:26px "IBM Plex Mono",monospace;color:var(--mute);text-align:center}
-.v-pos{background:var(--ink);color:var(--bg);padding:12px 16px;margin:0 0 22px;font-size:14px;display:flex;align-items:center;gap:14px}
-.v-pos span{font:600 12px "IBM Plex Mono",monospace;letter-spacing:.2em;background:var(--bg);color:var(--ink);padding:5px 10px}
+.v-pos{border:1px solid var(--rule);border-left:3px solid var(--ink);color:var(--cold);padding:10px 14px;margin:0 0 22px;font-size:14px;display:flex;align-items:center;gap:14px}
+.v-pos span{font:600 12px "IBM Plex Mono",monospace;letter-spacing:.2em;color:var(--ink)}
+.v-dim .v-val{color:var(--mute)}
+.v-flow,.v-cmp{margin:28px 0;padding:20px 22px;background:#0E1114;border-top:3px solid var(--ink)}
+.v-chain{display:flex;flex-direction:column;align-items:flex-start;margin-top:4px}
+.v-node{border:1px solid #2F343C;padding:11px 14px;font:600 15px/1.25 Commissioner,sans-serif;width:100%;max-width:380px}
+.v-edge{position:relative;padding:8px 0 12px 204px;width:100%;max-width:380px;min-height:58px;display:flex;flex-direction:column;justify-content:center}
+.v-edge::before{content:"";position:absolute;left:190px;top:0;bottom:8px;border-left:1px solid #6B6F72}
+.v-edge::after{content:"";position:absolute;left:185px;bottom:0;border:5px solid transparent;border-top:7px solid #6B6F72}
+.v-edge span{font:600 15px "IBM Plex Mono",monospace}.v-edge i{font:normal 12px Onest,sans-serif;color:var(--mute)}
+.v-u{font-size:14px;color:var(--cold);margin:-8px 0 14px}
+.v-bar{display:grid;grid-template-columns:150px 1fr 80px;align-items:center;gap:12px;margin:8px 0;font-size:14px;color:var(--cold)}
+.v-bar div{height:14px}.v-bar b{display:block;height:100%;background:#2F343C}.v-bar.on b{background:var(--ink)}.v-bar.on{color:var(--ink)}
+.v-bar em{font:normal 13px "IBM Plex Mono",monospace;text-align:right}
+@media(max-width:560px){.v-edge{padding-left:calc(50% + 14px)}.v-edge::before{left:50%}.v-edge::after{left:calc(50% - 5px)}.v-bar{grid-template-columns:100px 1fr 64px}}
 @media(max-width:560px){.v-num{font-size:40px}.v-val{font-size:28px}}

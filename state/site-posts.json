@@ -31,7 +31,10 @@
     "name": "Москва",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "position",
@@ -146,6 +149,17 @@
     "Ultimately, the seizure of a tenth of server space creates no new secure facilities, but turns the civilian digital ecosystem into a mobilized resource. The market IT sector is obliged to function in a state of constant readiness to hand over equipment within a day upon instructions from officials. The state shifts all physical and financial costs of military failures onto the balance sheets of commercial companies while retaining absolute control over the country's key digital arteries."
    ],
    "model": "gemini-3.5-flash-lite"
+  },
+  "visuals": {
+   "blocks": [
+    {
+     "value": "10%",
+     "caption": "доля мощностей частных ЦОДов, изымаемая государством",
+     "type": "figure",
+     "para": 0,
+     "source": "Указ президента"
+    }
+   ]
   }
  },
  {
@@ -188,7 +202,17 @@
     "name": "Мукеш Амбани",
     "type": "person"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": [],
+   "place": {
+    "name": "ГРАНД-ТЕАТР",
+    "lat": 18.922,
+    "lon": 72.8346,
+    "scale": "city",
+    "region": "Мумбай"
+   }
+  }
  },
  {
   "kind": "note",
@@ -230,7 +254,10 @@
     "name": "природный газ",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "note",
@@ -264,7 +291,10 @@
     "name": "дженерики",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "note",
@@ -306,7 +336,17 @@
     "name": "бензин",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": [],
+   "place": {
+    "name": "КСТОВО",
+    "lat": 56.145,
+    "lon": 44.183,
+    "scale": "city",
+    "region": "Нижегородская область"
+   }
+  }
  },
  {
   "kind": "note",
@@ -340,7 +380,10 @@
     "name": "НДФЛ",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "note",
@@ -378,7 +421,10 @@
     "name": "Туркменистан",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "position",
@@ -450,7 +496,10 @@
     "name": "Мясницкая улица",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "note",
@@ -488,7 +537,10 @@
     "name": "экспорт",
     "type": "topic"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "note",
@@ -526,7 +578,10 @@
     "name": "криптовалюта",
     "type": "instrument"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": []
+  }
  },
  {
   "kind": "week",
@@ -609,6 +664,16 @@
     "name": "Сербия",
     "type": "place"
    }
-  ]
+  ],
+  "visuals": {
+   "blocks": [],
+   "place": {
+    "name": "БЕЛГРАД",
+    "lat": 44.7866,
+    "lon": 20.4489,
+    "scale": "city",
+    "region": "Сербия"
+   }
+  }
  }
 ]
