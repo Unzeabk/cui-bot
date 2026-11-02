@@ -228,5 +228,30 @@
    "https://www.vedomosti.ru/business/articles/2026/11/02/1241871-gazprom-dopustil-rost"
   ],
   "message_id": 116
+ },
+ {
+  "time_iso": "2026-11-02T16:52:20.957559+03:00",
+  "time": "02.11 16:52",
+  "rubric": "world",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "обменник",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "us-push-restore-russian-gas-ukraine",
+  "headline": "Вашингтон предлагает вернуть российский газ в Европу через Украину",
+  "fly": "Свежий газ в старых трубах",
+  "subhead": "Белый дом рассчитывает сбить цены перед зимой, пока столицы ЕС спорят о финансировании Москвы.",
+  "final": "",
+  "actor": "white house",
+  "main_title": "США предложили запустить газопроводы, обеспечивавшие более 60% российского экспорта в Европу",
+  "sources": [
+   "https://t.me/agentstvonews/18010",
+   "https://www.intellinews.com/us-revives-push-to-sell-russian-gas-to-europe-via-ukraine-480939/",
+   "https://www.themoscowtimes.com/2026/11/02/kremlin-downplays-prospect-of-resuming-gas-shipments-to-europe-via-ukraine-a94151",
+   "https://www.wsj.com/world/europe/u-s-pushes-to-restore-russian-gas-sales-to-europe-via-ukraine-0ca62dc7?mod=rss_worldnews"
+  ],
+  "message_id": 129
  }
 ]
