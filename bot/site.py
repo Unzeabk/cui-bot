@@ -369,6 +369,7 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 @media(max-width:720px){.specials{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr;justify-content:stretch}}
 .go{font:11px "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--cold);margin-top:6px}.sp:hover .go{color:var(--ink)}
 /* воздух */
+.feed-h{margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:10px}
 article p{margin-bottom:20px}.more{margin-top:28px}.related{margin:32px 0 0}.related a{margin:10px 0}
 .sub-box{margin:32px 0 0}footer.wrap{margin-top:44px}footer.wrap>div{padding-top:44px}.fgrid{gap:24px 24px}
 ul.list li{padding:20px 0}.specials{margin-bottom:32px}h1{margin:12px 0 14px}.sub{margin-bottom:24px}
@@ -855,7 +856,7 @@ def build(site: Path) -> int:
     shutil.rmtree(site / "page", ignore_errors=True)
     (site / "page").mkdir(exist_ok=True)
     for n, chunk in enumerate(pages, 1):
-        body = ((_specials(posts, site) if n == 1 else "") + (_lead(lead) if n == 1 and lead else "")
+        body = ((_specials(posts, site) + '<h2 class="dh feed-h">Последнее</h2>' if n == 1 else "") + (_lead(lead) if n == 1 and lead else "")
                 + _list(chunk, "") + _pager(n, len(pages)))
         if n == 1:
             (site / "index.html").write_text(
