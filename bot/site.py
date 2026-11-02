@@ -756,7 +756,7 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             figs = V.zen_figures(p, site / "img" / "v", p["slug"], _abs)
         except Exception as ex:  # noqa: BLE001
             log(f"дзен: картинки не готовы ({ex})")
-        body = "".join(f"<p>{_inline(x)}</p>" + figs.get(i, "") for i, x in enumerate(p.get("paragraphs") or []))
+        body = figs.get(-1, "") + "".join(f"<p>{_inline(x)}</p>" + figs.get(i, "") for i, x in enumerate(p.get("paragraphs") or []))
         if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
             body += f"<p>{_inline(p['final'])}</p>"
         if p.get("subhead"):
@@ -860,7 +860,8 @@ def build(site: Path) -> int:
                 break
             if p.get("kind") in ("note", "analysis", "position", "week") and _has_body(p) \
                     and ((p.get("visuals") or {}).get("v") != V.VERSION
-                         or (not (p.get("visuals") or {}).get("blocks") and (p.get("visuals") or {}).get("r", 0) < V.RETRY_EMPTY)):
+                         or (not (p.get("visuals") or {}).get("blocks") and (p.get("visuals") or {}).get("r", 0) < V.RETRY_EMPTY)
+                         or ((p.get("visuals") or {}).get("place") and not p["visuals"]["place"].get("title"))):
                 recent = [b["type"] for q in posts[:12] for b in (q.get("visuals") or {}).get("blocks") or []]
                 new = V.plan(p, recent)
                 old = p.get("visuals") or {}

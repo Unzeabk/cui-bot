@@ -61,7 +61,7 @@ SYSTEM = """Ты — бильд-редактор издания об эконо�
 "place" — карта места, ТОЛЬКО если география и есть суть истории: событие физически произошло в конкретной точке
 (завод, порт, месторождение, город с очередями, граница, регион с особым режимом) и читателю важно, где это.
 null, если место — столица как синоним власти (Вашингтон, Москва, Пекин, Брюссель), мера на всю страну, рынок, компания или деньги без точки.
-Сомневаешься — null. {"name": "...", "region": "регион/страна", "lat": 0.0, "lon": 0.0, "scale": "city" | "region" | "country" | "macro"}
+Сомневаешься — null. {"name": "коротко, до 24 знаков: город или объект («Кстово», «Главпочтамт»)", "region": "город/регион, страна", "lat": 0.0, "lon": 0.0, "scale": "city" | "region" | "country" | "macro"}
 
 ЖАНРЫ:
 - "analysis" (разбор): 2–3 блока по ходам, как выше.
@@ -116,7 +116,7 @@ def _s(x, n=90) -> str:
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
 VERSION = 11
 RETRY_EMPTY = 1  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
-RENDER = 2  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+RENDER = 3  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
 def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
@@ -183,6 +183,7 @@ def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | 
     p = B.place_ok(d.get("place"))
     if p:
         p["region"] = _s((d.get("place") or {}).get("region"), 60)
+        p["title"] = _s((d.get("place") or {}).get("name"), 60)  # полное имя, обычным регистром
         res["place"] = p
     return res
 
@@ -391,25 +392,35 @@ def _km(a, b) -> int:
                                                 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2)))
 
 
-def map_strip(place: dict, path: Path) -> Path:
+def map_strip(place: dict, path: Path, light: bool = False) -> Path:
     W, H = 720, 260
-    m = B.map_layer(place, w=W * 2, h=H * 2, fx=.66, fy=.5, fade=None)
+    m = B.map_layer(place, w=W * 2, h=H * 2, fx=.66, fy=.5, fade=None, night=not light)
+    bg, fg, sub = ("#FBFAF7", "#0B0D10", "#3A3F45") if light else ("#0B0D10", "#EDE9E2", "#C9CFD6")
+    if light:  # спутникового снимка в светлой теме нет — сетка точек и контуры, как на бумажной карте
+        m = m.replace("#12161B", "#ECE8E0").replace(B.COLD, "#8A8E92").replace(B.IVORY, "#0B0D10")
+        m = m.replace("<g stroke=", B.dot_grid(W * 2, H * 2, step=34, color="#9C978D", opacity=.55) + "<g stroke=", 1)
     lines = []
     d = _km((place["lat"], place["lon"]), MOSCOW)
     if d > 15:
         lines.append(f"{d:,} км до Москвы".replace(",", " "))
     lines.append(B.coords(place["lat"], place["lon"]))
-    region = html.escape(place.get("region") or "") if (place.get("region") or "").strip().lower() != (place.get("name") or "").strip().lower() else ""
+    name = (place.get("title") or place.get("name") or "").strip()
+    name = name[:1].upper() + name[1:]
+    region = place.get("region") or ""
+    region = html.escape(region) if region.strip().lower() not in name.lower() else ""
+    size = 28 if len(name) <= 16 else (23 if len(name) <= 26 else 19)
+    shade = (f"linear-gradient(90deg,{bg} 0%,{bg}eb 38%,{bg}00 64%)")
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
-.root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}
+body{{background:{bg};color:{fg}}}
+.root{{position:relative;width:{W}px;height:{H}px;overflow:hidden;background:{bg}}}
 .map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
-.shade{{position:absolute;inset:0;background:linear-gradient(90deg,#0B0D10 0%,rgba(11,13,16,.92) 34%,rgba(11,13,16,0) 62%)}}
-.txt{{position:absolute;left:24px;top:24px;bottom:24px;display:flex;flex-direction:column}}
-.name{{font-weight:620;font-size:28px;line-height:1.1;margin-top:10px;font-variation-settings:'FLAR' 100,'VOLM' 100}}
-.reg{{font-family:'Onest',sans-serif;font-size:15px;color:#C9CFD6;margin-top:6px}}
-.facts{{margin-top:auto;font-family:'Plex',monospace;font-size:12.5px;line-height:21px;color:#C9CFD6}}
+.shade{{position:absolute;inset:0;background:{shade}}}
+.txt{{position:absolute;left:24px;top:24px;bottom:24px;width:330px;display:flex;flex-direction:column}}
+.name{{font-weight:620;font-size:{size}px;line-height:1.15;margin-top:10px;font-variation-settings:'FLAR' 100,'VOLM' 100;color:{fg}}}
+.reg{{font-family:'Onest',sans-serif;font-size:15px;color:{sub};margin-top:6px}}
+.facts{{margin-top:auto;font-family:'Plex',monospace;font-size:12.5px;line-height:21px;color:{sub}}}
 </style></head><body><div class="root"><div class="map">{m}</div><div class="shade"></div>
-<div class="txt"><div class="k">Место события</div><div class="name">{html.escape(place.get("name") or "")}</div>
+<div class="txt"><div class="k">Место события</div><div class="name">{html.escape(name)}</div>
 {f'<div class="reg">{region}</div>' if region else ''}<div class="facts">{"<br>".join(html.escape(x) for x in lines)}</div></div>
 </div></body></html>"""
     return _shoot(page, path, W, H)
@@ -476,13 +487,17 @@ def _ticks(lo: float, top: float) -> list[float]:
     return out[:4]
 
 
-def week_map(places: list, path: Path) -> Path:
+def week_map(places: list, path: Path, light: bool = False) -> Path:
     W, H = 720, 320
     m = B.world_layer([B.place_ok(p) for p in places], w=W * 2, h=H * 2, area=(80, 70, W * 2 - 80, H * 2 - 90))
+    if light:
+        m = m.replace("#12161B", "#ECE8E0").replace(B.COLD, "#8A8E92").replace(B.IVORY, "#0B0D10")
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
 .root{{position:relative;width:{W}px;height:{H}px;overflow:hidden}}.map{{position:absolute;inset:0;transform:scale(.5);transform-origin:0 0}}
 .lab{{position:absolute;left:20px;bottom:16px}}</style></head><body><div class="root"><div class="map">{m}</div>
 <div class="k lab">{len([p for p in places if p])} событий недели</div></div></body></html>"""
+    if light:
+        page = page.replace(".root{", "body{background:#FBFAF7}.root{background:#FBFAF7;", 1)
     return _shoot(page, path, W, H)
 
 
@@ -650,6 +665,7 @@ def build(e: dict, img_dir: Path, slug: str) -> dict:
         # место от автора текста — для обложки; на сайте карта, только если место — суть истории
         if place and kind in ("note", "analysis"):
             place["region"] = (v.get("place") or {}).get("region") or ""
+            place["title"] = (v.get("place") or {}).get("title") or ""
             f = img_dir / f"{slug}-map-r{RENDER}.jpg"
             if not f.exists():
                 map_strip(place, f)
@@ -784,6 +800,23 @@ def zen_figures(e: dict, img_dir: Path, slug: str, abs_url) -> dict[int, str]:
     v = e.get("visuals") or {}
     render = {"doc": doc_html, "timeline": timeline_html, "share": share_html, "vs": pair_html, "before_after": pair_html,
               "flow": flow_html, "compare": compare_html, "pull": pull_html, "players": players_html}
+    kind = e.get("kind")
+    try:  # верх статьи — как на сайте: карта места или карта недели, светлые
+        place = B.place_ok(v.get("place"))
+        if place and kind in ("note", "analysis") and not (kind == "note" and v.get("blocks")):
+            place.update(region=(v.get("place") or {}).get("region") or "", title=(v.get("place") or {}).get("title") or "")
+            f = img_dir / f"{slug}-map-zen-r{RENDER}.jpg"
+            if not f.exists():
+                map_strip(place, f, light=True)
+            out[-1] = f'<figure><img src="{abs_url("img/v/" + f.name)}"><figcaption>{html.escape(place.get("title") or place["name"])}</figcaption></figure>'
+        places = e.get("places") or v.get("places") or []
+        if kind == "week" and any(places):
+            f = img_dir / f"{slug}-week-zen-r{RENDER}.jpg"
+            if not f.exists():
+                week_map(places, f, light=True)
+            out[-1] = f'<figure><img src="{abs_url("img/v/" + f.name)}"><figcaption>События недели на карте</figcaption></figure>'
+    except Exception as ex:  # noqa: BLE001
+        log(f"визуал: карта для Дзена {slug} не снята ({ex})")
     for b in v.get("blocks") or []:
         t, para = b.get("type"), b.get("para")
         if t not in render and t != "chart":
