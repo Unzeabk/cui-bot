@@ -71,6 +71,10 @@ null, если место — столица как синоним власти 
   "doc", "pull", "players", "timeline", "flow" в коротких текстах не нужны.
   Пример: «Указ о резервировании 10% мощностей частных ЦОДов…» → {"type": "share", "para": 0, "value": "10%", "caption": "мощностей частных ЦОДов уходит в госрезерв"}.
 
+"vs", "before_after", "compare", "chart" сравнивают ОДИН показатель в одних единицах: цена с ценой, доля с долей,
+выручка этого года с выручкой прошлого. Убыток против цены продажи, штраф против выручки — разные показатели, так нельзя.
+Подписи — обычный русский текст, без кодировок и ссылок.
+
 Подписи по-русски, холодно, без оценок. ОТВЕТ — только JSON: {"blocks": [...], "place": {...} | null}"""
 
 
@@ -101,11 +105,16 @@ def _plain(e: dict) -> str:
 
 
 def _s(x, n=90) -> str:
-    return str(x or "").strip()[:n]
+    from urllib.parse import unquote
+    t = str(x or "")
+    if "%D0" in t or "%D1" in t:
+        t = unquote(t)
+    t = re.sub(r"https?://\S+", "", t)
+    return t.strip()[:n]
 
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart"}
-VERSION = 6  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
+VERSION = 7  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
 def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | None = None) -> dict:
