@@ -318,5 +318,28 @@
   ],
   "message_id": 132,
   "slot": "2026-11-02 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-02T20:44:30.010784+03:00",
+  "time": "02.11 20:44",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Жертвенная бухгалтерия",
+   "Теневой двойник"
+  ],
+  "topic_key": "tech",
+  "headline": "Государство изымает десятую часть частных серверных мощностей",
+  "fly": "Не продаётся облако",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/02/putin-obyazal-chastnye-data-tsentry-rf-derzhat-v-rezerve-10-moschnostey-na-sluchay-sboev-a210329",
+   "https://t.me/agentstvonews/18015",
+   "https://www.themoscowtimes.com/2026/11/02/putin-orders-private-data-centers-to-set-aside-10-of-capacity-to-support-it-infrastructure-a94159",
+   "https://www.bfm.ru/news/622700"
+  ],
+  "message_id": 133,
+  "slot": "2026-11-02 22 17 * * *"
  }
 ]
