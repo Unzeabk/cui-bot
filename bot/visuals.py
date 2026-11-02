@@ -118,7 +118,7 @@ def _s(x, n=90) -> str:
 
 SHORT_OK = {"share", "vs", "before_after", "compare", "chart", "figure"}
 VERSION = 11
-RETRY_EMPTY = 5  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
+RETRY_EMPTY = 6  # поднять — сайт заново попробует разметить только тексты без блоков (остальные не трогает)
 RENDER = 3  # поменялась отрисовка картинок → поднять: файлы получат новые имена, браузер и Cloudflare не покажут старые  # поменялись правила бильд-редактора → поднять: сайт сам переразметит все тексты
 
 
@@ -128,6 +128,8 @@ def _check(d: dict, text: str, n_par: int, kind: str = "analysis", taken: set | 
         if not isinstance(b, dict):
             continue
         t, para = b.get("type"), b.get("para")
+        if t == "share" and "%" not in str(b.get("value", "")):  # «доля» без процента — это одна цифра
+            t = b["type"] = "figure"
         if kind != "analysis" and t not in SHORT_OK:
             continue
         last_ok = n_par if kind != "analysis" else n_par - 1  # в коротком тексте блок можно и после последнего абзаца
