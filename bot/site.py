@@ -374,7 +374,7 @@ h2.hubh{font:12px "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--mut
 .sp-main .t{font-size:21px}
 .list li:is(.an,.po,.wk) .kicker{color:var(--ink)}
 .list li:is(.an,.po,.wk) .kicker::before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;vertical-align:1px;background:var(--ink)}
-.list li.po .kicker::before{border-radius:50%}
+.list li.po .kicker::before{border-radius:50%;background:none;border:1.5px solid var(--ink);box-sizing:border-box}
 .list li.wk .kicker::before{width:11px;background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 3.2px)}
 .nums{display:flex;flex-direction:column;gap:2px;flex:1}.nums span{display:flex;justify-content:space-between;font:15px "IBM Plex Mono",monospace;color:var(--ink)}
 .nums i{font-style:normal;color:var(--mute)}
