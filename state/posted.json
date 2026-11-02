@@ -277,5 +277,23 @@
   ],
   "message_id": 130,
   "slot": "2026-11-02 52 7 * * 1"
+ },
+ {
+  "time_iso": "2026-11-02T18:58:27.029185+03:00",
+  "time": "02.11 18:58",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "regulation",
+  "headline": "Государство забирает десятую часть частных серверов",
+  "fly": "Частное по расписанию",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://www.ng.ru/news/850193.html",
+   "https://meduza.io/news/2026/11/02/putin-obyazal-vladeltsev-chastnyh-data-tsentrov-rezervirovat-desyatuyu-chast-svoih-moschnostey-dlya-gosudarstva"
+  ],
+  "message_id": 131,
+  "slot": "2026-11-02 52 10 * * *"
  }
 ]
