@@ -7,7 +7,7 @@
 - [Курс доллара ЦБ](https://cuibono.press/data/kurs-dollara)
 - [Курс юаня ЦБ](https://cuibono.press/data/kurs-yuanya)
 - [Индекс Мосбиржи](https://cuibono.press/data/indeks-mosbirzhi)
-- [Дивиденды российских компаний](https://cuibono.press/data/dividendy)
+- [Акции крупнейших компаний](https://cuibono.press/data/akcii)
 - [Календарь заседаний ЦБ](https://cuibono.press/calendar)
 - [Индекс жёсткости ЦБ](https://cuibono.press/data/zhestkost-cb)
 - [Новые законопроекты о деньгах](https://cuibono.press/data/dokumenty)
