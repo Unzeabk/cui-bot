@@ -548,5 +548,30 @@
   ],
   "message_id": 143,
   "slot": "2026-11-03 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T17:17:53.940544+03:00",
+  "time": "03.11 17:17",
+  "rubric": "business",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "разумные по одному",
+   "спектакль"
+  ],
+  "topic_key": "beget-kiberataka-obnulenie-oblaka",
+  "headline": "Хакеры обнулили инфраструктуру крупного хостинг-провайдера Beget",
+  "fly": "Облака пошли по миру",
+  "subhead": "Злоумышленники стерли данные виртуальных серверов, а сроки восстановления сервисов остались неизвестными",
+  "final": "",
+  "actor": "beget",
+  "main_title": "Beget потерял часть данных клиентов после кибератаки",
+  "sources": [
+   "https://frankmedia.ru/313851",
+   "https://t.me/banksta/104723",
+   "https://www.cnews.ru/news/top/2026-11-03_hakery_obnulili_oblako_beget"
+  ],
+  "message_id": 144,
+  "slot": "2026-11-03 7 14 * * *"
  }
 ]
