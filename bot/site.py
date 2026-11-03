@@ -204,6 +204,7 @@ _ANY_LINK = re.compile(r"\[([^\]]+)\]\(((?:https?://|/)[^)\s]+)\)")
 
 
 def _inline(s: str) -> str:
+    s = re.sub(r"([?!])\.(?=\s|$)", r"\1", s or "")  # «Cui Bono?.» → «Cui Bono?»
     out, pos = [], 0
     for m in _ANY_LINK.finditer(s or ""):
         out.append(html.escape(s[pos:m.start()], quote=False))

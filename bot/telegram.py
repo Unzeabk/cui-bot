@@ -8,6 +8,9 @@ import requests
 def send_photo(token: str, chat_id: str, photo: Path, caption_html: str, button: tuple[str, str] | None = None) -> dict:
     import json
 
+    import re
+    # «Cui Bono?.» и вообще «?.» / «!.» в конце фразы: точка после вопросительного знака не ставится
+    caption_html = re.sub(r"([?!])\.(?=\s|<|$)", r"\1", caption_html)
     url = f"https://api.telegram.org/bot{token}/sendPhoto"
     with open(photo, "rb") as f:
         r = requests.post(
