@@ -1,5 +1,176 @@
 [
  {
+  "kind": "analysis",
+  "time_iso": "2026-11-03T18:49:15.691722+03:00",
+  "rubric": "",
+  "fly": "Ставки больше не равны",
+  "headline": "Уолл-стрит превратила американский фондовый рынок в гигантское казино",
+  "subhead": "ВВП США растёт на 3,4%, но крупные игроки теряют деньги из-за однодневных плечей.",
+  "paragraphs": [
+   "В эфире утренней программы Squawk Box на телеканале CNBC основатель инвестиционной компании Pershing Square Билл Акман [заявил](https://www.cnbc.com/2026/11/03/bill-ackman-casino-stock-market.html), что американский фондовый рынок окончательно сломан. По его оценке, Уолл-стрит фактически вернулась к модели игорного дома с запредельным кредитным рычагом в 95%. Каждые несколько дней котировки крупнейших публичных корпораций совершают аномальные скачки, которые не поддаются традиционному анализу. Распространение рискованных деривативов подталкивает участников биржи относиться к акциям как к быстрому способу обогащения, создавая опасный дисбаланс для всей финансовой системы США.",
+   "Парадокс заключается в том, что эта дестабилизация разворачивается на фоне внешне безупречной макроэкономической статистики. Согласно свежим данным Бюро экономического анализа, ВВП США в третьем квартале [вырос на 3,4%](https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html) в годовом выражении, показав самые быстрые темпы расширения за последние двенадцать месяцев. Высокий потребительский спрос толкает экономику вперёд, однако финансовый контур живёт по собственным правилам. Уверенный рост национального хозяйства больше не защищает инвесторов от внезапных обвалов, и капитализация технологических гигантов меняется на десятки миллиардов за одну торговую сессию.",
+   "Глубокая рассогласованность между фундаментальными доходами бизнеса и его рыночной стоимостью ставит перед инвесторами три ключевых вопроса. Почему при сильном росте американской экономики крупнейшие хедж-фонды теряют капитал в технологическом секторе? Каким образом рекордный спекулятивный рычаг разрушает привычные институциональные стратегии управления рисками? И наконец, как долго рынок сможет функционировать в режиме игорного зала, где цены активов оторваны от их реальной стоимости? Настоящий разбор исследовательской редакции отвечает на эти вопросы, вскрывая механику текущего кризиса на Уолл-стрит.",
+   "Первая трещина в картине общего процветания пролегла по линии монетарной политики регулятора. Несмотря на сильные показатели производства и потребительского сектора, ценовое давление в американской системе никуда не исчезло. Потребительский индекс цен PCE за сентябрь неожиданно [ускорился](https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html), окончательно разрушив надежды биржевых игроков на скорое и безальтернативное удешевление кредитных ресурсов. Руководители Федрезерва на последнем заседании предпочли временно удержать ключевую процентную ставку без изменений, однако нарастающая инфляционная динамика больше не оставляет регулятору пространства для манёвра.",
+   "Опасения чиновников ФРС оказаться в роли догоняющих вынуждают регулятор возобновить цикл [повышения ставок](https://www.nytimes.com/2026/10/29/business/economy/federal-reserve-interest-rates.html) уже на декабрьском заседании. Перспектива очередного ужесточения условий кредитования спровоцировала настоящую турбулентность на рынке государственных облигаций США. Стремительный рост доходностей долговых ценных бумаг начал вытягивать ликвидность из рискованных активов, перечеркнув расчеты инвесторов, привыкших финансировать длинные позиции с помощью дешевого заёмного рычага.",
+   "Этот шторм на рынке гособлигаций в сочетании с резкой коррекцией в сфере высоких технологий нанёс прямой удар по крупнейшим управляющим Уолл-стрит. В октябре с ощутимыми [убытками](https://www.ft.com/content/fae029f1-f03e-4509-852e-396fa4863271?syn-25a6b1a6=1) столкнулись флагманы индустрии хедж-фондов. Даже самые изощрённые математические модели и мультистратегические портфели с распределёнными рисками не выдержали синхронного падения государственного долга США и переоценки перегретого сектора искусственного интеллекта.",
+   "Очевидная картина непрерывного роста экономики рухнула об аномалию: при формально расширяющемся ВВП крупнейшие капиталы страны терпят глубокие убытки. Профессиональные управляющие оказались заложниками удорожания коротких денег и вынужденных ликвидаций. В результате финансовый контур столкнулся с ситуацией, когда институциональные игроки вместо стабилизации системы сами генерируют новые волны распродаж, пытаясь избавиться от подешевевших активов.",
+   "В основе текущего слома рыночной механики лежит взрывной рост краткосрочных деривативов, превративший фондовый рынок США в аналог гигантского казино. Массовое распространение однодневных опционов, бессрочных фьючерсных контрактов и платформ для спортивных ставок сформировало новую психологию биржевых игроков. Инвесторы перестали анализировать фундаментальные показатели и финансовые отчёты эмитентов, переключившись на агрессивную погоню за сверхбыстрой доходностью. В систему хлынул поток спекулятивного капитала, использующего запредельное кредитное плечо в 95% от суммы сделки.",
+   "Применение такого экстремального левериджа кардинально изменило саму физику движения цен на Уолл-стрит. Небольшое колебание котировок всего на один-два процента теперь мгновенно вызывает каскад принудительных ликвидаций маржинальных позиций. Маркетмейкеры, продающие деривативы розничным и институциональным игрокам, вынуждены непрерывно хеджировать собственные риски через автоматическую покупку или продажу базовых акций. В результате технические перетоки ликвидности на рынке опционов начинают полностью диктовать динамику цен на реальные бумаги корпораций.",
+   "Этот механизм разрывает связь между реальным состоянием бизнеса и его котировками, превращая даже крупные технологические компании в чрезвычайно волатильные активы. Когда накладывается несколько негативных факторов — будь то переоценка вложений в искусственный интеллект или скачок доходностей гособлигаций — спекулятивный рычаг срабатывает в обратную сторону. Алгоритмические программы маркетмейкеров начинают синхронно скидывать акции, провоцируя панические распродажи даже в фундаментально устойчивых бумагах.",
+   "Именно в эту ловушку волатильности попали крупнейшие институциональные управляющие. Их сложные мультистратегические модели, созданные для защиты капитала от рыночных рисков, оказались бесполезны перед лицом хаотичных ликвидаций с 95% плечом. Замкнутый круг спекулятивных ставок и принудительных закрытий позиций обессмысливает классический портфельный анализ, превращая профессиональных управляющих в невольных участников чужой азартной игры.",
+   "Впрочем, для инвесторов с длинным горизонтом и глубоким запасом ликвидности текущая разбалансировка Уолл-стрит представляет собой редкое окно возможностей. Пока институциональные фонды фиксируют убытки из-за принудительных закрытий позиций, крупный капитал выкупает фундаментально сильные бизнесы по кратно заниженным расценкам. Тот же Билл Акман и его фонд Pershing Square превратили рыночные аномалии в системный источник прибыли, хладнокровно заходя в капиталоемкие корпорации в моменты панических распродаж, вызванных спекулятивными плечами.",
+   "В портфеле Pershing Square эта стратегия видна на конкретных примерах последних лет. Фонд заходил в акции Microsoft во время масштабного провала IT-сектора SaaSpocalypse, скупал бумаги Amazon на падении после объявления торговых пошлин Дональда Трампа и сформировал позицию в Alphabet на фоне паники вокруг запуска ChatGPT. По аналогичному алгоритму Акман наращивал доли в карточных платёжных системах Visa и Mastercard, называя их надежнейшими бизнесами планеты, а также в стриминговой платформе Netflix. В условиях, когда 95-процентный леверидж заставляет игроков сбрасывать качественные бумаги, долгосрочные инвесторы забирают их по «глупым ценам».",
+   "В этой точке отчетливо виден эффект метрики-оборотня. Официальный показатель роста ВВП США в 3,4% создает уверенную картину макроэкономической стабильности, однако эта цифра лишь маскирует глубокую хрупкость финансового контура. Статистика расширения экономики стала фасадным показателем: пока потребительский спрос подпитывает валовый продукт, рынок капитала полностью оторвался от физической реальности и реальных доходов компаний. За красивым графиком национального производства скрывается финансовый механизм, в котором спекулятивные деривативы съели функцию оценки инвестиционных рисков.",
+   "Разумеется, текущая волатильность финансового сектора пока не означает немедленного сваливания американской экономики в полномасштабную рецессию. Высокий потребительский спрос, подкрепивший быстрые темпы расширения национального хозяйства, выступает надежным амортизатором для реального сектора. Корпорации продолжают генерировать выручку, а сильный внутренний рынок дает фундаментально здоровым предприятиям запас прочности, необходимый для того, чтобы переждать локальные штормы на фондовых площадках.",
+   "Однако эта устойчивость реальной экономики никак не исправляет глубокую поломку самого финансового контура. Массовый уход биржевых игроков в краткосрочные деривативы с запредельным плечом продолжает разрушать механизм ценообразования. В условиях, когда 95-процентный рычаг провоцирует каскадные ликвидации маржинальных позиций каждые несколько дней, классический портфельный анализ теряет всякий смысл. Институциональные инвесторы оказываются бессильны перед техническими перетоками ликвидности, а оценка стоимости публичных компаний окончательно оторвалась от их бизнес-показателей.",
+   "Финансовая система США упёрлась в предел, за которым спекулятивный капитал начнет перекраивать структуру всей экономики. Когда деривативы и спортивные ставки подменяют собой долгосрочные инвестиции, рынок перестает выполнять свою главную функцию — эффективное распределение ресурсов между отраслями. В результате создается среда, где любые макроэкономические успехи маскируют нарастающую хрупкость биржевой инфраструктуры.",
+   "В итоге Уолл-стрит продолжает крутить гигантскую рулетку, где фундаментальный анализ уступил место агрессивному азарту с экстремальным левериджем. В этом казино системное преимущество получает лишь тот капитал, который отказывается от попыток переиграть спекулятивные алгоритмы на короткой дистанции. Победителем в такой игре оказывается инвестор с хладнокровной выдержкой, способный дождаться момента, когда рыночный хаос снова выставит на первоклассный бизнес очередную «глупую цену», а вовсе не тот, кто пытается угадать направление очередного импульса."
+  ],
+  "final": "",
+  "topic_key": "usa",
+  "message_id": 145,
+  "cover": "cover-analysis-20261103-1843.jpg",
+  "telegraph": "https://cuibono.press/p/2026-11-03-usa",
+  "place": {
+   "name": "Нью-Йорк",
+   "lat": 40.71,
+   "lon": -74.0,
+   "scale": "city"
+  },
+  "seo_title": "Билл Акман заявил, что фондовый рынок США превратился в казино",
+  "seo_description": "ВВП США вырос на 3,4%, но Уолл-стрит теряет деньги из-за спекуляций. Билл Акман заявил о кредитном плече в 95% и превращении рынка в казино.",
+  "entities": [
+   {
+    "name": "Билл Акман",
+    "type": "person"
+   },
+   {
+    "name": "Уолл-стрит",
+    "type": "place"
+   },
+   {
+    "name": "ФРС",
+    "type": "org"
+   },
+   {
+    "name": "Pershing Square",
+    "type": "org"
+   },
+   {
+    "name": "ключевая ставка",
+    "type": "instrument"
+   }
+  ],
+  "visuals": {
+   "blocks": [
+    {
+     "quote": "американский фондовый рынок окончательно сломан. По его оценке, Уолл-стрит фактически вернулась к модели игорного дома с запредельным кредитным рычагом в 95%",
+     "who": "Билл Акман",
+     "type": "doc",
+     "para": 0,
+     "source": ""
+    },
+    {
+     "title": "Кто выигрывает в условиях рыночной турбулентности",
+     "wins": [
+      {
+       "name": "Инвесторы с длинным горизонтом",
+       "why": "выкупают фундаментально сильные бизнесы по кратно заниженным расценкам"
+      },
+      {
+       "name": "Фонд Pershing Square",
+       "why": "превращает рыночные аномалии в системный источник прибыли"
+      }
+     ],
+     "pays": [
+      {
+       "name": "Институциональные фонды",
+       "why": "фиксируют убытки из-за принудительных закрытий позиций"
+      }
+     ],
+     "type": "players",
+     "para": 11,
+     "source": ""
+    },
+    {
+     "quote": "Официальный показатель роста ВВП США в 3,4% создает уверенную картину макроэкономической стабильности, однако эта цифра лишь маскирует глубокую хрупкость финансового контура.",
+     "type": "pull",
+     "para": 13,
+     "source": ""
+    }
+   ],
+   "v": 11,
+   "r": 6
+  },
+  "en": {
+   "title": "Has Wall Street turned the American stockmarket into a giant casino?",
+   "subtitle": "GDP is growing at 3.4%, yet major players are losing money due to daily leverage.",
+   "description": "Wall Street's reliance on extreme leverage has decoupled stock prices from fundamentals, creating a casino-like environment despite strong US GDP growth.",
+   "paragraphs": [
+    "Speaking on CNBC’s “Squawk Box”, Bill Ackman, founder of Pershing Square, [argued](https://www.cnbc.com/2026/11/03/bill-ackman-casino-stock-market.html) that the American stockmarket is fundamentally broken. He estimates that Wall Street has effectively reverted to a casino model, with excessive leverage reaching 95%. Every few days, the shares of major public corporations experience anomalous swings that defy traditional analysis. The proliferation of risky derivatives encourages market participants to treat stocks as a get-rich-quick scheme, creating a dangerous imbalance for the entire American financial system.",
+    "The paradox is that this destabilisation is unfolding against a backdrop of seemingly impeccable macroeconomic statistics. According to fresh data from the Bureau of Economic Analysis, US GDP [grew by 3.4%](https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html) in the third quarter year-on-year, the fastest expansion in twelve months. Strong consumer demand is driving the economy, yet the financial sphere operates by its own rules. Robust national growth no longer protects investors from sudden crashes, and the market capitalisation of tech giants can shift by tens of billions in a single trading session.",
+    "The deep disconnect between fundamental business earnings and market value poses three key questions for investors. Why are major hedge funds losing capital in the tech sector despite strong US economic growth? How is record speculative leverage destroying traditional institutional risk-management strategies? And finally, how long can the market function as a casino where asset prices are detached from real value? This analysis from our research desk answers these questions by exposing the mechanics of the current crisis on Wall Street.",
+    "The first crack in the picture of general prosperity appeared in the regulator’s monetary policy. Despite strong production and consumer sector figures, price pressure in the American system has not disappeared. The PCE price index for September unexpectedly [accelerated](https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html), finally dashing investors' hopes for an imminent and inevitable reduction in borrowing costs. Federal Reserve officials chose to hold the key interest rate steady at their last meeting, but rising inflationary dynamics leave the regulator with little room for manoeuvre.",
+    "Fears that the Fed might find itself behind the curve are forcing the regulator to resume its [rate-hiking cycle](https://www.nytimes.com/2026/10/29/business/economy/federal-reserve-interest-rates.html) as early as the December meeting. The prospect of further tightening credit conditions has triggered turbulence in the US Treasury market. A rapid rise in bond yields has begun to drain liquidity from risky assets, upending the calculations of investors accustomed to financing long positions with cheap borrowed leverage.",
+    "This storm in the government bond market, combined with a sharp correction in the tech sector, has dealt a direct blow to Wall Street’s largest managers. In October, industry-leading hedge funds faced significant [losses](https://www.ft.com/content/fae029f1-f03e-4509-852e-396fa4863271?syn-25a6b1a6=1). Even the most sophisticated mathematical models and multi-strategy portfolios with distributed risks could not withstand the simultaneous decline in US government debt and the revaluation of the overheated artificial intelligence sector.",
+    "The clear picture of continuous economic growth has collapsed against an anomaly: while GDP is formally expanding, the country’s largest capital pools are suffering deep losses. Professional managers have become hostages to the rising cost of short-term money and forced liquidations. As a result, the financial system faces a situation where institutional players, instead of stabilising the system, are themselves generating new waves of sell-offs as they attempt to shed devalued assets.",
+    "At the heart of the current breakdown in market mechanics lies the explosive growth of short-term derivatives, which has turned the US stockmarket into a giant casino. The mass proliferation of daily options, perpetual futures contracts and sports-betting platforms has shaped a new psychology among market participants. Investors have stopped analysing fundamental indicators and financial statements, switching instead to an aggressive pursuit of ultra-fast returns. A flood of speculative capital has entered the system, using extreme leverage of up to 95% of the transaction value.",
+    "The use of such extreme leverage has fundamentally changed the physics of price movement on Wall Street. A small fluctuation of just one or two percent now instantly triggers a cascade of forced liquidations of margin positions. Market makers, who sell derivatives to retail and institutional players, are forced to continuously hedge their own risks through the automatic buying or selling of underlying stocks. As a result, technical liquidity flows in the options market have begun to dictate the price dynamics of real corporate shares.",
+    "This mechanism severs the link between the real state of a business and its share price, turning even large tech companies into highly volatile assets. When several negative factors overlap—be it the revaluation of AI investments or a jump in bond yields—the speculative leverage works in reverse. Algorithmic programmes used by market makers begin to dump stocks simultaneously, provoking panic selling even in fundamentally sound securities.",
+    "This is the volatility trap into which the largest institutional managers have fallen. Their complex multi-strategy models, designed to protect capital from market risks, proved useless in the face of chaotic liquidations with 95% leverage. The vicious circle of speculative bets and forced position closures renders classic portfolio analysis meaningless, turning professional managers into involuntary participants in someone else’s gamble.",
+    "However, for investors with a long horizon and deep liquidity reserves, the current Wall Street imbalance represents a rare window of opportunity. While institutional funds record losses due to forced liquidations, large capital is buying fundamentally strong businesses at heavily discounted prices. Bill Ackman and his Pershing Square fund have turned market anomalies into a systematic source of profit, coolly entering capital-intensive corporations during panic sell-offs caused by speculative leverage.",
+    "In the Pershing Square portfolio, this strategy is visible in specific examples from recent years. The fund entered Microsoft shares during the massive IT-sector “SaaSpocalypse”, bought Amazon shares on the dip following the announcement of Donald Trump’s trade tariffs, and built a position in Alphabet amid the panic surrounding the launch of ChatGPT. Following a similar algorithm, Ackman increased his stakes in payment card systems Visa and Mastercard, calling them the most reliable businesses on the planet, as well as in the streaming platform Netflix. In conditions where 95% leverage forces players to dump quality stocks, long-term investors pick them up at “stupid prices”.",
+    "At this point, the effect of a “werewolf metric” is clearly visible. The official US GDP growth figure of 3.4% creates a picture of macroeconomic stability, yet this number merely masks the deep fragility of the financial system. Economic expansion statistics have become a facade: while consumer demand fuels GDP, the capital market has completely detached itself from physical reality and the actual earnings of companies. Behind the beautiful chart of national production lies a financial mechanism in which speculative derivatives have devoured the function of assessing investment risk.",
+    "Admittedly, the current volatility in the financial sector does not yet mean the American economy is sliding into a full-scale recession. High consumer demand, which has underpinned the rapid pace of national economic expansion, acts as a reliable shock absorber for the real economy. Corporations continue to generate revenue, and a strong domestic market gives fundamentally healthy enterprises the margin of safety needed to weather local storms on the stock exchanges.",
+    "However, this resilience of the real economy does nothing to fix the deep breakdown of the financial system itself. The mass exodus of market participants into short-term derivatives with extreme leverage continues to destroy the price-discovery mechanism. In conditions where 95% leverage triggers cascade liquidations of margin positions every few days, classic portfolio analysis loses all meaning. Institutional investors find themselves powerless against technical liquidity flows, and the valuation of public companies has finally detached from their business performance.",
+    "The US financial system has reached a limit beyond which speculative capital will begin to reshape the structure of the entire economy. When derivatives and sports bets replace long-term investment, the market ceases to perform its main function: the efficient allocation of resources between industries. The result is an environment where any macroeconomic success masks the growing fragility of stockmarket infrastructure.",
+    "Ultimately, Wall Street continues to spin a giant roulette wheel, where fundamental analysis has given way to aggressive gambling with extreme leverage. In this casino, the only capital that gains a systematic advantage is that which refuses to try to outplay speculative algorithms in the short term. The winner in such a game is the investor with the cool-headed patience to wait for the moment when market chaos once again puts a “stupid price” on a first-class business, rather than the one trying to guess the direction of the next impulse."
+   ],
+   "model": "gemini-3.1-flash-lite",
+   "visuals": {
+    "blocks": [
+     {
+      "quote": "The American stock market is permanently broken. In his view, Wall Street has effectively reverted to a casino model with an excessive 95% leverage.",
+      "who": "Bill Ackman",
+      "type": "doc",
+      "para": 0,
+      "source": ""
+     },
+     {
+      "title": "Who wins amid market turbulence",
+      "wins": [
+       {
+        "name": "Long-term investors",
+        "why": "buy fundamentally strong businesses at heavily discounted valuations"
+       },
+       {
+        "name": "Pershing Square",
+        "why": "turns market anomalies into a systematic source of profit"
+       }
+      ],
+      "pays": [
+       {
+        "name": "Institutional funds",
+        "why": "lock in losses due to forced position liquidations"
+       }
+      ],
+      "type": "players",
+      "para": 11,
+      "source": ""
+     },
+     {
+      "quote": "The official US GDP growth figure of 3.4% paints a reassuring picture of macroeconomic stability, yet this number merely masks the deep fragility of the financial architecture.",
+      "type": "pull",
+      "para": 13,
+      "source": ""
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"para\": 0, \"quote\": \"американский фондовый рынок окончательно сломан. По его оценке, Уолл-стрит фактически вернулась к модели игорного дома с запредельным кредитным рычагом в 95%\", \"source\": \"\", \"type\": \"doc\", \"who\": \"Билл Акман\"}, {\"para\": 11, \"pays\": [{\"name\": \"Институциональные фонды\", \"why\": \"фиксируют убытки из-за принудительных закрытий позиций\"}], \"source\": \"\", \"title\": \"Кто выигрывает в условиях рыночной турбулентности\", \"type\": \"players\", \"wins\": [{\"name\": \"Инвесторы с длинным горизонтом\", \"why\": \"выкупают фундаментально сильные бизнесы по кратно заниженным расценкам\"}, {\"name\": \"Фонд Pershing Square\", \"why\": \"превращает рыночные аномалии в системный источник прибыли\"}]}, {\"para\": 13, \"quote\": \"Официальный показатель роста ВВП США в 3,4% создает уверенную картину макроэкономической стабильности, однако эта цифра лишь маскирует глубокую хрупкость финансового контура.\", \"source\": \"\", \"type\": \"pull\"}], null]"
+  }
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-03T17:17:33.433738+03:00",
   "rubric": "business",
