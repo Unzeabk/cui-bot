@@ -638,5 +638,28 @@
   ],
   "message_id": 147,
   "slot": "2026-11-03 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T22:10:39.589674+03:00",
+  "time": "03.11 22:10",
+  "rubric": "usa",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "ssha-zapretili-soft-acronis",
+  "headline": "Почему Вашингтон запретил софт созданной выходцами из МФТИ Acronis",
+  "fly": "Свой среди чужих",
+  "subhead": "Десять лет проверок закончились приказом убрать швейцарский продукт из ведомств",
+  "final": "",
+  "actor": "acronis",
+  "main_title": "США запретили госведомствам использовать софт Acronis уехавшего из России в 90-х выпускника МФТИ",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/03/ssha-zapretili-gosvedomstvam-ispolzovat-soft-acronis-uehavshego-iz-rossii-v-90-h-vipusknika-mfti-a210439"
+  ],
+  "message_id": 148,
+  "slot": "2026-11-03 7 19 * * *"
  }
 ]
