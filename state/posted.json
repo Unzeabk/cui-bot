@@ -529,5 +529,24 @@
   ],
   "message_id": 142,
   "slot": "2026-11-03 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T14:05:09.328091+03:00",
+  "time": "03.11 14:05",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "regulation",
+  "headline": "Новые правила для самокатов только перенесут хаос на дорогу",
+  "fly": "Тише едешь",
+  "final": "",
+  "main_title": "В России запретят кататься вдвоем на электросамокате, а курьерам нельзя будет ездить по тротуарам",
+  "sources": [
+   "https://meduza.io/news/2026/11/03/v-rossii-zapretyat-katatsya-vdvoem-na-elektrosamokate-a-kurieram-nelzya-budet-ezdit-po-trotuaram",
+   "https://www.bfm.ru/news/622779",
+   "https://www.finmarket.ru/main/article/6741821"
+  ],
+  "message_id": 143,
+  "slot": "2026-11-03 52 10 * * *"
  }
 ]
