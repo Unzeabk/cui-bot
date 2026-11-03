@@ -118,20 +118,35 @@ def _call(model: str, system: str, user: str, temperature: float, key: str = "",
     raise QuotaExhausted(f"{model}: не ответила")
 
 
+_TURN = [0]  # ключи по кругу: нагрузка (и квота) расходуется на все ключи ровно, а не на первые два
+
+
 def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> tuple[str, str]:
-    """Возвращает (текст ответа, модель, которая ответила)."""
+    """Возвращает (текст ответа, модель, которая ответила).
+    Ключи идут по кругу. Если Google перегружен (503, таймаут), бот не долбит его повторами — каждый такой запрос
+    тоже съедает квоту, — а ждёт и пробует ещё раз; после двух кругов отказа сдаётся (рубрика переносится)."""
     last = None
     keys = _keys()
-    # сначала сильная модель на всех ключах, только потом модель слабее
-    for model in chain:
-        for ki, key in enumerate(keys):
-            if (ki, model.strip()) in EXHAUSTED:
-                continue
-            try:
-                return _call(model, system, user, temperature, key, ki), model.strip()
-            except (QuotaExhausted, RuntimeError) as e:
-                print("[cui]", e, "— пробую дальше", flush=True)
-                last = e
-                if "перегружен" in str(e) or "нет связи" in str(e) or "недоступна" in str(e):
-                    break  # сбой у Google на всю модель: другие ключи не помогут, сразу следующая модель
+    for rnd in range(2):
+        busy = False
+        for model in chain:
+            start = _TURN[0] % max(1, len(keys))
+            order = list(range(start, len(keys))) + list(range(0, start))
+            for ki in order:
+                if (ki, model.strip()) in EXHAUSTED:
+                    continue
+                try:
+                    out = _call(model, system, user, temperature, keys[ki], ki), model.strip()
+                    _TURN[0] = ki + 1
+                    return out
+                except (QuotaExhausted, RuntimeError) as e:
+                    print("[cui]", e, "— пробую дальше", flush=True)
+                    last = e
+                    if "перегружен" in str(e) or "нет связи" in str(e) or "недоступна" in str(e):
+                        busy = True
+                        break  # сбой у Google на всю модель: другие ключи не помогут, следующая модель
+        if not busy or rnd:
+            break
+        print("[cui] Google перегружен — жду 90 с и пробую ещё раз", flush=True)
+        time.sleep(90)
     raise RuntimeError(f"Ни одна модель не ответила, последняя ошибка: {last}")

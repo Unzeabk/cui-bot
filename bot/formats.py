@@ -388,7 +388,7 @@ def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> 
                 f"\n\nУЖЕ НАПИСАНО:\n" + ("\n\n".join(paragraphs) or "(ничего, это начало статьи)"))
         sysmsg = base.replace("{fmt}", ANALYSIS_PART.format(n=n, used=", ".join(used) or "пока нет"))
         part, m = [], ""
-        for _ in range(3):  # короткую или не написанную часть просим ещё раз
+        for _ in range(2):  # короткую или не написанную часть просим ещё раз
             try:
                 t, m = ask(WRITER_CHAIN, sysmsg, user, temperature=0.7)
                 got = fix_links(extract_json(t), allowed).get("paragraphs") or []
@@ -401,6 +401,8 @@ def write_analysis(recent: list[dict], mats: list[dict], feedback: str = "") -> 
                 break
         paragraphs += [p for p in part if isinstance(p, str) and p.strip()]
         log(f"часть {n}: {sum(len(plain(p).split()) for p in part)} слов ({m})")
+        if not part:  # часть не написалась — дальше не жжём квоту, разбор выйдет следующим запуском
+            raise Postpone(f"часть {n} не написалась (Google перегружен или квота)")
     plan["paragraphs"] = paragraphs
     plan.pop("beats", None)
     return plan, model
@@ -715,7 +717,7 @@ def main() -> int:
         return 0
     if not dry and fmt == "analysis" and os.environ.get("SLOT"):
         # у разбора два запуска в день (сразу после сброса квот и запасной) — второй не повторяет первый
-        since = datetime.now(TZ) - timedelta(hours=12)
+        since = datetime.now(TZ).replace(hour=0, minute=0, second=0, microsecond=0)  # один разбор в календарный день
         if any(e.get("rubric") == fmt and datetime.fromisoformat(e["time_iso"]) > since for e in state if e.get("time_iso")):
             log(f"«{FORMATS[fmt]['label'].capitalize()}» сегодня уже вышла — пропускаю")
             return 0

@@ -19,6 +19,8 @@ const SLOTS = [
   { cron: "52 9 * * 6", wf: "formats.yml", format: "week" },       // сб 12:52 Неделя
   { cron: "52 10 * * *", wf: "formats.yml", format: "position" },  // 13:52 Позиция
   { cron: "22 12 * * *", wf: "formats.yml", format: "analysis" },  // 15:22 запасной Разбор
+  { cron: "22 15 * * *", wf: "formats.yml", format: "analysis" },  // 18:22 второй запасной Разбор (если Google лежал днём)
+  { cron: "22 18 * * *", wf: "formats.yml", format: "analysis" },  // 21:22 третий запасной
   { cron: "52 17 * * *", wf: "formats.yml", format: "position" },  // 20:52 Позиция
   // рассылка: сб 14:17 МСК, после «Недели»; у неё нет входов
   { cron: "17 11 * * 6", wf: "newsletter.yml", plain: true },
