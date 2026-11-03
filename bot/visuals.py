@@ -328,7 +328,7 @@ def plan(e: dict, recent: list[str] | None = None) -> dict:
         hint = (f"\nНа сайте сейчас часто: {', '.join(tired)} — если текст позволяет, выбери другой тип." if tired else "")
         head = f"Жанр: {e.get('kind')}{hint}\n{e.get('headline', '')}\n{e.get('subhead', '')}\n\n"
         from .gemini import CHECK_CHAIN
-        chain = CHECK_CHAIN + LIGHT_CHAIN  # бильд-редактор — модель посильнее; квоты хватает: текст размечается один раз
+        chain = LIGHT_CHAIN + CHECK_CHAIN  # сначала лёгкая: квоту 3.6/3.8 бережём для текстов и фактчека
         raw, _ = ask(chain, SYSTEM, head + numbered[:14000], temperature=0.3)
         d = _check(extract_json(raw), text, len(pars), e.get("kind") or "note")
         _debug(e, "план", raw, d)
