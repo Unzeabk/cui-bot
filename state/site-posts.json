@@ -1644,37 +1644,37 @@
    "blocks": [],
    "places": [
     {
-     "name": "НАССАУ",
-     "lat": 25.048,
-     "lon": -77.3554,
+     "name": "GEORGE TOWN",
+     "lat": 5.4141,
+     "lon": 100.3288,
      "scale": "country"
     },
     {
-     "name": "БЕЛГРАД",
+     "name": "BELGRADE",
      "lat": 44.7866,
      "lon": 20.4489,
      "scale": "country"
     },
     {
-     "name": "НИЖНИЙ НОВГОРОД",
-     "lat": 56.3269,
-     "lon": 44.0059,
+     "name": "NIZHNY NOVGOROD",
+     "lat": 56.2965,
+     "lon": 43.9361,
      "scale": "country"
     },
     {
-     "name": "МОСКВА",
+     "name": "MOSCOW",
      "lat": 55.7558,
      "lon": 37.6173,
      "scale": "country"
     },
     {
-     "name": "ТАШКЕНТ",
+     "name": "TASHKENT",
      "lat": 41.2995,
      "lon": 69.2401,
      "scale": "country"
     },
     {
-     "name": "АНКАРА",
+     "name": "ANKARA",
      "lat": 39.9334,
      "lon": 32.8597,
      "scale": "country"
