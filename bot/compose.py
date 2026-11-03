@@ -8,7 +8,7 @@ from urllib.parse import unquote
 from .rubrics import RUBRICS, FORMS, LAYOUTS, OPTIC_FAMILY
 
 CAPTION_LIMIT = 1024  # лимит подписи к фото в Bot API
-CAPTION_TARGET = 950  # telegram.md: весь пост до 950 знаков
+CAPTION_TARGET = 520  # telegram.md: короткий пост до 520 знаков; полная версия — на сайте
 
 LINK_RE = re.compile(r"\[([^\]]+)\]\((https?://[^)\s]+)\)")
 
@@ -36,7 +36,7 @@ BANNED = [
     (re.compile(r"(?:^|[\s,.—–-])не\s+[^.!?;:]{1,60}?,\s+а\s+", re.I), "качели «не X, а Y»"),
 ]
 
-REQUIRED = ["rubric", "fly", "headline", "subhead", "paragraphs", "form", "optics", "topic_key", "cover"]
+REQUIRED = ["rubric", "fly", "headline", "subhead", "paragraphs", "tg", "form", "optics", "topic_key", "cover"]
 
 
 def extract_json(text: str) -> dict:
@@ -63,7 +63,7 @@ def banned_hits(text: str) -> list[str]:
 
 
 def links_in(note: dict) -> list[str]:
-    parts = [note.get("headline", ""), note.get("subhead", ""), note.get("final") or ""] + list(note.get("paragraphs", []))
+    parts = [note.get("headline", ""), note.get("subhead", ""), note.get("final") or ""] + list(note.get("paragraphs", [])) + list(note.get("tg") or [])
     return [u for p in parts for _, u in LINK_RE.findall(p)]
 
 
@@ -89,8 +89,9 @@ def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     prefix = f'<tg-emoji emoji-id="{emoji_id}">{mark}</tg-emoji> ' if emoji_id else ""
     fly = (note["fly"] or "").strip()
     head = f"{prefix}<code>{html.escape(name)}</code> · <i>{_inline(fly[:1].upper() + fly[1:])}</i>"
-    paras = [_inline(p) for p in note["paragraphs"]]
-    final = (note.get("final") or "").strip()
+    short = note.get("tg") or []
+    paras = [_inline(p) for p in (short or note["paragraphs"])]
+    final = (note.get("final") or "").strip() if not short else ""  # финал — только в полной версии
     if final:  # последняя фраза — продолжение последнего абзаца, без цитаты и без отдельной «подписи»
         paras[-1] = f"{paras[-1]} {_inline(final)}"
     body = "\n\n".join(paras)
@@ -161,6 +162,9 @@ def dedupe_links(note: dict) -> dict:
     note["paragraphs"] = [fix(p) for p in note.get("paragraphs", [])]
     if note.get("final"):
         note["final"] = fix(note["final"])
+    if note.get("tg"):  # в коротком посте свой счёт ссылок: каждый источник — один раз
+        seen = set()
+        note["tg"] = [fix(p) for p in note["tg"]]
     return note
 
 
@@ -255,8 +259,14 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append(f"неизвестная рубрика {note['rubric']}")
     if note["form"] not in FORMS:
         problems.append(f"неизвестная форма заголовка {note['form']}")
-    if not isinstance(note["paragraphs"], list) or not (2 <= len(note["paragraphs"]) <= 3):
-        problems.append("абзацев должно быть 2–3")
+    if not isinstance(note["paragraphs"], list) or not (4 <= len(note["paragraphs"]) <= 5):
+        problems.append("в полной версии (paragraphs) должно быть 4–5 абзацев")
+    elif len(" ".join(plain(p) for p in note["paragraphs"])) > 1700:
+        problems.append("полная версия длиннее 1600 знаков: сократи")
+    if not isinstance(note.get("tg"), list) or len(note.get("tg") or []) != 2:
+        problems.append("короткий пост (tg) — ровно 2 абзаца: факт с поворотом и заноза")
+    elif plain(note["tg"][0]).strip()[:60] == plain(note["paragraphs"][0]).strip()[:60]:
+        problems.append("короткий пост копирует начало полной версии: напиши его отдельно")
 
     words = len(plain(note["headline"]).split())
     if not 6 <= words <= 9:
@@ -266,7 +276,7 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
     problems += note_rules(note)
 
 
-    text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"]])
+    text_all = " ".join([note["fly"], note["headline"], note["subhead"], note.get("final") or "", *note["paragraphs"], *(note.get("tg") or [])])
     problems += banned_hits(plain(text_all))
 
     links = links_in(note)
