@@ -620,5 +620,23 @@
   ],
   "message_id": 146,
   "slot": "2026-11-03 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T20:59:17.756156+03:00",
+  "time": "03.11 20:59",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "sanctions",
+  "headline": "Минфину США следует запретить размен зарубежного ЛУКОЙЛа",
+  "fly": "Обмен без сдачи",
+  "final": "",
+  "main_title": "Reuters узнал о сделке на $22 млрд с замороженными бумагами ЛУКОЙЛа",
+  "sources": [
+   "https://tass.ru/ekonomika/28283937",
+   "https://www.kommersant.ru/doc/9080060"
+  ],
+  "message_id": 147,
+  "slot": "2026-11-03 52 17 * * *"
  }
 ]
