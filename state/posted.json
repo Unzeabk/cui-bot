@@ -457,5 +457,29 @@
   ],
   "message_id": 139,
   "slot": "2026-11-03 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T08:41:32.766249+03:00",
+  "time": "03.11 08:41",
+  "rubric": "china",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "разумные по одному",
+   "предел физики"
+  ],
+  "topic_key": "pboc-raises-forex-rrr-yuan",
+  "headline": "Зачем Народный банк Китая усложняет работу с валютой",
+  "fly": "Слишком крепкий орешек",
+  "subhead": "Пекин борется с дорогой национальной валютой, изымая долларовую ликвидность из коммерческих банков.",
+  "final": "",
+  "actor": "pboc",
+  "main_title": "PBOC to raise banks’ forex reserve requirements to ease appreciation pressure on yuan",
+  "sources": [
+   "https://www.scmp.com/business/article/3373053/pboc-raise-reserve-requirement-ratio-foreign-exchange-deposits-2-percentage-points",
+   "https://www.wsj.com/finance/stocks/australian-banks-outperforming-on-rotation-away-from-ai-04a0c978?mod=rss_markets_main"
+  ],
+  "message_id": 140,
+  "slot": "2026-11-03 37 5 * * *"
  }
 ]
