@@ -686,5 +686,31 @@
   ],
   "message_id": 149,
   "slot": "2026-11-04 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-04T02:39:00.123959+03:00",
+  "time": "04.11 02:39",
+  "rubric": "sanctions",
+  "form": "абсурд как явление",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "лестница власти"
+  ],
+  "topic_key": "nyu-dzhersi-zapret-dizel",
+  "headline": "Губернатор Нью-Джерси пригрозил портам миллионными штрафами за российский дизель",
+  "fly": "Закон тайги",
+  "subhead": "Временная лицензия Минфина США столкнулась с угрозой регионального запрета",
+  "final": "",
+  "actor": "new jersey",
+  "main_title": "NYT: в Нью-Джерси пригрозили штрафами за разгрузку российского дизеля",
+  "sources": [
+   "https://www.vedomosti.ru/politics/news/2026/11/04/1242567-nyu-dzhersi-prigrozili-shtrafami",
+   "https://www.pnp.ru/in-world/gubernator-nyu-dzhersi-prigrozila-shtrafami-za-priem-rossiyskogo-dizelya.html",
+   "https://t.me/agentstvonews/18042",
+   "https://gcaptain.com/new-jersey-governor-warns-ports-against-handling-russian-diesel/"
+  ],
+  "message_id": 150,
+  "slot": "2026-11-04 37 23 * * *"
  }
 ]
