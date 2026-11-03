@@ -573,5 +573,29 @@
   ],
   "message_id": 144,
   "slot": "2026-11-03 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-03T18:49:33.116503+03:00",
+  "time": "03.11 18:49",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Разумные по одному",
+   "Метрика-оборотень"
+  ],
+  "topic_key": "usa",
+  "headline": "Уолл-стрит превратила американский фондовый рынок в гигантское казино",
+  "fly": "Ставки больше не равны",
+  "final": "",
+  "main_title": "Marshall Wace and Millennium hit as hedge funds suffer in October’s AI rout",
+  "sources": [
+   "https://www.ft.com/content/fae029f1-f03e-4509-852e-396fa4863271?syn-25a6b1a6=1",
+   "https://www.nytimes.com/2026/10/29/business/economy/federal-reserve-interest-rates.html",
+   "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
+   "https://www.cnbc.com/2026/11/03/bill-ackman-casino-stock-market.html",
+   "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
+  ],
+  "message_id": 145,
+  "slot": "2026-11-03 manual-2026-11-03"
  }
 ]
