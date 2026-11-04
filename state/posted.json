@@ -783,5 +783,29 @@
   ],
   "message_id": 153,
   "slot": "2026-11-04 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-04T12:39:03.938196+03:00",
+  "time": "04.11 12:39",
+  "rubric": "settlements",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "kazakhstan-neft-druzhba-tranzit",
+  "headline": "Казахстан запросил возобновление транзита нефти через Россию",
+  "fly": "Дружба народов",
+  "subhead": "Труба в Германию молчит со дня национализации завода «Роснефти»",
+  "final": "",
+  "actor": "minenergo",
+  "main_title": "Казахстан заявил о готовности возобновить поставки нефти по «Дружбе»",
+  "sources": [
+   "https://www.rbc.ru/politics/21/04/2026/69e7449f9a7947822f6854a9",
+   "https://thebell.io/kazakhstan-ofitsialno-poprosil-rossiyu-snova-pustit-ego-neft-v-germaniyu-po-druzhbe"
+  ],
+  "message_id": 154,
+  "slot": "2026-11-04 37 9 * * *"
  }
 ]
