@@ -873,5 +873,24 @@
   ],
   "message_id": 157,
   "slot": "2026-11-04 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-04T20:55:23.272940+03:00",
+  "time": "04.11 20:55",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "budget",
+  "headline": "Заградительные пошлины на алкоголь не спасут бюджет от дыры",
+  "fly": "Тарифный план",
+  "final": "",
+  "main_title": "Кабмин расширил ограничения на госзакупки иностранных аккумуляторов и мебели",
+  "sources": [
+   "https://www.vedomosti.ru/business/news/2026/11/02/1242211-kabmin-rasshiril-ogranicheniya",
+   "https://www.themoscowtimes.com/2026/11/04/russia-hikes-tariffs-on-spirits-from-unfriendly-countries-a94175",
+   "https://thebell.io/pravitelstvo-podnyalo-poshliny-nanedruzhestvennyy-alkogol"
+  ],
+  "message_id": 158,
+  "slot": "2026-11-04 52 17 * * *"
  }
 ]
