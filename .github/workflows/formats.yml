@@ -126,6 +126,6 @@ jobs:
             for i in 1 2 3 4 5; do git pull --rebase --autostash -X theirs origin main && git push && break; sleep 5; done
           fi
           npx --yes wrangler@3 pages project create cuibono --production-branch=main >/dev/null 2>&1 || true  # проект уже есть — это нормально
-          npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true
+          for i in 1 2 3 4; do npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true && break; echo "выкладка не прошла (сбой Cloudflare), повтор через 30 с"; sleep 30; done
           sleep 45  # новые адреса уже открываются — сообщаем поисковикам
           python -m bot.site --ping site

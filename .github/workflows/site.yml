@@ -62,7 +62,7 @@ jobs:
             echo '${{ secrets.BREVO_API_KEY }}' | npx --yes wrangler@3 pages secret put BREVO_API_KEY --project-name=cuibono || true
             python -c "import json;print(json.load(open('state/brevo.json')).get('list_id',''))" | npx --yes wrangler@3 pages secret put BREVO_LIST_ID --project-name=cuibono || true
           fi
-          npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true
+          for i in 1 2 3 4; do npx --yes wrangler@3 pages deploy site --project-name=cuibono --branch=main --commit-dirty=true && break; echo "выкладка не прошла (сбой Cloudflare), повтор через 30 с"; sleep 30; done
           if [ -f state/brevo.json ] && ! grep -q '"checked": true' state/brevo.json; then
             sleep 40
             BREVO_API_KEY='${{ secrets.BREVO_API_KEY }}' python -m bot.brevo selftest || true
