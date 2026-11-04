@@ -712,5 +712,29 @@
   ],
   "message_id": 150,
   "slot": "2026-11-04 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-04T05:10:14.095324+03:00",
+  "time": "04.11 05:10",
+  "rubric": "europe",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "сдвиг горизонта",
+   "обменник"
+  ],
+  "topic_key": "drax-ai-datacentre-2026",
+  "headline": "Крупнейшая британская электростанция превратится в дата-центр ради ИИ",
+  "fly": "Свет в конце трубы",
+  "subhead": "Власти урежут миллионные субсидии станции, но владельцы нашли способ сохранить миллиарды",
+  "final": "",
+  "actor": "drax",
+  "main_title": "UK’s most polluting power plant could power country’s largest AI datacentre",
+  "sources": [
+   "https://www.theguardian.com/business/2026/nov/03/uk-drax-power-station-ai-datacentre",
+   "https://www.agbi.com/ai/2026/11/qatar-backed-venture-to-fund-uks-27bn-data-centre-project/"
+  ],
+  "message_id": 151,
+  "slot": "2026-11-04 7 2 * * *"
  }
 ]
