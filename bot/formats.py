@@ -594,8 +594,15 @@ def site_first(fmt: str, d: dict, cover) -> str:
         write_entry(fmt, d, None, cover, "")
         root = Path(__file__).resolve().parent.parent
         subprocess.run([sys.executable, "-m", "bot.site", "site"], cwd=root, check=True, timeout=600)
-        subprocess.run(["npx", "--yes", "wrangler@3", "pages", "deploy", "site", "--project-name=cuibono",
-                        "--branch=main", "--commit-dirty=true"], cwd=root, check=True, timeout=600)
+        for i in range(4):  # Cloudflare иногда отвечает внутренней ошибкой — повторяем
+            r = subprocess.run(["npx", "--yes", "wrangler@3", "pages", "deploy", "site", "--project-name=cuibono",
+                                "--branch=main", "--commit-dirty=true"], cwd=root, timeout=600)
+            if r.returncode == 0:
+                break
+            log(f"выкладка не прошла (попытка {i + 1}), повтор через 30 с")
+            time.sleep(30)
+        else:
+            raise RuntimeError("Cloudflare не принял выкладку")
         entry = {"time_iso": datetime.now(TZ).isoformat(), "topic_key": d.get("topic_key", "")}
         slug = _slug(entry)
         if not (root / "site" / "p" / f"{slug}.html").exists():
