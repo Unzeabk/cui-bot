@@ -807,5 +807,24 @@
   ],
   "message_id": 154,
   "slot": "2026-11-04 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-04T13:57:05.606550+03:00",
+  "time": "04.11 13:57",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "finance",
+  "headline": "Автоматический перевод пенсий в ПДС подменяет доверие распределением остатков",
+  "fly": "Мнение редакции",
+  "final": "",
+  "main_title": "Австрийская группа Raiffeisen вновь попытается продать Райффайзенбанк в России и продолжит сокращать его деятельность, сообщает РБК. За…",
+  "sources": [
+   "https://www.vedomosti.ru/economics/news/2026/11/02/1242045-komissiya-odobrila",
+   "https://t.me/banksta/104761",
+   "https://iz.ru/2196103/2026-11-04/polsha-i-strany-baltii-prizvali-es-rastorgnut-investdogovory-s-rossiei"
+  ],
+  "message_id": 155,
+  "slot": "2026-11-04 52 10 * * *"
  }
 ]
