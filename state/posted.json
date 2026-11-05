@@ -1062,5 +1062,25 @@
   ],
   "message_id": 165,
   "slot": "2026-11-05 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T14:03:42.904599+03:00",
+  "time": "05.11 14:03",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "budget",
+  "headline": "Высокие цены на нефть больше не спасают бюджет",
+  "fly": "Мнение редакции",
+  "final": "",
+  "main_title": "Минфин в ноябре купит валюты и золота на 312,6 млрд рублей",
+  "sources": [
+   "https://frankmedia.ru/314034",
+   "https://www.vedomosti.ru/finance/news/2026/11/03/1242340-mirovie-tsentrobanki",
+   "https://thebell.io/neftegazovye-dokhody-byudzheta-vyrosli-v-oktyabre-no-snizilis-s-nachala-goda",
+   "https://ru.themoscowtimes.com/2026/11/05/update-1-oktyabr-prines-byudzhetu-rf-pochti-1-trln-r-neftegazovykh-dokhodov-blagodarya-dorogoy-nefti-a210541"
+  ],
+  "message_id": 166,
+  "slot": "2026-11-05 52 10 * * *"
  }
 ]
