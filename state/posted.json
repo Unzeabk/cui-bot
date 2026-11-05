@@ -1132,5 +1132,24 @@
   ],
   "message_id": 168,
   "slot": "2026-11-05 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T20:56:14.374734+03:00",
+  "time": "05.11 20:56",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "regulation",
+  "headline": "Автоматизация финансовой разведки не защитит добросовестный бизнес",
+  "fly": "Все ходы записаны",
+  "final": "",
+  "main_title": "Президент РФ отметил необходимость завершить создание концепции финансовой безопасности",
+  "sources": [
+   "https://www.interfax.ru/russia/1127281",
+   "https://iz.ru/2196922/putin-prizval-vnedriat-ii-v-finansovuiu-razvedku-izi",
+   "https://ria.ru/20261105/putin-2129537726.html"
+  ],
+  "message_id": 169,
+  "slot": "2026-11-05 52 17 * * *"
  }
 ]
