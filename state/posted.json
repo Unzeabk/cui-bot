@@ -1106,5 +1106,31 @@
   ],
   "message_id": 167,
   "slot": "2026-11-05 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T20:00:25.642142+03:00",
+  "time": "05.11 20:00",
+  "rubric": "property",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "jti-vremennoe-upravlenie-2026",
+  "headline": "Кремль забрал под внешнее управление крупнейшего игрока табачного рынка",
+  "fly": "В дыму отечества",
+  "subhead": "Временным управляющим назначили компанию-тёзку, из-за чего реальный владелец в указе не виден",
+  "final": "",
+  "actor": "japan tobacco",
+  "main_title": "Путин передал во временное управление российские активы табачного гиганта JTI",
+  "sources": [
+   "https://novayagazeta.eu/articles/2026/11/05/putin-peredal-vo-vremennoe-upravlenie-rossiiskie-aktivy-tabachnogo-giganta-jti-news",
+   "https://www.bfm.ru/news/622976",
+   "https://www.themoscowtimes.com/2026/11/05/kremlin-seizes-japan-tobacco-internationals-russian-assets-a94186",
+   "https://t.me/thebell_io/39772"
+  ],
+  "message_id": 168,
+  "slot": "2026-11-05 37 16 * * *"
  }
 ]
