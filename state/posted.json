@@ -986,5 +986,29 @@
   ],
   "message_id": 162,
   "slot": "2026-11-05 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T11:02:23.414124+03:00",
+  "time": "05.11 11:02",
+  "rubric": "usa",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "обменник"
+  ],
+  "topic_key": "cvs-health-split-pharmacy-insurance",
+  "headline": "Почему крупнейшая американская медицинская империя разделяет аптеки и страховку?",
+  "fly": "Своя ноша тяженет",
+  "subhead": "Конгломерат стоимостью 117 миллиардов долларов уступает давлению властей штатов",
+  "final": "",
+  "actor": "cvs health",
+  "main_title": "CVS Health to split pharmacy chain from health insurance",
+  "sources": [
+   "https://www.theguardian.com/us-news/2026/nov/04/cvs-health-pharmacy-insurance",
+   "https://www.paymentsdive.com/news/truist-expands-merchant-tools-chris-ward/873617/"
+  ],
+  "message_id": 163,
+  "slot": "2026-11-05 37 7 * * *"
  }
 ]
