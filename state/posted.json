@@ -1201,5 +1201,28 @@
   ],
   "message_id": 171,
   "slot": "2026-11-06 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-06T02:53:00.720039+03:00",
+  "time": "06.11 02:53",
+  "rubric": "property",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "предел физики"
+  ],
+  "topic_key": "isk-major-profi-belkacar",
+  "headline": "BelkaCar получила иск от лизингодателя почти на миллиард рублей",
+  "fly": "Счётчик включён",
+  "subhead": "Конфликт возник при расторжении договоров и возврате машин, но оператор не согласен с расчётами",
+  "final": "",
+  "actor": "belkacar",
+  "main_title": "К BelkaCar подали иск почти на 883 млн рублей",
+  "sources": [
+   "https://www.vedomosti.ru/business/articles/2026/11/06/1243046-k-belkacar-podali-isk"
+  ],
+  "message_id": 172,
+  "slot": "2026-11-06 37 23 * * *"
  }
 ]
