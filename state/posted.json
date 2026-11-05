@@ -1038,5 +1038,29 @@
   ],
   "message_id": 164,
   "slot": "2026-11-05 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T12:51:21.119904+03:00",
+  "time": "05.11 12:51",
+  "rubric": "newmarkets",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "socar-us-gas-assets-haynesville-2026",
+  "headline": "Государственная нефтяная компания Азербайджана покупает активы в США",
+  "fly": "За морем телушка — полушка",
+  "subhead": "SOCAR инвестирует 1,65 млрд долларов в сланцевые проекты Comstock",
+  "final": "",
+  "actor": "socar",
+  "main_title": "Azerbaijan’s SOCAR to acquire $1.7 billion worth of energy assets in US",
+  "sources": [
+   "https://oc-media.org/azerbaijans-socar-to-acquire-1-7-billion-worth-of-energy-assets-in-us/",
+   "https://oilprice.com/Latest-Energy-News/World-News/SOCAR-Bets-165-Billion-on-US-Shale-Gas-Boom.html"
+  ],
+  "message_id": 165,
+  "slot": "2026-11-05 37 9 * * *"
  }
 ]
