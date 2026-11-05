@@ -1151,5 +1151,31 @@
   ],
   "message_id": 169,
   "slot": "2026-11-05 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T22:19:52.114502+03:00",
+  "time": "05.11 22:19",
+  "rubric": "newmarkets",
+  "form": "неожиданная география",
+  "layout": "от предмета",
+  "optics": [
+   "метрика-оборотень",
+   "пузырь веры"
+  ],
+  "topic_key": "collapse-ueno-bank-paraguay",
+  "headline": "Крах цифрового банка в Парагвае лишил президента власти",
+  "fly": "Латинская ничья",
+  "subhead": "Отказ системы заморозил деньги шестидесяти процентов взрослых парагвайцев.",
+  "final": "",
+  "actor": "ueno bank",
+  "main_title": "Paraguay president resigns after collapse of Ueno digital bank",
+  "sources": [
+   "https://cointelegraph.com/news/paraguay-president-resigns-after-collapse-ueno-digital-bank?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "https://t.me/banksta/104899",
+   "https://meduza.io/news/2026/11/05/prezident-paragvaya-podal-v-otstavku-posle-kraha-mestnogo-banka",
+   "https://www.intellinews.com/paraguay-s-pe-a-quits-as-ueno-bank-collapse-turns-his-party-against-him-482381/"
+  ],
+  "message_id": 170,
+  "slot": "2026-11-05 7 19 * * *"
  }
 ]
