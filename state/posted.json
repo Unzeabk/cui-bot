@@ -1010,5 +1010,33 @@
   ],
   "message_id": 163,
   "slot": "2026-11-05 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-05T11:33:13.738299+03:00",
+  "time": "05.11 11:33",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Обратный эффект",
+   "Пузырь веры"
+  ],
+  "topic_key": "usa",
+  "headline": "Борьба Трампа с инфляцией лишила республиканцев обеих палат конгресса",
+  "fly": "За что боролись",
+  "final": "",
+  "main_title": "Смена власти в конгрессе и ее последствия. Главное о выборах в США",
+  "sources": [
+   "https://meduza.io/news/2026/11/05/the-washington-sun-marko-rubio-na-postu-gossekretarya-mozhet-smenit-vyhodets-iz-sssr-posol-ssha-v-indii-serdzhio-gor",
+   "https://www.economist.com/united-states/2026/11/03/midterms-coverage",
+   "https://cointelegraph.com/news/lawyer-up-democrats-target-trump-big-tech-after-midterm-sweep?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "https://www.rbc.ru/politics/28/10/2026/6ae0aa619a79479f04893061",
+   "https://meduza.io/feature/2026/11/05/kak-demokraty-posle-pobedy-na-vyborah-mogut-izmenit-vneshnyuyu-politiku-ssha-pyat-klyuchevyh-napravleniy-po-versii-agentstva-reuters",
+   "https://t.me/thebell_io/39761",
+   "https://thebell.io/izbirateli-nakazali-trampa-za-tseny-kak-dva-goda-nazad-baydena-pyat-vyvodov-iz-vyborov-v-ssha",
+   "https://ru.themoscowtimes.com/2026/11/05/forex-dollarsnizhaetsya-na-fone-rosta-appetita-k-risku-posle-vyborov-v-kongress-ssha-a210507",
+   "https://www.ft.com/content/9a4a7357-f783-462f-b5d3-9852daf0f328?syn-25a6b1a6=1"
+  ],
+  "message_id": 164,
+  "slot": "2026-11-05 22 8 * * *"
  }
 ]
