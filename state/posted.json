@@ -1367,5 +1367,29 @@
   ],
   "message_id": 178,
   "slot": "2026-11-06 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-07T00:41:12.275789+03:00",
+  "time": "07.11 00:41",
+  "rubric": "sanctions",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "козёл отпущения",
+   "предел физики"
+  ],
+  "topic_key": "sanctions-mexc-fincen-2026",
+  "headline": "США закрыли криптобирже MEXC доступ к своей финансовой системе",
+  "fly": "Затянуть узлы",
+  "subhead": "Кампания Минфина США против обхода санкций через крипту добралась до крупной международной площадки.",
+  "final": "",
+  "actor": "mexc global",
+  "main_title": "Министерство финансов США введет санкции  против криптовалютной биржи MEXC Global из-за транзакций, связанных с Ираном, Северной Кореей и Россией. @banksta",
+  "sources": [
+   "https://t.me/banksta/104992",
+   "https://cointelegraph.com/news/us-treasury-bans-mexc-over-alleged-16b-illicit-transactions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+  ],
+  "message_id": 179,
+  "slot": "2026-11-07 37 21 * * *"
  }
 ]
