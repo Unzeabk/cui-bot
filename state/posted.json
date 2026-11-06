@@ -1343,5 +1343,29 @@
   ],
   "message_id": 177,
   "slot": "2026-11-06 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-06T22:19:21.352191+03:00",
+  "time": "06.11 22:19",
+  "rubric": "finance",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "слепое пятно"
+  ],
+  "topic_key": "russia-crypto-trading-rules-2026",
+  "headline": "Зачем Центробанку легальная криптовалюта без свободных кошельков?",
+  "fly": "Собой закрыть",
+  "subhead": "Частным инвесторам разрешат торговлю биткоином и Tether, но переводить монеты на личные адреса не дадут",
+  "final": "",
+  "actor": "mosbirzha",
+  "main_title": "Russia finalizes crypto trading rules ahead of Nov. 17 rollout",
+  "sources": [
+   "https://cointelegraph.com/news/russia-finalizes-crypto-trading-rules-november-rollout?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "https://t.me/centralbank_russia/3924"
+  ],
+  "message_id": 178,
+  "slot": "2026-11-06 7 19 * * *"
  }
 ]
