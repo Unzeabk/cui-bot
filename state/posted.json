@@ -1391,5 +1391,30 @@
   ],
   "message_id": 179,
   "slot": "2026-11-07 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-07T02:44:52.581708+03:00",
+  "time": "07.11 02:44",
+  "rubric": "newmarkets",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "спектакль",
+   "предел физики"
+  ],
+  "topic_key": "iran-s400-request-2026",
+  "headline": "Личное письмо Хаменеи упёрлось в дефицит систем ПВО",
+  "fly": "Бумажный триумф",
+  "subhead": "Срываются и другие оборонные заказы Тегерана — от Су-35 до ракетных установок.",
+  "final": "",
+  "actor": "iran",
+  "main_title": "Иран попросил у Путина комплексы С-400",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/06/iran-poprosil-uputina-kompleksi-s-400-a210701",
+   "https://ura.news/news/1053142225",
+   "https://www.theguardian.com/world/2026/nov/05/russia-agreed-to-supply-iran-90-helicopter-missile-launchers"
+  ],
+  "message_id": 180,
+  "slot": "2026-11-07 37 23 * * *"
  }
 ]
