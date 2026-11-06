@@ -1318,5 +1318,30 @@
   ],
   "message_id": 176,
   "slot": "2026-11-06 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-06T17:25:00.316968+03:00",
+  "time": "06.11 17:25",
+  "rubric": "postsoviet",
+  "form": "невозможный факт",
+  "layout": "от цифры",
+  "optics": [
+   "теневой двойник",
+   "разумные по одному"
+  ],
+  "topic_key": "verbovka-migrantov-v-armiyu-2026",
+  "headline": "Объявление о работе вахтовиком закончилось нотой МИД",
+  "fly": "Вахтовый метод",
+  "subhead": "Соседи всё активнее вытаскивают своих мигрантов из контрактов с Минобороны.",
+  "final": "",
+  "actor": "mid kirgizii",
+  "main_title": "Кыргызстан потребовал вернуть своего гражданина из российской армии",
+  "sources": [
+   "https://www.gazeta.uz/ru/2026/11/06/kyrgyzstan/",
+   "https://kz.kursiv.media/2026-11-06/svvo-kyrgyzstan-poprosil-rossiyu-vernut-21-letnego-parnya-s-voennogo-poligona/?utm_source=rss&utm_medium=rss&utm_campaign=svvo-kyrgyzstan-poprosil-rossiyu-vernut-21-letnego-parnya-s-voennogo-poligona",
+   "https://www.dw.com/ru/кыргызстан-направил-мид-россии-ноту-с-целью-вернуть-завербованного-в-армию-21-летнего-гражданина-страны/a-79874040?maca=rus-rss-ru-all-1126-rdf"
+  ],
+  "message_id": 177,
+  "slot": "2026-11-06 7 14 * * *"
  }
 ]
