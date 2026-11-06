@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://cuibono.press/</loc><lastmod>2026-11-06</lastmod></url>
-<url><loc>https://cuibono.press/r/analysis</loc><lastmod>2026-11-05</lastmod></url>
+<url><loc>https://cuibono.press/r/analysis</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/r/position</loc><lastmod>2026-11-05</lastmod></url>
 <url><loc>https://cuibono.press/r/week</loc><lastmod>2026-11-01</lastmod></url>
 <url><loc>https://cuibono.press/r/russia</loc><lastmod>2026-11-03</lastmod></url>
@@ -34,6 +34,7 @@
 <url><loc>https://cuibono.press/t/pravitelstvo</loc><lastmod>2026-11-04</lastmod></url>
 <url><loc>https://cuibono.press/t/moskva</loc><lastmod>2026-11-04</lastmod></url>
 <url><loc>https://cuibono.press/t/nizhegorodskaya-oblast</loc><lastmod>2026-11-02</lastmod></url>
+<url><loc>https://cuibono.press/p/2026-11-06-business</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-06-zapret-na-vezd-migrantam-2026</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-06-povorot-na-vostok-sibir-ran</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-06-finnish-court-jails-captain-cable-sabotage</loc><lastmod>2026-11-06</lastmod></url>
@@ -96,10 +97,11 @@
 <url><loc>https://cuibono.press/data/indeks-mosbirzhi</loc><lastmod>2026-11-05</lastmod></url>
 <url><loc>https://cuibono.press/data/zoloto</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/data</loc></url>
+<url><loc>https://cuibono.press/en/2026-11-06-business</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/en/2026-11-05-usa</loc><lastmod>2026-11-05</lastmod></url>
 <url><loc>https://cuibono.press/en/2026-11-03-usa</loc><lastmod>2026-11-03</lastmod></url>
 <url><loc>https://cuibono.press/en/2026-11-02-tech</loc><lastmod>2026-11-02</lastmod></url>
-<url><loc>https://cuibono.press/en/</loc><lastmod>2026-11-05</lastmod></url>
+<url><loc>https://cuibono.press/en/</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/data/akcii/sber</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/data/akcii/lkoh</loc><lastmod>2026-11-06</lastmod></url>
 <url><loc>https://cuibono.press/data/akcii/gazp</loc><lastmod>2026-11-06</lastmod></url>
