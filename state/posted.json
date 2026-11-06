@@ -1224,5 +1224,29 @@
   ],
   "message_id": 172,
   "slot": "2026-11-06 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-06T05:11:58.920055+03:00",
+  "time": "06.11 05:11",
+  "rubric": "europe",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "finnish-court-jails-captain-cable-sabotage",
+  "headline": "Финский суд отправил капитана сухогруза в тюрьму за кабель",
+  "fly": "Конец связи",
+  "subhead": "Волочение якоря по дну Финского залива обошлось экипажу в миллионы евро.",
+  "final": "",
+  "actor": "fitburg",
+  "main_title": "Finnish Court Jails Cargo Ship Captain, Crew Member for Baltic Sea Cable Sabotage",
+  "sources": [
+   "https://gcaptain.com/finnish-court-jails-cargo-ship-captain-crew-member-for-baltic-sea-cable-sabotage/",
+   "https://www.themoscowtimes.com/2026/11/05/finland-jails-russian-captain-and-azerbaijani-crew-member-over-baltic-sea-cable-damage-a94185"
+  ],
+  "message_id": 173,
+  "slot": "2026-11-06 7 2 * * *"
  }
 ]
