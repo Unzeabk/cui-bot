@@ -22,7 +22,7 @@ BANNED = [
     (re.compile(r"\bследстви[ея]\b", re.I), "детективная лексика: следствие"),
     (re.compile(r"\bдетектив", re.I), "детективная лексика: детектив"),
     (re.compile(r"\bбайбэк", re.I), "англицизм «байбэк»"),
-    (re.compile(r"кастодиальн|\bp2p\b|\bпериметр|\bдрайвер|\bкейс", re.I), "профжаргон или англицизм"),
+    (re.compile(r"кастодиальн|\bпериметр|\bдрайвер|\bкейс", re.I), "профжаргон или англицизм"),
     (re.compile(r"стройк[аиуе] ИИ", re.I), "калька «стройка ИИ»"),
     (re.compile(r"\bшок", re.I), "«шок»"),
     (re.compile(r"вы не поверите", re.I), "«вы не поверите»"),
@@ -51,6 +51,14 @@ def text_lists(d):
     def one(x):
         if isinstance(x, dict):
             return str(x.get("text") or x.get("paragraph") or next((v for v in x.values() if isinstance(v, str)), ""))
+        if isinstance(x, str) and x.strip().startswith("{"):
+            # абзац пришёл строкой с JSON внутри: {"text": "..."} (6 ноября, вербовка мигрантов) — достаём текст
+            try:
+                return one(json.loads(x))
+            except Exception:  # noqa: BLE001
+                m = re.search(r'"(?:text|paragraph)"\s*:\s*"(.*)"\s*}\s*$', x, re.S)
+                if m:
+                    return m.group(1).replace('\\"', '"').strip()
         return x if isinstance(x, str) else str(x)
     if isinstance(d, dict):
         for k in ("paragraphs", "tg"):
