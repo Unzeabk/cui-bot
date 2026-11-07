@@ -121,6 +121,9 @@ def _call(model: str, system: str, user: str, temperature: float, key: str = "",
 _TURN = [0]  # ключи по кругу: нагрузка (и квота) расходуется на все ключи ровно, а не на первые два
 
 
+BUSY: dict[str, float] = {}
+
+
 def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> tuple[str, str]:
     """Возвращает (текст ответа, модель, которая ответила).
     Ключи идут по кругу. Если Google перегружен (503, таймаут), бот не долбит его повторами — каждый такой запрос
@@ -129,7 +132,11 @@ def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> t
     keys = _keys()
     for rnd in range(2):
         busy = False
-        for model in chain:
+        # модель, которая только что висела по 120 с или отдавала 503, 10 минут не трогаем: 7 ноября пробная заметка
+        # шла 50 минут, потому что каждый запрос сначала ждал таймаута gemini-3.8-flash. Если заняты все — пробуем все.
+        now = time.time()
+        live = [m for m in chain if now - BUSY.get(m.strip(), 0) > 600] or chain
+        for model in live:
             start = _TURN[0] % max(1, len(keys))
             order = list(range(start, len(keys))) + list(range(0, start))
             for ki in order:
@@ -144,6 +151,7 @@ def ask(chain: list[str], system: str, user: str, temperature: float = 0.7) -> t
                     last = e
                     if "перегружен" in str(e) or "нет связи" in str(e) or "недоступна" in str(e):
                         busy = True
+                        BUSY[model.strip()] = time.time()
                         break  # сбой у Google на всю модель: другие ключи не помогут, следующая модель
         if not busy or rnd:
             break
