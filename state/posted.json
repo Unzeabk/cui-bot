@@ -1416,5 +1416,29 @@
   ],
   "message_id": 180,
   "slot": "2026-11-07 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-07T05:11:49.298547+03:00",
+  "time": "07.11 05:11",
+  "rubric": "defense",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "predpriyatiya-zakupaut-tureli-pvo",
+  "headline": "Почему заводы сами покупают пулеметы для защиты от дронов?",
+  "fly": "За свой счёт",
+  "subhead": "Указ президента требует охранять активы, но закрыть куполом заводы невозможно",
+  "final": "",
+  "actor": "rostech",
+  "main_title": "Российские предприятия начали закупать установки с пулеметами для борьбы с дронами",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/07/rossiiskie-predpriyatiya-nachali-zakupat-ustanovki-spulemetami-dlya-borbi-sdronami-a210703",
+   "https://www.dw.com/ru/российский-орел-подвергся-ракетной-атаке-вероятно-горит-завод-оптоэлектроники-протон/a-79882875?maca=rus-rss-ru-all-1126-rdf"
+  ],
+  "message_id": 181,
+  "slot": "2026-11-07 7 2 * * *"
  }
 ]
