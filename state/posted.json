@@ -1464,5 +1464,28 @@
   ],
   "message_id": 182,
   "slot": "2026-11-07 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-07T12:41:45.546063+03:00",
+  "time": "07.11 12:41",
+  "rubric": "culture",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "пузырь веры"
+  ],
+  "topic_key": "lenin-library-rave-law",
+  "headline": "Как рейв в Ленинской библиотеке обернулся проектом морального кодекса",
+  "fly": "В храме науки",
+  "subhead": "Депутаты требуют объяснить, где грань между храмом книги и коммерческой площадкой",
+  "final": "",
+  "actor": "leninka",
+  "main_title": "Communist Lawmaker Slams Culture Ministry Over Lenin Library Rave",
+  "sources": [
+   "https://www.themoscowtimes.com/2026/11/06/communist-lawmaker-slams-culture-ministry-over-lenin-library-rave-a94192"
+  ],
+  "message_id": 184,
+  "slot": "2026-11-07 37 9 * * *"
  }
 ]
