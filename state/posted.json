@@ -1487,5 +1487,27 @@
   ],
   "message_id": 184,
   "slot": "2026-11-07 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-07T12:55:20.774825+03:00",
+  "time": "07.11 12:55",
+  "rubric": "week",
+  "form": "неделя",
+  "optics": [],
+  "topic_key": "nedelya-2026-45",
+  "headline": "Неделя: Китай, Словакия, Релоканты, Киев, Кабмин, Прага",
+  "fly": "",
+  "final": "",
+  "main_title": "Покупка криптовалюты с российской карты станет нарушением для уехавших",
+  "sources": [
+   "https://theins.ru/news/299291",
+   "https://www.ng.ru/news/850452.html",
+   "https://frankmedia.ru/314263",
+   "https://ru.themoscowtimes.com/2026/11/07/rossiya-udarila-po-energoobektam-i-severnomu-mostu-v-kieve-mer-klichko-zayavil-o-chrezvichaino-slozhnoi-situatsii-so-svetom-i-otopleniem-a210706",
+   "https://rg.ru/2026/11/07/reg-szfo/kabmin-napravit-regionam-120-mln-rublej-na-modernizaciiu-centrov-zaniatosti.html",
+   "https://t.me/agentstvonews/18109"
+  ],
+  "message_id": 185,
+  "slot": "2026-11-07 52 9 * * 6"
  }
 ]
