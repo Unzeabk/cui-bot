@@ -247,15 +247,18 @@ def _mark(note: dict, materials: list[dict], topic: dict) -> dict:
     return note
 
 
-def produce(recent: list[dict]) -> dict | None:
+def produce(recent: list[dict], items: list[dict] | None = None, round_: int = 1) -> dict | None:
     from .news import collect
 
-    items = fresh_items(collect(), recent)
+    if items is None:
+        items = fresh_items(collect(), recent)
     if not items:
         log("ни одна лента не ответила")
         return None
     topics = pick_topics(items, recent)
+    tried, wrote = set(), False
     for n, topic in enumerate(topics[:5], 1):
+        tried.update([topic["main"], *[i for i in topic.get("extra", []) if isinstance(i, int)]])
         bad = topic_problems(topic, recent)
         if bad:
             log(f"тема {n} отклонена: " + "; ".join(bad))
@@ -273,6 +276,7 @@ def produce(recent: list[dict]) -> dict | None:
             continue
         allowed = {m["link"] for m in materials}
         log(f"тема {n}: {materials[0]['title']}")
+        wrote = True
         feedback = ""
         from .prompts import plan_slot
         from .rubrics import FORMS, OPTIC_FAMILY
@@ -320,6 +324,13 @@ def produce(recent: list[dict]) -> dict | None:
             if v.get("verdict") == "reject":
                 break  # тема держится на ошибке — следующая тема
             feedback = "Фактчек нашёл ошибки:\n" + "\n".join(f"- {p}" for p in (v.get("problems") or []))
+    # 7 ноября в 05:37 все пять тем отсеяли до написания (повтор участника, рубрика, пустой текст) и слот пропал.
+    # Если до написания не дошла ни одна тема — второй круг отбора без уже отвергнутых новостей (это один дешёвый запрос).
+    if round_ == 1 and not wrote and topics:
+        rest = [it for i, it in enumerate(items) if i not in tried]
+        if rest:
+            log(f"второй круг отбора тем: {len(rest)} новостей")
+            return produce(recent, rest, 2)
     return None
 
 
