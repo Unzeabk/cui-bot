@@ -1579,5 +1579,30 @@
   ],
   "message_id": 188,
   "slot": "2026-11-07 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T00:50:37.926044+03:00",
+  "time": "08.11 00:50",
+  "rubric": "world",
+  "form": "абсурд как явление",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "лестница власти"
+  ],
+  "topic_key": "freight-rates-us-refiners-iran",
+  "headline": "Блокада Ормузского пролива сделала переработку в Техасе сверхприбыльной",
+  "fly": "В мутной воде",
+  "subhead": "Азиатские заводы переплачивают за морскую страховку, пока американские скупают подешевевшее сырье под боком.",
+  "final": "",
+  "actor": "ormuz tankers",
+  "main_title": "Soaring Freight Rates Give US Refiners Edge As Crude Discounts Widen",
+  "sources": [
+   "https://gcaptain.com/soaring-freight-rates-give-us-refiners-edge-as-crude-discounts-widen/",
+   "https://ria.ru/20261108/ormuz-2130039496.html",
+   "https://www.agbi.com/oil-and-gas/2026/11/iran-war-oil-glut-fears-and-ai-reshape-adipec-debate/"
+  ],
+  "message_id": 189,
+  "slot": "2026-11-08 37 21 * * *"
  }
 ]
