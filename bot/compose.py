@@ -56,6 +56,8 @@ def text_lists(d):
         for k in ("paragraphs", "tg"):
             if isinstance(d.get(k), list):
                 d[k] = [one(x) for x in d[k] if one(x).strip()]
+        if isinstance(d.get("tg"), list) and len(d["tg"]) > 1:  # формат A: короткий пост — один абзац
+            d["tg"] = [" ".join(p.strip() for p in d["tg"])]
     return d
 
 
@@ -109,6 +111,8 @@ def build_caption(note: dict, custom_emoji: dict | None = None) -> str:
     if final:  # последняя фраза — продолжение последнего абзаца, без цитаты и без отдельной «подписи»
         paras[-1] = f"{paras[-1]} {_inline(final)}"
     body = "\n\n".join(paras)
+    if short:  # формат A: шапка, заголовок, один плотный абзац; подзаголовок — только на сайте
+        return f"{head}\n\n<b>{_inline(note['headline'])}</b>\n\n{body}"
     return (
         f"{head}\n\n"
         f"<b>{_inline(note['headline'])}</b>\n\n"
@@ -277,8 +281,8 @@ def validate(note: dict, seen_urls: set[str] | None) -> list[str]:
         problems.append("в полной версии (paragraphs) должно быть 4–5 абзацев")
     elif len(" ".join(plain(p) for p in note["paragraphs"])) > 1700:
         problems.append("полная версия длиннее 1600 знаков: сократи")
-    if not isinstance(note.get("tg"), list) or len(note.get("tg") or []) != 2:
-        problems.append("короткий пост (tg) — ровно 2 абзаца: факт с поворотом и заноза")
+    if not isinstance(note.get("tg"), list) or len(note.get("tg") or []) != 1:
+        problems.append("короткий пост (tg) — ровно 1 абзац: факт, поворот, механизм, точка")
     elif plain(note["tg"][0]).strip()[:60] == plain(note["paragraphs"][0]).strip()[:60]:
         problems.append("короткий пост копирует начало полной версии: напиши его отдельно")
 

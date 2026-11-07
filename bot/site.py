@@ -744,6 +744,12 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
     return found
 
 
+ZEN_NO_LINK = ("meduza.io", "themoscowtimes.com", "theins.ru", "thebell.io", "novayagazeta.eu", "dw.com", "svoboda.org",
+               "currenttime.tv", "tvrain.tv", "istories.media", "holod.media", "zona.media", "bbc.co.uk", "bbc.com",
+               "verstka.media", "agents.media", "proekt.media", "kholod.media", "rferl.org", "euronews.com", "facebook.com",
+               "instagram.com", "x.com", "twitter.com")
+
+
 def _zen_feed(site: Path, posts: list[dict]) -> None:
     """Лента для Дзена (zen.xml) по справке Дзена «Разметка и подключение ленты RSS» (dzen.ru/help/ru/website/rss-modify):
     - пространства имён ровно как в образце Дзена: content — http://purl.org/rss/1.0/modules/content/,
@@ -790,6 +796,10 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
                  f'Cui Bono? в <a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
         body = body.replace(' rel="nofollow noopener"', "").replace(' rel="noopener"', "")
         body = re.sub(r'href="/(?!/)', f'href="{base}/', body)  # только абсолютные ссылки
+        # Дзен — российская площадка: ссылки на СМИ, признанные в РФ иноагентами или нежелательными, и на
+        # заблокированные ресурсы ставят ленту под отказ. В Дзене цифра остаётся, ссылка убирается; на сайте всё как было.
+        body = re.sub(r'<a href="https?://(?:[\w-]+\.)*(?:%s)[^"]*"[^>]*>(.*?)</a>' % "|".join(map(re.escape, ZEN_NO_LINK)),
+                      r"\1", body)
         body = body.replace("]]>", "]]&gt;")
         items.append(
             f"<item><title>{_esc(title)}</title><link>{url}</link><guid>{url}</guid>"
