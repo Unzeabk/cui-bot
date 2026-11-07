@@ -748,6 +748,9 @@ ZEN_NO_LINK = ("meduza.io", "themoscowtimes.com", "theins.ru", "thebell.io", "no
                "currenttime.tv", "tvrain.tv", "istories.media", "holod.media", "zona.media", "bbc.co.uk", "bbc.com",
                "verstka.media", "agents.media", "proekt.media", "kholod.media", "rferl.org", "euronews.com", "facebook.com",
                "instagram.com", "x.com", "twitter.com")
+ZEN_NO_TG = ("thebell_io", "meduzalive", "meduzaproject", "moscowtimes_ru", "the_insider", "theinsider", "novaya_europe",
+             "novayagazeta_eu", "dwrussian", "dw_russian", "svobodaradio", "radiosvoboda", "currenttime", "tvrain",
+             "bbcrussian", "istories_media", "holodmedia", "agentstvonews", "verstka_media", "proekt_media", "zonamedia")
 
 
 def _zen_feed(site: Path, posts: list[dict]) -> None:
@@ -800,6 +803,7 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
         # заблокированные ресурсы ставят ленту под отказ. В Дзене цифра остаётся, ссылка убирается; на сайте всё как было.
         body = re.sub(r'<a href="https?://(?:[\w-]+\.)*(?:%s)[^"]*"[^>]*>(.*?)</a>' % "|".join(map(re.escape, ZEN_NO_LINK)),
                       r"\1", body)
+        body = re.sub(r'<a href="https?://t\.me/(?:s/)?(?:%s)\b[^"]*"[^>]*>(.*?)</a>' % "|".join(ZEN_NO_TG), r"\1", body, flags=re.I)
         body = body.replace("]]>", "]]&gt;")
         items.append(
             f"<item><title>{_esc(title)}</title><link>{url}</link><guid>{url}</guid>"
