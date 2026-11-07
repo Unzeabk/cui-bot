@@ -1604,5 +1604,28 @@
   ],
   "message_id": 189,
   "slot": "2026-11-08 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T02:42:20.796020+03:00",
+  "time": "08.11 02:42",
+  "rubric": "tech",
+  "form": "невозможный факт",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "спектакль"
+  ],
+  "topic_key": "rossiya-rassvet-starlink-2026",
+  "headline": "Собственный аналог Starlink отстаёт от оригинала в триста раз",
+  "fly": "Небесная механика",
+  "subhead": "Силовики называют американскую сеть угрозой стабильности, хотя военные уже забирают первые российские аппараты себе.",
+  "final": "",
+  "actor": "sovet bezopasnosti",
+  "main_title": "Russian Security Council Calls for Rapid Deployment of Starlink Rival Satellites",
+  "sources": [
+   "https://www.themoscowtimes.com/2026/11/06/russian-security-council-calls-for-rapid-deployment-of-starlink-rival-satellites-a94196"
+  ],
+  "message_id": 190,
+  "slot": "2026-11-08 37 23 * * *"
  }
 ]
