@@ -215,11 +215,14 @@ def _inline(s: str) -> str:
     return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", "".join(out))
 
 
+GENERIC_TOPICS = {"россия", "сша", "китай", "европа", "ес", "евросоюз", "украина", "москва", "мир"}
+
+
 def _link_topics(text: str, topics: dict[str, str], used: set[str]) -> str:
     """Первое упоминание темы в тексте становится ссылкой на страницу темы (не больше 3 на текст)."""
     for name, slug in topics.items():
-        if len(used) >= 3 or slug in used:
-            continue
+        if len(used) >= 3 or slug in used or name.strip().lower() in GENERIC_TOPICS:
+            continue  # «МИД [России]» — ссылка на страну посреди оборота мешает, а не помогает
         m = re.search(rf"(?<![\w\[])({re.escape(name[:max(3, len(name) - 2)])}\w*)", text)
         if not m or "](" in text[m.start():m.start() + 200].split(" ")[0]:
             continue
@@ -742,13 +745,20 @@ def _backfill(posts: list[dict], pages: int = 10) -> int:
 
 
 def _zen_feed(site: Path, posts: list[dict]) -> None:
-    """Лента для Дзена (zen.xml) по «Техническим требованиям к RSS-ленте» Дзена:
-    contentType blogs_only — статьи публикуются в канале Дзена; рубрика сайта, index, comment-all;
-    только материалы за последние 7 дней (старше Дзен не берёт); заголовок без точки в конце;
-    обложка через enclosure (у нас 1280×720, минимум — 480×320)."""
+    """Лента для Дзена (zen.xml) по справке Дзена «Разметка и подключение ленты RSS» (dzen.ru/help/ru/website/rss-modify):
+    - пространства имён ровно как в образце Дзена: content — http://purl.org/rss/1.0/modules/content/,
+      media — http://search.yahoo.com/mrss/ (с https Дзен не видит content:encoded — так отклонили ленту 7 ноября);
+    - в item: title, link, guid (адрес страницы, не меняется — по нему Дзен обновляет статью), pubDate RFC822,
+      media:rating nonadult, category — только служебные значения Дзена: format-article, index, comment-all;
+      enclosure — обложка (≥700 px), description, content:encoded;
+    - author не ставим: он только для партнёров «Новостей в Дзене»; рубрики сайта в category не кладём;
+    - материалы за последние 3 дня (Дзен просит актуальные за 2–3 дня; при первой подаче нужно не меньше 10);
+    - в content:encoded только p, a, b, i, blockquote, figure/img/figcaption; первая картинка — обложка
+      (она же карточка в ленте Дзена), дальше — светлые блоки визуала после своих абзацев; все ссылки абсолютные."""
     from datetime import timedelta
-    since = datetime.now(TZ) - timedelta(days=7)
+    since = datetime.now(TZ) - timedelta(days=3)
     items = []
+    base = SITE_URL or "https://cuibono.press"
     for p in posts:
         if not (_has_body(p) and _indexable(p)) or _dt(p["time_iso"]) < since:
             continue
@@ -764,32 +774,39 @@ def _zen_feed(site: Path, posts: list[dict]) -> None:
             figs = V.zen_figures(p, site / "img" / "v", p["slug"], _abs)
         except Exception as ex:  # noqa: BLE001
             log(f"дзен: картинки не готовы ({ex})")
-        body = figs.get(-1, "") + "".join(f"<p>{_inline(x)}</p>" + figs.get(i, "") for i, x in enumerate(p.get("paragraphs") or []))
-        if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
-            body += f"<p>{_inline(p['final'])}</p>"
-        if p.get("subhead"):
-            body = f"<p><i>{_esc(p['subhead'])}</i></p>" + body
-        body += (f'<p><i>Оригинал — <a href="{url}">cuibono.press</a>. '
-                 f'Cui Bono? в <a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
-        body = body.replace(' rel="nofollow noopener"', "")
-        encl = ""
+        cover_fig, encl = "", ""
         if p.get("cover") and (site / "img" / p["cover"]).exists():
             f = site / "img" / p["cover"]
             mime = "image/jpeg" if f.suffix == ".jpg" else "image/png"
-            encl = f'<enclosure url="{_abs("img/" + p["cover"])}" length="{f.stat().st_size}" type="{mime}"/>'
+            src = _abs("img/" + p["cover"])
+            encl = f'<enclosure url="{src}" length="{f.stat().st_size}" type="{mime}"/>'
+            cover_fig = f'<figure><img src="{src}"></figure>'
+        body = "".join(f"<p>{_inline(x)}</p>" + figs.get(i, "") for i, x in enumerate(p.get("paragraphs") or []))
+        if p.get("final") and p["final"] not in " ".join(p.get("paragraphs") or []):
+            body += f"<p>{_inline(p['final'])}</p>"
+        lead = f"<p><i>{_esc(p['subhead'])}</i></p>" if p.get("subhead") else ""
+        body = cover_fig + lead + figs.get(-1, "") + body
+        body += (f'<p><i>Оригинал — <a href="{url}">cuibono.press</a>. '
+                 f'Cui Bono? в <a href="{CHANNEL_URL}">Telegram</a>.</i></p>')
+        body = body.replace(' rel="nofollow noopener"', "").replace(' rel="noopener"', "")
+        body = re.sub(r'href="/(?!/)', f'href="{base}/', body)  # только абсолютные ссылки
+        body = body.replace("]]>", "]]&gt;")
         items.append(
             f"<item><title>{_esc(title)}</title><link>{url}</link><guid>{url}</guid>"
             f"<pubDate>{_dt(p['time_iso']).strftime('%a, %d %b %Y %H:%M:%S %z')}</pubDate>"
-            f"<author>{TITLE}</author><category>{_esc(SECTION_TITLE.get(_section(p), 'Мир'))}</category>"
-            f"<category>index</category><category>comment-all</category><contentType>blogs_only</contentType>{encl}"
+            f'<media:rating scheme="urn:simple">nonadult</media:rating>'
+            f"<category>format-article</category><category>index</category><category>comment-all</category>{encl}"
             f"<description>{_esc(_desc(p))}</description>"
             f"<content:encoded><![CDATA[{body}]]></content:encoded></item>")
     (site / "zen.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="https://purl.org/rss/1.0/modules/content/" '
-        'xmlns:media="https://search.yahoo.com/mrss/">'
-        f"<channel><title>{TITLE}</title><link>{SITE_URL or 'https://cuibono.press'}</link>"
+        '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" '
+        'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/" '
+        'xmlns:atom="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss">'
+        f"<channel><title>{TITLE}</title><link>{base}/</link>"
         f"<description>{DESCRIPTION}</description><language>ru</language>{''.join(items)}</channel></rss>\n",
         encoding="utf-8")
+    (site / "_headers").write_text("/zen.xml\n  Content-Type: application/rss+xml; charset=utf-8\n"
+                                    "/feed.xml\n  Content-Type: application/rss+xml; charset=utf-8\n", encoding="utf-8")
 
 
 def _jpeg(src: Path, dst_dir: Path) -> str:
@@ -834,6 +851,8 @@ def build(site: Path) -> int:
     CSS_V = hashlib.sha1(CSS.encode()).hexdigest()[:8]
     data = STATE.parent / "site-posts.json"
     posts = json.loads(data.read_text(encoding="utf-8")) if data.exists() else _seed_from_state()
+    from .compose import text_lists
+    posts = [text_lists(p) for p in posts]  # старые записи с абзацем-объектом чинятся при сборке
     for d in ("img", "p", "r", "a"):
         (site / d).mkdir(parents=True, exist_ok=True)
 

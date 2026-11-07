@@ -42,7 +42,21 @@ REQUIRED = ["rubric", "fly", "headline", "subhead", "paragraphs", "tg", "form", 
 def extract_json(text: str) -> dict:
     m = re.search(r"<json>\s*(\{.*\})\s*</json>", text, re.S)
     raw = m.group(1) if m else text[text.find("{"): text.rfind("}") + 1]
-    return json.loads(raw)
+    return text_lists(json.loads(raw))
+
+
+def text_lists(d):
+    """Модель иногда кладёт абзац объектом {"text": "..."} вместо строки — тогда в пост и на сайт уходит сырой JSON
+    (6 ноября: заметка про вербовку мигрантов). Приводим абзацы к строкам."""
+    def one(x):
+        if isinstance(x, dict):
+            return str(x.get("text") or x.get("paragraph") or next((v for v in x.values() if isinstance(v, str)), ""))
+        return x if isinstance(x, str) else str(x)
+    if isinstance(d, dict):
+        for k in ("paragraphs", "tg"):
+            if isinstance(d.get(k), list):
+                d[k] = [one(x) for x in d[k] if one(x).strip()]
+    return d
 
 
 def _norm(url: str) -> str:

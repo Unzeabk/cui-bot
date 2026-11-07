@@ -456,12 +456,25 @@ def same_story(headline: str, subhead: str, recent: list[dict]) -> str:
 def produce(fmt: str, recent: list[dict]) -> dict | None:
     from .gemini import WRITER_CHAIN, ask
 
-    mats = gather(fmt, recent)
-    if not mats:
-        log("нет материалов")
+    # тема проверяется на повтор ДО написания: 4 и 6 ноября бот писал разбор целиком (7 запросов сильной модели),
+    # а потом выбрасывал его как повтор. Повтор — берём другую тему, квота не сгорает.
+    probe = list(recent)
+    for _ in range(3):
+        mats = gather(fmt, probe)
+        if not mats:
+            log("нет материалов")
+            return None
+        main_title = mats[0].get("title", "")
+        twin = same_story(main_title, "", probe) if main_title else ""
+        if not twin:
+            break
+        log(f"тема «{main_title[:60]}» повторяет «{twin[:60]}» — беру другую до написания")
+        probe.append({"headline": main_title, "main_title": main_title, "rubric": fmt,
+                      "time_iso": datetime.now(TZ).isoformat(), "topic_key": "", "form": ""})
+    else:
+        log("все темы повторяют вышедшее — в этот раз не публикуем")
         return None
     allowed = {m["link"] for m in mats}
-    main_title = mats[0].get("title", "")
     feedback = ""
     for attempt in (1, 2, 3):  # три попытки, у разбора ещё запасной слот 15:22
         user = user_message(fmt, recent, mats) + (f"\n\nПрошлая версия не прошла проверку. Исправь:\n{feedback}" if feedback else "")
