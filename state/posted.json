@@ -1,29 +1,5 @@
 [
  {
-  "time_iso": "2026-11-01T21:59:10.631801+03:00",
-  "time": "01.11 21:59",
-  "rubric": "abroad",
-  "form": "невозможный факт",
-  "layout": "от цифры",
-  "optics": [
-   "лестница власти",
-   "сдвиг горизонта"
-  ],
-  "topic_key": "bankrotstvo-alta-banka-v-serbii",
-  "headline": "Белградский банк для релокантов рухнул после выборов",
-  "fly": "Мёртвые счета",
-  "subhead": "Подсказка: десятки тысяч клиентов остались без карт за один день",
-  "final": "",
-  "actor": "alta banka",
-  "main_title": "В Сербии началось банкротство ALTA banka, популярного у российских эмигрантов",
-  "sources": [
-   "https://www.bfm.ru/news/622599",
-   "https://meduza.io/feature/2026/11/01/u-menya-est-dva-dnya-poka-produkty-v-holodilnike-ne-zakonchatsya",
-   "https://thebell.io/natsbank-serbii-cherez-pyat-dney-posle-porazheniya-vuchicha-na-vyborakh-otozval-litsenziyu-u-alta-banka-gde-otkryvali-scheta-rossiyane"
-  ],
-  "message_id": 105
- },
- {
   "time_iso": "2026-11-01T23:50:44.522448+03:00",
   "time": "01.11 23:50",
   "rubric": "finance",
@@ -1783,5 +1759,29 @@
   ],
   "message_id": 197,
   "slot": "2026-11-08 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T22:11:50.822764+03:00",
+  "time": "08.11 22:11",
+  "rubric": "abroad",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обратный эффект",
+   "спектакль"
+  ],
+  "topic_key": "deportatsii-rossiyan-iz-gruzii-2026",
+  "headline": "Грузия за девять месяцев выслала больше двухсот россиян",
+  "fly": "Гостеприимство по расчёту",
+  "subhead": "Под ужесточение миграционного контроля попали граждане многих стран: всего из республики выдворили рекордные три тысячи человек",
+  "final": "",
+  "actor": "mvd georgii",
+  "main_title": "Грузия наращивает депортации россиян — с июля по сентябрь из страны выслали 109 человек, а с начала года 254 против 73 за весь 2025-й. Без…",
+  "sources": [
+   "https://t.me/banksta/105065",
+   "https://theins.ru/news/299316"
+  ],
+  "message_id": 198,
+  "slot": "2026-11-08 7 19 * * *"
  }
 ]
