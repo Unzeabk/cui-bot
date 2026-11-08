@@ -1,27 +1,5 @@
 [
  {
-  "time_iso": "2026-11-02T01:43:34.101045+03:00",
-  "time": "02.11 01:43",
-  "rubric": "regulation",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "лестница власти",
-   "обменник"
-  ],
-  "topic_key": "shtrafy-za-dgeneriki-patent",
-  "headline": "Как оборотный штраф изменит рынок дженериков",
-  "fly": "За чей патент платите",
-  "subhead": "Минэкономики нацелилось на двойную выручку за досрочные дженерики",
-  "final": "",
-  "actor": "mineconomiki",
-  "main_title": "Лекарства берут в оборот // Наказание за вывод на рынок дженериков в нарушение патента предложено ужесточить",
-  "sources": [
-   "https://www.kommersant.ru/doc/9078609"
-  ],
-  "message_id": 115
- },
- {
   "time_iso": "2026-11-02T04:26:18.726263+03:00",
   "time": "02.11 04:26",
   "rubric": "indicators",
@@ -1647,5 +1625,29 @@
   ],
   "message_id": 199,
   "slot": "2026-11-09 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T02:41:31.532999+03:00",
+  "time": "09.11 02:41",
+  "rubric": "economy",
+  "form": "абсурд как явление",
+  "layout": "от развязки",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "спектакль"
+  ],
+  "topic_key": "developer-dividends-freeze-2027",
+  "headline": "Крупнейшие российские девелоперы могут оставить биржевых инвесторов без дивидендов",
+  "fly": "Финансовая диета",
+  "subhead": "Умеренные шансы на выплаты сохраняются только у акционеров ЛСР.",
+  "final": "",
+  "actor": "коммерсантъ",
+  "main_title": "Девелоперы могут отказаться от выплаты дивидендов в 2027 году",
+  "sources": [
+   "https://www.kommersant.ru/doc/9092313",
+   "https://www.scmp.com/business/banking-finance/article/3373648/hsbc-bets-hk4-million-month-flagship-branch-keep-physical-outlets-relevant"
+  ],
+  "message_id": 200,
+  "slot": "2026-11-09 37 23 * * *"
  }
 ]
