@@ -1650,5 +1650,30 @@
   ],
   "message_id": 191,
   "slot": "2026-11-08 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T10:41:02.165865+03:00",
+  "time": "08.11 10:41",
+  "rubric": "usa",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "democrats-us-defense-budget-ukraine-2026",
+  "headline": "Зачем демократам срочно нужен оборонный бюджет до января?",
+  "fly": "Бюджетный рычаг",
+  "subhead": "Победа на выборах даёт контроль над трибуной, но не гарантирует преодоления президентского вето.",
+  "final": "",
+  "actor": "congress",
+  "main_title": "В Конгрессе США демократы готовятся отправить Украине еще 15 млрд и новые санкции против РФ - FT",
+  "sources": [
+   "https://www.ng.ru/news/850467.html",
+   "https://ru.themoscowtimes.com/2026/11/08/pobedivshie-naviborah-vkongress-ssha-demokrati-nachali-gotovit-paket-voennoi-pomoschi-ukraine-na15-mlrd-a210721",
+   "https://www.dw.com/ru/демократы-в-конгрессе-сша-готовят-помощь-украине-на-15-млрд-долларов/a-79889080?maca=rus-rss-ru-all-1126-rdf"
+  ],
+  "message_id": 192,
+  "slot": "2026-11-08 37 7 * * *"
  }
 ]
