@@ -1739,5 +1739,31 @@
   ],
   "message_id": 195,
   "slot": "2026-11-08 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T19:41:18.852998+03:00",
+  "time": "08.11 19:41",
+  "rubric": "regions",
+  "form": "конец явления",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "обратный эффект"
+  ],
+  "topic_key": "evrotrans-trassa-bankrotstvo-2026",
+  "headline": "Вторая независимая сеть АЗС Подмосковья прекратила работу",
+  "fly": "Финал на обочине",
+  "subhead": "Лизингодатель изымает станции, а активы дефолтного оператора могут передать под госконтроль.",
+  "final": "",
+  "actor": "evrotrans",
+  "main_title": "Сеть АЗС «Трасса» прекратила работу. Около 1400 сотрудников отправили в простой без выплат",
+  "sources": [
+   "https://novayagazeta.eu/articles/2026/11/08/set-azs-trassa-prekratila-rabotu-okolo-1400-sotrudnikov-otpravili-v-prostoi-bez-vyplat-news",
+   "https://www.vedomosti.ru/business/news/2026/11/08/1243501-trassa-priostanovila-rabotu",
+   "https://ru.themoscowtimes.com/2026/11/08/vmoskovskom-regione-prekratila-rabotu-vtoraya-poobemu-prodazh-set-azs-a210729",
+   "https://theins.ru/news/299317"
+  ],
+  "message_id": 196,
+  "slot": "2026-11-08 37 16 * * *"
  }
 ]
