@@ -1720,5 +1720,24 @@
   ],
   "message_id": 194,
   "slot": "2026-11-08 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T13:56:29.213778+03:00",
+  "time": "08.11 13:56",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "business",
+  "headline": "Продление спецрежима для самолётов не спасёт авиацию",
+  "fly": "Взлёт без посадки",
+  "final": "",
+  "main_title": "Суд Люксембурга отменил запрет на возврат ценных бумаг россиянам",
+  "sources": [
+   "https://www.themoscowtimes.com/2026/11/07/russian-diplomats-and-military-officials-to-join-talks-with-us-and-ukraine-kremlin-says-a94199",
+   "https://www.vedomosti.ru/finance/news/2026/11/05/1242983-sud-otmenil-zapret",
+   "https://www.finmarket.ru/main/article/6743832"
+  ],
+  "message_id": 195,
+  "slot": "2026-11-08 52 10 * * *"
  }
 ]
