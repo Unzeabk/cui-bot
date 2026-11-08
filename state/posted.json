@@ -1627,5 +1627,28 @@
   ],
   "message_id": 190,
   "slot": "2026-11-08 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T05:09:42.323440+03:00",
+  "time": "08.11 05:09",
+  "rubric": "economy",
+  "form": "странная мелочь",
+  "layout": "от развязки",
+  "optics": [
+   "обратный эффект",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "rossiyane-ustanovili-rekord-po-skupke-elektromobilei",
+  "headline": "Дефицит бензина спровоцировал рекордный спрос на электромобили",
+  "fly": "Очередь за током",
+  "subhead": "Машины, заказанные во время августовского бензинового голода, доехали до салонов только к осени, но дилеры отказываются везти их впрок.",
+  "final": "",
+  "actor": "rosstat",
+  "main_title": "Россияне установили рекорд по скупке электромобилей из-за бензинового кризиса",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/07/rossiyane-ustanovili-rekord-po-skupke-elektromobilei-iz-za-benzinovogo-krizisa-a210717"
+  ],
+  "message_id": 191,
+  "slot": "2026-11-08 7 2 * * *"
  }
 ]
