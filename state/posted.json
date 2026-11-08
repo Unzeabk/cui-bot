@@ -1,165 +1,5 @@
 [
  {
-  "time_iso": "2026-11-01T23:50:44.522448+03:00",
-  "time": "01.11 23:50",
-  "rubric": "finance",
-  "form": "сухой тренд",
-  "layout": "от развязки",
-  "optics": [
-   "пузырь веры",
-   "обменник"
-  ],
-  "topic_key": "binance-hack-withdrawals-2026",
-  "headline": "Крупнейшая криптобиржа мира за сутки потеряла три миллиарда долларов",
-  "fly": "Двое из ларца",
-  "subhead": "Резервы биржи покрыли большую часть бреши, но скорость оттока проверяет клиентов на прочность",
-  "final": "",
-  "actor": "binance",
-  "main_title": "Binance sees spike in withdrawals as exchange returns online after US$6.3 billion hack",
-  "sources": [
-   "https://www.scmp.com/business/cryptocurrency/article/3372910/binance-sees-spike-withdrawals-exchange-returns-online-after-us63-billion-hack",
-   "https://www.wsj.com/finance/currencies/binance-resumes-withdrawals-after-suffering-biggest-ever-crypto-hack-11d1900f?mod=rss_markets_main",
-   "https://www.nytimes.com/2026/11/01/business/binance-hack-crypto-north-korea.html",
-   "https://www.ft.com/content/1d4dd7b2-9dee-433b-ac2a-e8022af1dd07?syn-25a6b1a6=1"
-  ],
-  "message_id": 107
- },
- {
-  "time_iso": "2026-11-01T23:52:42.192680+03:00",
-  "time": "01.11 23:52",
-  "rubric": "economy",
-  "form": "конец явления",
-  "layout": "от цифры",
-  "optics": [
-   "обменник",
-   "сдвиг горизонта"
-  ],
-  "topic_key": "prodlenie-zapreta-export-dizel",
-  "headline": "Россия продлевает запрет на экспорт дизеля до конца января",
-  "fly": "Топливо по талонам",
-  "subhead": "Новые квоты позволят отправить за рубеж в четыре раза больше топлива, чем месяцем ранее",
-  "final": "",
-  "actor": "pravitelstvo",
-  "main_title": "Дизель отпустят с исключениями",
-  "sources": [
-   "https://www.kommersant.ru/doc/9078518",
-   "https://www.chita.ru/text/job/2026/11/01/76738258/",
-   "http://government.ru/news/60326/"
-  ],
-  "message_id": 108
- },
- {
-  "time_iso": "2026-11-01T23:54:36.681084+03:00",
-  "time": "01.11 23:54",
-  "rubric": "property",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "сдвиг горизонта",
-   "лестница власти"
-  ],
-  "topic_key": "pochta-rossii-prodazha-glavpochtamta",
-  "headline": "Кто в Москве сейчас купит исторический Главпочтамт?",
-  "fly": "Кому вершки, кому корешки",
-  "subhead": "Здание на Мясницкой оценивается в миллиарды рублей",
-  "final": "",
-  "actor": "pochta rossii",
-  "main_title": "«Почта России» распродает имущество, чтобы выбраться из финансового кризиса, сообщает РБК. На торги выставили здание Главпочтамта в центре…",
-  "sources": [
-   "https://t.me/banksta/104617"
-  ],
-  "message_id": 109
- },
- {
-  "time_iso": "2026-11-02T00:16:08.563381+03:00",
-  "time": "02.11 00:16",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "budget",
-  "headline": "Региональные лимиты на бензин не заменят экспортные квоты",
-  "fly": "Меньше баков, больше экспорта",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://meduza.io/news/2026/11/01/v-nizhegorodskoy-oblasti-ogranichili-prodazhu-benzina-posle-ukrainskoy-ataki-na-npz",
-   "https://gcaptain.com/russia-extends-ban-on-most-diesel-exports-through-january/",
-   "https://www.ng.ru/news/850116.html"
-  ],
-  "message_id": 110
- },
- {
-  "time_iso": "2026-11-02T00:18:52.782547+03:00",
-  "time": "02.11 00:18",
-  "rubric": "china",
-  "form": "сухой тренд",
-  "layout": "от предмета",
-  "optics": [
-   "обменник",
-   "лестница власти"
-  ],
-  "topic_key": "china-driving-down-price-russian-gas",
-  "headline": "Китай продавливает цены на российский газ",
-  "fly": "Скидка на вырост",
-  "subhead": "За сырьё из Туркменистана Пекин платит больше, а проект второго трубопровода затягивает",
-  "final": "",
-  "actor": "gazprom",
-  "main_title": "China driving down price of Russian gas",
-  "sources": [
-   "https://eurasianet.org/china-driving-down-price-of-russian-gas",
-   "https://www.intellinews.com/uzbekistan-s-nine-month-trade-deficit-doubles-to-14bn-480676/"
-  ],
-  "message_id": 112
- },
- {
-  "time_iso": "2026-11-02T00:20:53.215172+03:00",
-  "time": "02.11 00:20",
-  "rubric": "budget",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "лестница власти",
-   "обменник"
-  ],
-  "topic_key": "nalog-na-zpif-2027",
-  "headline": "Как Минфин пересчитает доходы закрытых фондов",
-  "fly": "Кому вершки, кому налоги",
-  "subhead": "Индустрия готова платить, но просит сохранить старые правила для реинвестиций",
-  "final": "",
-  "actor": "minfin",
-  "main_title": "Закрытые паевые фонды могут обложить налогом в 15% с 2027 года",
-  "sources": [
-   "https://www.bfm.ru/news/622398",
-   "https://t.me/russianmacro/23676"
-  ],
-  "message_id": 113
- },
- {
-  "time_iso": "2026-11-02T00:22:52.753833+03:00",
-  "time": "02.11 00:22",
-  "rubric": "regions",
-  "form": "сухой тренд",
-  "layout": "от цифры",
-  "optics": [
-   "обменник",
-   "сдвиг горизонта"
-  ],
-  "topic_key": "nizhegorodskij-npz-limity-benzina",
-  "headline": "Не больше сорока литров в одни руки",
-  "fly": "Нефтяной дождь",
-  "subhead": "В Нижегородской области нормируют топливо после седьмой атаки на НРСИ",
-  "final": "",
-  "actor": "nizhny novgorod",
-  "main_title": "В Нижегородской области ввели лимиты на продажу бензина после украинского удара по НПЗ",
-  "sources": [
-   "https://ru.themoscowtimes.com/2026/11/01/vnizhegorodskoi-oblasti-vveli-limiti-naprodazhu-benzina-posle-ukrainskogo-udara-ponpz-a210225",
-   "https://theins.ru/news/299019",
-   "https://meduza.io/news/2026/11/01/v-nizhegorodskoy-oblasti-ogranichili-prodazhu-benzina-posle-ukrainskoy-ataki-na-npz",
-   "https://rg.ru/2026/11/02/kitaj-udaril-ballisticheskoj-raketoj-po-maketu-avianosca-ssha-poiavilos-video.html"
-  ],
-  "message_id": 114
- },
- {
   "time_iso": "2026-11-02T01:43:34.101045+03:00",
   "time": "02.11 01:43",
   "rubric": "regulation",
@@ -1783,5 +1623,29 @@
   ],
   "message_id": 198,
   "slot": "2026-11-08 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T00:41:54.538120+03:00",
+  "time": "09.11 00:41",
+  "rubric": "tech",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "предел физики",
+   "жертвенная бухгалтерия"
+  ],
+  "topic_key": "ai-gas-power-data-centers",
+  "headline": "Дата-центры искусственного интеллекта переходят на собственную газовую генерацию",
+  "fly": "На газовой игле",
+  "subhead": "Государственные энергосети не успевают за ростом нагрузки, поэтому IT-гиганты заключают долгосрочные контракты с нефтяными компаниями.",
+  "final": "",
+  "actor": "anthropic",
+  "main_title": "Anthropic strikes $3.4bn deal to generate gas-fired power for data centres",
+  "sources": [
+   "https://www.ft.com/content/41bf5c6a-9735-4f1a-a8e3-2bcccad58ba0?syn-25a6b1a6=1",
+   "https://oilprice.com/Energy/Energy-General/How-Big-Oil-Became-the-AI-Industrys-Favorite-Customer.html"
+  ],
+  "message_id": 199,
+  "slot": "2026-11-09 37 21 * * *"
  }
 ]
