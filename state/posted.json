@@ -1697,5 +1697,28 @@
   ],
   "message_id": 193,
   "slot": "2026-11-08 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-08T12:44:01.135410+03:00",
+  "time": "08.11 12:44",
+  "rubric": "postsoviet",
+  "form": "неожиданная география",
+  "layout": "от развязки",
+  "optics": [
+   "предел физики",
+   "спектакль"
+  ],
+  "topic_key": "afghan-pakistan-trade-hurdle-2026",
+  "headline": "Казахстанский транзит в Пакистан упёрся в границу Афганистана",
+  "fly": "Шёлковый тупик",
+  "subhead": "Соседний Узбекистан рассчитывает на $2 млрд оборота, но показатели региональной торговли застряли на месте.",
+  "final": "",
+  "actor": "minfin kazahstana",
+  "main_title": "Afghan-Pakistan conflict hindering Central-South Asian trade",
+  "sources": [
+   "https://eurasianet.org/afghan-pakistan-conflict-hindering-central-south-asian-trade"
+  ],
+  "message_id": 194,
+  "slot": "2026-11-08 37 9 * * *"
  }
 ]
