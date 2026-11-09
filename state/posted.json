@@ -1770,5 +1770,25 @@
   ],
   "message_id": 206,
   "slot": "2026-11-09 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T13:54:29.387634+03:00",
+  "time": "09.11 13:54",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "finance",
+  "headline": "Высокая ставка ЦБ не восстановит разрушенные заводы",
+  "fly": "Физика против математики",
+  "final": "",
+  "main_title": "Набиуллина назвала атаки на НПЗ и дата-центры причиной того, что ЦБ перестал снижать ставку",
+  "sources": [
+   "https://www.vedomosti.ru/economics/articles/2026/11/09/1243659-kakoi-budet-stavka",
+   "https://www.bfm.ru/news/623303",
+   "https://thebell.io/nabiullina-nazvala-ataki-na-npz-i-data-tsentry-prichinoy-togo-chto-tsb-perestal-snizhat-stavku",
+   "https://www.bfm.ru/news/623297"
+  ],
+  "message_id": 207,
+  "slot": "2026-11-09 52 10 * * *"
  }
 ]
