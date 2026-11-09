@@ -1,47 +1,5 @@
 [
  {
-  "time_iso": "2026-11-02T18:35:50.809187+03:00",
-  "time": "02.11 18:35",
-  "rubric": "indicators",
-  "form": "показатели",
-  "optics": [],
-  "topic_key": "pokazateli-2026-44",
-  "headline": "Цифра недели — Brent",
-  "fly": "",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://meduza.io/news/2026/11/02/binance-vozobnovila-vozmozhnost-vyvoda-sredstv-posle-hakerskoy-ataki-vsego-za-desyat-chasov-klienty-vyveli-s-birzhi-3-6-milliarda-dollarov",
-   "https://t.me/markettwits/391650",
-   "https://www.cbr.ru/currency_base/daily/",
-   "https://www.cbr.ru/hd_base/KeyRate/",
-   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
-   "https://www.interfax.ru/business/1126616",
-   "https://www.kommersant.ru/doc/9079059",
-   "https://www.moex.com/ru/index/IMOEX"
-  ],
-  "message_id": 130,
-  "slot": "2026-11-02 52 7 * * 1"
- },
- {
-  "time_iso": "2026-11-02T18:58:27.029185+03:00",
-  "time": "02.11 18:58",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "regulation",
-  "headline": "Государство забирает десятую часть частных серверов",
-  "fly": "Частное по расписанию",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://www.ng.ru/news/850193.html",
-   "https://meduza.io/news/2026/11/02/putin-obyazal-vladeltsev-chastnyh-data-tsentrov-rezervirovat-desyatuyu-chast-svoih-moschnostey-dlya-gosudarstva"
-  ],
-  "message_id": 131,
-  "slot": "2026-11-02 52 10 * * *"
- },
- {
   "time_iso": "2026-11-02T20:06:08.975989+03:00",
   "time": "02.11 20:06",
   "rubric": "newmarkets",
@@ -1788,5 +1746,30 @@
   ],
   "message_id": 208,
   "slot": "2026-11-09 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T19:42:17.916834+03:00",
+  "time": "09.11 19:42",
+  "rubric": "finance",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "теневой двойник",
+   "разумные по одному"
+  ],
+  "topic_key": "binance-hack-stablecoin-freeze-2026",
+  "headline": "Эмитенты стейблкоинов стали главным силовым ведомством крипторынка",
+  "fly": "Печатный станок на тормозах",
+  "subhead": "Крупнейший взлом в истории показал истинного хозяина анонимных денег",
+  "final": "",
+  "actor": "binance",
+  "main_title": "The $2.85B Binance hackers lost shows why the UK needs stablecoin freeze rules",
+  "sources": [
+   "https://cointelegraph.com/opinion/285b-binance-hackers-lost-shows-why-uk-needs-stablecoin-freeze-rules?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+   "https://www.coindesk.com/business/2026/11/09/north-korean-hackers-are-creating-memecoins-to-wash-loot-from-usd6-3-billion-binance-hack",
+   "https://cointelegraph.com/markets/analysts-no-contagion-effect-63b-binance-hack?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound"
+  ],
+  "message_id": 209,
+  "slot": "2026-11-09 37 16 * * *"
  }
 ]
