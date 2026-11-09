@@ -1,25 +1,5 @@
 [
  {
-  "time_iso": "2026-11-02T21:04:57.038844+03:00",
-  "time": "02.11 21:04",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "regulation",
-  "headline": "Принудительное резервирование дата-центров усугубит кризис IT-отрасли",
-  "fly": "Запасной аэродром",
-  "final": "",
-  "main_title": "Путин поручил владельцам ЦОД зарезервировать 10% мощности",
-  "sources": [
-   "https://ura.news/articles/1053141094",
-   "https://frankmedia.ru/313622",
-   "https://thebell.io/chastnye-data-tsentry-obyazali-derzhat-v-rezerve-10-moshchnostey-i-otdavat-ikh-po-resheniyu-pravitelstva-v-techenie-sutok",
-   "https://www.vedomosti.ru/society/news/2026/11/02/1242192-putin-ustanovil-poryadok"
-  ],
-  "message_id": 134,
-  "slot": "2026-11-02 52 17 * * *"
- },
- {
   "time_iso": "2026-11-02T22:10:01.214884+03:00",
   "time": "02.11 22:10",
   "rubric": "regulation",
@@ -1743,5 +1723,31 @@
   ],
   "message_id": 210,
   "slot": "2026-11-09 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T22:19:30.499075+03:00",
+  "time": "09.11 22:19",
+  "rubric": "europe",
+  "form": "чему учит",
+  "layout": "от предмета",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "лестница власти"
+  ],
+  "topic_key": "germany-eu-budget-ukraine-veto-2026",
+  "headline": "Чему канцлер Германии учит получателей европейских субсидий",
+  "fly": "Взнос за просмотр",
+  "subhead": "Берлин грозит заблокировать бюджет союза, если дотации продолжат получать страны, отказывающиеся от помощи Украине.",
+  "final": "",
+  "actor": "merz",
+  "main_title": "Мерц пригрозил заблокировать принятие бюджета ЕС без согласования помощи Украине — FT",
+  "sources": [
+   "https://www.ng.ru/news/850587.html",
+   "https://www.fontanka.ru/2026/11/09/76755174/",
+   "https://meduza.io/news/2026/11/09/kantsler-germanii-prigrozil-zablokirovat-semiletniy-byudzhet-es-esli-vse-strany-bloka-ne-dogovoryatsya-o-finansovoy-podderzhke-ukrainy",
+   "https://ru.themoscowtimes.com/2026/11/09/germaniya-prigrozila-zablokirovat-prinyatie-byudzheta-es-bez-odobreniya-dopolnitelnogo-finansirovaniya-ukraini-a210841"
+  ],
+  "message_id": 211,
+  "slot": "2026-11-09 7 19 * * *"
  }
 ]
