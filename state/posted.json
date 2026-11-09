@@ -1722,5 +1722,28 @@
   ],
   "message_id": 204,
   "slot": "2026-11-09 52 7 * * 1"
+ },
+ {
+  "time_iso": "2026-11-09T11:33:07.890152+03:00",
+  "time": "09.11 11:33",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Спектакль",
+   "Обменник"
+  ],
+  "topic_key": "world",
+  "headline": "Зачем дипломаты из Европы едут на переговоры без приглашения",
+  "fly": "Вход со двора",
+  "final": "",
+  "main_title": "Россия встретится с Украиной и США, чтобы мир перестал быть лишь мечтой: чего ждать",
+  "sources": [
+   "https://www.vedomosti.ru/politics/news/2026/11/09/1243610-evropeitsi-posetyat-abu-dabi",
+   "https://www.theguardian.com/world/2026/nov/08/ukraine-war-briefing-russia-ramping-up-attacks-to-pressure-kyiv-at-trilateral-talks-zelenskyy-says",
+   "https://ura.news/articles/1053142605",
+   "https://www.bbc.co.uk/russian/live/cmjrwvyj4jy8t?at_medium=RSS&at_campaign=rss"
+  ],
+  "message_id": 205,
+  "slot": "2026-11-09 22 8 * * *"
  }
 ]
