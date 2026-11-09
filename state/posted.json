@@ -1,30 +1,5 @@
 [
  {
-  "time_iso": "2026-11-02T22:10:01.214884+03:00",
-  "time": "02.11 22:10",
-  "rubric": "regulation",
-  "form": "вопрос",
-  "layout": "от цифры",
-  "optics": [
-   "жертвенная бухгалтерия",
-   "предел физики"
-  ],
-  "topic_key": "rezervirovanie-moshchnostej-tsod-2026",
-  "headline": "Зачем государству десятая часть всех частных дата-центров",
-  "fly": "Десятина с сервера",
-  "subhead": "Операторов обяжут уступить ресурсы за сутки, хотя свободного места на рынке почти нет.",
-  "final": "",
-  "actor": "kremlin",
-  "main_title": "Частные дата-центры обяжут выделить 10% мощностей под госнужды",
-  "sources": [
-   "https://www.kommersant.ru/doc/9079407",
-   "https://www.interfax.ru/russia/1126639",
-   "https://tass.ru/obschestvo/28279983"
-  ],
-  "message_id": 135,
-  "slot": "2026-11-02 7 19 * * *"
- },
- {
   "time_iso": "2026-11-03T00:42:15.603365+03:00",
   "time": "03.11 00:42",
   "rubric": "labour",
@@ -1749,5 +1724,29 @@
   ],
   "message_id": 211,
   "slot": "2026-11-09 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T00:40:30.619408+03:00",
+  "time": "10.11 00:40",
+  "rubric": "tech",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "data-tsentri-rezerv-mintsifry-2026",
+  "headline": "Коммерческие дата-центры отдадут государству десятую часть мощностей",
+  "fly": "Своя ноша тяжелее",
+  "subhead": "Минцифры требует освободить стойки под «белые списки» после октябрьских ударов по инфраструктуре",
+  "final": "",
+  "actor": "mincifry",
+  "main_title": "Дата-центры заставят отключать клиентов для резервирования мощностей под «белые списки» по требованию Путина",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/09/data-tsentri-zastavyat-otklyuchat-klientov-dlya-rezervirovaniya-moschnostei-pod-belie-spiski-potrebovaniyu-putina-a210843",
+   "https://www.finmarket.ru/main/article/6745017"
+  ],
+  "message_id": 212,
+  "slot": "2026-11-10 37 21 * * *"
  }
 ]
