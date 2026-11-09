@@ -1745,5 +1745,30 @@
   ],
   "message_id": 205,
   "slot": "2026-11-09 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T12:41:19.776736+03:00",
+  "time": "09.11 12:41",
+  "rubric": "europe",
+  "form": "невозможный факт",
+  "layout": "от предмета",
+  "optics": [
+   "обменник",
+   "лестница власти"
+  ],
+  "topic_key": "credit-agricole-banco-bpm-merger",
+  "headline": "Французский банк покупает третий банк Италии за миллиард",
+  "fly": "Парижский чек для Рима",
+  "subhead": "Французы отдают управление итальянцам ради контроля над 45% акций",
+  "final": "",
+  "actor": "credit agricole",
+  "main_title": "Credit Agricole предложил Banco BPM создать третий по величине банк в Италии",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/09/credit-agricole-predlozhil-banco-bpm-sozdat-tretiy-po-velichine-bank-v-italii-a210773",
+   "https://www.bloomberg.com/news/videos/2026-11-09/euro-zone-officials-to-discuss-lagarde-succession-plan-video",
+   "https://www.bloomberg.com/news/articles/2026-11-09/first-eu-talks-on-ecb-chief-loom-as-knot-and-de-cos-speak-out"
+  ],
+  "message_id": 206,
+  "slot": "2026-11-09 37 9 * * *"
  }
 ]
