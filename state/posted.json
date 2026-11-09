@@ -1673,5 +1673,30 @@
   ],
   "message_id": 202,
   "slot": "2026-11-09 37 5 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T10:42:10.190351+03:00",
+  "time": "09.11 10:42",
+  "rubric": "economy",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "обратный эффект",
+   "предел физики"
+  ],
+  "topic_key": "rosneft-gas-station-fuel-limits-2026",
+  "headline": "Зачем главный нефтяник страны режет отпуск бензина на заправках?",
+  "fly": "Норма на руки",
+  "subhead": "Топливная сеть пытается сбить ажиотажный спрос, но ремонт повреждённых заводов упирается в дефицит оборудования",
+  "final": "",
+  "actor": "rosneft",
+  "main_title": "«Роснефть» начала вводить ограничения на продажу топлива на заправках",
+  "sources": [
+   "https://meduza.io/news/2026/11/09/rosneft-nachala-vvodit-ogranicheniya-na-prodazhu-topliva-na-zapravkah",
+   "https://ru.themoscowtimes.com/2026/11/09/vlasti-zabaikalya-zayavili-chto-rosneft-vvela-limiti-na-prodazhu-benzina-v-regione-i-po-vsei-strane-a210743",
+   "https://t.me/agentstvonews/18125"
+  ],
+  "message_id": 203,
+  "slot": "2026-11-09 37 7 * * *"
  }
 ]
