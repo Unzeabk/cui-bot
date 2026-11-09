@@ -1,51 +1,5 @@
 [
  {
-  "time_iso": "2026-11-02T20:06:08.975989+03:00",
-  "time": "02.11 20:06",
-  "rubric": "newmarkets",
-  "form": "неожиданная география",
-  "layout": "от развязки",
-  "optics": [
-   "спектакль",
-   "лестница власти"
-  ],
-  "topic_key": "festival-kabaevoy-reliance-mumbai",
-  "headline": "Мумбайский театр принял фестиваль гимнастики Алины Кабаевой",
-  "fly": "Нефть в обмен на грацию",
-  "subhead": "Площадку предоставил импортер нефти, но финансовое участие принял и российский фонд.",
-  "final": "",
-  "actor": "reliance industries",
-  "main_title": "Разбогатевший на российской нефти индийский миллиардер оплатил фестиваль Кабаевой в Мумбаи",
-  "sources": [
-   "https://ru.themoscowtimes.com/2026/11/02/razbogatevshii-na-rossiiskoi-nefti-indiiskii-milliarder-oplatil-festival-kabaevoi-v-mumbai-a210322"
-  ],
-  "message_id": 132,
-  "slot": "2026-11-02 37 16 * * *"
- },
- {
-  "time_iso": "2026-11-02T20:44:30.010784+03:00",
-  "time": "02.11 20:44",
-  "rubric": "analysis",
-  "form": "разбор",
-  "optics": [
-   "Жертвенная бухгалтерия",
-   "Теневой двойник"
-  ],
-  "topic_key": "tech",
-  "headline": "Государство изымает десятую часть частных серверных мощностей",
-  "fly": "Не продаётся облако",
-  "final": "",
-  "main_title": "",
-  "sources": [
-   "https://ru.themoscowtimes.com/2026/11/02/putin-obyazal-chastnye-data-tsentry-rf-derzhat-v-rezerve-10-moschnostey-na-sluchay-sboev-a210329",
-   "https://t.me/agentstvonews/18015",
-   "https://www.themoscowtimes.com/2026/11/02/putin-orders-private-data-centers-to-set-aside-10-of-capacity-to-support-it-infrastructure-a94159",
-   "https://www.bfm.ru/news/622700"
-  ],
-  "message_id": 133,
-  "slot": "2026-11-02 22 17 * * *"
- },
- {
   "time_iso": "2026-11-02T21:04:57.038844+03:00",
   "time": "02.11 21:04",
   "rubric": "position",
@@ -1771,5 +1725,23 @@
   ],
   "message_id": 209,
   "slot": "2026-11-09 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T20:58:20.583620+03:00",
+  "time": "09.11 20:58",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "budget",
+  "headline": "Кратное повышение уголовных штрафов не закроет бюджетную дыру",
+  "fly": "Дорогое удовольствие",
+  "final": "",
+  "main_title": "Штрафы за экономические преступления могут вырасти в несколько раз — комитет Госдумы рекомендовал принять во втором чтении законопроект…",
+  "sources": [
+   "https://t.me/banksta/105115",
+   "https://ru.themoscowtimes.com/2026/11/09/biznesu-v-razi-podnimut-shtrafi-chtobi-napolnit-defitsitnii-voennii-byudzhet-a210838"
+  ],
+  "message_id": 210,
+  "slot": "2026-11-09 52 17 * * *"
  }
 ]
