@@ -1698,5 +1698,29 @@
   ],
   "message_id": 203,
   "slot": "2026-11-09 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-09T10:57:19.852348+03:00",
+  "time": "09.11 10:57",
+  "rubric": "indicators",
+  "form": "показатели",
+  "optics": [],
+  "topic_key": "pokazateli-2026-45",
+  "headline": "Цифра недели — Доллар ЦБ",
+  "fly": "",
+  "final": "",
+  "main_title": "",
+  "sources": [
+   "https://www.cbr.ru/currency_base/daily/",
+   "https://www.cbr.ru/hd_base/KeyRate/",
+   "https://www.cbr.ru/hd_base/metall/metall_base_new/",
+   "https://www.kommersant.ru/doc/9092194",
+   "https://www.moex.com/ru/index/IMOEX",
+   "https://www.vedomosti.ru/economics/articles/2026/11/06/1243067-byudzhet-poluchil",
+   "https://www.vedomosti.ru/economics/news/2026/11/05/1242975-peregrev-ekonomiki",
+   "https://www.vedomosti.ru/finance/articles/2026/11/06/1243302-ipoteka-ruhnula"
+  ],
+  "message_id": 204,
+  "slot": "2026-11-09 52 7 * * 1"
  }
 ]
