@@ -1,28 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T19:53:09.650842+03:00",
-  "time": "03.11 19:53",
-  "rubric": "property",
-  "form": "абсурд как явление",
-  "layout": "от развязки",
-  "optics": [
-   "сдвиг горизонта",
-   "жертвенная бухгалтерия"
-  ],
-  "topic_key": "privatizatsiya-sovkomflot-2026",
-  "headline": "Государство спешит продать пакет акций главного танкерного перевозчика",
-  "fly": "Снять сливки",
-  "subhead": "Рынок ждёт крупных институциональных игроков, а дисконт обещает превысить привычные 10%.",
-  "final": "",
-  "actor": "rosimushchestvo",
-  "main_title": "«Совкомфлот» готовят к отплытию // Росимущество начало подготовку к продаже 7,8% «Совкомфлота»",
-  "sources": [
-   "https://www.kommersant.ru/doc/9079902"
-  ],
-  "message_id": 146,
-  "slot": "2026-11-03 37 16 * * *"
- },
- {
   "time_iso": "2026-11-03T20:59:17.756156+03:00",
   "time": "03.11 20:59",
   "rubric": "position",
@@ -1681,5 +1658,23 @@
   ],
   "message_id": 218,
   "slot": "2026-11-10 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T20:56:24.735354+03:00",
+  "time": "10.11 20:56",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "sanctions",
+  "headline": "Акционеры Nvidia подают в суд на фоне расследования ФБР",
+  "fly": "Слишком велик для отставки",
+  "final": "",
+  "main_title": "Акционеры Nvidia подали в суд на компанию и Хуанга из-за скандала с предполагаемой китайской шпионкой",
+  "sources": [
+   "https://thebell.io/aktsionery-nvidia-podali-v-sud-na-kompaniyu-i-khuanga-iz-za-skandala-s-predpolagaemoy-kitayskoy-shpionkoy",
+   "https://www.theguardian.com/technology/2026/nov/10/nvidia-jensen-huang-sued-donald-trump-fbi"
+  ],
+  "message_id": 219,
+  "slot": "2026-11-10 52 17 * * *"
  }
 ]
