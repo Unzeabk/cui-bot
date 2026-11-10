@@ -6217,37 +6217,37 @@
    "blocks": [],
    "places": [
     {
-     "name": "GEORGE TOWN",
-     "lat": 5.4164,
-     "lon": 100.3327,
+     "name": "НАССАУ",
+     "lat": 25.048,
+     "lon": -77.3554,
      "scale": "country"
     },
     {
-     "name": "BELGRADE",
+     "name": "БЕЛГРАД",
      "lat": 44.7866,
      "lon": 20.4489,
      "scale": "country"
     },
     {
-     "name": "NIZHNY NOVGOROD",
+     "name": "НИЖНИЙ НОВГОРОД",
      "lat": 56.3269,
      "lon": 44.0059,
      "scale": "country"
     },
     {
-     "name": "MOSCOW",
+     "name": "МОСКВА",
      "lat": 55.7558,
      "lon": 37.6173,
      "scale": "country"
     },
     {
-     "name": "TASHKENT",
+     "name": "ТАШКЕНТ",
      "lat": 41.2995,
      "lon": 69.2401,
      "scale": "country"
     },
     {
-     "name": "ANKARA",
+     "name": "АНКАРА",
      "lat": 39.9334,
      "lon": 32.8597,
      "scale": "country"
