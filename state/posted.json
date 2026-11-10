@@ -1683,5 +1683,29 @@
   ],
   "message_id": 220,
   "slot": "2026-11-10 22 18 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T22:23:45.115855+03:00",
+  "time": "10.11 22:23",
+  "rubric": "newmarkets",
+  "form": "невозможный факт",
+  "layout": "от цифры",
+  "optics": [
+   "спектакль",
+   "обменник"
+  ],
+  "topic_key": "venezuela-exxonmobil-return-2026",
+  "headline": "ExxonMobil возвращается в Венесуэлу спустя девятнадцать лет",
+  "fly": "Не прошло и двадцати лет",
+  "subhead": "Меморандум о возвращении подписан в Каракасе без твёрдого контракта, инвестиций и сроков.",
+  "final": "",
+  "actor": "exxonmobil",
+  "main_title": "Venezuela signs a memorandum with ExxonMobil for the oil major’s return after leaving in 2007",
+  "sources": [
+   "https://en.mercopress.com/2026/11/10/venezuela-signs-a-memorandum-with-exxonmobil-for-the-oil-major-s-return-after-leaving-in-2007?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+   "https://www.ft.com/content/cd3b2969-9c58-404a-a80a-c823754899ef?syn-25a6b1a6=1"
+  ],
+  "message_id": 221,
+  "slot": "2026-11-10 7 19 * * *"
  }
 ]
