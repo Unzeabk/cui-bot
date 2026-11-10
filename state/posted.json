@@ -1,29 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T02:40:03.539029+03:00",
-  "time": "03.11 02:40",
-  "rubric": "postsoviet",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "обменник",
-   "лестница власти"
-  ],
-  "topic_key": "astana-ai-hub-nvidia",
-  "headline": "Как Казахстан превращает углеводороды в цифровой интеллект",
-  "fly": "Нефть в обмен на кремний",
-  "subhead": "Астана строит дата-центры Nvidia при поддержке Вашингтона и Пекина",
-  "final": "",
-  "actor": "astana",
-  "main_title": "Nvidia chief taps Astana as AI hub",
-  "sources": [
-   "https://eurasianet.org/nvidia-chief-taps-astana-as-ai-hub",
-   "https://eurasianet.org/us-touting-small-nuclear-reactors-for-use-in-caucasus-and-central-asia"
-  ],
-  "message_id": 137,
-  "slot": "2026-11-03 37 23 * * *"
- },
- {
   "time_iso": "2026-11-03T05:09:57.338677+03:00",
   "time": "03.11 05:09",
   "rubric": "sanctions",
@@ -1748,5 +1724,29 @@
   ],
   "message_id": 213,
   "slot": "2026-11-10 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T05:12:25.829805+03:00",
+  "time": "10.11 05:12",
+  "rubric": "sanctions",
+  "form": "абсурд как явление",
+  "layout": "от предмета",
+  "optics": [
+   "спектакль",
+   "разумные по одному"
+  ],
+  "topic_key": "canada-sanctions-marketplace-banks-2026",
+  "headline": "Канада внесла в оборонный список банки российских маркетплейсов",
+  "fly": "Северная строгость",
+  "subhead": "Оттава объяснила ограничения защитой киберпространства и противодействием оборонному сектору",
+  "final": "",
+  "actor": "ozon bank",
+  "main_title": "Канада ввела санкции против банков маркетплейсов",
+  "sources": [
+   "https://frankmedia.ru/314685",
+   "https://kz.kursiv.media/2026-11-10/tsse-mobilnye-perevody-s-10-noyabrya-kakie-postupleniya-popadut-pod-nalogovyi-kontrol/?utm_source=rss&utm_medium=rss&utm_campaign=tsse-mobilnye-perevody-s-10-noyabrya-kakie-postupleniya-popadut-pod-nalogovyi-kontrol"
+  ],
+  "message_id": 214,
+  "slot": "2026-11-10 7 2 * * *"
  }
 ]
