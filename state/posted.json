@@ -1,98 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T12:39:36.179837+03:00",
-  "time": "03.11 12:39",
-  "rubric": "russia",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "предел физики",
-   "разумные по одному"
-  ],
-  "topic_key": "promyshlennost-sokrashchaet-investitsii",
-  "headline": "Почему российский бизнес отказывается от инвестиций ради выживания",
-  "fly": "Запас прочности",
-  "subhead": "В третьем квартале главным ограничителем для предприятий стало падение спроса.",
-  "final": "",
-  "actor": "kiber",
-  "main_title": "Европа опасается «зомби-предприятий» // Перепроизводство в КНР пугает партнеров по торговле, но не Пекин",
-  "sources": [
-   "https://www.kommersant.ru/doc/9079398",
-   "https://www.kommersant.ru/doc/9079339",
-   "https://www.kommersant.ru/doc/9079335"
-  ],
-  "message_id": 142,
-  "slot": "2026-11-03 37 9 * * *"
- },
- {
-  "time_iso": "2026-11-03T14:05:09.328091+03:00",
-  "time": "03.11 14:05",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "regulation",
-  "headline": "Новые правила для самокатов только перенесут хаос на дорогу",
-  "fly": "Тише едешь",
-  "final": "",
-  "main_title": "В России запретят кататься вдвоем на электросамокате, а курьерам нельзя будет ездить по тротуарам",
-  "sources": [
-   "https://meduza.io/news/2026/11/03/v-rossii-zapretyat-katatsya-vdvoem-na-elektrosamokate-a-kurieram-nelzya-budet-ezdit-po-trotuaram",
-   "https://www.bfm.ru/news/622779",
-   "https://www.finmarket.ru/main/article/6741821"
-  ],
-  "message_id": 143,
-  "slot": "2026-11-03 52 10 * * *"
- },
- {
-  "time_iso": "2026-11-03T17:17:53.940544+03:00",
-  "time": "03.11 17:17",
-  "rubric": "business",
-  "form": "сухой тренд",
-  "layout": "от предмета",
-  "optics": [
-   "разумные по одному",
-   "спектакль"
-  ],
-  "topic_key": "beget-kiberataka-obnulenie-oblaka",
-  "headline": "Хакеры обнулили инфраструктуру крупного хостинг-провайдера Beget",
-  "fly": "Облака пошли по миру",
-  "subhead": "Злоумышленники стерли данные виртуальных серверов, а сроки восстановления сервисов остались неизвестными",
-  "final": "",
-  "actor": "beget",
-  "main_title": "Beget потерял часть данных клиентов после кибератаки",
-  "sources": [
-   "https://frankmedia.ru/313851",
-   "https://t.me/banksta/104723",
-   "https://www.cnews.ru/news/top/2026-11-03_hakery_obnulili_oblako_beget"
-  ],
-  "message_id": 144,
-  "slot": "2026-11-03 7 14 * * *"
- },
- {
-  "time_iso": "2026-11-03T18:49:33.116503+03:00",
-  "time": "03.11 18:49",
-  "rubric": "analysis",
-  "form": "разбор",
-  "optics": [
-   "Разумные по одному",
-   "Метрика-оборотень"
-  ],
-  "topic_key": "usa",
-  "headline": "Уолл-стрит превратила американский фондовый рынок в гигантское казино",
-  "fly": "Ставки больше не равны",
-  "final": "",
-  "main_title": "Marshall Wace and Millennium hit as hedge funds suffer in October’s AI rout",
-  "sources": [
-   "https://www.ft.com/content/fae029f1-f03e-4509-852e-396fa4863271?syn-25a6b1a6=1",
-   "https://www.nytimes.com/2026/10/29/business/economy/federal-reserve-interest-rates.html",
-   "https://www.nytimes.com/2026/10/29/business/economy/pce-inflation-economy.html",
-   "https://www.cnbc.com/2026/11/03/bill-ackman-casino-stock-market.html",
-   "https://www.nytimes.com/2026/10/29/business/economy/us-economy-gdp.html"
-  ],
-  "message_id": 145,
-  "slot": "2026-11-03 manual-2026-11-03"
- },
- {
   "time_iso": "2026-11-03T19:53:09.650842+03:00",
   "time": "03.11 19:53",
   "rubric": "property",
@@ -1749,5 +1656,30 @@
   ],
   "message_id": 217,
   "slot": "2026-11-10 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T19:40:12.521498+03:00",
+  "time": "10.11 19:40",
+  "rubric": "usa",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "разумные по одному",
+   "обратный эффект"
+  ],
+  "topic_key": "fed-rate-hike-waller-cpi-2026",
+  "headline": "Зачем ФРС обсуждать повышение ставки сразу на полпроцента?",
+  "fly": "Крутой разворот",
+  "subhead": "Рынок облигаций США переживает распродажу на фоне обновлённых инфляционных рисков.",
+  "final": "",
+  "actor": "fed",
+  "main_title": "Fed’s Waller Sparks Larger Rate Hike Debate After Hot Inflation",
+  "sources": [
+   "https://www.bloomberg.com/news/videos/2026-11-10/fed-s-waller-sparks-larger-rate-hike-debate-on-hot-cpi-video",
+   "https://www.ft.com/content/72abed21-6043-4b2b-81b1-f3a2547da5b7?syn-25a6b1a6=1",
+   "https://www.bloomberg.com/news/videos/2026-11-10/treasury-yields-jump-as-inflation-fuels-fed-wagers-video"
+  ],
+  "message_id": 218,
+  "slot": "2026-11-10 37 16 * * *"
  }
 ]
