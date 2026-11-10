@@ -1,23 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T20:59:17.756156+03:00",
-  "time": "03.11 20:59",
-  "rubric": "position",
-  "form": "позиция",
-  "optics": [],
-  "topic_key": "sanctions",
-  "headline": "Минфину США следует запретить размен зарубежного ЛУКОЙЛа",
-  "fly": "Обмен без сдачи",
-  "final": "",
-  "main_title": "Reuters узнал о сделке на $22 млрд с замороженными бумагами ЛУКОЙЛа",
-  "sources": [
-   "https://tass.ru/ekonomika/28283937",
-   "https://www.kommersant.ru/doc/9080060"
-  ],
-  "message_id": 147,
-  "slot": "2026-11-03 52 17 * * *"
- },
- {
   "time_iso": "2026-11-03T22:10:39.589674+03:00",
   "time": "03.11 22:10",
   "rubric": "usa",
@@ -1676,5 +1658,30 @@
   ],
   "message_id": 219,
   "slot": "2026-11-10 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T21:44:21.817432+03:00",
+  "time": "10.11 21:44",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Предел физики",
+   "Жертвенная бухгалтерия"
+  ],
+  "topic_key": "economy",
+  "headline": "Сделка по российскому дизелю упёрлась в сгоревшие НПЗ",
+  "fly": "Дизель за версту",
+  "final": "",
+  "main_title": "Переработка нефти в России сократилась на 30% из-за новых украинских атак — Reuters",
+  "sources": [
+   "https://novayagazeta.eu/articles/2026/11/10/poslednii-tanker-kotoryi-vez-dizel-iz-rossii-v-ssha-smenil-kurs-news",
+   "https://www.kommersant.ru/doc/9093090",
+   "https://gcaptain.com/recent-ukrainian-attacks-have-reduced-russias-oil-processing-capacity-by-30-sources-say/",
+   "https://novayagazeta.eu/articles/2026/11/10/pererabotka-nefti-v-rossii-sokratilas-na-30-iz-za-novykh-ukrainskikh-atak-reuters-news",
+   "https://www.kommersant.ru/doc/9093765",
+   "https://www.themoscowtimes.com/2026/11/10/tanker-carrying-russian-diesel-halts-off-us-coast-shipping-data-shows-a94224"
+  ],
+  "message_id": 220,
+  "slot": "2026-11-10 22 18 * * *"
  }
 ]
