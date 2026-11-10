@@ -1,29 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T08:41:32.766249+03:00",
-  "time": "03.11 08:41",
-  "rubric": "china",
-  "form": "вопрос",
-  "layout": "от предмета",
-  "optics": [
-   "разумные по одному",
-   "предел физики"
-  ],
-  "topic_key": "pboc-raises-forex-rrr-yuan",
-  "headline": "Зачем Народный банк Китая усложняет работу с валютой",
-  "fly": "Слишком крепкий орешек",
-  "subhead": "Пекин борется с дорогой национальной валютой, изымая долларовую ликвидность из коммерческих банков.",
-  "final": "",
-  "actor": "pboc",
-  "main_title": "PBOC to raise banks’ forex reserve requirements to ease appreciation pressure on yuan",
-  "sources": [
-   "https://www.scmp.com/business/article/3373053/pboc-raise-reserve-requirement-ratio-foreign-exchange-deposits-2-percentage-points",
-   "https://www.wsj.com/finance/stocks/australian-banks-outperforming-on-rotation-away-from-ai-04a0c978?mod=rss_markets_main"
-  ],
-  "message_id": 140,
-  "slot": "2026-11-03 37 5 * * *"
- },
- {
   "time_iso": "2026-11-03T10:41:03.265618+03:00",
   "time": "03.11 10:41",
   "rubric": "economy",
@@ -1749,5 +1725,28 @@
   ],
   "message_id": 215,
   "slot": "2026-11-10 37 5 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T10:42:55.621643+03:00",
+  "time": "10.11 10:42",
+  "rubric": "regulation",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "лестница власти"
+  ],
+  "topic_key": "minpromtorg-steel-imports-restrictions-2026",
+  "headline": "Минпромторг ограничил закупки импортных стальных канатов",
+  "fly": "Канатная дорога",
+  "subhead": "Барьеры вводят точечно: работу по трубам для нефтяников планируют завершить только к началу 2027 года.",
+  "final": "",
+  "actor": "minpromtorg",
+  "main_title": "Минпромторг вводит ограничения для импортной металлопродукции в госзакупках",
+  "sources": [
+   "https://www.vedomosti.ru/business/articles/2026/11/10/1243883-minpromtorg-vvodit-ogranicheniya"
+  ],
+  "message_id": 216,
+  "slot": "2026-11-10 37 7 * * *"
  }
 ]
