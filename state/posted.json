@@ -1,28 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T22:10:39.589674+03:00",
-  "time": "03.11 22:10",
-  "rubric": "usa",
-  "form": "вопрос",
-  "layout": "от предмета",
-  "optics": [
-   "лестница власти",
-   "предел физики"
-  ],
-  "topic_key": "ssha-zapretili-soft-acronis",
-  "headline": "Почему Вашингтон запретил софт созданной выходцами из МФТИ Acronis",
-  "fly": "Свой среди чужих",
-  "subhead": "Десять лет проверок закончились приказом убрать швейцарский продукт из ведомств",
-  "final": "",
-  "actor": "acronis",
-  "main_title": "США запретили госведомствам использовать софт Acronis уехавшего из России в 90-х выпускника МФТИ",
-  "sources": [
-   "https://ru.themoscowtimes.com/2026/11/03/ssha-zapretili-gosvedomstvam-ispolzovat-soft-acronis-uehavshego-iz-rossii-v-90-h-vipusknika-mfti-a210439"
-  ],
-  "message_id": 148,
-  "slot": "2026-11-03 7 19 * * *"
- },
- {
   "time_iso": "2026-11-04T00:42:45.236755+03:00",
   "time": "04.11 00:42",
   "rubric": "budget",
@@ -1707,5 +1684,29 @@
   ],
   "message_id": 221,
   "slot": "2026-11-10 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-11T00:41:20.467470+03:00",
+  "time": "11.11 00:41",
+  "rubric": "russia",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "kurchatov-primate-blood-bank-2026",
+  "headline": "Курчатовский институт создал банк крови приматов-долгожителей",
+  "fly": "В долгий ящик",
+  "subhead": "В питомниках института содержатся более семи тысяч обезьян 22 видов.",
+  "final": "",
+  "actor": "kurchatovskiy institut",
+  "main_title": "Институт, которым руководит друг Путина, создал банк крови приматов долгожителей. С его помощью хотят найти способ замедлить старение",
+  "sources": [
+   "https://meduza.io/news/2026/11/10/institut-druga-putina-sozdal-bank-krovi-primatov-dolgozhiteley-s-ego-pomoschyu-hotyat-nayti-sposob-zamedlit-starenie",
+   "https://t.me/agentstvonews/18152"
+  ],
+  "message_id": 222,
+  "slot": "2026-11-11 37 21 * * *"
  }
 ]
