@@ -6217,37 +6217,37 @@
    "blocks": [],
    "places": [
     {
-     "name": "ГОНКОНГ",
-     "lat": 22.3193,
-     "lon": 114.1694,
+     "name": "GEORGE TOWN",
+     "lat": 5.4164,
+     "lon": 100.3327,
      "scale": "country"
     },
     {
-     "name": "БЕЛГРАД",
+     "name": "BELGRADE",
      "lat": 44.7866,
      "lon": 20.4489,
      "scale": "country"
     },
     {
-     "name": "НИЖНИЙ НОВГОРОД",
+     "name": "NIZHNY NOVGOROD",
      "lat": 56.3269,
      "lon": 44.0059,
      "scale": "country"
     },
     {
-     "name": "МОСКВА",
+     "name": "MOSCOW",
      "lat": 55.7558,
      "lon": 37.6173,
      "scale": "country"
     },
     {
-     "name": "ТАШКЕНТ",
+     "name": "TASHKENT",
      "lat": 41.2995,
      "lon": 69.2401,
      "scale": "country"
     },
     {
-     "name": "АНКАРА",
+     "name": "ANKARA",
      "lat": 39.9334,
      "lon": 32.8597,
      "scale": "country"
