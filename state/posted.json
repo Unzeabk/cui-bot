@@ -1,28 +1,5 @@
 [
  {
-  "time_iso": "2026-11-03T10:41:03.265618+03:00",
-  "time": "03.11 10:41",
-  "rubric": "economy",
-  "form": "сухой тренд",
-  "layout": "от цифры",
-  "optics": [
-   "метрика-оборотень",
-   "обменник"
-  ],
-  "topic_key": "padenie-prodazh-noutbukov-2026",
-  "headline": "Продажи ноутбуков просели на девятнадцать процентов",
-  "fly": "Старые кони борозды не портят",
-  "subhead": "Техника подорожала на треть, заставив покупателей уйти в ремонт и вторичный оборот",
-  "final": "",
-  "actor": "mintsifry",
-  "main_title": "В России обвал продаж новых ноутбуков. Россияне покупают подержанные и используют их «до дыр»",
-  "sources": [
-   "https://www.cnews.ru/news/top/2026-11-03_v_rossii_kollaps_rynka_novyh"
-  ],
-  "message_id": 141,
-  "slot": "2026-11-03 37 7 * * *"
- },
- {
   "time_iso": "2026-11-03T12:39:36.179837+03:00",
   "time": "03.11 12:39",
   "rubric": "russia",
@@ -1748,5 +1725,29 @@
   ],
   "message_id": 216,
   "slot": "2026-11-10 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-10T12:44:42.425633+03:00",
+  "time": "10.11 12:44",
+  "rubric": "newmarkets",
+  "form": "неожиданная география",
+  "layout": "от развязки",
+  "optics": [
+   "метрика-оборотень",
+   "предел физики"
+  ],
+  "topic_key": "russia-india-coal-imports-2026",
+  "headline": "Экспорт угля в Индию упёрся в предел свободных объёмов",
+  "fly": "Индийский марш",
+  "subhead": "Захват доли на индийском рынке маскирует резкое удорожание логистики и исчерпание экспортных объёмов.",
+  "final": "",
+  "actor": "bne intellinews",
+  "main_title": "Russia doubles its share of India's thermal coal imports to 8.2%",
+  "sources": [
+   "https://www.intellinews.com/russia-doubles-its-share-of-india-s-thermal-coal-imports-to-8-2-483446/",
+   "https://www.kommersant.ru/doc/9093079"
+  ],
+  "message_id": 217,
+  "slot": "2026-11-10 37 9 * * *"
  }
 ]
