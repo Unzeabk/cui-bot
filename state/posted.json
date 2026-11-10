@@ -1,30 +1,5 @@
 [
  {
-  "time_iso": "2026-11-04T00:42:45.236755+03:00",
-  "time": "04.11 00:42",
-  "rubric": "budget",
-  "form": "сухой тренд",
-  "layout": "от развязки",
-  "optics": [
-   "метрика-оборотень",
-   "предел физики"
-  ],
-  "topic_key": "uchet-oborotov-po-schetam-posobie",
-  "headline": "Обороты по счетам семей ограничат выплату пособий",
-  "fly": "Копейка рубль бережёт",
-  "subhead": "Минтруд начнет сверять движения средств с годовыми доходами россиян.",
-  "final": "",
-  "actor": "socialniy fond",
-  "main_title": "Единое пособие на детей будут назначать по-новому — теперь вы можете остаться без денег при частых онлайн-переводах",
-  "sources": [
-   "https://www.e1.ru/text/economics/2026/11/04/76743866/",
-   "https://www.bfm.ru/news/622847",
-   "https://t.me/banksta/104744"
-  ],
-  "message_id": 149,
-  "slot": "2026-11-04 37 21 * * *"
- },
- {
   "time_iso": "2026-11-04T02:39:00.123959+03:00",
   "time": "04.11 02:39",
   "rubric": "sanctions",
@@ -1708,5 +1683,30 @@
   ],
   "message_id": 222,
   "slot": "2026-11-11 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-11T02:43:52.838616+03:00",
+  "time": "11.11 02:43",
+  "rubric": "europe",
+  "form": "чему учит",
+  "layout": "от цифры",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "спектакль"
+  ],
+  "topic_key": "poland-us-base-fort-trump-2026",
+  "headline": "Чему попытка Польши получить базу США учит союзников НАТО",
+  "fly": "Постоянная прописка",
+  "subhead": "Варшава заявила о согласии Пентагона на постоянную базу США, но платить за американские гарантии Европе придётся самой.",
+  "final": "",
+  "actor": "pentagon",
+  "main_title": "Пентагон одобрил создание постоянной военной базы США в Польше",
+  "sources": [
+   "https://news.am/ru/news/1074014",
+   "https://www.politico.eu/article/poland-says-pentagon-backs-permanent-us-base-with-trump-decision-due-in-december/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+   "https://www.ng.ru/news/850653.html"
+  ],
+  "message_id": 223,
+  "slot": "2026-11-11 37 23 * * *"
  }
 ]
