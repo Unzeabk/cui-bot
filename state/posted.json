@@ -1,29 +1,5 @@
 [
  {
-  "time_iso": "2026-11-04T05:10:14.095324+03:00",
-  "time": "04.11 05:10",
-  "rubric": "europe",
-  "form": "вопрос",
-  "layout": "от развязки",
-  "optics": [
-   "сдвиг горизонта",
-   "обменник"
-  ],
-  "topic_key": "drax-ai-datacentre-2026",
-  "headline": "Крупнейшая британская электростанция превратится в дата-центр ради ИИ",
-  "fly": "Свет в конце трубы",
-  "subhead": "Власти урежут миллионные субсидии станции, но владельцы нашли способ сохранить миллиарды",
-  "final": "",
-  "actor": "drax",
-  "main_title": "UK’s most polluting power plant could power country’s largest AI datacentre",
-  "sources": [
-   "https://www.theguardian.com/business/2026/nov/03/uk-drax-power-station-ai-datacentre",
-   "https://www.agbi.com/ai/2026/11/qatar-backed-venture-to-fund-uks-27bn-data-centre-project/"
-  ],
-  "message_id": 151,
-  "slot": "2026-11-04 7 2 * * *"
- },
- {
   "time_iso": "2026-11-04T08:39:58.532318+03:00",
   "time": "04.11 08:39",
   "rubric": "business",
@@ -1706,5 +1682,28 @@
   ],
   "message_id": 224,
   "slot": "2026-11-11 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-11T08:40:34.166289+03:00",
+  "time": "11.11 08:40",
+  "rubric": "economy",
+  "form": "неожиданная география",
+  "layout": "от цифры",
+  "optics": [
+   "метрика-оборотень",
+   "жертвенная бухгалтерия"
+  ],
+  "topic_key": "tarify-elektroenergiya-kitay-2026",
+  "headline": "Российские тарифы на электроэнергию привязали к китайскому бенчмарку",
+  "fly": "По чужому счёту",
+  "subhead": "Отрасли нужно 57 трлн рублей на стройки. При действующей модели платить за всё придется потребителям.",
+  "final": "",
+  "actor": "minenergo",
+  "main_title": "Киловатт-часы сверят по Китаю // Цены на электроэнергию в России поручено удержать на 20% ниже, чем в КНР",
+  "sources": [
+   "https://www.kommersant.ru/doc/9094064"
+  ],
+  "message_id": 225,
+  "slot": "2026-11-11 37 5 * * *"
  }
 ]
