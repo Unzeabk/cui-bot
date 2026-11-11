@@ -1,31 +1,5 @@
 [
  {
-  "time_iso": "2026-11-04T02:39:00.123959+03:00",
-  "time": "04.11 02:39",
-  "rubric": "sanctions",
-  "form": "абсурд как явление",
-  "layout": "от предмета",
-  "optics": [
-   "обратный эффект",
-   "лестница власти"
-  ],
-  "topic_key": "nyu-dzhersi-zapret-dizel",
-  "headline": "Губернатор Нью-Джерси пригрозил портам миллионными штрафами за российский дизель",
-  "fly": "Закон тайги",
-  "subhead": "Временная лицензия Минфина США столкнулась с угрозой регионального запрета",
-  "final": "",
-  "actor": "new jersey",
-  "main_title": "NYT: в Нью-Джерси пригрозили штрафами за разгрузку российского дизеля",
-  "sources": [
-   "https://www.vedomosti.ru/politics/news/2026/11/04/1242567-nyu-dzhersi-prigrozili-shtrafami",
-   "https://www.pnp.ru/in-world/gubernator-nyu-dzhersi-prigrozila-shtrafami-za-priem-rossiyskogo-dizelya.html",
-   "https://t.me/agentstvonews/18042",
-   "https://gcaptain.com/new-jersey-governor-warns-ports-against-handling-russian-diesel/"
-  ],
-  "message_id": 150,
-  "slot": "2026-11-04 37 23 * * *"
- },
- {
   "time_iso": "2026-11-04T05:10:14.095324+03:00",
   "time": "04.11 05:10",
   "rubric": "europe",
@@ -1708,5 +1682,29 @@
   ],
   "message_id": 223,
   "slot": "2026-11-11 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-11T05:11:54.137747+03:00",
+  "time": "11.11 05:11",
+  "rubric": "business",
+  "form": "конец явления",
+  "layout": "от развязки",
+  "optics": [
+   "предел физики",
+   "обменник"
+  ],
+  "topic_key": "delimobil-prodayot-oborudovanie-sto-2026",
+  "headline": "«Делимобиль» распродаёт ремонтные сервисы в регионах",
+  "fly": "Дальше не едем",
+  "subhead": "Из 12 городов увозят 1710 машин, а продаваемой технике всего один-два года",
+  "final": "",
+  "actor": "delimobil",
+  "main_title": "«Делимобиль» выставил на продажу оборудование СТО в пяти городах",
+  "sources": [
+   "https://www.vedomosti.ru/business/articles/2026/11/11/1244235-delimobil-vistavil-na-prodazhu",
+   "https://frankmedia.ru/314944"
+  ],
+  "message_id": 224,
+  "slot": "2026-11-11 7 2 * * *"
  }
 ]
