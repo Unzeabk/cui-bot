@@ -1,29 +1,5 @@
 [
  {
-  "time_iso": "2026-11-04T08:39:58.532318+03:00",
-  "time": "04.11 08:39",
-  "rubric": "business",
-  "form": "сухой тренд",
-  "layout": "от предмета",
-  "optics": [
-   "предел физики",
-   "обменник"
-  ],
-  "topic_key": "apple-memory-chip-prices-2026",
-  "headline": "Apple теряет маржу из-за дефицита памяти для ИИ",
-  "fly": "Золотое дно кремния",
-  "subhead": "Выручка выросла, но издержки на чипы растут быстрее подорожания гаджетов.",
-  "final": "",
-  "actor": "apple",
-  "main_title": "Apple warns of ‘unprecedented’ rise in memory chip prices",
-  "sources": [
-   "https://www.theguardian.com/technology/2026/nov/02/apple-third-quarter-revenue-earnings",
-   "https://www.marketwatch.com/story/what-analysts-are-saying-as-apples-stock-falls-after-earnings-report-f0afa357?mod=mw_rss_topstories"
-  ],
-  "message_id": 152,
-  "slot": "2026-11-04 37 5 * * *"
- },
- {
   "time_iso": "2026-11-04T10:46:47.819150+03:00",
   "time": "04.11 10:46",
   "rubric": "tech",
@@ -1705,5 +1681,29 @@
   ],
   "message_id": 225,
   "slot": "2026-11-11 37 5 * * *"
+ },
+ {
+  "time_iso": "2026-11-11T10:41:45.003938+03:00",
+  "time": "11.11 10:41",
+  "rubric": "settlements",
+  "form": "конец явления",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "теневой двойник"
+  ],
+  "topic_key": "otkaz-ot-yuanya-raschety-2026",
+  "headline": "Юань уходит из расчётов за российский экспорт",
+  "fly": "Восток — дело дорогое",
+  "subhead": "Китайские банки испугались американских санкций. Оставшиеся платежи забирают до пятой части сделки посредникам",
+  "final": "",
+  "actor": "bloomberg",
+  "main_title": "План России заменить доллар юанем провалился из-за вторичных санкций США",
+  "sources": [
+   "https://meduza.io/news/2026/11/11/plan-rossii-zamenit-dollar-yuanem-provalilsya-iz-za-vtorichnyh-sanktsiy-ssha",
+   "https://t.me/agentstvonews/18172"
+  ],
+  "message_id": 226,
+  "slot": "2026-11-11 37 7 * * *"
  }
 ]
