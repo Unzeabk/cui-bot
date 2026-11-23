@@ -90,5 +90,29 @@
   ],
   "message_id": 230,
   "slot": "2026-11-24 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-24T02:41:04.428842+03:00",
+  "time": "24.11 02:41",
+  "rubric": "sanctions",
+  "form": "вопрос",
+  "layout": "от предмета",
+  "optics": [
+   "теневой двойник",
+   "предел физики"
+  ],
+  "topic_key": "22-paket-sanktsii-ec-swift-crypto",
+  "headline": "Зачем Еврокомиссии отключать от SWIFT еще шестьдесят банков?",
+  "fly": "Чистая формальность",
+  "subhead": "Брюссель закрывает каналы, по которым международные расчёты давно не ходят.",
+  "final": "",
+  "actor": "evrokomissiya",
+  "main_title": "Еврокомиссия предложила отключить от SWIFT еще около 60 российских банков",
+  "sources": [
+   "https://frankmedia.ru/317644",
+   "https://novayagazeta.eu/articles/2026/11/23/evrokomissiia-predstavila-22-i-paket-sanktsii-protiv-rossii-chinovniki-predlozhili-ne-davat-vizy-uchastnikam-voiny-v-ukraine-news"
+  ],
+  "message_id": 231,
+  "slot": "2026-11-24 37 23 * * *"
  }
 ]
