@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://cuibono.press/</loc><lastmod>2026-11-23</lastmod></url>
+<url><loc>https://cuibono.press/</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/r/analysis</loc><lastmod>2026-11-10</lastmod></url>
 <url><loc>https://cuibono.press/r/position</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/r/week</loc><lastmod>2026-11-07</lastmod></url>
 <url><loc>https://cuibono.press/r/russia</loc><lastmod>2026-11-11</lastmod></url>
-<url><loc>https://cuibono.press/r/regions</loc><lastmod>2026-11-08</lastmod></url>
+<url><loc>https://cuibono.press/r/regions</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/r/budget</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/r/property</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/r/finance</loc><lastmod>2026-11-10</lastmod></url>
@@ -25,7 +25,7 @@
 <url><loc>https://cuibono.press/r/regulation</loc><lastmod>2026-11-10</lastmod></url>
 <url><loc>https://cuibono.press/r/defense</loc><lastmod>2026-11-07</lastmod></url>
 <url><loc>https://cuibono.press/r/culture</loc><lastmod>2026-11-07</lastmod></url>
-<url><loc>https://cuibono.press/a/2026-11</loc><lastmod>2026-11-23</lastmod></url>
+<url><loc>https://cuibono.press/a/2026-11</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/t/minfin</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/t/mintrans</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/t/inflyatsiya</loc><lastmod>2026-11-23</lastmod></url>
@@ -49,6 +49,7 @@
 <url><loc>https://cuibono.press/t/iskusstvennyy-intellekt</loc><lastmod>2026-11-05</lastmod></url>
 <url><loc>https://cuibono.press/t/pravitelstvo</loc><lastmod>2026-11-04</lastmod></url>
 <url><loc>https://cuibono.press/t/nizhegorodskaya-oblast</loc><lastmod>2026-11-02</lastmod></url>
+<url><loc>https://cuibono.press/p/2026-11-24-zaderzhanie-gubernatora-chibisa</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-23-strahovanie-voennyh-riskov-minfin</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-23-budget</loc><lastmod>2026-11-23</lastmod></url>
 <url><loc>https://cuibono.press/p/2026-11-23-zamorozka-cen-udobreniya-fas</loc><lastmod>2026-11-23</lastmod></url>
@@ -161,7 +162,7 @@
 <url><loc>https://cuibono.press/data/kurs-evro</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/data/kurs-yuanya</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/data/indeks-mosbirzhi</loc></url>
-<url><loc>https://cuibono.press/data/zoloto</loc><lastmod>2026-11-21</lastmod></url>
+<url><loc>https://cuibono.press/data/zoloto</loc><lastmod>2026-11-24</lastmod></url>
 <url><loc>https://cuibono.press/data</loc></url>
 <url><loc>https://cuibono.press/en/2026-11-10-economy</loc><lastmod>2026-11-10</lastmod></url>
 <url><loc>https://cuibono.press/en/2026-11-09-world</loc><lastmod>2026-11-09</lastmod></url>
@@ -180,5 +181,5 @@
 <url><loc>https://cuibono.press/region/nizhegorodskaya-oblast</loc><lastmod>2026-11-10</lastmod></url>
 <url><loc>https://cuibono.press/region/</loc></url>
 <url><loc>https://cuibono.press/subscribe</loc></url>
-<url><loc>https://cuibono.press/calendar</loc><lastmod>2026-11-23</lastmod></url>
+<url><loc>https://cuibono.press/calendar</loc><lastmod>2026-11-24</lastmod></url>
 </urlset>
