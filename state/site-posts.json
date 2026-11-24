@@ -1,5 +1,196 @@
 [
  {
+  "kind": "analysis",
+  "time_iso": "2026-11-24T11:56:44.096204+03:00",
+  "rubric": "",
+  "fly": "Незаменимых у нас есть",
+  "headline": "Белый дом вернул главу Nvidia ради триллиона долларов",
+  "subhead": "Возвращение Дженсена Хуанга подбросило технологический рынок США. Вопросы национальной безопасности отступили перед угрозой обвала капитализации.",
+  "paragraphs": [
+   "12 ноября 2026 года основатель Nvidia Дженсен Хуанг [покинул посты](https://kun.uz/ru/news/2026/11/24/nvidia-vosstanovila-dzhensena-khuanga-v-dolzhnosti-glavy-kompanii-62008) президента, генерального директора и члена совета директоров. Поводом для отставки стали публичные обвинения во внебрачной связи с Элис Хуанг — руководителем сингапурской компании Megaspeed, которую американские спецслужбы подозревают в контактах с китайской разведкой. Ещё 18 ноября совет директоров чипмейкера категорически исключал возможность его возвращения к управлению, демонстрируя абсолютную непримиримость к потенциальным рисковым связям на фоне жесткого экспортного контроля США.",
+   "Однако 23 ноября решение аннулировали: совета директоров немедленно восстановил Хуанга во всех ключевых должностях. Официальным обоснованием назвали консультации с высшими чиновниками правительственных ведомств США, убедившими корпорацию в отсутствии угроз для национальной безопасности. Чтобы сгладить резонанс от решения, Nvidia объявила о создании специального комитета независимых директоров для оценки потенциальных вербовочных рисков, органа по соблюдению правил международной торговли и открыла вакансию директора по комплаенсу.",
+   "Вынужденная отмена отставки высветила глубокую уязвимость сложившейся системы корпоративного управления. Риторика защиты американских технологий от внешней разведки развалилась при первом же столкновении с реальной угрозой падения ключевого игрока отрасли. Вопрос о том, каким образом соображения национальной безопасности моментально уступили место биржевым интересам инвесторов, станет центральным в ходе предстоящих слушаний в законодательных органах США.",
+   "В деталях этого решения прослеживается новый прецедент для технологического сектора: статус фигуры, обеспечивающей стратегический рост всей отрасли, делает стандартные механизмы контроля бессильными. Какую цену за эту уязвимость заплатит корпоративное управление Nvidia и как регуляторы намерены контролировать человека, которого оказались не способны уволить, раскрывают события последующих дней.",
+   "Перспектива затяжного падения фондового рынка мгновенно перевесила любые опасения регуляторов и совета директоров. Новость о восстановлении Хуанга в должностях главного исполнительного директора и президента компании спровоцировала взрывной рост ее бумаг: за одну торговую сессию они [взлетели на 31,5%](https://news.am/ru/news/1076769), вернув чипмейкеру около одного триллиона долларов рыночной стоимости. Рыночная капитализация корпорации вновь [достигла $3,04 трлн](https://news.am/ru/news/1076772), мгновенно завершив тяжелую недельную полосу убытков, которая успела вывести ключевые американские биржевые индикаторы в зону глубокой коррекции.",
+   "Волна инвестиционного оптимизма моментально захлестнула весь технологический сектор, наглядно продемонстрировав прямую зависимость Уолл-стрит от одного эмитента. По итогам торгов в понедельник ключевые американские биржевые индексы показали рекордный дневной прирост с апреля 2025 года: индекс S&P 500 [поднялся на 4,73%](https://news.am/ru/news/1076769) до 7237,17 пункта, а Nasdaq Composite подскочил на 6,51% до 24089,56 пункта. Вместе с Nvidia вверх устремились бумаги всех смежных игроков и контрагентов — от поставщиков чипов памяти Micron и конкурирующих гигантов вроде AMD до операторов дата-центров CoreWeave и серверных поставщиков Dell и Super Micro.",
+   "Резкий разворот котировок показал, что экстренное возвращение бессменного лидера воспринималось инвесторами как единственный способ предотвратить масштабный системный кризис в американской экономике. На этом фоне личное состояние Хуанга, владеющего более чем 3,5% акций корпорации, за один вечер [увеличилось почти на $34 млрд](https://news.am/ru/news/1076772) и достигло $143,8 млрд. Это вывело предпринимателя на 13-е место в глобальном рейтинге миллиардеров Forbes.",
+   "В результате потенциальные риски национальной безопасности и вопросы корпоративной этики отступили перед сухой финансовой математикой. Рынок дал однозначный сигнал регуляторам и Белому дому. При отсутствии сопоставимой фигуры преемника сохранение основателя в должности остается фундаментальным условием устойчивости всей инфраструктуры искусственного интеллекта.",
+   "Решающим фактором в отмене первоначального решения совета директоров стало прямое вмешательство высшего руководства США. Президент Дональд Трамп публично [подтвердил](https://www.bbc.co.uk/news/articles/cq5y1k8ez407o), что лично провел переговоры с советом директоров Nvidia и убедил его вернуть основателя компании на посты президента и генерального директора. По словам главы государства, Белый дом предоставил корпорации официальные гарантии в отношении рисков национальной безопасности. На фоне падения рынков американские власти пришли к выводу, что уход Хуанга представляет для всей экономики страны несоизмеримо большую угрозу, чем его сохранение во главе чипмейкера.",
+   "Экстренная реинтеграция руководителя обнажила глубокую уязвимость системы корпоративного управления технологического гиганта. Отраслевые эксперты указывают, что Nvidia оказалась в ситуации, когда исполнительный директор стал «слишком большим, чтобы быть уволенным» без разрушения самой компании. На Хуанга, владеющего более чем 3,5% акций, замкнуты ключевые стратегические решения и долгосрочные инвестиции в искусственный интеллект, автономию и робототехнику. Организационная структура корпорации также продемонстрировала крайнюю централизацию: генеральный директор замкнул на себя сразу 60 прямых подчиненных, что сделало совет директоров заложником [одного человека](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html).",
+   "Чтобы снизить политические и регуляторные риски после скандального возвращения генерального директора, сторонам пришлось пойти на институциональный компромисс. Министерство торговли США объявило о подготовке санкций и внесении в черный список сингапурской компании Megaspeed, где должность CEO занимала Элис Хуанг. Со своей стороны Nvidia подтвердила готовность сотрудничать с государственными расследованиями и начала поиск директора по комплаенсу. В совете директоров сформировали специальные комитеты по экспортному контролю и проверке попыток иностранных спецслужб установить влияние на главу корпорации.",
+   "Решение восстановить Хуанга при посредничестве Белого дома спровоцировало резкое противостояние в Вашингтоне. Будущий лидер демократов в Палате представителей Хаким Джеффрис [назвал сделку](https://www.bbc.co.uk/news/articles/cq5y1k8ez407o) «незащитимой, безрассудной и непостижимой», пообещав провести масштабное расследование попыток администрации Трампа обменять вопросы национальной безопасности на рыночную капитализацию. К критике присоединились и республиканцы: председатель подкомитета по кибербезопасности Дон Бэкон заявил, что чипмейкер должен был двигаться дальше без основателя. Чтобы дать объяснения, Хуанг обязан явиться на закрытый допрос трех комитетов Палаты представителей 1 декабря, а 3 декабря его ждет выступление перед банковским комитетом Сената.",
+   "Политический скандал обнажил системный порог, который Уолл-стрит годами предпочитала замалчивать ради высокой доходности. Как отмечают аналитики Bernstein Research, участники рынка осознанно [закрывали глаза](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html) на персонализированный риск одного человека (key man risk), поскольку от динамики бумаг Nvidia прямо зависит устойчивость десятков смежных компаний. Финансовые результаты чипмейкера давно стали фундаментом для роста всего сектора: на новостях о возвращении CEO акции AMD [прибавили 6,9%](https://news.am/ru/news/1076769), бумаги Intel подскочили на 16,3%, а капитализация оператора облачной инфраструктуры CoreWeave взлетела сразу на 22,3%.",
+   "Зависимость распространилась далеко за пределы разработчиков микросхем, охватив крупнейших заказчиков ускорителей и поставщиков оборудования. Акции Tesla на новостях о реинтеграции Хуанга [подорожали на 11,5%](https://news.am/ru/news/1076769), бумаги сервера-производителя Super Micro выросли на 13,3%, а Dell — на 20,5%. Сложившаяся структура показала, что отсутствие проработанного плана преемственности в одной корпорации способно заблокировать работу рыночных механизмов. В условиях, когда технологический сектор обеспечивает ключевую долю американского экономического роста, совет директоров и регуляторы оказались вынуждены пожертвовать жестким корпоративным управлением ради сохранения общего рыночного баланса.",
+   "Чтобы продемонстрировать верность правилам, совет директоров Nvidia [сформировал специальный комитет](https://kun.uz/ru/news/2026/11/24/nvidia-vosstanovila-dzhensena-khuanga-v-dolzhnosti-glavy-kompanii-62008) из независимых членов для проверки возможных попыток иностранных спецслужб установить влияние на генерального директора. Параллельно в компании создали орган по вопросам национальной безопасности и экспортного контроля, а также открыли поиск директора по комплаенсу. Сам Дженсен Хуанг публично поддержал расследование и поблагодарил финансового директора Колетт Кресс, временно исполнявшую обязанности главы чипмейкера. Однако эти шаги выглядят скорей формальной защитой от претензий регуляторов, чем реальным ограничением власти бессменного руководителя.",
+   "Как отмечает бывший топ-менеджер Nvidia и управляющий партнер GFT Ventures Джефф Хербст, трансформация чипмейкера из относительно небольшой фирмы в одного из мировых гигантов требует системной перестройки управления и [планирования преемственности](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html). Совету директоров необходимо привлекать независимых управленцев с опытом руководства крупными корпорациями, а также уходить от схемы, при которой у CEO находится 60 прямых подчиненных. Тем не менее в условиях масштабных инвестиций в новые рынки автономии и робототехники бизнес по-прежнему полностью зависит от личного видения Хуанга. Любые попытки ввести жесткий надзор упираются в неготовность Уолл-стрит принимать риски смены лидера.",
+   "В итоге история с быстрым отстранением и реинтеграцией основателя создала очевидный прецедент для всего глобального рынка. Когда на кону стоит капитализация [в $3,04 трлн](https://news.am/ru/news/1076772) и устойчивость ключевых биржевых индексов, государственные институты и рыночные регуляторы предпочитают адаптировать правила под запросы отдельного игрока. Опасения спецслужб и риски иностранного влияния моментально отступили перед угрозой масштабного обвала капитализации, доказав, что ключевой инженер американского бума ИИ стал неуязвим для стандартного корпоративного комплаенса."
+  ],
+  "final": "",
+  "topic_key": "business",
+  "message_id": 235,
+  "cover": "cover-analysis-20261124-1154.jpg",
+  "telegraph": "https://cuibono.press/p/2026-11-24-business",
+  "place": {
+   "name": "Вашингтон",
+   "lat": 38.9,
+   "lon": -77.04,
+   "scale": "city"
+  },
+  "seo_title": "Дженсен Хуанг вернулся в Nvidia и вернул компании $1 триллион в 2026 году",
+  "seo_description": "Белый дом убедил совет директоров Nvidia вернуть Дженсена Хуанга на пост главы компании. Решение подняло капитализацию корпорации на $1 триллион.",
+  "entities": [
+   {
+    "name": "Nvidia",
+    "type": "org"
+   },
+   {
+    "name": "Дженсен Хуанг",
+    "type": "person"
+   },
+   {
+    "name": "Белый дом",
+    "type": "org"
+   },
+   {
+    "name": "Дональд Трамп",
+    "type": "person"
+   },
+   {
+    "name": "Министерство торговли США",
+    "type": "org"
+   }
+  ],
+  "visuals": {
+   "blocks": [
+    {
+     "quote": "за одну торговую сессию они взлетели на 31,5%, вернув чипмейкеру около одного триллиона долларов рыночной стоимости",
+     "type": "pull",
+     "para": 4,
+     "source": ""
+    },
+    {
+     "title": "Угроза и централизация управления",
+     "wins": [
+      {
+       "name": "Дженсен Хуанг",
+       "why": "замкнул на себя 60 прямых подчиненных и контроль над стратегией"
+      }
+     ],
+     "pays": [
+      {
+       "name": "Совет директоров",
+       "why": "оказался заложником одного человека из-за рисков разрушения компании"
+      }
+     ],
+     "type": "players",
+     "para": 9,
+     "source": ""
+    },
+    {
+     "title": "Рост котировок смежных компаний на новостях",
+     "unit": "%",
+     "points": [
+      [
+       "AMD",
+       6.9
+      ],
+      [
+       "Intel",
+       16.3
+      ],
+      [
+       "CoreWeave",
+       22.3
+      ]
+     ],
+     "highlight": 2,
+     "type": "compare",
+     "para": 12,
+     "source": "Bernstein Research"
+    }
+   ],
+   "v": 11,
+   "r": 6
+  },
+  "en": {
+   "title": "Why the White House brought back Nvidia’s chief for a trillion dollars",
+   "subtitle": "Jensen Huang’s return has lifted US tech markets. National security concerns gave way to the threat of a capitalisation collapse.",
+   "description": "Nvidia’s Jensen Huang returns as CEO after White House intervention, exposing systemic governance risks and Wall Street's heavy dependence on one man.",
+   "paragraphs": [
+    "On 12 November 2026, Nvidia founder Jensen Huang [resigned](https://kun.uz/ru/news/2026/11/24/nvidia-vosstanovila-dzhensena-khuanga-v-dolzhnosti-glavy-kompanii-62008) as president, chief executive officer and member of the board of directors. The resignation followed public accusations of an extramarital affair with Alice Huang, head of the Singapore-based company Megaspeed, which US intelligence suspects of ties to Chinese intelligence. As late as 18 November, the chipmaker's board explicitly ruled out his return, showing absolute intolerance for potential risk exposure amid strict US export controls.",
+    "Yet on 23 November, the decision was reversed: the board immediately reinstated Huang to all key positions. The official justification cited consultations with senior US government officials who assured the corporation that there were no national security threats. To soften the blow, Nvidia announced a special committee of independent directors to assess potential recruitment risks, a trade compliance body, and opened a vacancy for a chief compliance officer.",
+    "The forced cancellation of the resignation highlighted the deep vulnerability of current corporate governance. The rhetoric of protecting American technology from foreign intelligence collapsed upon first contact with the threat of a major industry player falling. The question of how national security considerations instantly yielded to investors' stock market interests will take centre stage in upcoming US legislative hearings.",
+    "The details of this decision set a new precedent for the technology sector: the status of a figure who secures the strategic growth of an entire industry makes standard control mechanisms powerless. The price Nvidia’s corporate governance will pay for this vulnerability, and how regulators intend to control a man they could not fire, will be revealed in subsequent days.",
+    "The prospect of a prolonged stock market downturn instantly outweighed any concerns from regulators and the board. News of Huang's reinstatement as CEO and president triggered an explosive surge in the company's shares: in a single trading session they [jumped by 31.5%](https://news.am/ru/news/1076769), restoring about one trillion dollars in market value to the chipmaker. The corporation's market capitalization [reached $3.04 trillion](https://news.am/ru/news/1076772) again, instantly ending a brutal week of losses that had pushed key US stock indices into deep correction territory.",
+    "A wave of investment optimism swept across the tech sector, demonstrating Wall Street's direct dependence on a single issuer. By Monday's close, major US stock indices showed their biggest daily gains since April 2025: the S&P 500 [rose 4.73%](https://news.am/ru/news/1076769) to 7,237.17 points, and the Nasdaq Composite jumped 6.51% to 24,089.56 points. Alongside Nvidia, shares of all related players and contractors surged — from memory chip suppliers Micron and rival giants like AMD to data centre operators CoreWeave and server vendors Dell and Super Micro.",
+    "The sharp reversal in quotes showed that the emergency return of the long-standing leader was seen by investors as the only way to prevent a systemic crisis in the American economy. Against this backdrop, the personal fortune of Huang, who owns more than 3.5% of the corporation's shares, [increased by nearly $34 billion](https://news.am/ru/news/1076772) in a single evening to reach $143.8 billion. This placed the entrepreneur 13th on the global Forbes billionaires list.",
+    "As a result, potential national security risks and corporate ethics gave way to dry financial mathematics. The market sent an unambiguous signal to regulators and the White House. In the absence of a comparable successor, keeping the founder in office remains a fundamental condition for the stability of the entire artificial intelligence infrastructure.",
+    "The decisive factor in reversing the board's initial decision was direct intervention from the highest levels of US leadership. President Donald Trump publicly [confirmed](https://www.bbc.co.uk/news/articles/cq5y1k8ez407o) that he personally spoke with Nvidia's board and persuaded them to return the founder to the posts of president and CEO. According to the president, the White House provided the corporation with official guarantees regarding national security risks. Amid falling markets, US authorities concluded that Huang's departure posed an incomparably greater threat to the national economy than keeping him at the helm of the chipmaker.",
+    "The emergency reintegration exposed deep vulnerabilities in the tech giant's governance system. Industry experts note that Nvidia found itself in a situation where the chief executive became 'too big to fire' without destroying the company itself. Huang, who owns over 3.5% of the shares, controls key strategic decisions and long-term investments in artificial intelligence, autonomy and robotics. The corporation's organizational structure also proved extremely centralized: the CEO has 60 direct reports, leaving the board of directors [held hostage by a single man](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html).",
+    "To reduce political and regulatory risks after the scandalous return of the CEO, both sides had to reach an institutional compromise. The US Department of Commerce announced preparations for sanctions and blacklisting of the Singaporean company Megaspeed, where Alice Huang served as CEO. For its part, Nvidia confirmed its readiness to cooperate with government investigations and began the search for a chief compliance officer. The board of directors formed special committees on export controls and vetted attempts by foreign intelligence to influence the head of the corporation.",
+    "The decision to reinstate Huang with White House mediation sparked fierce opposition in Washington. Incoming House Democratic leader Hakeem Jeffries [called the deal](https://www.bbc.co.uk/news/articles/cq5y1k8ez407o) 'indefensible, reckless and incomprehensible', promising a full-scale investigation into the Trump administration's efforts to trade national security for market capitalization. Republicans joined the criticism: House Cybersecurity Subcommittee Chairman Don Bacon stated that the chipmaker should have moved on without its founder. To provide explanations, Huang must appear for a closed deposition before three House committees on 1 December, followed by an appearance before the Senate Banking Committee on 3 December.",
+    "The political scandal exposed a systemic threshold that Wall Street had chosen to ignore for years in pursuit of high returns. As Bernstein Research analysts note, market participants knowingly [turned a blind eye](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html) to key man risk because the stability of dozens of related companies directly depends on Nvidia's share price dynamics. The chipmaker's financial results have long formed the foundation for growth across the entire sector: on news of the CEO's return, AMD shares [gained 6.9%](https://news.am/ru/news/1076769), Intel shares jumped 16.3%, and cloud infrastructure operator CoreWeave's capitalization soared 22.3%.",
+    "The dependency extended far beyond chip designers to major accelerator buyers and hardware vendors. Tesla shares [rose 11.5%](https://news.am/ru/news/1076769) on news of Huang's reintegration, server maker Super Micro grew 13.3%, and Dell gained 20.5%. This structure showed that the absence of a succession plan in a single corporation can paralyze market mechanisms. At a time when the tech sector drives a key share of US economic growth, the board and regulators found themselves forced to sacrifice strict corporate governance to preserve overall market balance.",
+    "To demonstrate compliance, Nvidia's board [formed a special committee](https://kun.uz/ru/news/2026/11/24/nvidia-vosstanovila-dzhensena-khuanga-v-dolzhnosti-glavy-kompanii-62008) of independent members to investigate any attempts by foreign intelligence to influence the CEO. Simultaneously, the company established a national security and export controls body and opened a search for a compliance director. Jensen Huang publicly supported the investigation and thanked CFO Colette Kress, who served as interim head. Yet these steps look more like formal protection from regulatory claims than a real restriction of power for the long-standing leader.",
+    "As former Nvidia top manager and GFT Ventures managing partner Jeff Herbst notes, transforming the chipmaker from a relatively small firm into a global giant requires systemic management overhauls and [succession planning](https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-governance.html). The board needs to attract independent managers with large-core experience and move away from the model where the CEO has 60 direct reports. Nevertheless, amid massive investments in new autonomy and robotics markets, the business remains entirely dependent on Huang's personal vision. Any attempts to introduce strict oversight run into Wall Street's unwillingness to accept leadership transition risks.",
+    "Ultimately, the swift ouster and reintegration of the founder set an obvious precedent for the global market. When a [$3.04 trillion](https://news.am/ru/news/1076772) capitalization and the stability of key stock indices are at stake, state institutions and market regulators prefer to adapt rules to the demands of a single player. Intelligence agency fears and foreign influence risks instantly retreated before the threat of a massive capitalisation collapse, proving that the chief engineer of the American AI boom has become immune to standard corporate compliance."
+   ],
+   "model": "gemini-3.5-flash-lite",
+   "visuals": {
+    "blocks": [
+     {
+      "quote": "in a single trading session they surged by 31.5%, restoring about one trillion dollars of market value to the chipmaker",
+      "type": "pull",
+      "para": 4,
+      "source": ""
+     },
+     {
+      "title": "Threat and centralised management",
+      "wins": [
+       {
+        "name": "Jensen Huang",
+        "why": "took direct control of 60 subordinates and oversight of strategy"
+       }
+      ],
+      "pays": [
+       {
+        "name": "The board",
+        "why": "became hostage to one man owing to risks of destroying the firm"
+       }
+      ],
+      "type": "players",
+      "para": 9,
+      "source": ""
+     },
+     {
+      "title": "Share-price gains of related firms on the news",
+      "unit": "%",
+      "points": [
+       [
+        "AMD",
+        6.9
+       ],
+       [
+        "Intel",
+        16.3
+       ],
+       [
+        "CoreWeave",
+        22.3
+       ]
+      ],
+      "highlight": 2,
+      "type": "compare",
+      "para": 12,
+      "source": "Bernstein Research"
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"para\": 4, \"quote\": \"за одну торговую сессию они взлетели на 31,5%, вернув чипмейкеру около одного триллиона долларов рыночной стоимости\", \"source\": \"\", \"type\": \"pull\"}, {\"para\": 9, \"pays\": [{\"name\": \"Совет директоров\", \"why\": \"оказался заложником одного человека из-за рисков разрушения компании\"}], \"source\": \"\", \"title\": \"Угроза и централизация управления\", \"type\": \"players\", \"wins\": [{\"name\": \"Дженсен Хуанг\", \"why\": \"замкнул на себя 60 прямых подчиненных и контроль над стратегией\"}]}, {\"highlight\": 2, \"para\": 12, \"points\": [[\"AMD\", 6.9], [\"Intel\", 16.3], [\"CoreWeave\", 22.3]], \"source\": \"Bernstein Research\", \"title\": \"Рост котировок смежных компаний на новостях\", \"type\": \"compare\", \"unit\": \"%\"}], null]"
+  }
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-24T10:45:33.427986+03:00",
   "rubric": "postsoviet",
@@ -7226,8 +7417,8 @@
     },
     {
      "name": "НИЖНИЙ НОВГОРОД",
-     "lat": 56.3269,
-     "lon": 44.0059,
+     "lat": 56.2965,
+     "lon": 43.9361,
      "scale": "country"
     },
     {
