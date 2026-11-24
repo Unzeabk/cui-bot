@@ -7573,7 +7573,12 @@
   "visuals": {
    "blocks": [],
    "places": [
-    null,
+    {
+     "name": "ДУБАЙ",
+     "lat": 25.2048,
+     "lon": 55.2708,
+     "scale": "country"
+    },
     {
      "name": "БЕЛГРАД",
      "lat": 44.7866,
