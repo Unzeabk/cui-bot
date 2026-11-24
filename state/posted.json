@@ -256,5 +256,23 @@
   ],
   "message_id": 237,
   "slot": "2026-11-24 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-24T21:02:29.351290+03:00",
+  "time": "24.11 21:02",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "budget",
+  "headline": "Ставка на рекордный оборонный бюджет подорвёт гражданскую экономику",
+  "fly": "Пушки вместо масла",
+  "final": "",
+  "main_title": "Russia's Duma passes 2027 budget with record RUB17.1tn defence spending - IntelliNews Lambda",
+  "sources": [
+   "https://t.me/minfin/9531",
+   "https://www.intellinews.com/russia-s-duma-passes-2027-budget-with-record-rub17-1tn-defence-spending-intellinews-lambda-488134/"
+  ],
+  "message_id": 238,
+  "slot": "2026-11-24 52 17 * * *"
  }
 ]
