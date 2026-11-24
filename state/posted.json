@@ -114,5 +114,29 @@
   ],
   "message_id": 231,
   "slot": "2026-11-24 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-24T05:15:48.123565+03:00",
+  "time": "24.11 05:15",
+  "rubric": "labour",
+  "form": "странная мелочь",
+  "layout": "от цифры",
+  "optics": [
+   "метрика-оборотень",
+   "предел физики"
+  ],
+  "topic_key": "samozanyatye-kriterii-platformennoy-zanyatosti",
+  "headline": "Лимит доходов самозанятых упёрлся в инфляцию семи лет",
+  "fly": "За скобками штата",
+  "subhead": "Профсоюзы просят правительство утвердить правила платформенной работы и сохранить льготные ставки после 2028 года.",
+  "final": "",
+  "actor": "obshchestvo samozanyatykh",
+  "main_title": "Правительство просят разделить трудовые отношения и платформенную занятость",
+  "sources": [
+   "https://www.finmarket.ru/main/article/6755444",
+   "https://www.vedomosti.ru/economics/articles/2026/11/23/1414103-samozanyatie-prosyat-kabmin"
+  ],
+  "message_id": 232,
+  "slot": "2026-11-24 7 2 * * *"
  }
 ]
