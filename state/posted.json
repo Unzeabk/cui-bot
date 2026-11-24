@@ -162,5 +162,28 @@
   ],
   "message_id": 233,
   "slot": "2026-11-24 37 5 * * *"
+ },
+ {
+  "time_iso": "2026-11-24T10:45:34.331209+03:00",
+  "time": "24.11 10:45",
+  "rubric": "postsoviet",
+  "form": "вопрос",
+  "layout": "от развязки",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "tajikistan-icc-withdrawal",
+  "headline": "Таджикистан запускает выход из Международного уголовного суда",
+  "fly": "Дипломатический иммунитет",
+  "subhead": "Душанбе покидает Римский статут, но Гаага сохранит право расследовать дела за период членства",
+  "final": "",
+  "actor": "tajikistan",
+  "main_title": "Tajikistan Is Leaving the ICC",
+  "sources": [
+   "https://thediplomat.com/2026/11/tajikistan-is-leaving-the-icc/"
+  ],
+  "message_id": 234,
+  "slot": "2026-11-24 37 7 * * *"
  }
 ]
