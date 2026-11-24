@@ -211,5 +211,31 @@
   ],
   "message_id": 235,
   "slot": "2026-11-24 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-24T12:42:58.303009+03:00",
+  "time": "24.11 12:42",
+  "rubric": "regulation",
+  "form": "абсурд как явление",
+  "layout": "от предмета",
+  "optics": [
+   "спектакль",
+   "обменник"
+  ],
+  "topic_key": "kvoty-na-inostrannoe-kino",
+  "headline": "Кинотеатрам запретят показывать зарубежные фильмы полгода",
+  "fly": "Сеанс окончен",
+  "subhead": "Пошлины за прокат составят миллионы рублей, а старые контракты аннулируют",
+  "final": "",
+  "actor": "gosduma",
+  "main_title": "Кинотеатрам по поручению Путина запретят показывать иностранное половину дней в году",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/24/kinoteatram-po-porucheniyu-putina-zapretyat-pokazyvat-inostrannoe-polovinu-dney-a812577",
+   "https://novayagazeta.eu/articles/2026/11/24/gosduma-predlozhila-ogranichit-prokat-inostrannykh-filmov-v-kinoteatrakh-vplot-do-zapreta-na-pokazy-v-opredelennye-periody-v-godu-news",
+   "https://meduza.io/news/2026/11/24/v-gosdume-podgotovili-zakonoproekt-o-kvotah-dlya-zarubezhnogo-kino-on-predpolagaet-periody-polnogo-zapreta-inostrannyh-filmov-v-kinoteatrah",
+   "https://t.me/agentstvonews/18389"
+  ],
+  "message_id": 236,
+  "slot": "2026-11-24 37 9 * * *"
  }
 ]
