@@ -578,5 +578,30 @@
   ],
   "message_id": 251,
   "slot": "2026-11-26 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T02:42:05.244290+03:00",
+  "time": "26.11 02:42",
+  "rubric": "russia",
+  "form": "абсурд как явление",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "жертвенная бухгалтерия"
+  ],
+  "topic_key": "import-topliva-rossiya-npz",
+  "headline": "Россия начинает импортировать автомобильное топливо из-за рубежа",
+  "fly": "Сапожник без сапог",
+  "subhead": "Переработка нефти внутри страны упала до минимума за два десятилетия.",
+  "final": "",
+  "actor": "minenergo",
+  "main_title": "Переработка нефти в России рухнула до минимума за более чем два десятилетия",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/25/pererabotka-nefti-v-rossii-ruhnula-do-minimuma-za-bolee-chem-dva-desyatiletiya-a812972",
+   "https://www.vedomosti.ru/business/articles/2026/11/26/1415423-minenergo-hochet-prodlit-embargo",
+   "https://www.themoscowtimes.com/2026/11/25/russian-official-warns-of-ukrainian-drone-attacks-on-utility-infrastructure-this-a812373"
+  ],
+  "message_id": 252,
+  "slot": "2026-11-26 37 23 * * *"
  }
 ]
