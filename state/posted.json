@@ -347,5 +347,29 @@
   ],
   "message_id": 241,
   "slot": "2026-11-25 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T05:12:10.044463+03:00",
+  "time": "25.11 05:12",
+  "rubric": "economy",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "разумные по одному",
+   "сдвиг горизонта"
+  ],
+  "topic_key": "ops-pds-konvertatsiya-npf",
+  "headline": "Пенсионная реформа лишает экономику инвестиций на пять лет",
+  "fly": "Долгие лета",
+  "subhead": "Участники рынка предупреждают о риске агрессивного передела накоплений и потери доходов граждан.",
+  "final": "",
+  "actor": "npf",
+  "main_title": "Программа долгосрочных обсуждений // НПФ раскритиковали законопроект о переводе средств ОПС в ПДС",
+  "sources": [
+   "https://www.kommersant.ru/doc/9129715",
+   "https://www.bloomberg.com/news/articles/2026-11-25/india-pension-funds-pivot-to-bonds-as-equity-exposure-nears-cap"
+  ],
+  "message_id": 242,
+  "slot": "2026-11-25 7 2 * * *"
  }
 ]
