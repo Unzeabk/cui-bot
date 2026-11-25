@@ -466,5 +466,24 @@
   ],
   "message_id": 246,
   "slot": "2026-11-25 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T13:54:05.369541+03:00",
+  "time": "25.11 13:54",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "economy",
+  "headline": "Административные заслоны не спасут топливный рынок от дронов",
+  "fly": "Мнение редакции",
+  "final": "",
+  "main_title": "Главные заявления Путина о рынке топлива, атаках на НПЗ и неизбежном ответе",
+  "sources": [
+   "https://www.vedomosti.ru/politics/articles/2026/11/24/1414888-o-neizbezhnom-otvete",
+   "https://www.dw.com/ru/после-атаки-бпла-в-самарской-области-горят-два-нпз-роснефти/a-80042755?maca=rus-rss-ru-all-1126-rdf",
+   "https://www.themoscowtimes.com/2026/11/25/one-killed-in-samara-region-as-ukraine-strikes-oil-refinery-a94368"
+  ],
+  "message_id": 247,
+  "slot": "2026-11-25 52 10 * * *"
  }
 ]
