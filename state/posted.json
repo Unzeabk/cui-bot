@@ -535,5 +535,23 @@
   ],
   "message_id": 249,
   "slot": "2026-11-25 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T21:06:12.307497+03:00",
+  "time": "25.11 21:06",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "property",
+  "headline": "Зарубежные активы Лукойла уходят американскому инвестору",
+  "fly": "Смена владельцев",
+  "final": "",
+  "main_title": "Американский миллиардер Тодд Боули подписал сделку о покупке зарубежных активов ЛУКОЙЛа",
+  "sources": [
+   "https://frankmedia.ru/318105",
+   "https://ru.themoscowtimes.com/2026/11/25/eks-sovladelec-londonskogo-chelsi-obyavil-o-podpisanii-soglasheniya-o-a812965"
+  ],
+  "message_id": 250,
+  "slot": "2026-11-25 52 17 * * *"
  }
 ]
