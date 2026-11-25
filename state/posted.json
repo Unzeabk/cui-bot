@@ -418,5 +418,28 @@
   ],
   "message_id": 244,
   "slot": "2026-11-25 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T11:31:02.916372+03:00",
+  "time": "25.11 11:31",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Жертвенная бухгалтерия",
+   "Метрика-оборотень"
+  ],
+  "topic_key": "budget",
+  "headline": "Минфин перекладывает защиту бюджета с нефти на вклады",
+  "fly": "Шкала ценностей",
+  "final": "",
+  "main_title": "С 2027 года в России планируется объединить зарплату, доходы по депозитам и инвестиционные доходы в единую прогрессивную шкалу НДФЛ от 13%…",
+  "sources": [
+   "https://t.me/minfin/9532",
+   "https://www.vedomosti.ru/economics/articles/2026/11/25/1415011-regioni-zafiksirovali-profitsit-byudzheta",
+   "https://www.finmarket.ru/main/article/6756615",
+   "https://t.me/russianmacro/23771"
+  ],
+  "message_id": 245,
+  "slot": "2026-11-25 22 8 * * *"
  }
 ]
