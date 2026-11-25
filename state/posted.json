@@ -511,5 +511,29 @@
   ],
   "message_id": 248,
   "slot": "2026-11-25 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T20:03:29.471978+03:00",
+  "time": "25.11 20:03",
+  "rubric": "newmarkets",
+  "form": "конец явления",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "aramco-shaheen-korea",
+  "headline": "Saudi Aramco запустила нефтехимический гигант ценой в миллиарды",
+  "fly": "Своя игра",
+  "subhead": "Саудовский гигант конвертирует экспорт сырой нефти в азиатские полимеры.",
+  "final": "",
+  "actor": "saudi aramco",
+  "main_title": "Aramco Opens $7 Billion Petrochemical Complex in South Korea",
+  "sources": [
+   "https://oilprice.com/Latest-Energy-News/World-News/Aramco-Opens-7-Billion-Petrochemical-Complex-in-South-Korea.html",
+   "https://www.agbi.com/oil-and-gas/2026/11/aramco-awards-saipem-650m-contracts-to-upgrade-offshore-oilfields/"
+  ],
+  "message_id": 249,
+  "slot": "2026-11-25 37 16 * * *"
  }
 ]
