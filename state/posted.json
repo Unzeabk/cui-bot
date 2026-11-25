@@ -441,5 +441,30 @@
   ],
   "message_id": 245,
   "slot": "2026-11-25 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T12:42:12.630791+03:00",
+  "time": "25.11 12:42",
+  "rubric": "china",
+  "form": "чему учит",
+  "layout": "от предмета",
+  "optics": [
+   "спектакль",
+   "предел физики"
+  ],
+  "topic_key": "china-central-asia-energy-contracts",
+  "headline": "Чему завод на Кашагане учит российских экспортеров",
+  "fly": "Слово и дело",
+  "subhead": "Громкая риторика о сближении с Москвой соседствует с перетоком китайского капитала соседям.",
+  "final": "",
+  "actor": "kpk",
+  "main_title": "Отношения Китая с РФ становятся все ближе, нужно продвигать новые векторы — ЦК КПК",
+  "sources": [
+   "https://www.ng.ru/news/851577.html",
+   "https://eurasianet.org/china-secures-another-major-energy-contract-in-central-asia",
+   "https://thebell.io/inertsionnoe-razvitie-tolkaet-rossiyu-kkitayu-tsmakp"
+  ],
+  "message_id": 246,
+  "slot": "2026-11-25 37 9 * * *"
  }
 ]
