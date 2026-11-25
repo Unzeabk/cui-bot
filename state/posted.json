@@ -553,5 +553,30 @@
   ],
   "message_id": 250,
   "slot": "2026-11-25 52 17 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T00:42:37.432645+03:00",
+  "time": "26.11 00:42",
+  "rubric": "europe",
+  "form": "неожиданная география",
+  "layout": "от предмета",
+  "optics": [
+   "теневой двойник",
+   "лестница власти"
+  ],
+  "topic_key": "arest-aktivov-google-france",
+  "headline": "Парижский суд заморозил активы Google по заявлению из Москвы",
+  "fly": "Французский счет",
+  "subhead": "Под удар попали внутренние перечисления французского филиала в Ирландию. Решение парижского суда грозит серии европейских подразделений IT-гиганта банкротством.",
+  "final": "",
+  "actor": "google",
+  "main_title": "Во Франции арестовали активы Google по заявлению России: речь идет о 1,9 миллиарда евро",
+  "sources": [
+   "https://www.e1.ru/text/world/2026/11/25/76790722/",
+   "https://lenta.ru/news/2026/11/26/aktivy-google-vo-frantsii-arestovali-po-isku-rossiyskoy-dochki-kompanii/",
+   "https://www.vedomosti.ru/business/articles/2026/11/25/1415379-arestovali-aktivi-google"
+  ],
+  "message_id": 251,
+  "slot": "2026-11-26 37 21 * * *"
  }
 ]
