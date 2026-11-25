@@ -485,5 +485,31 @@
   ],
   "message_id": 247,
   "slot": "2026-11-25 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-25T17:14:39.354382+03:00",
+  "time": "25.11 17:14",
+  "rubric": "usa",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обратный эффект",
+   "лестница власти"
+  ],
+  "topic_key": "poshliny-ssha-razdel-301",
+  "headline": "Белый дом обложил пошлинами четырнадцать главных торговых партнеров",
+  "fly": "Обходным путём",
+  "subhead": "Реальные ставки окажутся ниже из-за прежних договоренностей, но экономисты всё равно ждут роста цен.",
+  "final": "",
+  "actor": "biden",
+  "main_title": "США объявили о введении новых пошлин в отношении многих торговых партнеров. Самые высокие ставки коснутся Китая",
+  "sources": [
+   "https://www.bbc.com/russian/articles/cm62p5r047zno?at_medium=RSS&at_campaign=rss",
+   "https://www.ft.com/content/335b593d-1478-4550-ab0a-71fec6280eb0?syn-25a6b1a6=1",
+   "https://www.bbc.co.uk/news/articles/c893r9ke5p97o?at_medium=RSS&at_campaign=rss",
+   "https://news.am/ru/news/1077168"
+  ],
+  "message_id": 248,
+  "slot": "2026-11-25 7 14 * * *"
  }
 ]
