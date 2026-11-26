@@ -627,5 +627,28 @@
   ],
   "message_id": 253,
   "slot": "2026-11-26 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T10:42:54.170501+03:00",
+  "time": "26.11 10:42",
+  "rubric": "property",
+  "form": "невозможный факт",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "предел физики"
+  ],
+  "topic_key": "shtengelov-kdv-vzyskanie-dolga",
+  "headline": "Суд взыскал миллиарды с создателя Кириешек",
+  "fly": "В долгий ящик",
+  "subhead": "Бывшие структуры холдинга потребовали признать недействительными договоры займа и вернуть долги",
+  "final": "",
+  "actor": "kdvk",
+  "main_title": "Суд в Томске взыскал 5,4 миллиарда рублей с бывшего владельца «Кириешек» Дениса Штенгелова. Год назад его объявили «экстремистом»",
+  "sources": [
+   "https://meduza.io/news/2026/11/26/sud-v-tomske-vzyskal-5-4-milliarda-rubley-s-byvshego-vladeltsa-kirieshek-denisa-shtengelova-god-nazad-ego-ob-yavili-ekstremistom"
+  ],
+  "message_id": 254,
+  "slot": "2026-11-26 37 7 * * *"
  }
 ]
