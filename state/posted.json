@@ -737,5 +737,29 @@
   ],
   "message_id": 258,
   "slot": "2026-11-26 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T19:40:19.119863+03:00",
+  "time": "26.11 19:40",
+  "rubric": "world",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "hormuz-tanker-traffic-attacks-nov-2026",
+  "headline": "Как Ормузский пролив обходит собственную блокаду",
+  "fly": "Кому война, кому танкер",
+  "subhead": "Число рейсов растет, пока крупнейшие суда уступают место мелким",
+  "final": "",
+  "actor": "vortexa",
+  "main_title": "Tanker Traffic at Hormuz Ticks Up Despite Intensified Attacks",
+  "sources": [
+   "https://oilprice.com/Latest-Energy-News/World-News/Tanker-Traffic-at-Hormuz-Ticks-Up-Despite-Intensified-Attacks.html",
+   "https://gcaptain.com/hormuz-tanker-traffic-rises-this-month-even-as-attacks-increase/"
+  ],
+  "message_id": 259,
+  "slot": "2026-11-26 37 16 * * *"
  }
 ]
