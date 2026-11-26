@@ -1,5 +1,174 @@
 [
  {
+  "kind": "analysis",
+  "time_iso": "2026-11-26T11:53:20.416634+03:00",
+  "rubric": "",
+  "fly": "Купить-то он купит",
+  "headline": "Частная экосистема Т-банка упёрлась в качество государственных данных",
+  "subhead": "Группа отдает 77 миллиардов рублей за платформу «Циан». Однако государственные сервисы возвращают лишь 60% пригодных сведений.",
+  "paragraphs": [
+   "Группа «Т-технологии» сделала крупнейший шаг по скупке частных цифровых платформ. Акционерам сервиса объявлений о недвижимости «Циан» была направлена добровольная оферта на выкуп до [100% капитала по цене 993,05 рубля](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu) за бумагу. Предложение содержит премию в 29,3% к котировкам на 5 ноября, а весь капитал компании из 77 670 490 акций оценен в 77,13 млрд рублей. На этой новости котировки «Циана» на Московской бирже подскочили более чем на 30%, достигнув 908,8 рубля за штуку.",
+   "Миноритарный пакет покупателя не интересует: сделку закроют только при условии продажи хотя бы 50% капитала, то есть 38 835 246 акций. Принимать заявки от владельцев бумаг будут до 22 февраля 2027 года, а расчёт произведут исключительно денежными средствами в течение 17 дней после закрытия окна. Все финансовые обязательства гарантирует Т-банк, предоставивший безотзывную гарантию на 77,13 млрд рублей. Сделку профинансируют за счёт собственных и заёмных средств без проведения допэмиссии акций холдинга.",
+   "{\n  \"rewritten_paragraph\": \"Покупка «Циана» продолжит стратегию агрессивного расширения состава группы. В июне «Т-технологии» уже выкупили у «Яндекса» автомобильный классифайд «Авто.ру» за 35 млрд рублей, также привлекая заёмный капитал. Последовательное поглощение лидерских платформ превращает банковскую группу в универсальную экосистему, замыкающую на себя крупнейшие рынки капиталоёмких сделок — от покупки автомобилей до операций с недвижимостью.\"\n}",
+   "Однако масштабная экспансия частных экосистем впервые столкнулась с жестким внешним ограничителем. Построив технологичный конвейер выкупа и обслуживания клиентов, частный холдинг неизбежно оказывается заложником государственных информационных сервисов и инфраструктуры. Быстрая интеграция крупнейших площадок упирается в качество государственных данных, на которых базируется современный скоринг и идентификация.",
+   "Главным барьером на пути построения бесшовной экосистемы становится низкое качество государственных данных, на которых базируется скоринг и идентификация. По оценкам заместителя директора по развитию государственного партнерства Т-банка Сергея Клименко, из «Цифрового профиля» гражданина валидной для оценки кредитного риска оказываются [в лучшем случае около 60% информации](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo). Ещё более жестким барьером выступает Единая биометрическая система (ЕБС). В подконтрольной группе микрофинансовой компании «Т-финанс» из [1400 реальных клиентов](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo), отправленных в этот сценарий, до финального займа дошли только 7%. Эксперимент по упрощению процедуры — с отказом от голосовой модальности — показал полную неработоспособность: ни один из 10 сотрудников банка не смог пройти проверку исключительно «по лицу».",
+   "Полноценное требование по идентификации через ЕБС при онлайн-выдачах формально действует для МФК с 1 марта, однако регулятор был вынужден не применять надзорные санкции [до 1 января 2027 года](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo). Национальный совет финансового рынка уже направил в Банк России просьбу продлить мораторий до 1 января 2028 года, мотивируя это задержками в адаптации инфраструктуры на стороне Центра биометрических технологий. Тем временем финансовые обязательства группы по экспансии уже зафиксированы: для обеспечения оферты акционерам «Циана» Т-банк выставил безотзывную гарантию на [77,13 млрд рублей](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu), действующую в период с 19 февраля по 2 октября 2027 года.",
+   "Параллельно Центральный банк готовит новое уплотнение нормативной среды, которое прямо затронет скоринг покупаемых платформ. С апреля 2027 года начнёт работать ограничение «один заем в руки» для продуктов с ПСК выше 100% годовых, а с 1 сентября 2027 года кредиторы будут обязаны опираться [только на официальные сведения о доходах](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo). Крупные классические банки могут использовать данные о зарплатах собственного штата клиентов, но профильные сервисы и МФО оказываются в уязвимом положении: при низком качестве информации из государственных реестров легальный конверсионный поток резко сокращается, выталкивая часть заемщиков в серую зону.",
+   "{\n  \"result\": \"Попытка государства досконально регламентировать скоринг и обелить рынок розничных займов приводит к прямо противоположному результату. Чрезмерно жесткие требования к идентификации и техническая незрелость госсистем стимулируют спрос на быстрое финансирование, выталкивая граждан в нерегулируемый сектор. Только за первое полугодие 2026 года Банк России выявил около 1000 нелегальных кредиторов, тогда как за весь 2025 год их было зафиксировано 1100. Рост теневого сегмента наглядно показывает: пока поднадзорные экосистемы теряют клиентов на этапе биометрии, частный капитал уходит туда, где государственные реестры вообще не применяются.\"\n}",
+   "{\n  \"text\": \"Схожая механика избегания жесткого контроля наблюдается и в поведении малого бизнеса, формирующего активную базу коммерческих экосистем. Главным стимулом структурных сдвигов стало снижение с 2026 года порога доходов для плательщиков НДС на обычной упрощёнке до 20 млн рублей. Чтобы сохранить освобождение от налога и избежать лавинообразного роста отчётности, предприниматели начали массово менять налоговые режимы. Основным укрытием выступает автоматизированная упрощённая система налогообложения (АвтоУСН), сохраняющая льготы при пороге выручки до 60 млн рублей.\"\n}",
+   "По данным презентации Федеральной налоговой службы, за пять месяцев 2026 года число пользователей АвтоУСН подскочило в десять раз — до [444 тыс.](https://www.rbc.ru/economics/02/07/2026/6a4562479a794704df989529) предпринимателей против 43,1 тыс. по итогам 2025 года. Аналитики прогнозируют выход показателя на уровень 700–900 тыс. к концу 2026 года, а при прямой интеграции с маркетплейсами — до 1 млн пользователей. Минфин гарантирует неизменность параметров эксперимента до конца 2027 года, однако взрывной уход бизнеса в автоматизированные налоговые ниши подтверждает общее правило: любая попытка регулятора дотянуться до каждого рубля заставляет экономику строить обходные маршруты.",
+   "В борьбе за ключевые сервисы частный капитал сталкивается не только с жесткостью регулятора, но и с сопротивлением конкурентов. Заявленная оферта «Т-технологий» на выкуп «Циана» упирается в структуру владения: основатель Elbrus Capital Дмитрий Крюков распоряжается 37,43% голосов (32,98% акций), а сооснователи Дмитрий Дёмин и Максим Мельников — 8,12% и 7,08% голосов соответственно. При свободном обращении на бирже в 40% акций группе необходимо собрать минимум 50% капитала для реализации сделки. Появление в переговорах Альфа-банка, претендующего на пакет структур Elbrus Capital, превращает поглощение в жесткое противостояние, где премия в 29,3% к котировкам перестаёт гарантировать легкий контроль.",
+   "Стратегический расчёт «Т-технологий», потративших 35 млрд рублей на сервис «Авто.ру» и гарантирующих 77,13 млрд рублей под оферту «Циана», строился на быстрой интеграции клиентских потоков. Однако финансовый директор группы Игорь Герасимов прямо заявил об отсутствии предварительных договорённостей с акционерами сервиса до отправки документов. Параллельно банковская группа вынуждена вести сложную лоббистскую кампанию: инициатива НСФР по продлению моратория на надзорные меры до 1 января 2028 года подчёркивает, что технический цикл Центра биометрических технологий банально не успевает за требованиями закона.",
+   "В итоге между частными инвестиционными планами и государственным нормативным давлением возникает институциональный клин. Директор департамента ЦБ Илья Кочетков подтверждает непреклонность регулятора в отношении вступления требований в 2027 году, в то время как в Госдуме настаивают на усилении надзора за нарушениями. Крупный бизнес привлекает заёмный капитал и выплачивает десятки миллиардов рублей ради консолидации платформ, однако реальная отдача от экосистем оказываются заперта в узком горлышке не готовой к коммерческим нагрузкам государственной инфраструктуры.",
+   "Впрочем, государственная логика ужесточения контроля над финансовым рынком опирается на понятные задачи. Заградительные меры против долговой спирали, включая правило «один заем в руки» для продуктов с ПСК выше 100% годовых с апреля 2027 года, направлены на купирование рисков мошенничества. Однако норма с 1 сентября 2027 года, обязывающая кредиторов опираться [только на официальные сведения о доходах](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo) заемщиков из государственных баз, разбивается о техническое несовершенство «Цифрового профиля». Когда валидными для оценки рисков признаются лишь около 60% получаемых данных, регуляторный фильтр начинает блокировать легальные выдачи.",
+   "Это создает прямой конфликт между инвестиционной моделью частных экосистем и возможностями госрегулирования. Направляя десятки миллиардов рублей на консолидацию рынка — от выкупа «Авто.ру» за 35 млрд рублей до предложения [77,13 млрд рублей](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu) акционерам «Циана», — финансовые группы рассчитывали на мгновенную монетизацию сервисов через сквозные кредитные продукты. На деле скоринговые алгоритмы упираются в требования ЕБС и отчётов ФНС, обваливая конверсию процессов до единичных процентов и стимулируя переток клиентов к нелегальным кредиторам.",
+   "Экспансия коммерческих платформ упёрлась в предел возможностей государственных цифровых институтов. Попытка принудительно связать быстрый банковский скоринг с незрелыми реестрами данных превращает любой крупный классифайд в изолированный витринный актив. Покупая лидеров рынка, частный капитал берёт на себя всю полноту регуляторных рисков: пока государственные сервисы отдают сомнительную информацию, даже обладание 100% капитала крупнейших площадок не гарантирует ожидаемой отдачи на вложенные миллиарды."
+  ],
+  "final": "",
+  "topic_key": "business",
+  "message_id": 255,
+  "cover": "cover-analysis-20261126-1150.jpg",
+  "telegraph": "https://cuibono.press/p/2026-11-26-business",
+  "place": {
+   "name": "Москва",
+   "lat": 55.75,
+   "lon": 37.61,
+   "scale": "country"
+  },
+  "seo_title": "Т-технологии покупают Циан за 77 млрд рублей в 2026 году",
+  "seo_description": "Группа Т-технологии направляла оферту на выкуп Циана за 77,13 млрд рублей. Интеграция экосистем сталкивается с низким качеством государственных данных.",
+  "entities": [
+   {
+    "name": "Т-технологии",
+    "type": "org"
+   },
+   {
+    "name": "Циан",
+    "type": "org"
+   },
+   {
+    "name": "Т-банк",
+    "type": "org"
+   },
+   {
+    "name": "Банк России",
+    "type": "org"
+   },
+   {
+    "name": "Единая биометрическая система",
+    "type": "instrument"
+   }
+  ],
+  "visuals": {
+   "blocks": [
+    {
+     "value": "60%",
+     "pct": 60.0,
+     "caption": "информации из «Цифрового профиля» валидна для оценки риска",
+     "type": "share",
+     "para": 4,
+     "source": "Т-банк"
+    },
+    {
+     "title": "Интересы в сделке по покупке «Циана»",
+     "wins": [
+      {
+       "name": "Т-технологии",
+       "why": "контроль над крупнейшим рынком недвижимости"
+      }
+     ],
+     "pays": [
+      {
+       "name": "Elbrus Capital и сооснователи",
+       "why": "борьба за контроль и условия оферты"
+      },
+      {
+       "name": "Альфа-банк",
+       "why": "претендует на пакет структур Elbrus Capital"
+      }
+     ],
+     "type": "players",
+     "para": 10,
+     "source": ""
+    },
+    {
+     "quote": "реальная отдача от экосистем оказываются заперта в узком горлышке не готовой к коммерческим нагрузкам государственной инфраструктуры",
+     "type": "pull",
+     "para": 12,
+     "source": ""
+    }
+   ],
+   "v": 11,
+   "r": 6
+  },
+  "en": {
+   "title": "Does T-Bank's private ecosystem hit a state data wall?",
+   "subtitle": "The group is committing 77 billion roubles to the Cian platform. Yet state services return only 60% of usable data.",
+   "description": "T-Tech is spending billions on acquisitions, but its ecosystem strategy clashes with the poor quality of state data and biometric checks.",
+   "paragraphs": [
+    "T-Technologies has made its largest move yet to buy up private digital platforms. A voluntary buyout offer was submitted to shareholders of the real estate classifieds service Cian for [up to 100% of the capital at 993.05 roubles](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu) per share. The bid includes a 29.3% premium over the November 5 market price, valuing the company's entire 77,670,490-share capital at 77.13 billion roubles. On this news, Cian shares on the Moscow Exchange jumped by more than 30% to 908.8 roubles apiece.",
+    "The buyer has little interest in a minor stake: the deal will close only if at least 50% of the capital, or 38,835,246 shares, is tendered. Applications from shareholders will be accepted until February 22, 2027, with settlement made exclusively in cash within 17 days after the window closes. T-Bank guarantees all financial obligations, having provided an irrevocable guarantee of 77.13 billion roubles. The transaction will be funded using internal and borrowed capital without issuing additional holding shares.",
+    "The acquisition of Cian continues the group's strategy of aggressive expansion. In June, T-Technologies bought the auto classifieds platform Auto.ru from Yandex for 35 billion roubles, also using borrowed funds. The sequential absorption of market-leading platforms turns the banking group into a universal ecosystem that controls the largest capital-intensive deal markets, from car purchases to real estate transactions.",
+    "However, the large-scale expansion of private ecosystems has run into a rigid external constraint for the first time. Having built a streamlined pipeline for customer acquisition and servicing, the private holding inevitably becomes hostage to state information services and infrastructure. The rapid integration of major platforms stumbles over the quality of state data that underpins modern scoring and identification.",
+    "The primary barrier to building a seamless ecosystem is the low quality of state data used for scoring and identification. According to Sergei Klimenko, deputy director for state partnership development at T-Bank, [at best about 60% of information](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo) from a citizen's \"Digital Profile\" is valid for credit risk assessment. The Uniform Biometric System (UBS) presents an even stricter hurdle. Within the group's subsidiary microfinance company T-Finance, out of [1,400 real clients](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo) sent through this scenario, only 7% reached a final loan. An experiment to simplify the procedure—abandoning voice modality—proved entirely unviable: not a single one of the 10 bank employees managed to pass verification using facial recognition alone.",
+    "A full identification requirement via the UBS for online lending has formally applied to microfinance companies since March, yet the regulator was forced to withhold supervisory sanctions [until January 1, 2027](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo). The National Financial Market Council has already asked the Bank of Russia to extend the moratorium to January 1, 2028, citing delays in infrastructure adaptation at the Center for Biometric Technologies. Meanwhile, the group's financial commitments for expansion are already fixed: to secure the buyout offer for Cian shareholders, T-Bank issued an irrevocable guarantee of [77.13 billion roubles](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu), valid from February 19 to October 2, 2027.",
+    "In parallel, the Central Bank is preparing further regulatory tightening that will directly affect the scoring systems of acquired platforms. Starting in April 2027, a \"one loan per person\" restriction will apply to products with a full cost of credit exceeding 100% per annum, and from September 1, 2027, lenders will be required to rely [solely on official income data](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo). Large traditional banks can use salary data from their own client base, but specialized platforms and microfinance lenders find themselves in a vulnerable position: low-quality data from state registries sharply reduces legal conversion flows, pushing some borrowers into the grey zone.",
+    "The state's attempt to thoroughly regulate scoring and whiten the retail lending market produces the exact opposite result. Excessively strict identification requirements and the technical immaturity of state systems stimulate demand for fast financing, driving citizens into the unregulated sector. In the first half of 2026 alone, the Bank of Russia identified about 1,000 illegal lenders, compared with 1,100 for the whole of 2025. The growth of the shadow segment demonstrates that while regulated ecosystems lose clients at the biometric stage, private capital moves to areas where state registries are not used at all.",
+    "Similar avoidance mechanics are visible in the behaviour of small businesses, which form the active base of commercial ecosystems. The primary catalyst for structural shifts was the lowering of the revenue threshold for VAT payers under the standard simplified tax regime to 20 million roubles starting in 2026. To maintain tax exemptions and avoid an avalanche-like rise in reporting, entrepreneurs began changing tax regimes en masse. The automated simplified taxation system, which preserves benefits up to a revenue threshold of 60 million roubles, serves as the main shelter.",
+    "According to a Federal Tax Service presentation, the number of users on the automated regime jumped tenfold in the first five months of 2026, reaching [444,000](https://www.rbc.ru/economics/02/07/2026/6a4562479a794704df989529) entrepreneurs compared with 43,100 at the end of 2025. Analysts forecast the figure will reach 700,000 to 900,000 by the end of 2026, and up to 1 million users if integrated directly with marketplaces. The Finance Ministry guarantees the parameters of the experiment will remain unchanged until the end of 2027, but the explosive flight of businesses into automated tax niches confirms a general rule: any regulatory attempt to reach every rouble forces the economy to build workarounds.",
+    "In the battle for key services, private capital faces not only regulatory rigidity but also resistance from competitors. T-Technologies' announced buyout offer for Cian hinges on its ownership structure: Elbrus Capital founder Dmitry Kryukov controls 37.43% of the votes (32.98% of shares), while co-founders Dmitry Demin and Maxim Melnikov hold 8.12% and 7.08% respectively. With a free float of 40%, the group needs to gather at least 50% of the capital to execute the deal. The appearance of Alfa-Bank in negotiations, laying claim to the Elbrus Capital stake, turns the takeover into a fierce standoff where a 29.3% price premium no longer guarantees easy control.",
+    "The strategic calculation of T-Technologies, which spent 35 billion roubles on Auto.ru and guaranteed 77.13 billion roubles for the Cian offer, was built on the rapid integration of client flows. Yet group chief financial officer Igor Gerasimov stated plainly that no preliminary agreements had been reached with the service's shareholders before sending the documents. At the same time, the banking group is forced to wage a complex lobbying campaign: the National Financial Market Council's initiative to extend the moratorium on supervisory measures to January 1, 2028, underscores that the technical cycle of the Biometric Technologies Center simply cannot keep pace with the law.",
+    "As a result, an institutional wedge has formed between private investment plans and state regulatory pressure. Central Bank department director Ilya Kochetkov confirms the regulator's inflexibility regarding the enforcement of requirements in 2027, while the State Duma insists on tougher oversight of violations. Large businesses borrow capital and disburse tens of billions of roubles to consolidate platforms, yet the real return from these ecosystems remains trapped in the narrow bottleneck of state infrastructure that is unready for commercial loads.",
+    "However, the state's logic in tightening financial market control rests on clear objectives. Preventive measures against debt spirals, including the \"one loan per person\" rule for products with a full cost of credit above 100% per annum starting in April 2027, are designed to curb fraud risks. Yet the rule from September 1, 2027, obliging lenders to rely [solely on official income data](https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo) from state databases, founders on the technical imperfection of the \"Digital Profile\". When only about 60% of received data is recognized as valid for risk assessment, the regulatory filter begins blocking legal issuances.",
+    "This creates a direct conflict between the investment model of private ecosystems and the capabilities of state regulation. Directing tens of billions of roubles to market consolidation—from the 35 billion rouble buyout of Auto.ru to the [77.13 billion rouble](https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu) offer to Cian shareholders—financial groups counted on the instant monetization of services through cross-selling credit products. In practice, scoring algorithms run into the requirements of the UBS and tax reports, collapsing process conversion to single-digit percentages and driving clients toward illegal lenders.",
+    "The expansion of commercial platforms has hit the limits of state digital institutions. The attempt to forcibly link fast banking scoring with immature data registries turns any major classifieds site into an isolated storefront asset. By buying market leaders, private capital assumes full regulatory risk: while state services provide questionable data, owning 100% of the capital of top platforms does not guarantee the expected return on invested billions."
+   ],
+   "model": "gemini-3.5-flash-lite",
+   "visuals": {
+    "blocks": [
+     {
+      "value": "60%",
+      "pct": 60.0,
+      "caption": "of information from the Digital Profile is valid for risk assessment",
+      "type": "share",
+      "para": 4,
+      "source": "T-Bank"
+     },
+     {
+      "title": "Interests in the Cian acquisition deal",
+      "wins": [
+       {
+        "name": "T-Technologies",
+        "why": "control over the largest property market"
+       }
+      ],
+      "pays": [
+       {
+        "name": "Elbrus Capital and co-founders",
+        "why": "battle for control and offer terms"
+       },
+       {
+        "name": "Alfa-Bank",
+        "why": "bidding for Elbrus Capital structures' stake"
+       }
+      ],
+      "type": "players",
+      "para": 10,
+      "source": ""
+     },
+     {
+      "quote": "the real return from ecosystems is locked in the narrow bottleneck of state infrastructure unprepared for commercial loads",
+      "type": "pull",
+      "para": 12,
+      "source": ""
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"caption\": \"информации из «Цифрового профиля» валидна для оценки риска\", \"para\": 4, \"pct\": 60.0, \"source\": \"Т-банк\", \"type\": \"share\", \"value\": \"60%\"}, {\"para\": 10, \"pays\": [{\"name\": \"Elbrus Capital и сооснователи\", \"why\": \"борьба за контроль и условия оферты\"}, {\"name\": \"Альфа-банк\", \"why\": \"претендует на пакет структур Elbrus Capital\"}], \"source\": \"\", \"title\": \"Интересы в сделке по покупке «Циана»\", \"type\": \"players\", \"wins\": [{\"name\": \"Т-технологии\", \"why\": \"контроль над крупнейшим рынком недвижимости\"}]}, {\"para\": 12, \"quote\": \"реальная отдача от экосистем оказываются заперта в узком горлышке не готовой к коммерческим нагрузкам государственной инфраструктуры\", \"source\": \"\", \"type\": \"pull\"}], null]"
+  }
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-26T10:42:53.126123+03:00",
   "rubric": "property",
@@ -8735,8 +8904,8 @@
     },
     {
      "name": "НИЖНИЙ НОВГОРОД",
-     "lat": 56.2965,
-     "lon": 43.9361,
+     "lat": 56.3269,
+     "lon": 44.0059,
      "scale": "country"
     },
     {
