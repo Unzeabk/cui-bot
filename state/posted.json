@@ -804,5 +804,28 @@
   ],
   "message_id": 261,
   "slot": "2026-11-27 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T02:43:55.657970+03:00",
+  "time": "27.11 02:43",
+  "rubric": "postsoviet",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "спектакль"
+  ],
+  "topic_key": "kazakhstan-atomnye-stancii-ai",
+  "headline": "Зачем Казахстану несколько атомных станций ради искусственного интеллекта?",
+  "fly": "Энергия мысли",
+  "subhead": "Мировое потребление энергии дата-центрами удвоится к 2030 году, а закрывать дефицит мощностей Астана планирует вместе с «Росатомом».",
+  "final": "",
+  "actor": "kazatomprom",
+  "main_title": "Казахстан принял стратегическое решение о строительстве нескольких АЭС - Токаев",
+  "sources": [
+   "https://tengrinews.kz/kazakhstan_news/kazahstan-prinyal-strategicheskoe-reshenie-stroitelstve-613994/"
+  ],
+  "message_id": 262,
+  "slot": "2026-11-27 37 23 * * *"
  }
 ]
