@@ -761,5 +761,24 @@
   ],
   "message_id": 259,
   "slot": "2026-11-26 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T20:54:32.858397+03:00",
+  "time": "26.11 20:54",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "regulation",
+  "headline": "Тест ЦБ на покупку криптовалюты отсекает грамотных",
+  "fly": "Экзамен на цифру",
+  "final": "",
+  "main_title": "ЦБ: Инвесторы смогут покупать криптовалюты только после тестирования",
+  "sources": [
+   "https://www.pnp.ru/economics/cb-investory-smogut-pokupat-kriptovalyuty-tolko-posle-testirovaniya.html",
+   "https://t.me/centralbank_russia/3987",
+   "https://www.fontanka.ru/2026/11/26/76792959/"
+  ],
+  "message_id": 260,
+  "slot": "2026-11-26 52 17 * * *"
  }
 ]
