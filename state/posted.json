@@ -603,5 +603,29 @@
   ],
   "message_id": 252,
   "slot": "2026-11-26 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T05:10:30.057360+03:00",
+  "time": "26.11 05:10",
+  "rubric": "tech",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обратный эффект",
+   "лестница власти"
+  ],
+  "topic_key": "mintsifry-platnyy-analog-github",
+  "headline": "Третья попытка создать суверенный GitHub станет платной",
+  "fly": "Замкнутый код",
+  "subhead": "Минцифры перекладывает расходы на хранение кода на создателей софта",
+  "final": "",
+  "actor": "mintsifry",
+  "main_title": "Минцифры разработало концепцию аналога GitHub. Это уже третья попытка",
+  "sources": [
+   "https://www.fontanka.ru/2026/11/26/76790770/",
+   "https://meduza.io/news/2026/11/25/mintsifry-hochet-sozdat-platnyy-analog-github-dlya-rossiyskogo-softa"
+  ],
+  "message_id": 253,
+  "slot": "2026-11-26 7 2 * * *"
  }
 ]
