@@ -714,5 +714,28 @@
   ],
   "message_id": 257,
   "slot": "2026-11-26 52 10 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T17:25:23.547286+03:00",
+  "time": "26.11 17:25",
+  "rubric": "postsoviet",
+  "form": "абсурд как явление",
+  "layout": "от предмета",
+  "optics": [
+   "лестница власти",
+   "обратный эффект"
+  ],
+  "topic_key": "uzbekistan-judicial-reforms-trial",
+  "headline": "Как в Узбекистане судили судей за мягкий приговор",
+  "fly": "Засудить по понятиям",
+  "subhead": "Прокуроры обещали очистить систему, а оставили суды без права на оправдание",
+  "final": "",
+  "actor": "uzbekistan",
+  "main_title": "Uzbekistan’s judicial reforms on trial: Four judges convicted for “unjust decision”",
+  "sources": [
+   "https://eurasianet.org/uzbekistans-judicial-reforms-on-trial-four-judges-convicted-for-unjust-decision"
+  ],
+  "message_id": 258,
+  "slot": "2026-11-26 7 14 * * *"
  }
 ]
