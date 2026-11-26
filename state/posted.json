@@ -650,5 +650,27 @@
   ],
   "message_id": 254,
   "slot": "2026-11-26 37 7 * * *"
+ },
+ {
+  "time_iso": "2026-11-26T11:53:22.263294+03:00",
+  "time": "26.11 11:53",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Предел физики",
+   "Лестница власти"
+  ],
+  "topic_key": "business",
+  "headline": "Частная экосистема Т-банка упёрлась в качество государственных данных",
+  "fly": "Купить-то он купит",
+  "final": "",
+  "main_title": "«Т-технологии» направили «Циану» оферту на выкуп до 100% акций",
+  "sources": [
+   "https://www.rbc.ru/economics/02/07/2026/6a4562479a794704df989529",
+   "https://www.vedomosti.ru/finance/articles/2026/11/25/1415387-t-bank-poprosil-dlya-mfo",
+   "https://www.vedomosti.ru/investments/articles/2026/11/24/1414850-t-tehnologii-tsianu-ofertu"
+  ],
+  "message_id": 255,
+  "slot": "2026-11-26 22 8 * * *"
  }
 ]
