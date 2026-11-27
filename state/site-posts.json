@@ -1,5 +1,198 @@
 [
  {
+  "kind": "analysis",
+  "time_iso": "2026-11-27T11:34:44.818511+03:00",
+  "rubric": "",
+  "fly": "Ничего личного",
+  "headline": "Государственный перестраховщик может снять защиту с гражданских самолетов",
+  "subhead": "Выплаты компании за девять месяцев превысили 90 миллиардов рублей. Риски 600 лизинговых бортов могут переложить на авиакомпании",
+  "paragraphs": [
+   "Российская национальная перестраховочная компания с начала октября 2026 года ведет непубличные консультации с крупными авиаперевозчиками о фундаментальном пересмотре условий действующих договоров. Государственный монопольный перестраховщик направил участникам рынка официальные уведомления о намерении [с 1 января 2027 года](https://frankmedia.ru/318466) полностью отказаться от покрытия военных рисков и диверсий либо резко снизить лимиты ответственности по этим страховым событиям. Для всей транспортной системы страны это означает демонтаж ключевого контура защиты, созданного в экстренном порядке четыре года назад.",
+   "Под прямой удар попадает вся привычная схема страхования гражданских коммерческих рейсов. В отсутствие полноценной государственной поддержки коммерческий страховой рынок не располагает собственным капиталом в объеме, необходимом для самостоятельного покрытия катастрофических рисков авиационной отрасли. Без участия РНПК прямые страховщики физически не смогут выдавать перевозчикам полисы с достаточным уровнем защиты, что формирует риски паралича операционной деятельности.",
+   "Особую остроту формирующейся аномалии придает жесткая юридическая связь судов с действующими лизинговыми контрактами. Отсутствие перестрахования военных рисков предоставляет лизингодателям законные основания требовать немедленного досрочного возврата техники или полных компенсаций за утерянное покрытие. В итоге авиакомпании оказываются перед тяжелым выбором: принимать гигантские риски на собственный баланс либо соглашаться на простой магистральных бортов.",
+   "Настоящий разбор ответит на два ключевых вопроса начавшейся трансформации. Текст подробно объяснит, по какой причине государственная структура вынуждена урезать страховые лимиты авиаперевозчиков именно сейчас. Кроме того, материал покажет, как именно рыночные игроки попытаются продолжить работу в условиях, когда привычный единый государственный «зонтик» фактически прекращает свое существование.",
+   "На протяжении четырех лет участники рынка авиаперевозок и крупной индустриальной недвижимости действовали из убеждения, что государственная подстраховка бессрочна и не имеет финансовых границ. Поворотным моментом стали финансовые результаты самого перестраховщика за текущий год. За девять месяцев 2026 года [выплаты РНПК выросли](https://frankmedia.ru/318466) почти вдвое в сравнении с прошлыми периодами и превысили 90 млрд рублей. Главным фактором столь радикального роста убытков стала волна атак на промышленные объекты и гражданскую инфраструктуру. Государственный резервный механизм попросту не выдержал нараставшего физического объема ущерба.",
+   "Сворачивание покрытий началось не с транспортного сектора: первый сигнал бизнес получил еще летом 2026 года. Именно тогда РНПК применила новые жесткие условия к владельцам коммерческой и промышленной недвижимости, столкнувшимся с новыми рисками. К началу октября стало очевидно, что действующая модель перестрахования военных угроз и диверсий перестала быть балансирующей. Суммарный объем рисков превысил капитализацию компании, а возможность бесконечной капитализации из средств бюджета уперлась в жесткие параметры государственной казны.",
+   "В этой точке сработал холодный расчет жертвенной бухгалтерии. Оказалось, что многолетние клиенты, регулярно выплачивающие страховые премии и не приносившие системе прямого убытка, больше не могут рассчитывать на автоматическое продление защиты. Ежегодный приток денег от авиаперевозчиков оказался несопоставим с потенциальными чеками за утрату магистральных самолетов при военных инцидентах. РНПК предпочла купировать угрозу собственного дефолта через радикальное ограничение лимитов, сделав приоритетом сохранение финансовой устойчивости самого государственного института за счет смещения рисков на отрасль.",
+   "Масштаб проблемы оголяет главный конфликт: государственная структура действует строго в рамках пределов физики собственного баланса. При суммарных выплатах свыше 90 млрд рублей продолжение бессрочной гарантии по военной статье создавало опасную брешь в капитале РНПК. В результате государственный перестраховщик предпочел заранее выйти из игры по авиационным рискам до 1 января 2027 года, поставив рынок перед фактом: старая модель гарантий за счет суверенного ресурса исчерпана.",
+   "Финансовая конструкция российской гражданской авиации держится на трехзвенной цепочке распределения ответственности. Авиакомпании регулярно перечисляют страховые премии коммерческим страховщикам, а те оставляют у себя исключительно стандартные операционные риски. Самый тяжелый и непредсказуемый блок — военный ущерб, теракты и диверсии — страховщики в полном объеме передают государственному монополисту. Без перестраховочного плеча РНПК ни одна частная страховая компания в стране не обладает капиталом, необходимым для выплаты компенсаций за утерянные борта, а наибольшую уязвимость при смене правил демонстрируют небольшие перевозчики. В результате любые катастрофические списания техники автоматически ложатся на баланс первичных страховщиков, не способных выдержать такой финансовый удар.",
+   "Эта схема напрямую завязана на юридическое устройство отечественного воздушного флота. Сегодня в России эксплуатируется более 600 магистральных судов, и подавляющее большинство этих самолетов находится в лизинге. По стандартным контрактам лизингодатели требуют от операторов постоянного поддержания максимального страхового покрытия, включающего военную составляющую. Отказ от перестрахования лишает перевозчиков защиты и предоставляет лизингодателям законные основания требовать немедленного возврата техники или полной компенсации стоимости утраченных судов. Для большинства авиакомпаний такие претензии лизинговых структур означают прямой путь к остановке операционной деятельности.",
+   "Ситуация практически дословно повторяет события весны 2022 года. Четыре года назад иностранные перестраховщики прекратили покрывать военные риски российских перевозчиков, и именно РНПК взяла эти обязательства на себя, спасая флот от принудительного изъятия. Теперь государственный институт сам разворачивает этот механизм в обратную сторону и перекладывает риски обратно на авиакомпании. Участникам рынка придется либо искать гигантские средства для покрытия возможных убытков из собственной выручки, либо соглашаться на простой магистральных судов. Без суверенного «зонтика» вся конструкция лишается гарантированного плательщика последней инстанции.",
+   "Представители авиационной отрасли пытаются смягчить неизбежность кризиса, указывая на критическую системную значимость внутренних и международных перелетов. Источники, близкие к Минтрансу, сохраняют уверенность, что ни один из [более чем 600 магистральных бортов](https://frankmedia.ru/318466) не окажется на приколе исключительно из-за страховых споров. В свою очередь, президент Ассоциации эксплуатантов воздушного транспорта [Андрей Борисов обратился к РНПК](https://frankmedia.ru/318466) с прямой просьбой не принимать окончательных решений без предварительного детального обсуждения с авиакомпаниями и страховщиками. Рынок еще рассчитывает сместить вектор дискуссии от полной отмены покрытия к пересмотру тарифов.",
+   "Страховой сектор открыто указывает на логическое изъятие в действиях государственного монополиста. Заместитель генерального директора «АльфаСтрахования» [Илья Кабачник подчеркивает](https://frankmedia.ru/318466), что изменение стоимости тарифных сеток кардинально отличается от полного отказа в защите клиентов, которые из года в год платят миллионные премии и не приносят убытков. Однако для РНПК экономика лояльности уступает давлению текущей статистики: выплаты компании за девять месяцев 2026 года [превысили 90 млрд рублей](https://frankmedia.ru/318466). В условиях, когда частные страховщики не в состоянии принять военные риски без участия государства, доводы о безупречной истории выплат теряют силу.",
+   "В этой точке проступает логика жертвенной бухгалтерии, где суверенные приоритеты переписывают базовые правила финансового обмена. Когда объемы потенциальных выплат начинают угрожать устойчивости самого государственного перестраховщика, система без колебаний жертвует покрытием отдельной отрасли ради сохранения финансовой целостности института. Конструкция бессрочной подстраховки уперлась в жесткий предел физики капитала. Бюджетный ресурс больше не выполняет функцию бесконечной гарантии для авиационных рисков, а смещение ответственности на авиакомпании фиксирует смену всей модели государственных обязательств.",
+   "В самой компании и отраслевых объединениях подчеркивают, что формальная точка в процессе еще не поставлена. В РНПК официально подтверждают лишь факт предварительных обсуждений, указывая на отсутствие единой позиции по условиям пересмотра действующих договоров. Президент Ассоциации эксплуатантов воздушного транспорта Андрей Борисов обратился к руководству перестраховщика с прямой просьбой не принимать окончательных вердиктов без участия самих перевозчиков и первичных страховщиков. Подобная пауза оставляет рынку надежду на компромиссное повышение тарифных сеток, однако сам вектор на вывод суверенных ресурсов из покрытия военных угроз остается неизменным.",
+   "Дискуссии продолжаются с начала октября, однако крайний срок вступления новых условий уже зафиксирован первыми числами января 2027 года. У авиакомпаний остается совсем немного времени на то, чтобы адаптировать свои финансовые модели или попытаться договориться с лизингодателями о смягчении требований к полисам. Отказ от государственного плеча означает, что любые убытки от диверсий или военных инцидентов перевозчикам придется покрывать из собственной нераспределенной прибыли. Для небольших участников рынка подобная финансовая нагрузка станет критической при первом же страховом случае, подталкивая отрасль к вынужденному сокращению флота и ускоренной консолидации.",
+   "Текущая трансформация оголяет уязвимость всей модели, выстроенной в условиях внешнего давления. Сформированный контур перестрахования опирался на допущение, что государственная страховая система способна поглощать любые убытки неограниченное время. Однако физический предел резервов и рост атак на объекты инфраструктуры вынудили регулятора выбирать между защитой отдельного сектора и устойчивостью собственного институционального баланса. В этой конкуренции приоритетов интересы гражданской авиации уступили необходимости сохранить базовый капитал суверенного перестраховщика.",
+   "Финал этой истории закольцовывает сюжет к исходной точке четырехлетней давности. В 2022 году РНПК выступила единственным спасителем отрасли, приняв на себя военные риски после демарша иностранных компаний и предотвратив массовый арест магистральных судов. Спустя четыре года созданную тогда систему национальной защиты разбирает сам ее архитектор. Временный спасательный круг окончательно выполнил свою роль, уступив место суровой экономике, где за риски гражданского флота отныне платят сами авиакомпании."
+  ],
+  "final": "",
+  "topic_key": "finance",
+  "message_id": 266,
+  "cover": "cover-analysis-20261127-1131.jpg",
+  "telegraph": "https://cuibono.press/p/2026-11-27-finance",
+  "place": {
+   "name": "Москва",
+   "lat": 55.75,
+   "lon": 37.61,
+   "scale": "country"
+  },
+  "seo_title": "РНПК откажется от страхования военных рисков авиации в 2027 году",
+  "seo_description": "Российская национальная перестраховочная компания планирует с 1 января 2027 года прекратить покрытие военных рисков для 600 лизинговых самолетов из-за убытков.",
+  "entities": [
+   {
+    "name": "авиакомпания",
+    "type": "topic"
+   },
+   {
+    "name": "лизинговый контракт",
+    "type": "instrument"
+   }
+  ],
+  "visuals": {
+   "blocks": [
+    {
+     "quote": "Государственный монопольный перестраховщик направил участникам рынка официальные уведомления о намерении с 1 января 2027 года полностью отказаться от покрытия военных рисков",
+     "who": "Российская национальная перестраховочная компания",
+     "type": "doc",
+     "para": 0,
+     "source": ""
+    },
+    {
+     "title": "Цепочка распределения рисков и ответственности",
+     "steps": [
+      {
+       "name": "Авиакомпании",
+       "amount": "",
+       "label": ""
+      },
+      {
+       "name": "Коммерческие страховщики",
+       "amount": "",
+       "label": "стандартные риски"
+      },
+      {
+       "name": "РНПК",
+       "amount": "",
+       "label": "военный ущерб и диверсии"
+      }
+     ],
+     "type": "flow",
+     "para": 8,
+     "source": ""
+    },
+    {
+     "title": "Участники трансформации страхования",
+     "wins": [
+      {
+       "name": "РНПК",
+       "why": "сохранение капитала и уход от непосильных военных рисков"
+      }
+     ],
+     "pays": [
+      {
+       "name": "Авиакомпании",
+       "why": "перевод рисков на собственный баланс или простой судов"
+      },
+      {
+       "name": "Лизингодатели",
+       "why": "угроза досрочного возврата техники из-за потери покрытия"
+      }
+     ],
+     "type": "players",
+     "para": 15,
+     "source": ""
+    }
+   ],
+   "v": 11,
+   "r": 6
+  },
+  "en": {
+   "title": "State reinsurer may strip cover from civil aircraft",
+   "subtitle": "Claims at the company exceeded 90bn roubles in nine months. Risks for 600 leased aircraft could be shifted to airlines",
+   "description": "Russia's state reinsurer RNRC plans to drop war and sabotage cover for civil aircraft, shifting financial risks back to airlines.",
+   "paragraphs": [
+    "Russian National Reinsurance Company (RNRC) has been holding confidential consultations with major air carriers since early October 2026 regarding a fundamental revision of current contract terms. The state monopoly reinsurer sent market participants formal notices of its intention [from 1 January 2027](https://frankmedia.ru/318466) to withdraw fully from covering war risks and sabotage, or to cut liability limits for these events sharply. For the country's transport system, this means dismantling the key security loop created as an emergency measure four years ago.",
+    "The standard insurance scheme for civil commercial flights comes under direct threat. Without full state support, the commercial insurance market lacks sufficient capital to cover the aviation industry's catastrophic risks independently. Without RNRC's involvement, primary insurers will be unable to issue policies with adequate cover, creating risks of operational paralysis.",
+    "A strict legal link between aircraft and active lease agreements sharpens the problem. The absence of war-risk reinsurance gives lessors legal grounds to demand the immediate return of jets or full compensation for lost cover. Airlines face a grim choice: take massive risks onto their own balance-sheets or ground mainline aircraft.",
+    "This analysis addresses two key questions surrounding the transformation. It explains why a state entity is forced to trim insurance limits for air carriers right now. It also shows how market participants will attempt to operate once the familiar state umbrella effectively ceases to exist.",
+    "For four years, operators in aviation and industrial real estate acted on the assumption that state backing was indefinite and financially bottomless. The reinsurer’s financial performance this year marked a turning point. In the first nine months of 2026, [RNRC's payouts nearly doubled](https://frankmedia.ru/318466) compared with previous periods, exceeding 90bn roubles. A wave of strikes on industrial facilities and civil infrastructure drove this surge in losses. The state reserve mechanism simply could not sustain the physical scale of the damage.",
+    "The retrenchment of cover did not begin in transport. Business received its first warning in the summer of 2026, when RNRC applied stricter terms to commercial and industrial real-estate owners exposed to new threats. By early October, the model for reinsuring war risks and sabotage was clearly broken. Total exposure surpassed the company's capitalisation, while the prospect of unlimited fiscal bailouts ran into the hard constraints of the state treasury.",
+    "Cold accounting logic took over. Long-standing clients paying regular premiums without generating losses could no longer expect automatic renewals. Annual premium inflows from airlines paled beside potential payouts for destroyed mainline aircraft in wartime incidents. RNRC chose to avert its own default by curtailing limits, prioritising the financial stability of the state institution by shifting risk onto the sector.",
+    "The scale of the problem lays bare the core conflict: the state entity is bound by the arithmetic of its own balance-sheet. With total payouts exceeding 90bn roubles, maintaining open-ended war-risk guarantees created a dangerous breach in RNRC's capital. The state reinsurer decided to exit aviation risks ahead of 1 January 2027, confronting the market with a reality: the old model of sovereign-backed guarantees is exhausted.",
+    "Russian civil aviation’s financial structure relies on a three-tier chain of risk distribution. Airlines pay regular premiums to commercial insurers, which retain only standard operational risks. Insurers pass the most onerous and unpredictable portion—war damage, terrorism and sabotage—entirely to the state monopoly. Without RNRC’s reinsurance capacity, no private insurer in the country has the capital to compensate for lost aircraft, leaving smaller carriers most vulnerable to rule changes. Consequently, any catastrophic hull write-offs fall back on primary insurers unable to absorb the blow.",
+    "This setup is tied to the legal framework of the domestic fleet. Russia currently operates over 600 mainline aircraft, the vast majority of which are leased. Standard contracts require operators to maintain maximum insurance cover at all times, including war risk. A withdrawal of reinsurance strips carriers of protection and gives lessors legal grounds to demand the immediate return of jets or full compensation for lost aircraft. For most airlines, such claims mean a direct route to grounding operations.",
+    "The situation echoes the events of spring 2022 almost verbatim. Four years ago, foreign reinsurers stopped covering war risks for Russian carriers, and RNRC stepped in to absorb those liabilities, saving the fleet from repossession. Now the state institution is reversing the mechanism, pushing risks back onto airlines. Market participants will have to find vast sums from revenue to cover potential losses or accept the grounding of mainline jets. Without the sovereign umbrella, the entire structure loses its guaranteed payer of last resort.",
+    "Aviation industry figures are seeking to soften the crisis, stressing the systemic importance of domestic and international flights. Sources close to the Transport Ministry remain confident that none of the [more than 600 mainline aircraft](https://frankmedia.ru/318466) will be grounded solely over insurance disputes. Meanwhile, Andrey Borisov, president of the Air Transport Operators Association, [appealed to RNRC](https://frankmedia.ru/318466) not to make final decisions without detailed prior discussions with airlines and insurers. The market still hopes to shift negotiations from a total withdrawal of cover to a revision of premium rates.",
+    "The insurance sector points out a flaw in the state monopoly’s logic. Ilya Kabachnik, deputy chief executive of AlfaStrakhovanie, [emphasises that](https://frankmedia.ru/318466) repricing cover is fundamentally different from denying protection to clients who pay millions in premiums annually without generating losses. Yet for RNRC, client loyalty yields to immediate financial realities: the firm's payouts in nine months of 2026 [exceeded 90bn roubles](https://frankmedia.ru/318466). With private insurers unable to take on war risks without state backing, arguments about clean claims histories lose their force.",
+    "Sovereign priorities are rewriting the rules of financial exchange. When potential payouts threaten the state reinsurer’s stability, the system sacrifices sector-specific cover to preserve institutional capital. Open-ended state backing has hit a hard limit. Fiscal resources no longer serve as an infinite guarantee for aviation risks; shifting liability back to airlines marks a fundamental shift in the model of state obligations.",
+    "Both RNRC and trade associations stress that no final decision has been formally made. RNRC confirms only preliminary discussions, noting that no single position has been reached on revising active contracts. Mr Borisov has asked the reinsurer’s leadership not to issue final rulings without consulting carriers and primary insurers. This pause offers the market hope of a compromise through higher premiums, yet the trajectory towards withdrawing state funds from war risk cover remains unchanged.",
+    "Talks have been under way since early October, but the deadline for the new terms is fixed for early January 2027. Airlines have little time to adapt financial models or negotiate softer policy terms with lessors. Without state backing, carriers must cover losses from sabotage or military incidents out of retained earnings. For smaller operators, a single claim under such a financial burden could prove fatal, pushing the industry towards fleet reductions and consolidation.",
+    "The shift exposes the vulnerability of the framework built under external pressure. The reinsurance mechanism relied on the assumption that the state insurance system could absorb losses indefinitely. Yet reserve limits and increasing attacks on infrastructure forced regulators to choose between protecting a single industry and preserving institutional balance-sheet stability. Civil aviation’s interests surrendered to the need to safeguard the sovereign reinsurer’s capital.",
+    "The story comes full circle. In 2022 RNRC emerged as the sector’s saviour, assuming war risks after foreign reinsurers exited and averting the mass seizure of mainline jets. Four years later, the architect is dismantling the national protection system it built. The temporary lifeline has served its purpose, giving way to a harsher reality where airlines must pay for their own risks."
+   ],
+   "model": "gemini-3.6-flash",
+   "visuals": {
+    "blocks": [
+     {
+      "quote": "The state-owned monopoly reinsurer has sent market participants official notices of its intention to completely cease covering war risks from January 1st, 2027",
+      "who": "Russian National Reinsurance Company",
+      "type": "doc",
+      "para": 0,
+      "source": ""
+     },
+     {
+      "title": "Risk and liability distribution chain",
+      "steps": [
+       {
+        "name": "Airlines",
+        "amount": "",
+        "label": ""
+       },
+       {
+        "name": "Commercial insurers",
+        "amount": "",
+        "label": "standard risks"
+       },
+       {
+        "name": "RNRC",
+        "amount": "",
+        "label": "war damage and sabotage"
+       }
+      ],
+      "type": "flow",
+      "para": 8,
+      "source": ""
+     },
+     {
+      "title": "Participants in insurance transformation",
+      "wins": [
+       {
+        "name": "RNRC",
+        "why": "preserving capital and avoiding unbearable war risks"
+       }
+      ],
+      "pays": [
+       {
+        "name": "Airlines",
+        "why": "transferring risks to their own balance sheets or grounding aircraft"
+       },
+       {
+        "name": "Lessors",
+        "why": "threat of early aircraft repossession due to loss of cover"
+       }
+      ],
+      "type": "players",
+      "para": 15,
+      "source": ""
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"para\": 0, \"quote\": \"Государственный монопольный перестраховщик направил участникам рынка официальные уведомления о намерении с 1 января 2027 года полностью отказаться от покрытия военных рисков\", \"source\": \"\", \"type\": \"doc\", \"who\": \"Российская национальная перестраховочная компания\"}, {\"para\": 8, \"source\": \"\", \"steps\": [{\"amount\": \"\", \"label\": \"\", \"name\": \"Авиакомпании\"}, {\"amount\": \"\", \"label\": \"стандартные риски\", \"name\": \"Коммерческие страховщики\"}, {\"amount\": \"\", \"label\": \"военный ущерб и диверсии\", \"name\": \"РНПК\"}], \"title\": \"Цепочка распределения рисков и ответственности\", \"type\": \"flow\"}, {\"para\": 15, \"pays\": [{\"name\": \"Авиакомпании\", \"why\": \"перевод рисков на собственный баланс или простой судов\"}, {\"name\": \"Лизингодатели\", \"why\": \"угроза досрочного возврата техники из-за потери покрытия\"}], \"source\": \"\", \"title\": \"Участники трансформации страхования\", \"type\": \"players\", \"wins\": [{\"name\": \"РНПК\", \"why\": \"сохранение капитала и уход от непосильных военных рисков\"}]}], null]"
+  }
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-27T10:40:45.570250+03:00",
   "rubric": "regulation",
@@ -9465,9 +9658,9 @@
    "blocks": [],
    "places": [
     {
-     "name": "НАССАУ",
-     "lat": 25.048,
-     "lon": -77.3554,
+     "name": "ГОНКОНГ",
+     "lat": 22.3193,
+     "lon": 114.1694,
      "scale": "country"
     },
     {
@@ -9478,8 +9671,8 @@
     },
     {
      "name": "НИЖНИЙ НОВГОРОД",
-     "lat": 56.2965,
-     "lon": 43.9361,
+     "lat": 56.3269,
+     "lon": 44.0059,
      "scale": "country"
     },
     {
