@@ -827,5 +827,31 @@
   ],
   "message_id": 262,
   "slot": "2026-11-27 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T05:15:01.105951+03:00",
+  "time": "27.11 05:15",
+  "rubric": "europe",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "жертвенная бухгалтерия",
+   "предел физики"
+  ],
+  "topic_key": "sammit-es-sefiletniy-budget-merz",
+  "headline": "Канцлер ФРГ блокирует семилетний бюджет ЕС",
+  "fly": "Немецкая бережливость",
+  "subhead": "Главный донор союза отказывается финансировать общие расходы без гарантии скидок",
+  "final": "",
+  "actor": "antonio costa",
+  "main_title": "Кошта: 24 страны ЕС поддержали выделение кредита Украине на €45 млрд",
+  "sources": [
+   "https://www.kommersant.ru/doc/9131841",
+   "https://www.bbc.co.uk/news/articles/ck2057x387ego?at_medium=RSS&at_campaign=rss",
+   "https://www.ft.com/content/00e41702-b11f-4a28-9233-16ce4cff99c7?syn-25a6b1a6=1",
+   "https://www.dw.com/ru/саммит-ес-по-семилетнему-бюджету-досрочно-завершился-без-соглашения/a-80070138?maca=rus-rss-ru-all-1126-rdf"
+  ],
+  "message_id": 263,
+  "slot": "2026-11-27 7 2 * * *"
  }
 ]
