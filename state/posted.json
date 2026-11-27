@@ -876,5 +876,30 @@
   ],
   "message_id": 264,
   "slot": "2026-11-27 37 5 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T10:40:46.604054+03:00",
+  "time": "27.11 10:40",
+  "rubric": "regulation",
+  "form": "сухой тренд",
+  "layout": "от предмета",
+  "optics": [
+   "слепое пятно",
+   "предел физики"
+  ],
+  "topic_key": "fsb-perechen-vpk-detali",
+  "headline": "Сбор данных о зарубежных деталях оружия стал риском",
+  "fly": "Без лишних глаз",
+  "subhead": "Под угрозу статуса иноагента и уголовных дел попали данные о сером импорте компонентов ВПК и счетах оборонщиков",
+  "final": "",
+  "actor": "fsb",
+  "main_title": "ФСБ объявила угрозой безопасности России сбор данных о вербовке заключенных, тюремщиках украинских пленных, иностранных комплектующих ВПК",
+  "sources": [
+   "https://t.me/agentstvonews/18449",
+   "https://novayagazeta.eu/articles/2026/11/27/fsb-rasshirila-perechen-svedenii-peredacha-kotorykh-inostrannym-istochnikam-schitaetsia-ugrozoi-bezopasnosti-rossii-news",
+   "https://ru.themoscowtimes.com/2026/11/27/fsb-zasekretila-informaciyu-ob-inostrannyh-detalyah-v-rossiyskom-oruzhii-a813068"
+  ],
+  "message_id": 265,
+  "slot": "2026-11-27 37 7 * * *"
  }
 ]
