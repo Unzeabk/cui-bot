@@ -1079,5 +1079,29 @@
   ],
   "message_id": 273,
   "slot": "2026-11-28 37 21 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T02:40:10.223651+03:00",
+  "time": "28.11 02:40",
+  "rubric": "regulation",
+  "form": "невозможный факт",
+  "layout": "от развязки",
+  "optics": [
+   "спектакль",
+   "жертвенная бухгалтерия"
+  ],
+  "topic_key": "tehsbor-smartfony-mikroelektronika",
+  "headline": "Новый сбор со смартфонов не профинансирует микроэлектронику",
+  "fly": "Плата за соединение",
+  "subhead": "Платеж официально предназначен для разработчиков чипов, но его соберут для латания общего бюджета.",
+  "final": "",
+  "actor": "pravitelstvo",
+  "main_title": "Правительство утвердило правила сбора нового налога на смартфоны и ноутбуки",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/27/pravitelstvo-utverdilo-pravila-sbora-novogo-naloga-na-smartfony-i-noutbuki-a813159",
+   "https://www.cbr.ru/press/PR/?file=639312811918035078COINS.htm"
+  ],
+  "message_id": 274,
+  "slot": "2026-11-28 37 23 * * *"
  }
 ]
