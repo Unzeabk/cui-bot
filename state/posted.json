@@ -1055,5 +1055,29 @@
   ],
   "message_id": 272,
   "slot": "2026-11-27 7 19 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T00:43:29.224338+03:00",
+  "time": "28.11 00:43",
+  "rubric": "postsoviet",
+  "form": "конец явления",
+  "layout": "от предмета",
+  "optics": [
+   "обратный эффект",
+   "разумные по одному"
+  ],
+  "topic_key": "belarus-spotify-blocking-vat",
+  "headline": "Беларусь блокирует Spotify за невыплаченный НДС",
+  "fly": "Налог на музу",
+  "subhead": "Бюджет останется и без налоговых поступлений, и без легального стриминга",
+  "final": "",
+  "actor": "spotify",
+  "main_title": "В Беларуси заблокируют Spotify. Власти заявили, что компания не выплатила долги по налогам",
+  "sources": [
+   "https://meduza.io/news/2026/11/27/v-belarusi-zablokiruyut-spotify-vlasti-zayavili-chto-kompaniya-ne-vyplatila-dolgi-po-nalogam",
+   "https://theins.ru/news/300086"
+  ],
+  "message_id": 273,
+  "slot": "2026-11-28 37 21 * * *"
  }
 ]
