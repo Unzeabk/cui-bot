@@ -921,5 +921,30 @@
   ],
   "message_id": 266,
   "slot": "2026-11-27 22 8 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T12:43:44.976622+03:00",
+  "time": "27.11 12:43",
+  "rubric": "china",
+  "form": "вопрос",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "pdd-holdings-q3-2026",
+  "headline": "Почему у владельца Temu упали комиссии при росте выручки?",
+  "fly": "Дешёвый трюк",
+  "subhead": "Гигант дешёвых покупок упёрся в предел уступок продавцам.",
+  "final": "",
+  "actor": "pdd holdings",
+  "main_title": "Владелец популярных у казахстанцев Pinduoduo и Temu не смог увеличить выручку",
+  "sources": [
+   "https://kz.kursiv.media/2026-11-27/svan-vladelec-populyarnyh-u-kazahstancev-marketplejsov-pinduoduo-i-temu-ne-smog-uvelichit-pribyl/?utm_source=rss&utm_medium=rss&utm_campaign=svan-vladelec-populyarnyh-u-kazahstancev-marketplejsov-pinduoduo-i-temu-ne-smog-uvelichit-pribyl",
+   "https://www.bloomberg.com/news/articles/2026-11-27/china-bank-bond-spreads-head-for-biggest-jump-in-over-two-years",
+   "https://t.me/russianmacro/23786"
+  ],
+  "message_id": 267,
+  "slot": "2026-11-27 37 9 * * *"
  }
 ]
