@@ -987,5 +987,30 @@
   ],
   "message_id": 269,
   "slot": "2026-11-27 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T19:44:37.351815+03:00",
+  "time": "27.11 19:44",
+  "rubric": "sanctions",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "latvia-russia-grain-transit-restrictions-2026",
+  "headline": "Как Латвия тормозит транзит российского зерна под видом проверок",
+  "fly": "Зерно и дроны",
+  "subhead": "Рига ищет юридический способ закрыть коридор для продовольствия, пока флот НАТО отрабатывает досмотр судов.",
+  "final": "",
+  "actor": "mid rf",
+  "main_title": "Russia Accuses Latvia of Obstructing Grain Transit, Aiding Ukrainian Drone Attacks",
+  "sources": [
+   "https://www.themoscowtimes.com/2026/11/27/russia-accuses-latvia-of-obstructing-grain-transit-aiding-ukrainian-drone-a812399",
+   "https://www.interfax.ru/russia/1131934",
+   "https://www.interfax.ru/russia/1131931"
+  ],
+  "message_id": 270,
+  "slot": "2026-11-27 37 16 * * *"
  }
 ]
