@@ -1012,5 +1012,25 @@
   ],
   "message_id": 270,
   "slot": "2026-11-27 37 16 * * *"
+ },
+ {
+  "time_iso": "2026-11-27T21:00:26.558094+03:00",
+  "time": "27.11 21:00",
+  "rubric": "position",
+  "form": "позиция",
+  "optics": [],
+  "topic_key": "regulation",
+  "headline": "Рассрочка по налогам не защитит бизнес от уголовных преследований",
+  "fly": "ПОЗИЦИЯ · Мнение редакции",
+  "final": "",
+  "main_title": "Отсрочка по делу // Реструктуризация налогового долга приостановит передачу материалов следователю",
+  "sources": [
+   "https://ru.themoscowtimes.com/2026/11/27/minyust-nachnet-iskat-otpraviteley-perevodov-inoagentam-a813154",
+   "https://frankmedia.ru/318556",
+   "https://www.kommersant.ru/doc/9131664",
+   "https://www.kommersant.ru/doc/9144571"
+  ],
+  "message_id": 271,
+  "slot": "2026-11-27 52 17 * * *"
  }
 ]
