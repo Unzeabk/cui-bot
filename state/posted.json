@@ -1103,5 +1103,28 @@
   ],
   "message_id": 274,
   "slot": "2026-11-28 37 23 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T05:14:25.840522+03:00",
+  "time": "28.11 05:14",
+  "rubric": "newmarkets",
+  "form": "сухой тренд",
+  "layout": "от цифры",
+  "optics": [
+   "предел физики",
+   "обменник"
+  ],
+  "topic_key": "central-asia-gulf-trade-edb",
+  "headline": "Торговля Центральной Азии с Заливом выросла в четыре раза",
+  "fly": "Ближний свет",
+  "subhead": "Но доля арабских партнёров едва превысила полтора процента внешней торговли региона.",
+  "final": "",
+  "actor": "gcc",
+  "main_title": "Central Asia experiencing rapid growth in trade with Gulf",
+  "sources": [
+   "https://eurasianet.org/central-asia-experiencing-rapid-growth-in-trade-with-gulf"
+  ],
+  "message_id": 275,
+  "slot": "2026-11-28 7 2 * * *"
  }
 ]
