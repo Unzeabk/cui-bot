@@ -1,5 +1,154 @@
 [
  {
+  "kind": "analysis",
+  "time_iso": "2026-11-28T11:45:46.017681+03:00",
+  "rubric": "",
+  "fly": "Узкое горлышко",
+  "headline": "Запрет на экспорт керосина продлили до весны",
+  "subhead": "После ударов по НПЗ внутренний рынок защищают импортом",
+  "paragraphs": [
+   "В ночь на 28 ноября дежурные расчеты ПВО сбили над российскими регионами [1246](https://ura.news/articles/1053148193) украинских беспилотников. Налет затронул 16 регионов, причем основной удар пришелся по объектам топливной логистики. На Новошахтинском заводе нефтепродуктов в Ростовской области вспыхнул пожар после второй за несколько дней атаки. Одновременно в Самарской области дроны [второй раз](https://meduza.io/news/2026/11/28/ukrainskie-drony-atakovali-novoshahtinskiy-npz-v-rostovskoy-oblasti-na-podlete-k-moskve-sbity-bolee-120-bespilotnikov) за месяц поразили станцию «Самара» системы «Транснефть». Этот узел возле поселка Просвет принимает сырье по четырем магистральным трубопроводам из Западной Сибири, Татарстана, Оренбургской области и Казахстана.",
+   "Сопоставление сводок с состоянием заводов вскрывает разрыв между отчетами и экономикой. Сводки фиксируют уничтожение воздушных целей, но единичные пробития выводят из строя ключевые установки фракционирования и крекинга. Поврежденное оборудование требует сложных импортных компонентов, поэтому ремонт затягивается на долгие месяцы. Каждый остановленный блок переработки немедленно отражается на товарных балансах.",
+   "В день массированного налета правительство фактически признало невозможность закрыть топливный баланс привычными внутренними мерами. Этот разбор отвечает на три вопроса. Почему успехи ПВО не спасают внутренний рынок от дефицита горючего? Каким образом крупный экспортер углеводородов начал замещать выпадающие объемы зарубежными закупками? И кто покроет издержки от экспортных ограничений до весны 2027 года?",
+   "Военная статистика акцентирует внимание на перехватах. Из 462 беспилотников в сторону Московского региона прямо на подлете к столице сбили [123](https://meduza.io/news/2026/11/28/ukrainskie-drony-atakovali-novoshahtinskiy-npz-v-rostovskoy-oblasti-na-podlete-k-moskve-sbity-bolee-120-bespilotnikov) единицы. Однако высокий процент сбитых целей не компенсирует физический урон промышленности. Наглядным подтверждением асимметрии стало решение правительства: кабмин [продлил эмбарго на экспорт авиатоплива](https://www.themoscowtimes.com/2026/11/27/russia-extends-jet-fuel-export-ban-until-march-2027-a812395) с 1 декабря 2026 года до 31 марта 2027 года.",
+   "Впервые запрет на экспорт керосина ввели в июне 2026 года после первой серии ударов по НПЗ. Ограничение вводили до 30 ноября, чтобы стабилизировать снабжение авиакомпаний, но графики ремонта установок сорвались. Вице-премьер Александр Новак охарактеризовал положение на рынке как «достаточно напряженное». Он подтвердил дефицит, который вызван простаиванием поврежденных мощностей.",
+   "Чтобы компенсировать выпадение выработки, государству пришлось прибегнуть к закупке топлива за рубежом. Нехватку керосина закрывают внешними поставками из соседних и дальних стран. Подобная трансформация превращает крупного продавца нефтепродуктов в импортера, перекладывая логистические издержки на внутренний контур.",
+   "Ситуация с керосином — часть общего кризиса переработки. По словам Новака, в декабре чиновникам предстоит принять аналогичное решение по бензину. Им предстоит решить, продлевать ли ограничения на его экспорт после января и закладывать ли внешние закупки на весь 2027 год. Итог зависит от способности заводов возобновить процессы переработки до весеннего пика спроса.",
+   "В отчетах военного ведомства значатся перехваты [506](https://ura.news/articles/1053148193) беспилотников над Брянской областью. Над Калужской областью ПВО уничтожила [120](https://ura.news/articles/1053148193) дронов. Однако единичные прорывы наносят точечный урон вторичной переработке. Чтобы предотвратить дефицит и скачок цен внутри страны, регулятор осознанно жертвует выгодой экспортеров, заставляя холдинги терять внешние рынки.",
+   "Отмена экспортных поставок керосина оставляет узкий коридор для государственных приоритетов. В документе за подписью [Михаила Мишустина](https://www.themoscowtimes.com/2026/11/27/russia-extends-jet-fuel-export-ban-until-march-2027-a812395) указано, что ограничения не затрагивают снабжение российских военных, работу космодрома Байконур и инфраструктуру на Шпицбергене. Правительство сохранило исключения для межправительственных соглашений и гуманитарных поставок, выделив также три непубличных пункта под грифом «для служебного пользования».",
+   "Главной уязвимостью топливной системы становится географическая концентрация транспортных узлов. Повторные удары по станции «Самара» подсвечивают риски всей сетевой структуры. К этой станции подходят четыре магистральных нефтепровода, что делает её критическим звеном для снабжения нескольких крупных заводов.",
+   "В условиях, когда ремонтные циклы заводов выходят за привычные рамки, регулирование переходит в режим ручного управления. Руководству отрасли приходится балансировать между экспортными потерями нефтяников и необходимостью импортировать топливо до весны 2027 года. Физический предел ремонтов держит рынок в постоянном напряжении.",
+   "Издержки распространяются за пределы топливных резервуаров. Временные ограничения в аэропортах Внуково и Домодедово дестабилизируют авиацию. В Пензенской области власти временно ограничивали работу мобильного интернета, а в Воронежской, Липецкой и Оренбургской областях действовали режимы ракетной опасности.",
+   "Ущерб логистике выходит на уровень риска для аграрного и промышленного секторов. В Брянской области при атаке дрона на автобус «Мираторга» в поселке Климово ранения получили девять человек, а в Стародубе пострадал рабочий на предприятии. В Белгородской области за сутки зафиксировали 52 удара беспилотников, выбивающих из строя грузовики и сельскохозяйственную технику.",
+   "В попытке изолировать внутренний рынок от дефицита регулятор сталкивается с перераспределением издержек. Выпадающие доходы от экспорта и затраты на импорт топлива накладываются на растущие страховые премии. Перенос сроков ремонта установок до весны 2027 года превращает временные запреты в долгосрочный фактор инфляции.",
+   "Замещение выпадающих объемов за счет внешних поставок повышает зависимость от логистических посредников. Пока переработка не вернется к проектным объемам, регулятору придется жертвовать доходами сырьевого экспорта ради поддержания базовой экономической активности.",
+   "Поставки для армии, космодрома Байконур и объектов на Шпицбергене выводят стратегических потребителей из-под угрозы голодания. Однако поддержание этих изолированных каналов происходит за счет полного урезания коммерческого экспорта и перераспределения ресурсов на внутреннем рынке.",
+   "Удары по ключевым связующим узлам бьют по артериям, питающим сырьем целый куст заводов. На фоне затяжного восстановления Новошахтинского НПЗ заявления отчитавшихся о сбитии дронов ведомств не меняют главного: запас физической прочности топливной системы снизился.",
+   "Вынужденная переориентация на внешние закупки керосина и бензина до марта 2027 года меняет статус страны на мировом энергорынке. Вместо получения маржи от переработки нефти приходится оплачивать длинные транспортные плечи и комиссии посредников.",
+   "Физический предел ремонтных циклов в условиях внешнего давления обнажает границы административного ресурса. Реальную картину топливного рынка определяют графики простоя установок вторичной переработки. Пока ключевые мощности не вернутся в строй, рынок останется заложником импортных цен и уязвимости транспортных узлов."
+  ],
+  "final": "",
+  "topic_key": "economy",
+  "message_id": 276,
+  "cover": "cover-analysis-20261128-1141.jpg",
+  "telegraph": "https://cuibono.press/p/2026-11-28-economy",
+  "place": {
+   "name": "Новошахтинск",
+   "lat": 47.76,
+   "lon": 39.93,
+   "scale": "region"
+  },
+  "seo_title": "Правительство продлило запрет на экспорт керосина до весны 2027 года",
+  "seo_description": "Кабмин продлил эмбарго на экспорт авиатоплива до 31 марта 2027 года из-за дефицита и простоя поврежденных НПЗ, начав закупки горючего за рубежом.",
+  "entities": [
+   {
+    "name": "Правительство России",
+    "type": "org"
+   },
+   {
+    "name": "Александр Новак",
+    "type": "person"
+   },
+   {
+    "name": "Михаил Мишустин",
+    "type": "person"
+   },
+   {
+    "name": "Транснефть",
+    "type": "org"
+   }
+  ],
+  "visuals": {
+   "blocks": [
+    {
+     "quote": "ограничения не затрагивают снабжение российских военных, работу космодрома Байконур и инфраструктуру на Шпицбергене",
+     "who": "Михаил Мишустин",
+     "type": "doc",
+     "para": 8,
+     "source": ""
+    },
+    {
+     "title": "Перераспределение издержек на рынке",
+     "wins": [
+      {
+       "name": "Регулятор",
+       "why": "изолирует внутренний рынок от дефицита"
+      }
+     ],
+     "pays": [
+      {
+       "name": "Нефтяные холдинги",
+       "why": "теряют доходы от экспортных ограничений"
+      }
+     ],
+     "type": "players",
+     "para": 13,
+     "source": ""
+    }
+   ],
+   "v": 11,
+   "r": 6
+  },
+  "en": {
+   "title": "Kerosene export ban extended until spring",
+   "subtitle": "Following refinery strikes, the domestic market is being protected by imports",
+   "description": "Russia extends its jet fuel export ban until spring 2027 and turns to imports after drone strikes damage refinery infrastructure.",
+   "paragraphs": [
+    "Overnight on 28 November air-defence units shot down [1246](https://ura.news/articles/1053148193) Ukrainian drones over Russian regions. The raid affected 16 regions, with the main thrust targeting fuel logistics facilities. A fire broke out at the Novoshakhtinsk oil products plant in the Rostov region following a second attack in a matter of days. Meanwhile, in the Samara region, drones struck the Transneft system's Samara station for the [second time](https://meduza.io/news/2026/11/28/ukrainskie-drony-atakovali-novoshahtinskiy-npz-v-rostovskoy-oblasti-na-podlete-k-moskve-sbity-bolee-120-bespilotnikov) in a month. This hub near the village of Prosvet receives crude via four trunk pipelines from Western Siberia, Tatarstan, the Orenburg region and Kazakhstan.",
+    "A comparison of military bulletins with the state of refineries reveals a gap between official reports and economic reality. The bulletins record the destruction of aerial targets, yet isolated strikes disable key fractionation and cracking units. Damaged equipment requires complex imported components, delaying repairs for months. Every suspended refining unit immediately hits product balances.",
+    "On the day of the massive raid, the government effectively conceded that it could not balance the fuel market through conventional domestic measures. This analysis answers three questions. Why do air-defence successes fail to save the domestic market from fuel shortages? How has a major hydrocarbon exporter come to replace lost volumes with foreign purchases? And who will cover the costs of export restrictions until the spring of 2027?",
+    "Military statistics emphasise interceptions. Of the 462 drones aimed at the Moscow region, [123](https://meduza.io/news/2026/11/28/ukrainskie-drony-atakovali-novoshahtinskiy-npz-v-rostovskoy-oblasti-na-podlete-k-moskve-sbity-bolee-120-bespilotnikov) were shot down on approach to the capital. Yet a high interception rate does not offset physical damage to industry. The government's decision provided clear evidence of this asymmetry: the cabinet [extended the embargo on jet fuel exports](https://www.themoscowtimes.com/2026/11/27/russia-extends-jet-fuel-export-ban-until-march-2027-a812395) from 1 December 2026 until 31 March 2027.",
+    "The export ban on kerosene was first introduced in June 2026 after an initial series of refinery strikes. The restriction was intended to last until 30 November to stabilise supplies to airlines, but unit repair schedules slipped. Deputy Prime Minister Alexander Novak described the market situation as 'fairly tense'. He confirmed a deficit caused by idle, damaged capacity.",
+    "To compensate for lost output, the state had to resort to purchasing fuel abroad. The kerosene shortfall is being covered by external supplies from neighbouring and distant countries. This transformation turns a major vendor of oil products into an importer, shifting logistics costs onto the domestic economy.",
+    "The kerosene situation is part of a broader refining crisis. According to Mr Novak, officials face a similar decision on petrol in December. They must decide whether to extend export restrictions beyond January and budget for foreign purchases throughout 2027. The outcome hinges on the refineries' ability to restart processing before the spring demand peak.",
+    "Defence ministry reports list the interception of [506](https://ura.news/articles/1053148193) drones over the Bryansk region. Over the Kaluga region, air defence destroyed [120](https://ura.news/articles/1053148193) drones. Yet isolated breakthroughs inflict targeted damage on secondary refining. To prevent domestic shortages and price spikes, regulators are deliberately sacrificing exporters' profits, forcing energy groups to forfeit foreign markets.",
+    "The halt to kerosene exports leaves a narrow corridor for state priorities. A decree signed by [Mikhail Mishustin](https://www.themoscowtimes.com/2026/11/27/russia-extends-jet-fuel-export-ban-until-march-2027-a812395) specifies that restrictions do not affect supplies to the Russian military, the Baikonur cosmodrome or infrastructure on Svalbard. The government maintained exemptions for intergovernmental agreements and humanitarian shipments, while reserving three classified clauses marked 'for official use'.",
+    "The primary vulnerability of the fuel system is the geographical concentration of transport hubs. Repeated strikes on the Samara station highlight systemic risks across the network. Four trunk oil pipelines converge on the station, making it a critical link in supplying several major refineries.",
+    "As refinery repair cycles stretch beyond normal limits, regulation has shifted into manual control mode. Industry leaders must balance export losses for oil companies against the need to import fuel until the spring of 2027. Physical constraints on repairs keep the market under constant strain.",
+    "Costs extend beyond fuel tanks. Temporary restrictions at Vnukovo and Domodedovo airports disrupt aviation. In the Penza region, authorities temporarily restricted mobile internet, while missile alert regimes were activated in the Voronezh, Lipetsk and Orenburg regions.",
+    "Disruption to logistics poses risks to the agricultural and industrial sectors. In the Bryansk region, a drone attack on a Miratorg bus in the village of Klimovo injured nine people, while another worker was injured at a facility in Starodub. In the Belgorod region, 52 drone strikes were recorded in a single day, knocking out lorries and agricultural machinery.",
+    "In seeking to insulate the domestic market from shortages, regulators face a redistribution of costs. Lost export revenues and fuel import expenses add to rising insurance premiums. Deferring unit repairs until the spring of 2027 turns temporary bans into a persistent inflationary driver.",
+    "Replacing lost output through foreign supplies increases reliance on logistical intermediaries. Until refining returns to design capacity, regulators will have to sacrifice revenue from crude exports to sustain baseline economic activity.",
+    "Supplies for the military, the Baikonur cosmodrome and facilities on Svalbard shield strategic consumers from supply shocks. Yet maintaining these isolated channels comes at the cost of eliminating commercial exports and reallocating domestic resources.",
+    "Strikes on key junction points hit the arteries feeding raw materials to a cluster of refineries. Amid the protracted recovery of the Novoshakhtinsk refinery, official claims of downed drones do not alter the core reality: the physical resilience of the fuel system has diminished.",
+    "A forced shift to foreign purchases of kerosene and petrol until March 2027 alters the country's standing in global energy markets. Rather than capturing refining margins, it must pay for long transport routes and intermediary commissions.",
+    "Physical limits on repair cycles under external pressure reveal the bounds of administrative leverage. The true picture of the fuel market is dictated by downtime schedules for secondary processing units. Until key capacities return online, the market will remain hostage to import prices and vulnerable transport hubs."
+   ],
+   "model": "gemini-3.6-flash",
+   "visuals": {
+    "blocks": [
+     {
+      "quote": "the restrictions do not affect supplies to the Russian military, the operation of the Baikonur cosmodrome and infrastructure on Svalbard",
+      "who": "Mikhail Mishustin",
+      "type": "doc",
+      "para": 8,
+      "source": ""
+     },
+     {
+      "title": "Redistribution of costs in the market",
+      "wins": [
+       {
+        "name": "Regulator",
+        "why": "shields the domestic market from shortages"
+       }
+      ],
+      "pays": [
+       {
+        "name": "Oil holdings",
+        "why": "lose revenues due to export curbs"
+       }
+      ],
+      "type": "players",
+      "para": 13,
+      "source": ""
+     }
+    ],
+    "place": null
+   },
+   "vis_key": "[[{\"para\": 8, \"quote\": \"ограничения не затрагивают снабжение российских военных, работу космодрома Байконур и инфраструктуру на Шпицбергене\", \"source\": \"\", \"type\": \"doc\", \"who\": \"Михаил Мишустин\"}, {\"para\": 13, \"pays\": [{\"name\": \"Нефтяные холдинги\", \"why\": \"теряют доходы от экспортных ограничений\"}], \"source\": \"\", \"title\": \"Перераспределение издержек на рынке\", \"type\": \"players\", \"wins\": [{\"name\": \"Регулятор\", \"why\": \"изолирует внутренний рынок от дефицита\"}]}], null]"
+  }
+ },
+ {
   "kind": "note",
   "time_iso": "2026-11-28T05:14:25.224766+03:00",
   "rubric": "newmarkets",
@@ -10227,37 +10376,37 @@
    "blocks": [],
    "places": [
     {
-     "name": "ГОНКОНГ",
-     "lat": 22.3193,
-     "lon": 114.1694,
+     "name": "GEORGE TOWN",
+     "lat": 19.3133,
+     "lon": -81.2546,
      "scale": "country"
     },
     {
-     "name": "БЕЛГРАД",
+     "name": "BELGRADE",
      "lat": 44.7866,
      "lon": 20.4489,
      "scale": "country"
     },
     {
-     "name": "НИЖНИЙ НОВГОРОД",
+     "name": "NIZHNY NOVGOROD",
      "lat": 56.2965,
      "lon": 43.9361,
      "scale": "country"
     },
     {
-     "name": "МОСКВА",
+     "name": "MOSCOW",
      "lat": 55.7558,
      "lon": 37.6173,
      "scale": "country"
     },
     {
-     "name": "ТАШКЕНТ",
+     "name": "TASHKENT",
      "lat": 41.2995,
      "lon": 69.2401,
      "scale": "country"
     },
     {
-     "name": "АНКАРА",
+     "name": "ANKARA",
      "lat": 39.9334,
      "lon": 32.8597,
      "scale": "country"
