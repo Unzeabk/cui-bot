@@ -1193,5 +1193,29 @@
   ],
   "message_id": 278,
   "slot": "2026-11-28 52 9 * * 6"
+ },
+ {
+  "time_iso": "2026-11-28T17:10:45.930431+03:00",
+  "time": "28.11 17:10",
+  "rubric": "europe",
+  "form": "сухой тренд",
+  "layout": "от развязки",
+  "optics": [
+   "обменник",
+   "предел физики"
+  ],
+  "topic_key": "rheinmetall-ukraine-plant-cancel",
+  "headline": "Rheinmetall допускает отказ от проекта завода боеприпасов в Украине",
+  "fly": "Завод на бумаге",
+  "subhead": "Вместо крупного предприятия концерн ограничится поставкой оборудования",
+  "final": "",
+  "actor": "rheinmetall",
+  "main_title": "Rheinmetall может отказаться от строительства завода в Украине",
+  "sources": [
+   "https://www.dw.com/ru/rheinmetall-может-отказаться-от-строительства-завода-в-украине/a-80084277?maca=rus-rss-ru-all-1126-rdf",
+   "https://kz.kursiv.media/2026-11-28/batyrhan-toleugali-perepisal-istoriyu-kazahstanskogo-taekvondo-na-finale-gran-pri/?utm_source=rss&utm_medium=rss&utm_campaign=batyrhan-toleugali-perepisal-istoriyu-kazahstanskogo-taekvondo-na-finale-gran-pri"
+  ],
+  "message_id": 279,
+  "slot": "2026-11-28 7 14 * * *"
  }
 ]
