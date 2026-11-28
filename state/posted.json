@@ -1217,5 +1217,28 @@
   ],
   "message_id": 279,
   "slot": "2026-11-28 7 14 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T19:39:42.250464+03:00",
+  "time": "28.11 19:39",
+  "rubric": "regulation",
+  "form": "странная мелочь",
+  "layout": "от предмета",
+  "optics": [
+   "слепое пятно",
+   "предел физики"
+  ],
+  "topic_key": "minyust-dannyye-perevody-inoagenty-2026",
+  "headline": "Зачем Минюсту адрес и телефон каждого отправителя средств",
+  "fly": "Контактная книжка",
+  "subhead": "Банки могут передать ведомству данные о тех, кто платит по счетам «иноагентов» или переводит им деньги.",
+  "final": "",
+  "actor": "minjust",
+  "main_title": "Минюст хочет знать о счетах «иноагентов» все. Включая имя, адрес и телефон тех, кто переводит им деньги",
+  "sources": [
+   "https://meduza.io/news/2026/11/28/minyust-rf-reshil-obyazat-banki-peredavat-dannye-o-perevodah-na-scheta-inoagentov"
+  ],
+  "message_id": 280,
+  "slot": "2026-11-28 37 16 * * *"
  }
 ]
