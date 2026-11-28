@@ -1171,5 +1171,27 @@
   ],
   "message_id": 277,
   "slot": "2026-11-28 37 9 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T12:58:36.182934+03:00",
+  "time": "28.11 12:58",
+  "rubric": "week",
+  "form": "неделя",
+  "optics": [],
+  "topic_key": "nedelya-2026-48",
+  "headline": "Неделя: Нефтепереработка, Правительство, Регионы, США, Южная Корея, Малый бизнес",
+  "fly": "",
+  "final": "",
+  "main_title": "В США обанкротился банк с более чем вековой историей",
+  "sources": [
+   "https://rg.ru/2026/11/28/minoborony-sily-pvo-rossii-s-nachala-specoperacii-sbili-301-tysiachu-bpla-vsu.html",
+   "https://lenta.ru/news/2026/11/28/v-ssha-obankrotilsya-bank-s-bolee-chem-vekovoy-istoriey/",
+   "https://asia.nikkei.com/economy/central-banks/bank-of-korea-hikes-rate-to-3.25-against-backdrop-of-strong-economy",
+   "https://www.vedomosti.ru/economics/articles/2026/11/27/1416099-minfin-otsenil-dopdohodi",
+   "https://www.kommersant.ru/doc/9131960",
+   "https://ru.themoscowtimes.com/2026/11/27/pravitelstvo-utverdilo-pravila-sbora-novogo-naloga-na-smartfony-i-noutbuki-a813159"
+  ],
+  "message_id": 278,
+  "slot": "2026-11-28 52 9 * * 6"
  }
 ]
