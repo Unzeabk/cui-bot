@@ -1126,5 +1126,27 @@
   ],
   "message_id": 275,
   "slot": "2026-11-28 7 2 * * *"
+ },
+ {
+  "time_iso": "2026-11-28T11:45:46.846828+03:00",
+  "time": "28.11 11:45",
+  "rubric": "analysis",
+  "form": "разбор",
+  "optics": [
+   "Предел физики",
+   "Жертвенная бухгалтерия"
+  ],
+  "topic_key": "economy",
+  "headline": "Запрет на экспорт керосина продлили до весны",
+  "fly": "Узкое горлышко",
+  "final": "",
+  "main_title": "Украинские дроны атаковали Новошахтинский НПЗ в Ростовской области. На подлете к Москве сбиты более 120 беспилотников",
+  "sources": [
+   "https://www.themoscowtimes.com/2026/11/27/russia-extends-jet-fuel-export-ban-until-march-2027-a812395",
+   "https://meduza.io/news/2026/11/28/ukrainskie-drony-atakovali-novoshahtinskiy-npz-v-rostovskoy-oblasti-na-podlete-k-moskve-sbity-bolee-120-bespilotnikov",
+   "https://ura.news/articles/1053148193"
+  ],
+  "message_id": 276,
+  "slot": "2026-11-28 22 8 * * *"
  }
 ]
